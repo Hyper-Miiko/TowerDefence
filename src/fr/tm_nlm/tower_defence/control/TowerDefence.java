@@ -12,7 +12,5 @@ public class TowerDefence {
 		txt.setText("test");
 		txt.setSize(0.2,0.2);
 		hf.draw();
-
 	}
-
 }

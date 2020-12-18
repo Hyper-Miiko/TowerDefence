@@ -6,18 +6,24 @@ import mHUD.MObject;
 public class MHorizontalFrame extends MFrame 
 {
 	public void recalculateUp() {
-		Vector v = new Vector(0,0);
+		Vector v;
+		double vx = 0;
+		double vy = 0;
 		
 		for(MObject c : child) {
-			v.x += c.getSx();
-			v.y = Math.max(c.getSy(), v.y);
+			vx += c.getSx();
+			vy = Math.max(c.getSy(), vy);
 			
 		}
+		
+		v = new Vector(vx, vy);
 		
 		this.setSize(v);
 		
 		super.recalculateUp();
 	}
+	
+	@Override
 	public void recalculateDown() {
 		if(mother == null)this.setPos(0.5,0.5);
 		float sumX = 0;

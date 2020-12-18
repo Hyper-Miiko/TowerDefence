@@ -5,19 +5,26 @@ import mHUD.MObject;
 
 public class MVerticalFrame extends MFrame 
 {
+	@Override
 	public void recalculateUp() {
-		Vector v = new Vector(0,0);
+		Vector v;
+		double vx = 0;
+		double vy = 0;
 		
 		for(MObject c : child) {
-			v.y += c.getSy();
-			v.x = Math.max(c.getSx(), v.x);
+			vy += c.getSy();
+			vx = Math.max(c.getSx(), vx);
 			
 		}
+		
+		v = new Vector(vx, vy);
 		
 		this.setSize(v);
 		
 		super.recalculateUp();
 	}
+	
+	@Override
 	public void recalculateDown() {
 		if(mother == null)this.setPos(0.5,0.5);
 		float sumY = 0;

@@ -8,21 +8,21 @@ import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
 
 public class Entity {
 	
-	private Vector position;
+	private Field field;
 	private Shape shape;
 	private ArrayList<Image> img;
 
-	public Entity(Vector position, Shape shape) {
-		this.position = position;
+	public Entity(Field field, Shape shape) {
+		this.field = field;
 		this.shape = shape;
 		img = new ArrayList<>();
 	}
-
-	public void setPosition(Vector position) {
-		this.position = position;
-	}
 	
-	public void setPosition(double x, double y) {
-		
+	public Vector getPosition() {
+		return shape.getPosition();
+	}
+
+	public Shape getShape() {
+		return shape;
 	}
 }
