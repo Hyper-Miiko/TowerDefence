@@ -1,4 +1,4 @@
-package fr.tm_nlm.tower_defence.view;
+package mHUD;
 /******************************************************************************
  *  Compilation:  java StdDraw.java
  *  Execution:    java StdDraw

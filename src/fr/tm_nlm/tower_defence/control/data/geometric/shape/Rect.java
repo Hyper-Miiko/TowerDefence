@@ -1,41 +1,19 @@
 package fr.tm_nlm.tower_defence.control.data.geometric.shape;
 
+import static fr.tm_nlm.tower_defence.Constant.BOTTOM;
+import static fr.tm_nlm.tower_defence.Constant.RIGHT;
+
 import fr.tm_nlm.tower_defence.Constant;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
+import fr.tm_nlm.tower_defence.control.Entity;
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
-
-import static fr.tm_nlm.tower_defence.Constant.BOTTOM;
-import static fr.tm_nlm.tower_defence.Constant.LEFT;
-import static fr.tm_nlm.tower_defence.Constant.RIGHT;
-import static fr.tm_nlm.tower_defence.Constant.TOP;
 
 public class Rect extends Shape {
 	Vector size;
 
-	public Rect(Vector position, Vector size) {
-		super(position);
-		setSize(size);
-	}
-
 	public Rect(Vector position, double width, double height) {
 		super(position);
 		setSize(width, height);
-	}
-
-	public Rect(double x, double y, Vector size) {
-		super(new Vector(x, y));
-		setSize(size);
-	}
-
-	public Rect(double x, double y, double width, double height) {
-		super(new Vector(x, y));
-		setSize(width, height);
-	}
-	
-	public boolean isIn(Vector point) {
-		return point.x >= getCorner(LEFT, TOP).x && point.y >= getCorner(LEFT, TOP).y
-												 && point.x <= getCorner(RIGHT, BOTTOM).x
-												 && point.y <= getCorner(RIGHT, BOTTOM).y;
 	}
 
 	public Vector getCorner(Constant absciss, Constant ordonate) {
@@ -90,30 +68,24 @@ public class Rect extends Shape {
 	public boolean collide(Shape shape) {
 		boolean collide;
 		if(shape instanceof Rect) {
-			Rect A = this;
-			Rect B = ((Rect) shape);
-			if(A.getPosition().x > B.getPosition().x) {
-				Rect dummy = A;
-				A = B;
-				B = dummy;
+			double posX = getPosition().x;
+			double posY = getPosition().y;
+			double shapePosX = ((Rect) shape).getPosition().x;
+			double shapePosY = ((Rect) shape).getPosition().y;
+			int compare = (posX <= shapePosX) ? 0 : 1;
+			compare += (posY <= shapePosY) ? 0 : 2;
+			if(compare == 0) {
+				double posCornerX = posX + getCorner(RIGHT, BOTTOM).x/2;
+				double posCornerY = posY + getCorner(RIGHT, BOTTOM).y/2;
+				double shapePosCornerX = shapePosX + ((Rect) shape).getCorner(RIGHT, BOTTOM).x/2;
+				double shapePosCornerY = shapePosY + getCorner(RIGHT, BOTTOM).y/2;
+//				if() {
+//					
+//				}
+			} else {
+				shape.collide(this);
 			}
-			if(A.getPosition().y > B.getPosition().y) {
-				double dummy = A.getPosition().y;
-				A.setPosition(A.getPosition().x, B.getPosition().y);
-				B.setPosition(B.getPosition().x, dummy);
-			}
-			double aPosX = A.getPosition().x;
-			double aPosY = A.getPosition().y;
-			double bPosX = B.getPosition().x;
-			double bPosY = B.getPosition().y;
-			double aPosCornerX = aPosX + A.getCorner(RIGHT, BOTTOM).x/2;
-			double aPosCornerY = aPosY + A.getCorner(RIGHT, BOTTOM).y/2;
-			double bPosCornerX = bPosX + B.getCorner(LEFT, TOP).x/2;
-			double bPosCornerY = bPosY + B.getCorner(LEFT, TOP).y/2;
-			collide = aPosCornerX >= bPosCornerX && aPosCornerY >= bPosCornerY;
-		} else {
-			collide = shape.collide(this);
 		}
-		return collide;
+		return /*collide*/false;
 	}
 }
