@@ -2,14 +2,14 @@ package fr.tm_nlm.tower_defence.control;
 
 import java.util.LinkedList;
 
-import fr.tm_nlm.tower_defence.control.data.geometric.Position;
+import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
 
 public abstract class Monster extends Entity {
 	private double speed;
-	private LinkedList<Position> objectives;
+	private LinkedList<Vector> objectives;
 	
-	public Monster(Position position, Shape shape) {
+	public Monster(Vector position, Shape shape) {
 		super(position, shape);
 		speed = 0;
 		objectives = new LinkedList<>();
@@ -22,7 +22,7 @@ public abstract class Monster extends Entity {
 		//TODO
 	}
 	
-	public void setPosition(Position position) {
+	public void setPosition(Vector position) {
 		super.setPosition(position);
 	}
 	

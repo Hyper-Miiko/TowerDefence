@@ -1,34 +1,62 @@
 package fr.tm_nlm.tower_defence.control.data.geometric.shape;
 
-import fr.tm_nlm.tower_defence.control.data.geometric.Position;
+import fr.tm_nlm.tower_defence.Constant;
+import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
 
 public class Rect extends Shape {
-	private double width;
-	private double height;
+	Vector size;
 
-	public Rect(Position position, double width, double height) {
+	public Rect(Vector position, double width, double height) {
 		super(position);
-		setWidth(width);
-		setHeight(height);
+		setSize(width, height);
 	}
 
-	public double getWidth() {
-		return width;
-	}
-	public void setWidth(double width) {
-		if(width <= 0) {
-			throw new IllegalArgumentException("Width must be >0.");
+	public Vector getCorner(Constant absciss, Constant ordonate) {
+		double x;
+		double y;
+		switch(absciss) {
+		case LEFT:
+			x = getPosition().x - size.x/2;
+			break;
+		case RIGHT:
+			x = getPosition().x + size.x/2;
+			break;
+		default:
+			throw new IllegalArgumentException("Absciss must be LEFT or RIGHT : getCorner(absciss, ordonate)");
 		}
-		this.width = width;
+		switch(ordonate) {
+		case BOTTOM:
+			y = getPosition().y - size.y/2;
+			break;
+		case TOP:
+			y = getPosition().y + size.y/2;
+			break;
+		default:
+			throw new IllegalArgumentException("Ordonate must be BOTTOM or TOP : getCorner(absciss, ordonate)");
+		}
+		return new Vector(x, y);
 	}
-	public double getHeight() {
-		return height;
+	
+	public Vector getSize() {
+		return size;
 	}
-	public void setHeight(double height) {
+	public void setSize(double width, double height) {
+		if(width <= 0) {
+			throw new IllegalArgumentException("Widt must be > 0.");
+		}
 		if(height <= 0) {
 			throw new IllegalArgumentException("Height must be > 0.");
 		}
-		this.height = height;
+		size = new Vector(width, height);
+	}
+	public void setSize(Vector size) {
+		if(size.x <= 0) {
+			throw new IllegalArgumentException("Widt must be > 0.");
+		}
+		if(size.y <= 0) {
+			throw new IllegalArgumentException("Height must be > 0.");
+		}
+		this.size = size;
 	}
 }

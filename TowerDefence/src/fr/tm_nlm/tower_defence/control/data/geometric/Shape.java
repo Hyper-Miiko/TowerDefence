@@ -1,17 +1,19 @@
 package fr.tm_nlm.tower_defence.control.data.geometric;
 
 public abstract class Shape {
-	private Position position;
+	private Vector position;
 	
-	public Shape(Position position) {
+	public Shape(Vector position) {
 		setPosition(position);
 	}
 	
-	public void setPosition(Position position) {
+	public void setPosition(Vector position) {
 		this.position = position;
 	}
-	
-	public Position getPosition() {
+	public void setPosition(double x, double y) {
+		position = new Vector(x, y);
+	}
+	public Vector getPosition() {
 		return position;
 	}
 }

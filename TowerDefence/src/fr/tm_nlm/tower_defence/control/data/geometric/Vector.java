@@ -1,25 +1,25 @@
 package fr.tm_nlm.tower_defence.control.data.geometric;
 
-public class Position {
-	public double x;
-	public double y;
+public class Vector {
+	public final double x;
+	public final double y;
 	
 	/**
 	 * Classe qui permet d'avoir la position sur l'axe des x et des y des monstres et des tours
 	 * @param x
 	 * @param y
 	 */
-	public Position(double x, double y) {
+	public Vector(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
 	
-	public Position(Position p) {
+	public Vector(Vector p) {
 		x = p.x;
 		y = p.y;
 	}
 	
-	public boolean equals(Position p) {
+	public boolean equals(Vector p) {
 		return x == p.x && y == p.y;
 	}
 	
@@ -28,7 +28,7 @@ public class Position {
 	 * @param p
 	 * @return
 	 */
-	public double dist(Position p) {
+	public double dist(Vector p) {
 		return Math.sqrt(Math.pow(x - p.x, 2) + Math.pow(y - p.y, 2));
 	}
 

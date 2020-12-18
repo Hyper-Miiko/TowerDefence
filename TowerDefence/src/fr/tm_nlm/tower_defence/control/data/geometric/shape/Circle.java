@@ -1,12 +1,12 @@
 package fr.tm_nlm.tower_defence.control.data.geometric.shape;
 
-import fr.tm_nlm.tower_defence.control.data.geometric.Position;
+import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
 
 public class Circle extends Shape {
 	private double radius;
 
-	public Circle(Position position, double radius) {
+	public Circle(Vector position, double radius) {
 		super(position);
 		setRadius(radius);
 	}
