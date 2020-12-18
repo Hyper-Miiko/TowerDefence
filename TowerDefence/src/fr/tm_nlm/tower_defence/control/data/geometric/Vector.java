@@ -1,8 +1,7 @@
 package fr.tm_nlm.tower_defence.control.data.geometric;
 
 public class Vector {
-	public final double x;
-	public final double y;
+	public final double x, y;
 	
 	/**
 	 * Classe qui permet d'avoir la position sur l'axe des x et des y des monstres et des tours
