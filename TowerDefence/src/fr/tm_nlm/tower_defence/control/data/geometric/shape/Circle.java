@@ -20,4 +20,10 @@ public class Circle extends Shape {
 		}
 		this.radius = radius;
 	}
+
+	@Override
+	public boolean collide(Shape shape) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

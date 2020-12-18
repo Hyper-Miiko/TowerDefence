@@ -1,7 +1,11 @@
 package fr.tm_nlm.tower_defence.control.data.geometric.shape;
 
+import static fr.tm_nlm.tower_defence.Constant.BOTTOM;
+import static fr.tm_nlm.tower_defence.Constant.RIGHT;
+
 import fr.tm_nlm.tower_defence.Constant;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
+import fr.tm_nlm.tower_defence.control.Entity;
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
 
 public class Rect extends Shape {
@@ -58,5 +62,30 @@ public class Rect extends Shape {
 			throw new IllegalArgumentException("Height must be > 0.");
 		}
 		this.size = size;
+	}
+
+	@Override
+	public boolean collide(Shape shape) {
+		boolean collide;
+		if(shape instanceof Rect) {
+			double posX = getPosition().x;
+			double posY = getPosition().y;
+			double shapePosX = ((Rect) shape).getPosition().x;
+			double shapePosY = ((Rect) shape).getPosition().y;
+			int compare = (posX <= shapePosX) ? 0 : 1;
+			compare += (posY <= shapePosY) ? 0 : 2;
+			if(compare == 0) {
+				double posCornerX = posX + getCorner(RIGHT, BOTTOM).x/2;
+				double posCornerY = posY + getCorner(RIGHT, BOTTOM).y/2;
+				double shapePosCornerX = shapePosX + ((Rect) shape).getCorner(RIGHT, BOTTOM).x/2;
+				double shapePosCornerY = shapePosY + getCorner(RIGHT, BOTTOM).y/2;
+//				if() {
+//					
+//				}
+			} else {
+				shape.collide(this);
+			}
+		}
+		return /*collide*/false;
 	}
 }

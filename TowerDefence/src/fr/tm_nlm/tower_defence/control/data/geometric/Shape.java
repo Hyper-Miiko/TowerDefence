@@ -7,6 +7,8 @@ public abstract class Shape {
 		setPosition(position);
 	}
 	
+	public abstract boolean collide(Shape shape);
+	
 	public void setPosition(Vector position) {
 		this.position = position;
 	}
