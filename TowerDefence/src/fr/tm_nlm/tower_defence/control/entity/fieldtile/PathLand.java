@@ -4,19 +4,18 @@ import java.util.LinkedList;
 
 import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
-import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.entity.FieldTile;
 
 public class PathLand extends FieldTile {
-	private LinkedList<PathLand> connecteds;
+	private final LinkedList<PathLand> connecteds;
 	private PathLand passByToCastle;
 	private double distToCastle;
 	
-	public PathLand(Field field, Vector position, Shape shape) {
-		super(field, position, shape);
+	public PathLand(Field field, Shape shape, boolean castle) {
+		super(field, shape);
 		connecteds = new LinkedList<>();
 		passByToCastle = null;
-		distToCastle = -1;
+		distToCastle = (castle) ? 0 : 1;
 	}
 	
 	public void connectTo(PathLand pathLand) {
@@ -27,7 +26,7 @@ public class PathLand extends FieldTile {
 		}
 	}
 	
-	public void passBy(PathLand pathLand) {
+	private void passBy(PathLand pathLand) {
 		double distToPathLand = getPosition().dist(pathLand.getPosition());
 		distToCastle = distToPathLand + pathLand.distToCastle;
 		passByToCastle = pathLand;
