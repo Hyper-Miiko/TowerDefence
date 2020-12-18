@@ -1,8 +1,8 @@
-package fr.tm_nlm.tower_defence;
+package fr.tm_nlm.tower_defence.control.data.geometric;
 
 public class Position {
-	double x;
-	double y;
+	public double x;
+	public double y;
 	
 	/**
 	 * Classe qui permet d'avoir la position sur l'axe des x et des y des monstres et des tours
