@@ -11,11 +11,10 @@ public abstract class MObject {
 	protected MFrame mother = null;
 	protected Set<MObject> child =  new HashSet<MObject>();
 	
-	private Rect rectShape;
+	private ColorSet backgroundColor = new ColorSet(255,255,255);
+	private ColorSet lineColor = new ColorSet(0,0,0);
 	
-	protected MObject() {
-		setRect(0.5,0.5,1,1);
-	}
+	private Rect rectShape = new Rect(0.5,0.5,1,1);
 
 	public void setMother(MFrame f) {
 		if(f != null)mother = f;
@@ -89,6 +88,22 @@ public abstract class MObject {
 	}
 	public void setRect(double x, double y, double tx, double ty) {
 		this.rectShape = new Rect(new Vector(x,y),tx,ty);
+	}
+	
+	public void setBackgroundColor(int r, int g, int b) {
+		backgroundColor = new ColorSet(r,g,b);
+	}
+	public void setLineColor(int r, int g, int b) {
+		lineColor = new ColorSet(r,g,b);
+	}
+	
+	protected void drawBackground() {
+		StdDraw.setPenColor(backgroundColor.Red,backgroundColor.Green,backgroundColor.Blue);
+		StdDraw.filledRectangle(getPx(),getPy(),getSx(),getSy());
+	}
+	protected void drawRect() {
+		StdDraw.setPenColor(lineColor.Red,lineColor.Green,lineColor.Blue);
+		StdDraw.rectangle(getPx(),getPy(),getSx(),getSy());
 	}
 	
 	public abstract void draw();

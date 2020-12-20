@@ -129,7 +129,9 @@ public abstract class MFrame extends MObject {
 	}
 	
 	public void draw() {
-		StdDraw.rectangle(getPx(),getPy(),getSx(),getSy());
+		drawBackground();
+		drawRect();
+		
 		for(MObject i : child) {
 			i.draw();
 		}
