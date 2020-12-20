@@ -14,7 +14,7 @@ public abstract class MObject {
 	private Rect rectShape;
 	
 	protected MObject() {
-		setRect(0,0,1,1);
+		setRect(0.5,0.5,1,1);
 	}
 
 	public void setMother(MFrame f) {

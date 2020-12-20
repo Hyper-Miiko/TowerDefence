@@ -2029,7 +2029,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     *  For improved resolution on Mac Retina displays.
     ***************************************************************************/
 
-    private static class RetinaImageIcon extends ImageIcon {
+    @SuppressWarnings("serial")
+	private static class RetinaImageIcon extends ImageIcon {
     
         public RetinaImageIcon(Image image) {
             super(image);
