@@ -6,13 +6,14 @@ import java.util.Set;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.data.geometric.shape.Rect;
 import mHUD.frame.MFrame;
+import mHUD.variable.Color;
 
 public abstract class MObject {
 	protected MFrame mother = null;
 	protected Set<MObject> child =  new HashSet<MObject>();
 	
-	private ColorSet backgroundColor = new ColorSet(255,255,255);
-	private ColorSet lineColor = new ColorSet(0,0,0);
+	private Color backgroundColor = new Color(255,255,255);
+	private Color lineColor = new Color(0,0,0);
 	
 	private Rect rectShape = new Rect(0.5,0.5,1,1);
 
@@ -91,10 +92,10 @@ public abstract class MObject {
 	}
 	
 	public void setBackgroundColor(int r, int g, int b) {
-		backgroundColor = new ColorSet(r,g,b);
+		backgroundColor = new Color(r,g,b);
 	}
 	public void setLineColor(int r, int g, int b) {
-		lineColor = new ColorSet(r,g,b);
+		lineColor = new Color(r,g,b);
 	}
 	
 	protected void drawBackground() {

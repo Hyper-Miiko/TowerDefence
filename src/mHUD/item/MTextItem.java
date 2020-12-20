@@ -1,12 +1,12 @@
 package mHUD.item;
 
-import mHUD.ColorSet;
 import mHUD.StdDraw;
+import mHUD.variable.Color;
 
 public class MTextItem extends MItem{
 	private String text;
 	
-	private ColorSet textColor = new ColorSet(0,0,0);
+	private Color textColor = new Color(0,0,0);
 	
 	public MTextItem(){
 	}
@@ -19,7 +19,7 @@ public class MTextItem extends MItem{
 	}
 	
 	public void setTextColor(int r, int g, int b) {
-		textColor = new ColorSet(r,g,b);
+		textColor = new Color(r,g,b);
 	}
 	
 	public void draw() {
