@@ -1,14 +1,11 @@
-package mHUD.item;
+package mHUD;
 
-import mHUD.StdDraw;
-import mHUD.variable.Color;
-
-public class MTextItem extends MItem{
+public class ITextItem extends MItem{
 	private String text;
 	
-	private Color textColor = new Color(0,0,0);
+	private MColor textColor = new MColor(0,0,0);
 	
-	public MTextItem(){
+	public ITextItem(){
 	}
 	
 	public String getText(){
@@ -19,10 +16,10 @@ public class MTextItem extends MItem{
 	}
 	
 	public void setTextColor(int r, int g, int b) {
-		textColor = new Color(r,g,b);
+		textColor = new MColor(r,g,b);
 	}
 	
-	public void draw() {
+	protected void draw() {
 		drawBackground();
 		drawRect();
 		

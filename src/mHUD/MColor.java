@@ -1,11 +1,11 @@
-package mHUD.variable;
+package mHUD;
 
-public class Color {
+public class MColor {
 	public final int Red;
 	public final int Green;
 	public final int Blue;
 	
-	public Color(int r, int g, int b) {
+	public MColor(int r, int g, int b) {
 		if(r >= 0 && r <= 255)Red = r;
 		else throw new IllegalArgumentException("Red isn't between 0 and 255");
 		if(r >= 0 && r <= 255)Green = g;

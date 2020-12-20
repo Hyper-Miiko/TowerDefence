@@ -1,7 +1,6 @@
-package mHUD.item;
+package mHUD;
 
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
-import mHUD.MObject;
 
 public abstract class MItem extends MObject{
 
@@ -15,7 +14,6 @@ public abstract class MItem extends MObject{
 		if(mother != null)mother.recalculateUp();
 	}
 	
-
 	public void setSize(Vector s) {
 		super.setSize(s);
 		if(mother != null)mother.recalculateUp();
@@ -25,7 +23,6 @@ public abstract class MItem extends MObject{
 		if(mother != null)mother.recalculateUp();
 	}
 	
-
 	public void setRect(double x, double y, double tx, double ty) {
 		super.setRect(x,y,tx,ty);
 		if(mother != null)mother.recalculateUp();

@@ -1,11 +1,10 @@
-package mHUD.frame;
+package mHUD;
 
 
 import static fr.tm_nlm.tower_defence.Constant.*;
 import fr.tm_nlm.tower_defence.Constant;
 
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
-import mHUD.*;
 
 public abstract class MFrame extends MObject {
 	private Constant verticalAlignement = CENTER;
@@ -81,29 +80,29 @@ public abstract class MFrame extends MObject {
 		return minimumSize;
 	}
 	
-	public void setElementSize(double d, double e) {
+	protected void setElementSize(double d, double e) {
 		elementSize = new Vector(d,e);
 	}
-	public void setElementSize(Vector size) {
+	protected void setElementSize(Vector size) {
 		elementSize = size;
 	}
-	public Vector getElementSize() {
+	protected Vector getElementSize() {
 		return elementSize;
 	}
 	
-	public void setSx(double sx) {
+	protected void setSx(double sx) {
 		if(sx < getMinimumSize().x)sx = getMinimumSize().x;
 		super.setSx(sx);
 	}
-	public void setSy(double sy) {
+	protected void setSy(double sy) {
 		if(sy < getMinimumSize().y)sy = getMinimumSize().y;
 		super.setSy(sy);
 	}
 	
-	public void setSize(Vector s) {
+	protected void setSize(Vector s) {
 		setSize(s.x, s.y);
 	}
-	public void setSize(double sx, double sy) {
+	protected void setSize(double sx, double sy) {
 		if(sx < getMinimumSize().x)sx = getMinimumSize().x;
 		if(sy < getMinimumSize().y)sy = getMinimumSize().y;
 		super.setSize(sx, sy);
@@ -119,16 +118,16 @@ public abstract class MFrame extends MObject {
 		recalculateUp();
 	}
 	
-	public void recalculateUp() {
+	protected void recalculateUp() {
 		if(mother != null)mother.recalculateUp();
 		else recalculateDown();
 	}
-	public void recalculateDown() {
+	protected void recalculateDown() {
 		for(MFrame c : getFrameChild()) 
 			c.recalculateDown();
 	}
 	
-	public void draw() {
+	protected void draw() {
 		drawBackground();
 		drawRect();
 		
