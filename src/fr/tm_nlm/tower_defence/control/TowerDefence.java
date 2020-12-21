@@ -1,10 +1,6 @@
 package fr.tm_nlm.tower_defence.control;
 
-import java.awt.Color;
-import java.util.concurrent.TimeUnit;
-
 import static fr.tm_nlm.tower_defence.Constant.*;
-import fr.tm_nlm.tower_defence.Constant;
 import mHUD.FHorizontalFrame;
 import mHUD.ITextItem;
 import mHUD.MWindow;
@@ -15,28 +11,28 @@ public class TowerDefence {
 
 	public static void main(String[] args) throws InterruptedException{
 		
-		MWindow window = new MWindow();
+		MWindow window = new MWindow(800, 600);
 		
 		FVerticalFrame mainFrame = new FVerticalFrame();
 		window.setMainFrame(mainFrame);
-		mainFrame.setMinimumSize(0.45,0.45);
+		mainFrame.setMinimumSize(800,600);
 		mainFrame.setVerticalAlignement(TOP);
 		
 		FHorizontalFrame ressourceTab = new FHorizontalFrame();
 		mainFrame.addObject(ressourceTab);
-		ressourceTab.setMinimumSize(0.45,0.01);
-		ressourceTab.setVerticalAlignement(TOP);
+		ressourceTab.setMinimumSize(800,40);
+		ressourceTab.setVerticalAlignement(CENTER);
 		ressourceTab.setHonrizontalAlignement(RIGHT);
 		
 		ITextItem gold = new ITextItem();
 		ressourceTab.addObject(gold);
 		gold.setText("Gold");
-		gold.setSize(0.1,0.05);
+		gold.setSize(80,40);
 		
 		ITextItem life = new ITextItem();
 		ressourceTab.addObject(life);
 		life.setText("LIFE");
-		life.setSize(0.1,0.05);
+		life.setSize(80,40);
 		
 		mainFrame.setBackgroundColor(150, 150, 150);
 		mainFrame.setLineColor(150, 150, 150);
@@ -44,7 +40,6 @@ public class TowerDefence {
 		gold.setBackgroundColor(255, 255, 0);
 		life.setBackgroundColor(255, 0, 0);
 		life.setTextColor(255, 255, 255);
-		
 		
 		while(true) {
 			mainFrame.setBackgroundColor((int)(255*StdDraw.mouseX()), 150, (int)(255*StdDraw.mouseY()));

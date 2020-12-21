@@ -1,31 +1,33 @@
 package mHUD;
 
-import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
+import mHUD.data.VectorInt;
 
 public class FHorizontalFrame extends MFrame 
 {
 	protected void recalculateUp() {
-		double sx = 0;
-		double sy = 0;
+		int sx = 0;
+		int sy = 0;
 		for(MObject c : child) {
-			sx += c.getSx();
-			sy = Math.max(c.getSy(), sy);
+			sx += c.getSize().x;
+			sy = Math.max(c.getSize().y, sy);
 		}
 		this.setElementSize(sx,sy);
 		this.setSize(sx, sy);
+		
+		System.out.println(sx +"|"+getSize().x +" "+ sy+"|"+getSize().y);
 		
 		super.recalculateUp();
 	}
 	
 	protected void recalculateDown() {
-		if(mother == null)this.setPos(0.5,0.5);
-		float sumX = 0;
+		if(mother == null)this.setPos((int)(0.5*getWindowSize().x),(int)(0.5*getWindowSize().y));
+		int sumX = 0;
 		
-		Vector elementCenter = getElementPositon();
+		VectorInt elementCenter = getElementPositon();
 		
 		for(MObject c : child) {			
-			c.setPos(elementCenter.x-getElementSize().x+c.getSx()+sumX*2,elementCenter.y);
-			sumX+=c.getSx();
+			c.setPos((int)(elementCenter.x-getElementSize().x+c.getSize().x+sumX*2),(int)(getPos().y));
+			sumX+=c.getSize().x;
 		}
 		
 		super.recalculateDown();

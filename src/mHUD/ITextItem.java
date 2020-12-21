@@ -1,12 +1,11 @@
 package mHUD;
 
+import mHUD.data.Color;
+
 public class ITextItem extends MItem{
 	private String text;
 	
-	private MColor textColor = new MColor(0,0,0);
-	
-	public ITextItem(){
-	}
+	private Color textColor = new Color(0,0,0);
 	
 	public String getText(){
 		return text;
@@ -16,7 +15,7 @@ public class ITextItem extends MItem{
 	}
 	
 	public void setTextColor(int r, int g, int b) {
-		textColor = new MColor(r,g,b);
+		textColor = new Color(r,g,b);
 	}
 	
 	protected void draw() {
@@ -24,6 +23,8 @@ public class ITextItem extends MItem{
 		drawRect();
 		
 		StdDraw.setPenColor(textColor.Red,textColor.Green,textColor.Blue);
-		StdDraw.text(getPx(), getPy(), text);
+		StdDraw.text(((double)getPos().x/getWindowSize().x), 
+					 ((double)getPos().y/getWindowSize().y),
+					  text);
 	}
 }

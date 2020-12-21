@@ -4,13 +4,13 @@ package mHUD;
 import static fr.tm_nlm.tower_defence.Constant.*;
 import fr.tm_nlm.tower_defence.Constant;
 
-import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
+import mHUD.data.VectorInt;
 
 public abstract class MFrame extends MObject {
 	private Constant verticalAlignement = CENTER;
 	private Constant honrizontalAlignement = CENTER;
-	private Vector minimumSize = new Vector(0,0);
-	private Vector elementSize = new Vector(0,0);
+	private VectorInt minimumSize = new VectorInt(0,0);
+	private VectorInt elementSize = new VectorInt(0,0);
 	
 	public void setVerticalAlignement(Constant c) {
 		if(c == CENTER || c == TOP || c == BOTTOM) {
@@ -34,19 +34,19 @@ public abstract class MFrame extends MObject {
 		return honrizontalAlignement;
 	}
 	
-	public Vector getElementPositon() {
-		double px = 0;
-		double py = 0;
+	public VectorInt getElementPositon() {
+		int px = 0;
+		int py = 0;
 		
 		switch(getHonrizontalAlignement()) {
 		case CENTER:
-			px = getPx();
+			px = getPos().x;
 			break;
 		case RIGHT:
-			px = getPx()-getSx()+getElementSize().x;
+			px = getPos().x-getSize().x+getElementSize().x;
 			break;
 		case LEFT:
-			px = getPx()+getSx()-getElementSize().x;
+			px = getPos().x+getSize().x-getElementSize().x;
 			break;
 		default:
 			throw new IllegalArgumentException("Absciss must be LEFT, CENTER or RIGHT");
@@ -54,55 +54,46 @@ public abstract class MFrame extends MObject {
 		
 		switch(getVerticalAlignement()) {
 		case CENTER:
-			py = getPy();
+			py = getPos().y;
 			break;
 		case BOTTOM:
-			py = getPy()-getSy()+getElementSize().y;
+			py = getPos().y-getSize().y+getElementSize().y;
 			break;
 		case TOP:
-			py = getPy()+getSy()-getElementSize().y;
+			py = getPos().y+getSize().y-getElementSize().y;
 			break;
 		default:
 			throw new IllegalArgumentException("Axis must be TOP, CENTER or BOTTOM");
 		}
-		return new Vector(px, py);
+		return new VectorInt(px, py);
 	}
 	
- 	public void setMinimumSize(double d, double e) {
-		minimumSize = new Vector(d,e);
+ 	public void setMinimumSize(int x, int y) {
+		minimumSize = new VectorInt(x,y);
 		recalculateUp();
 	}
-	public void setMinimumSize(Vector size) {
+	public void setMinimumSize(VectorInt size) {
 		minimumSize = size;
 		recalculateUp();
 	}
-	public Vector getMinimumSize() {
+	public VectorInt getMinimumSize() {
 		return minimumSize;
 	}
 	
-	protected void setElementSize(double d, double e) {
-		elementSize = new Vector(d,e);
+	protected void setElementSize(int d, int e) {
+		elementSize = new VectorInt(d,e);
 	}
-	protected void setElementSize(Vector size) {
+	protected void setElementSize(VectorInt size) {
 		elementSize = size;
 	}
-	protected Vector getElementSize() {
+	protected VectorInt getElementSize() {
 		return elementSize;
 	}
 	
-	protected void setSx(double sx) {
-		if(sx < getMinimumSize().x)sx = getMinimumSize().x;
-		super.setSx(sx);
-	}
-	protected void setSy(double sy) {
-		if(sy < getMinimumSize().y)sy = getMinimumSize().y;
-		super.setSy(sy);
-	}
-	
-	protected void setSize(Vector s) {
+	protected void setSize(VectorInt s) {
 		setSize(s.x, s.y);
 	}
-	protected void setSize(double sx, double sy) {
+	protected void setSize(int sx, int sy) {
 		if(sx < getMinimumSize().x)sx = getMinimumSize().x;
 		if(sy < getMinimumSize().y)sy = getMinimumSize().y;
 		super.setSize(sx, sy);
@@ -110,6 +101,7 @@ public abstract class MFrame extends MObject {
 	
 	public void  addObject(MObject o) {
 		child.add(o);
+		o.setWindowSize(getWindowSize());
 		recalculateUp();
 		o.setMother(this);
 	}
