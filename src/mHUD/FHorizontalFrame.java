@@ -14,8 +14,6 @@ public class FHorizontalFrame extends MFrame
 		this.setElementSize(sx,sy);
 		this.setSize(sx, sy);
 		
-		System.out.println(sx +"|"+getSize().x +" "+ sy+"|"+getSize().y);
-		
 		super.recalculateUp();
 	}
 	

@@ -73,6 +73,12 @@ public abstract class MObject {
 	public void setLineColor(int r, int g, int b) {
 		lineColor = new Color(r,g,b);
 	}
+	public void setBackgroundColor(Color c) {
+		backgroundColor = c;
+	}
+	public void setLineColor(Color c) {
+		lineColor = c;
+	}
 	
 	protected void drawBackground() {
 		StdDraw.setPenColor(backgroundColor.Red,backgroundColor.Green,backgroundColor.Blue);
@@ -99,6 +105,14 @@ public abstract class MObject {
 	}
 	protected VectorInt getWindowSize() {
 		return windowSize;
+	}
+	
+	protected boolean mouseIsIn() {
+		return (StdDraw.mouseX()*windowSize.x > position.x-size.x &&
+			    StdDraw.mouseY()*windowSize.y > position.y-size.y &&
+			    StdDraw.mouseX()*windowSize.x < position.x+size.x &&
+			    StdDraw.mouseY()*windowSize.y < position.y+size.y);
+				
 	}
 	
 	protected abstract void draw();

@@ -20,7 +20,10 @@ public class MWindow {
 	}
 	
 	public void draw() {
-		if(mainFrame != null)mainFrame.draw();
+		if(mainFrame != null) {
+			mainFrame.draw();
+		}
 		StdDraw.show();
+		StdDraw.pause(100);
 	}
 }

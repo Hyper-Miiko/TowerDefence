@@ -5,6 +5,7 @@ import mHUD.FHorizontalFrame;
 import mHUD.ITextItem;
 import mHUD.MWindow;
 import mHUD.FVerticalFrame;
+import mHUD.IButton;
 import mHUD.StdDraw;
 
 public class TowerDefence {
@@ -21,7 +22,7 @@ public class TowerDefence {
 		FHorizontalFrame ressourceTab = new FHorizontalFrame();
 		mainFrame.addObject(ressourceTab);
 		ressourceTab.setMinimumSize(800,40);
-		ressourceTab.setVerticalAlignement(CENTER);
+		ressourceTab.setVerticalAlignement(TOP);
 		ressourceTab.setHonrizontalAlignement(RIGHT);
 		
 		ITextItem gold = new ITextItem();
@@ -41,10 +42,16 @@ public class TowerDefence {
 		life.setBackgroundColor(255, 0, 0);
 		life.setTextColor(255, 255, 255);
 		
+		IButton buttonTest = new IButton();
+		buttonTest.setText("test");
+		buttonTest.setSize(120,40);
+		ressourceTab.addObject(buttonTest);
+		
 		while(true) {
-			mainFrame.setBackgroundColor((int)(255*StdDraw.mouseX()), 150, (int)(255*StdDraw.mouseY()));
+			if(!buttonTest.isClickedOn())mainFrame.setBackgroundColor((int)(255*StdDraw.mouseX()), 150, (int)(255*StdDraw.mouseY()));
+			else mainFrame.setBackgroundColor(255, 0, 255);
+			
 			window.draw();
-			StdDraw.pause(100);
 		}
 	}
 }
