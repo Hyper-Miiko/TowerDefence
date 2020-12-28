@@ -1,11 +1,14 @@
 package fr.tm_nlm.tower_defence.control.entity.fieldTile;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
 import fr.tm_nlm.tower_defence.Couple;
 import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
+import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
+import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
 import fr.tm_nlm.tower_defence.control.entity.FieldTile;
 
 /**
@@ -16,6 +19,22 @@ import fr.tm_nlm.tower_defence.control.entity.FieldTile;
  *
  */
 public class PathNode extends FieldTile {
+	private static final HashMap<Field, HashSet<PathNode>> allNodes = new HashMap<>();
+	public static boolean canCreateNodeHere(Field field, Circle circle) {
+		HashSet<PathNode> allNodesOfField = allNodes.get(field);
+		if(allNodesOfField == null) {
+			return true;
+		} else {
+			for(PathNode node : allNodesOfField) {
+				if(circle.getPosition().dist(node.getPosition()) < node.getAppareances().getCircle().getRadius() ||
+				   circle.getPosition().dist(node.getPosition()) < circle.getRadius()) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
 	private final HashSet<PathBridge> bridges;
 	/**
 	 * Le pont a prendre ainsi que la distance total jusqu'à la fin du chemin
@@ -24,8 +43,11 @@ public class PathNode extends FieldTile {
 	 */
 	private Couple<PathBridge, Double> passByToCastle;
 	
-	public PathNode(Field field, Shape shape, boolean castle) {
-		super(field, shape);
+	public PathNode(Field field, Circle circle, boolean castle) {
+		super(field, circle);
+		if(!canCreateNodeHere(field, circle)) {
+			throw new IllegalArgumentException("Impossible de créé deux noeuds aussi proche, merci d'utiliser canCreateNodeHere à l'avenir.");
+		}
 		bridges = new HashSet<>();
 		passByToCastle = null;
 		if(castle) {
