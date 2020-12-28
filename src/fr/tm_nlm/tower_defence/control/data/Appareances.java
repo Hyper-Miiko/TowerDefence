@@ -3,6 +3,8 @@ package fr.tm_nlm.tower_defence.control.data;
 import java.util.HashMap;
 
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
+import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
+import fr.tm_nlm.tower_defence.control.data.geometric.shape.Rect;
 
 public class Appareances {
 	private HashMap<Posture, String> postures;
@@ -15,6 +17,14 @@ public class Appareances {
 	
 	public Shape getShape() {
 		return shape;
+	}
+	
+	public Circle getCircle() {
+		return shape.getCircle();
+	}
+	
+	public Rect getRect() {
+		return shape.getRect();
 	}
 
 	public enum Posture {
