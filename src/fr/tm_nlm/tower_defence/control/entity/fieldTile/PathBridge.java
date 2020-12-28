@@ -1,6 +1,9 @@
 package fr.tm_nlm.tower_defence.control.entity.fieldTile;
 
+import java.util.LinkedList;
+
 import fr.tm_nlm.tower_defence.control.Field;
+import fr.tm_nlm.tower_defence.control.entity.MeleeTower;
 
 /**
  * Les ponts de passage ne sont pas des entités ils ne sont que la représentation du chemin que les monstres peuvent prendre
@@ -12,6 +15,7 @@ public class PathBridge {
 	public final Field field;
 	public final PathNode pathNodeA;
 	public final PathNode pathNodeB;
+	public final LinkedList<MeleeTower> obstacles;
 	
 	public PathBridge(PathNode pathNodeA, PathNode pathNodeB) {
 		if(pathNodeA.equals(pathNodeB)) {
@@ -24,6 +28,7 @@ public class PathBridge {
 		field = pathNodeA.getField();
 		this.pathNodeA = pathNodeA;
 		this.pathNodeB = pathNodeB;
+		obstacles = new LinkedList<>();
 	}
 	
 	public PathNode otherNode(PathNode origin) {

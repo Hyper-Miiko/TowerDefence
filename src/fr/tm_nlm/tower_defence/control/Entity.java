@@ -20,6 +20,9 @@ public class Entity {
 	public Vector getPosition() {
 		return appareances.getShape().getPosition();
 	}
+	public void setPosition(Vector vector) {
+		appareances.getShape().setPosition(vector);
+	}
 
 	public Appareances getAppareances() {
 		return appareances;

@@ -1,6 +1,8 @@
 package fr.tm_nlm.tower_defence.control;
 
 import static fr.tm_nlm.tower_defence.Constant.*;
+
+import fr.tm_nlm.tower_defence.control.entity.Monster;
 import mHUD.FHorizontalFrame;
 import mHUD.ITextItem;
 import mHUD.MWindow;
@@ -11,6 +13,8 @@ import mHUD.StdDraw;
 public class TowerDefence {
 
 	public static void main(String[] args) throws InterruptedException{
+		
+		
 		
 		MWindow window = new MWindow(800, 600);
 		
