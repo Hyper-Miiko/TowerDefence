@@ -1,12 +1,12 @@
-package mHUD;
+package mHUD.mObject;
 
-import mHUD.data.VectorInt;
+import mHUD.geometric.Vector;
 
 public class FHorizontalFrame extends MFrame 
 {
 	protected void recalculateUp() {
-		int sx = 0;
-		int sy = 0;
+		double sx = 0;
+		double sy = 0;
 		for(MObject c : child) {
 			sx += c.getSize().x;
 			sy = Math.max(c.getSize().y, sy);
@@ -18,13 +18,13 @@ public class FHorizontalFrame extends MFrame
 	}
 	
 	protected void recalculateDown() {
-		if(mother == null)this.setPos((int)(0.5*getWindowSize().x),(int)(0.5*getWindowSize().y));
+		if(mother == null)this.setPos((0.5*getWindowSize().x),(0.5*getWindowSize().y));
 		int sumX = 0;
 		
-		VectorInt elementCenter = getElementPositon();
+		Vector elementCenter = getElementPositon();
 		
 		for(MObject c : child) {			
-			c.setPos((int)(elementCenter.x-getElementSize().x+c.getSize().x+sumX*2),(int)(getPos().y));
+			c.setPos((elementCenter.x-getElementSize().x+c.getSize().x+sumX*2),(getPos().y));
 			sumX+=c.getSize().x;
 		}
 		

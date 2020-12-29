@@ -1,10 +1,10 @@
-package mHUD;
+package mHUD.mObject;
 
-import mHUD.data.VectorInt;
+import mHUD.geometric.Vector;
 
 public abstract class MItem extends MObject{
 	
-	public void setSize(VectorInt s) {
+	public void setSize(Vector s) {
 		super.setSize(s);
 		if(mother != null)mother.recalculateUp();
 	}

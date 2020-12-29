@@ -1,16 +1,15 @@
-package mHUD;
+package mHUD.mObject;
 
 
 import static fr.tm_nlm.tower_defence.Constant.*;
 import fr.tm_nlm.tower_defence.Constant;
-
-import mHUD.data.VectorInt;
+import mHUD.geometric.Vector;
 
 public abstract class MFrame extends MObject {
 	private Constant verticalAlignement = CENTER;
 	private Constant honrizontalAlignement = CENTER;
-	private VectorInt minimumSize = new VectorInt(0,0);
-	private VectorInt elementSize = new VectorInt(0,0);
+	private Vector minimumSize = new Vector(0,0);
+	private Vector elementSize = new Vector(0,0);
 	
 	public void setVerticalAlignement(Constant c) {
 		if(c == CENTER || c == TOP || c == BOTTOM) {
@@ -34,9 +33,9 @@ public abstract class MFrame extends MObject {
 		return honrizontalAlignement;
 	}
 	
-	public VectorInt getElementPositon() {
-		int px = 0;
-		int py = 0;
+	public Vector getElementPositon() {
+		double px = 0;
+		double py = 0;
 		
 		switch(getHonrizontalAlignement()) {
 		case CENTER:
@@ -65,35 +64,35 @@ public abstract class MFrame extends MObject {
 		default:
 			throw new IllegalArgumentException("Axis must be TOP, CENTER or BOTTOM");
 		}
-		return new VectorInt(px, py);
+		return new Vector(px, py);
 	}
 	
- 	public void setMinimumSize(int x, int y) {
-		minimumSize = new VectorInt(x,y);
+ 	public void setMinimumSize(double x, double y) {
+		minimumSize = new Vector(x,y);
 		recalculateUp();
 	}
-	public void setMinimumSize(VectorInt size) {
+	public void setMinimumSize(Vector size) {
 		minimumSize = size;
 		recalculateUp();
 	}
-	public VectorInt getMinimumSize() {
+	public Vector getMinimumSize() {
 		return minimumSize;
 	}
 	
-	protected void setElementSize(int d, int e) {
-		elementSize = new VectorInt(d,e);
+	protected void setElementSize(double d, double e) {
+		elementSize = new Vector(d,e);
 	}
-	protected void setElementSize(VectorInt size) {
+	protected void setElementSize(Vector size) {
 		elementSize = size;
 	}
-	protected VectorInt getElementSize() {
+	protected Vector getElementSize() {
 		return elementSize;
 	}
 	
-	protected void setSize(VectorInt s) {
+	protected void setSize(Vector s) {
 		setSize(s.x, s.y);
 	}
-	protected void setSize(int sx, int sy) {
+	protected void setSize(double sx, double sy) {
 		if(sx < getMinimumSize().x)sx = getMinimumSize().x;
 		if(sy < getMinimumSize().y)sy = getMinimumSize().y;
 		super.setSize(sx, sy);
@@ -120,9 +119,11 @@ public abstract class MFrame extends MObject {
 	}
 	
 	protected void draw() {
-		drawBackground();
-		drawRect();
-		
+		if(isRedrawNeeded()) {
+			drawBackground();
+			drawRect();
+			setNeedRedraw(false);	
+		}
 		for(MObject i : child) {
 			i.draw();
 		}

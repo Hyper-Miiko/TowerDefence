@@ -1,6 +1,8 @@
-package mHUD;
+package mHUD.mObject;
 
-import mHUD.data.Color;
+import java.awt.Color;
+
+import mHUD.StdDraw;
 
 public class ITextItem extends MItem{
 	private String text;
@@ -19,12 +21,14 @@ public class ITextItem extends MItem{
 	}
 	
 	protected void draw() {
-		drawBackground();
-		drawRect();
-		
-		StdDraw.setPenColor(textColor.Red,textColor.Green,textColor.Blue);
-		StdDraw.text(((double)getPos().x/getWindowSize().x), 
-					 ((double)getPos().y/getWindowSize().y),
-					  text);
+		if(isRedrawNeeded()) {
+			drawBackground();
+			drawRect();
+			
+			StdDraw.setPenColor(textColor);
+			StdDraw.text(((double)getPos().x/getWindowSize().x), 
+						 ((double)getPos().y/getWindowSize().y),
+						  text);
+		}
 	}
 }

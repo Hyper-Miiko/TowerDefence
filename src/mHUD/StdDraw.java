@@ -1436,6 +1436,29 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
 */
     /**
      * Draws the specified image centered at (<em>x</em>, <em>y</em>).
+     * The image must be a BufferedImage
+     * As an optimization, the picture is cached, so there is no performance
+     * penalty for redrawing the same image multiple times (e.g., in an animation).
+     * However, if you change the picture file after drawing it, subsequent
+     * calls will draw the original picture.
+     *
+     * @param  x the center <em>x</em>-coordinate of the image
+     * @param  y the center <em>y</em>-coordinate of the image
+     * @param  BufferedImage you want to draw
+     * @throws IllegalArgumentException if either {@code x} or {@code y} is either NaN or infinite
+     */
+    public static void picture(double x, double y, Image image) {
+    	double xs = scaleX(x);
+        double ys = scaleY(y);
+        int ws = image.getWidth(null);
+        int hs = image.getHeight(null);
+        if (ws < 0 || hs < 0) throw new IllegalArgumentException("image is corrupt");
+        
+        offscreen.drawImage(image, (int) Math.round(xs - ws/2.0), (int) Math.round(ys - hs/2.0), null);
+        draw();
+    }
+    /**
+     * Draws the specified image centered at (<em>x</em>, <em>y</em>).
      * The supported image formats are JPEG, PNG, and GIF.
      * As an optimization, the picture is cached, so there is no performance
      * penalty for redrawing the same image multiple times (e.g., in an animation).
