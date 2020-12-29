@@ -55,4 +55,13 @@ public class Vector {
 	public String toString() {
 		return "(" + Double.toString(x) + "," + Double.toString(y) + ")";
 	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if(object instanceof Vector) {
+			return x == ((Vector) object).x &&
+				   y == ((Vector) object).y;
+		}
+		return false;
+	}
 }

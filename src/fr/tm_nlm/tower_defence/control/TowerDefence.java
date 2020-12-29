@@ -4,6 +4,7 @@ import static fr.tm_nlm.tower_defence.Constant.*;
 
 import java.awt.Color;
 
+import fr.tm_nlm.tower_defence.control.entity.Monster;
 import mHUD.StdDraw;
 import mHUD.geometric.Circle;
 import mHUD.geometric.Rect;
@@ -21,6 +22,8 @@ public class TowerDefence {
 
 	
 	public static void main(String[] args) throws InterruptedException{
+		
+		
 		
 		MWindow window = new MWindow(800, 600);
 		
