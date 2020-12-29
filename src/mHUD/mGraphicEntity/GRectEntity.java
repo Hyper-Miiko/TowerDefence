@@ -4,41 +4,46 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import mHUD.geometric.Rect;
-import mHUD.geometric.Shape;
 import mHUD.geometric.Vector;
 
 public class GRectEntity extends GPlainEntity {
-	Vector oldSize;
+	private Vector size = new Vector(0,0);
 	
-	public GRectEntity(Rect r) {
-		super(r);
-		oldSize = r.getSize();
-		imageBuffer = new BufferedImage((int)r.getSize().x, (int)r.getSize().y, BufferedImage.TYPE_INT_ARGB);
-		imageEdit = imageBuffer.createGraphics();
-	}	
-		
-	public void setPosition(double x, double y) {
-		shape.setPosition(x,y);
+	public GRectEntity() {
+		setPosition(0,0);
+		setSize(1,1);
 	}
-	public void setPosition(Vector v) {
-		shape.setPosition(v);
+	
+	public GRectEntity(double x, double y, double sx, double sy) {
+		setPosition(x,y);
+		setSize(sx,sy);
+	}
+	
+	protected Vector getSize() {
+		return size;
+	}
+	public void setSize(Vector size) {
+		this.size = size;
+		reloadCanvas();
+	}
+	public void setSize(double x, double y) {
+		setSize(new Vector(x,y));
+	}
+	protected Vector getPosition() {
+		return new Vector(super.getPosition().x-getSize().x/2,super.getPosition().y-getSize().y/2);
 	}
 	
 	protected Image getImage() {
-		Rect r = (Rect)shape;
-		if(!r.getSize().equals(oldSize)) {
-			imageBuffer = new BufferedImage((int)r.getSize().x, (int)r.getSize().y, BufferedImage.TYPE_INT_ARGB);
-			imageEdit = imageBuffer.createGraphics();
-		}
-		
 		imageEdit.setColor(getBackgroundColor());
-		imageEdit.fill(new Rectangle(0,0,(int)r.getSize().x-1, (int)r.getSize().y-1));
+		imageEdit.fill(new Rectangle(0,0,(int)size.x-1, (int)size.y-1));
 		
 		imageEdit.setColor(getLineColor());
-		imageEdit.draw(new Rectangle(0,0,(int)r.getSize().x-1, (int)r.getSize().y-1));
+		imageEdit.draw(new Rectangle(0,0,(int)size.x-1, (int)size.y-1));
 		
 		return imageBuffer;
 	}
-
+	protected void reloadCanvas() {
+		imageBuffer = new BufferedImage((int)size.x, (int)size.y, BufferedImage.TYPE_INT_ARGB);
+		imageEdit = imageBuffer.createGraphics();
+	}
 }

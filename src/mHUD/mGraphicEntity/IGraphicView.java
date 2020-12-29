@@ -18,6 +18,12 @@ public class IGraphicView extends MItem {
 	private BufferedImage imageBuffer;
 	private java.awt.Color color = new Color(255,255,255);
 	
+	public IGraphicView(double x, double y) {
+		setSize(x,y);
+		imageBuffer = new BufferedImage((int)getSize().x, (int)getSize().y, BufferedImage.TYPE_INT_ARGB);
+		imageEdit = imageBuffer.createGraphics();
+	}
+
 	public void addGraphicEntity(MGraphicEntity e) {
 		entityList.add(e);
 	}
@@ -26,14 +32,11 @@ public class IGraphicView extends MItem {
 	}
 	
 	protected void draw() {
-		imageBuffer = new BufferedImage((int)getSize().x, (int)getSize().y, BufferedImage.TYPE_INT_ARGB);
-		imageEdit = imageBuffer.createGraphics();
-		
 		imageEdit.setColor(color);
 		imageEdit.fill(new Rectangle(0,0,(int)getSize().x-1, (int)getSize().y-1));
 		
 		for(MGraphicEntity e : entityList)
-			imageEdit.drawImage(e.getImage(),(int)e.getPos().x,(int)getSize().y - (int)e.getPos().y, null);
+			imageEdit.drawImage(e.getImage(),(int)e.getPosition().x,(int)e.getPosition().y, null);
 		
 		StdDraw.picture(getPos().x/getWindowSize().x, getPos().y/getWindowSize().y, imageBuffer);
 	}

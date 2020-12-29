@@ -1,7 +1,5 @@
 package mHUD.mObject;
 
-import mHUD.StdDraw;
-
 public class IToogleButton extends IPushButton {
 	private boolean isPressed = false;
 	
