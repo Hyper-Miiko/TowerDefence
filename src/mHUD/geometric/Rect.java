@@ -82,35 +82,4 @@ public class Rect extends Shape {
 		}
 		this.size = size;
 	}
-
-	@Override
-	public boolean collide(Shape shape) {
-		boolean collide;
-		if(shape instanceof Rect) {
-			Rect A = this;
-			Rect B = ((Rect) shape);
-			if(A.getPosition().x > B.getPosition().x) {
-				Rect dummy = A;
-				A = B;
-				B = dummy;
-			}
-			if(A.getPosition().y > B.getPosition().y) {
-				double dummy = A.getPosition().y;
-				A.setPosition(A.getPosition().x, B.getPosition().y);
-				B.setPosition(B.getPosition().x, dummy);
-			}
-			double aPosX = A.getPosition().x;
-			double aPosY = A.getPosition().y;
-			double bPosX = B.getPosition().x;
-			double bPosY = B.getPosition().y;
-			double aPosCornerX = aPosX + A.getCorner(RIGHT, BOTTOM).x/2;
-			double aPosCornerY = aPosY + A.getCorner(RIGHT, BOTTOM).y/2;
-			double bPosCornerX = bPosX + B.getCorner(LEFT, TOP).x/2;
-			double bPosCornerY = bPosY + B.getCorner(LEFT, TOP).y/2;
-			collide = aPosCornerX >= bPosCornerX && aPosCornerY >= bPosCornerY;
-		} else {
-			collide = shape.collide(this);
-		}
-		return collide;
-	}
 }
