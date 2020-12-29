@@ -11,7 +11,7 @@ import mHUD.StdDraw;
 import mHUD.mObject.MItem;
 
 public class IGraphicView extends MItem {
-	
+	//
 	private Set<MGraphicEntity> entityList =  new LinkedHashSet<MGraphicEntity>();
 	
 	private Graphics2D imageEdit;
@@ -20,7 +20,7 @@ public class IGraphicView extends MItem {
 	
 	public IGraphicView(double x, double y) {
 		setSize(x,y);
-		imageBuffer = new BufferedImage((int)getSize().x, (int)getSize().y, BufferedImage.TYPE_INT_ARGB);
+		imageBuffer = new BufferedImage((int)getSize().x-1, (int)getSize().y-1, BufferedImage.TYPE_INT_ARGB);
 		imageEdit = imageBuffer.createGraphics();
 	}
 
@@ -41,4 +41,10 @@ public class IGraphicView extends MItem {
 		StdDraw.picture(getPos().x/getWindowSize().x, getPos().y/getWindowSize().y, imageBuffer);
 	}
 
+	public double mouseX() {
+		return (StdDraw.mouseX()*getWindowSize().x/2)-getPos().x/2+getSize().x/2;
+	}
+	public double mouseY() {
+		return (getWindowSize().y/2 - StdDraw.mouseY()*getWindowSize().y/2)-getPos().y/2+getSize().y/2;
+	}
 }
