@@ -8,6 +8,7 @@ import fr.tm_nlm.tower_defence.control.data.geometric.shape.Rect;
 
 public class Appareances {
 	private HashMap<Posture, String> postures;
+	private Posture currentPosture;
 	private Shape shape;
 	
 	public Appareances(Shape shape) {
@@ -19,8 +20,24 @@ public class Appareances {
 		return shape;
 	}
 	
+	public boolean isCircle() {
+		return shape.isCircle();
+	}
+	
+	public boolean isRect() {
+		return shape.isRect();
+	}
+	
 	public Circle getCircle() {
 		return shape.getCircle();
+	}
+	
+	public String getCurrentImage() {
+		if(currentPosture == null) {
+			return null;
+		} else {
+			return postures.get(currentPosture);
+		}
 	}
 	
 	public Rect getRect() {
