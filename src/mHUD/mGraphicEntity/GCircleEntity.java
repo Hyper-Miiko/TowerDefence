@@ -1,40 +1,47 @@
 package mHUD.mGraphicEntity;
 
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Ellipse2D.Double;
 import java.awt.image.BufferedImage;
 
-import mHUD.geometric.Circle;
-import mHUD.geometric.Rect;
-import mHUD.geometric.Shape;
 import mHUD.geometric.Vector;
 
+
 public class GCircleEntity extends GPlainEntity {
-	double oldRadius;
+	private double radius;
 	
-	public GCircleEntity(Circle c) {
-		super(c);
-		oldRadius = c.getRadius();
-		imageBuffer = new BufferedImage((int)c.getRadius(), (int)c.getRadius(), BufferedImage.TYPE_INT_ARGB);
-		imageEdit = imageBuffer.createGraphics();
+	public GCircleEntity() {
+		setPosition(0,0);
+		setRadius(1);
+	}
+	public GCircleEntity(double x, double y, double r) {
+		setPosition(x,y);
+		setRadius(r);
 	}
 	
+	protected double getRadius() {
+		return radius;
+	}
+	public void setRadius(double r) {
+		radius = r;
+		reloadCanvas();
+	}
+	protected Vector getPosition() {
+		return new Vector(super.getPosition().x-getRadius()/2,super.getPosition().y-getRadius()/2);
+	}
+	
+	protected void reloadCanvas() {
+		imageBuffer = new BufferedImage((int)radius, (int)radius, BufferedImage.TYPE_INT_ARGB);
+		imageEdit = imageBuffer.createGraphics();
+	}
 	protected Image getImage() {
-		Circle c = (Circle)shape;
-		if(c.getRadius() != oldRadius) {
-			imageBuffer = new BufferedImage((int)c.getRadius(), (int)c.getRadius(), BufferedImage.TYPE_INT_ARGB);
-			imageEdit = imageBuffer.createGraphics();
-		}
-		
 		imageEdit.setColor(getBackgroundColor());
-		imageEdit.fill(new Ellipse2D.Double(0,0,c.getRadius(), c.getRadius()));
+		imageEdit.fill(new Ellipse2D.Double(0,0,radius,radius));
 		
 		imageEdit.setColor(getLineColor());
-		imageEdit.draw(new Ellipse2D.Double(0,0,c.getRadius(), c.getRadius()));
+		imageEdit.draw(new Ellipse2D.Double(0,0,radius,radius));
 		
 		return imageBuffer;
 	}
-	
+
 }
