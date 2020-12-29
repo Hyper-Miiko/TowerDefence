@@ -9,12 +9,18 @@ public class Entity {
 	
 	protected Field field;
 	private Appareances appareances;
+	private boolean check;
 	private final long id;
 
 	public Entity(Field field, Shape shape) {
 		this.field = field;
 		appareances = new Appareances(shape);
 		id = nextId++;
+		check = false;
+	}
+	
+	public void kill() {
+		field.remove(this);
 	}
 	
 	public Vector getPosition() {
@@ -22,6 +28,7 @@ public class Entity {
 	}
 	public void setPosition(Vector vector) {
 		appareances.getShape().setPosition(vector);
+		check = false;
 	}
 
 	public Appareances getAppareances() {
@@ -35,6 +42,14 @@ public class Entity {
 		} else {
 			return this.id == ((Entity) entity).id;
 		}
+	}
+	
+	public boolean isCheck() {
+		return check;
+	}
+	
+	public void check() {
+		check = true;
 	}
 	
 	@Override
