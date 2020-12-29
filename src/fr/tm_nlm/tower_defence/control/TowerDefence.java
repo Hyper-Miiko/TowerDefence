@@ -17,7 +17,7 @@ public class TowerDefence {
 		mainFrame.setMinimumSize(800,600);
 		mainFrame.setBackgroundColor(100,100,100);
 		
-		IGraphicView graphic = new IGraphicView(400,400);
+		IGraphicView graphic = new IGraphicView(200,400);
 		mainFrame.addObject(graphic);
 		
 		GRectEntity rectEntity = new GRectEntity(0,0,80,80);
@@ -28,9 +28,6 @@ public class TowerDefence {
 			
 			rectEntity.setBackgroundColor((int)(255*StdDraw.mouseX()), 150, (int)(255*StdDraw.mouseY()));
 			rectEntity.setPosition(graphic.mouseX(), graphic.mouseY());
-			
-			System.out.println(graphic.mouseX()+ " " + graphic.mouseY());
-			
 		}
 	}
 }

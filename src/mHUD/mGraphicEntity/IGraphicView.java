@@ -40,5 +40,11 @@ public class IGraphicView extends MItem {
 		
 		StdDraw.picture(getPos().x/getWindowSize().x, getPos().y/getWindowSize().y, imageBuffer);
 	}
-
+	
+	public double mouseX() {
+		return (StdDraw.mouseX()*getWindowSize().x/2)-getPos().x/2+getSize().x/2;
+	}
+	public double mouseY() {
+		return (getWindowSize().y/2 - StdDraw.mouseY()*getWindowSize().y/2)-getPos().y/2+getSize().y/2;
+	}
 }
