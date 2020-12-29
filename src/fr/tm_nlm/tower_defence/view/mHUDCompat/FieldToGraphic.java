@@ -26,6 +26,7 @@ public class FieldToGraphic implements Runnable {
 	}
 	
 	public void add(Entity entity) {
+		//
 		MGraphicEntity graphic;
 		if(entity.getAppareances().getCurrentImage() != null) {
 			//XXX Wait for GImageEntity setup
