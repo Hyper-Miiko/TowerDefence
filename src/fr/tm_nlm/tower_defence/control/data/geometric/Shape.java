@@ -11,16 +11,22 @@ public abstract class Shape {
 	}
 	
 	public abstract boolean collide(Shape shape);
+	public boolean isCircle() {
+		return this instanceof Circle;
+	}
+	public boolean isRect() {
+		return this instanceof Rect;
+	}
 	
 	public Circle getCircle() {
-		if(this instanceof Circle) {
+		if(isCircle()) {
 			return (Circle) this;
 		}
 		throw new ClassCastException("Il ne s'agit pas d'un cerle.");
 	}
 	
 	public Rect getRect() {
-		if(this instanceof Rect) {
+		if(isRect()) {
 			return (Rect) this;
 		}
 		throw new ClassCastException("Il ne s'agit pas d'un rectangle.");
