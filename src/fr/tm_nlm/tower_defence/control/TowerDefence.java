@@ -17,7 +17,7 @@ public class TowerDefence {
 		mainFrame.setMinimumSize(800,600);
 		mainFrame.setBackgroundColor(100,100,100);
 		
-		IGraphicView graphic = new IGraphicView(200,400);
+		IGraphicView graphic = new IGraphicView(800,600);
 		mainFrame.addObject(graphic);
 		
 		GRectEntity rectEntity = new GRectEntity(0,0,80,80);

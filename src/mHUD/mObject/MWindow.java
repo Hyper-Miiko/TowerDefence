@@ -24,7 +24,7 @@ public class MWindow {
 		if(mainFrame != null) {
 			mainFrame.draw();
 		}
-		StdDraw.pause(20);
+		//StdDraw.pause(20);
 		StdDraw.show();
 	}
 }
