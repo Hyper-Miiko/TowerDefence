@@ -118,6 +118,20 @@ public abstract class MFrame extends MObject {
 			c.recalculateDown();
 	}
 	
+	protected MItem getFocalisedItem(double x, double y) {
+		if(pointIn(x,y)) {
+			for(MObject i : child) {
+				if(i instanceof MFrame) {
+					MItem t = ((MFrame)i).getFocalisedItem(x, y);
+					if(t != null) return t;
+				}
+				else if(i instanceof MItem && ((MItem)i).pointIn(x, y))
+					return ((MItem)i);
+			}
+		}
+		return null;
+	}
+	
 	protected void draw() {
 		if(isRedrawNeeded()) {
 			drawBackground();

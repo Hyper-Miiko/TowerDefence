@@ -42,7 +42,7 @@ public class IPushButton extends ITextItem {
 	}
 	
 	protected void draw() {
-		if(mouseIsIn()) {
+		if(mouseIn()) {
 			if(getMouseStatus() != 2 && StdDraw.isMousePressed()) {
 				super.setBackgroundColor(getPressedColor());
 				setMouseStatus(2);

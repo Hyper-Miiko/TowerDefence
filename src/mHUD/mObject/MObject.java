@@ -122,11 +122,18 @@ public abstract class MObject {
 		return windowSize;
 	}
 	
-	protected boolean mouseIsIn() {
-		return (StdDraw.mouseX()*windowSize.x > position.x-size.x &&
-			    StdDraw.mouseY()*windowSize.y > position.y-size.y &&
-			    StdDraw.mouseX()*windowSize.x < position.x+size.x &&
-			    StdDraw.mouseY()*windowSize.y < position.y+size.y);
+	protected boolean mouseIn() {
+		return (StdDraw.mouseX()*getWindowSize().x > position.x-size.x &&
+				StdDraw.mouseY()*getWindowSize().y > position.y-size.y &&
+			    StdDraw.mouseX()*getWindowSize().x < position.x+size.x &&
+			    StdDraw.mouseY()*getWindowSize().y < position.y+size.y);
+				
+	}
+	protected boolean pointIn(double x, double y) {
+		return (x > position.x-size.x &&
+			    y > position.y-size.y &&
+			    x < position.x+size.x &&
+			    y < position.y+size.y);
 				
 	}
 	

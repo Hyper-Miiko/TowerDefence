@@ -3,9 +3,12 @@ package mHUD.mObject;
 import mHUD.StdDraw;
 import mHUD.geometric.Vector;
 
-public class MWindow {
+public class MWindow extends Thread{
 	
 	private MFrame mainFrame;
+	private MItem focusItem;
+	private boolean mousePressed;
+	
 	private final Vector windowSize;
 	
 	public MWindow(int x, int y) {
@@ -19,12 +22,22 @@ public class MWindow {
 		this.mainFrame = mainFrame;
 		mainFrame.setWindowSize(windowSize);
 	}
-	
-	public void draw() {
-		if(mainFrame != null) {
-			mainFrame.draw();
+
+	public void run() {
+		while(true) {
+			if(mainFrame != null) {
+				if(mousePressed && !StdDraw.isMousePressed()) {
+					focusItem = mainFrame.getFocalisedItem(StdDraw.mouseX(), StdDraw.mouseY());
+				}
+				
+				if(focusItem != null) {
+					
+				}
+				mousePressed = StdDraw.isMousePressed();
+				
+				mainFrame.draw();
+				StdDraw.show();
+			}
 		}
-		//StdDraw.pause(20);
-		StdDraw.show();
 	}
 }
