@@ -46,4 +46,7 @@ public class IGraphicView extends MItem {
 	public double mouseY() {
 		return (getWindowSize().y/2 - StdDraw.mouseY()*getWindowSize().y/2)-getPos().y/2+getSize().y/2;
 	}
+	public boolean mousePressed() {
+		return  StdDraw.isMousePressed() && mouseIsIn();
+	}
 }
