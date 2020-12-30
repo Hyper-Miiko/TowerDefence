@@ -131,7 +131,9 @@ public abstract class MFrame extends MObject {
 		}
 		return null;
 	}
-	
+	public void refreshObject() {
+		for(MObject i : child) i.refreshObject();
+	}
 	protected void draw() {
 		if(isRedrawNeeded()) {
 			drawBackground();

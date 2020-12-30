@@ -139,10 +139,11 @@ public abstract class MObject {
 	
 	protected abstract void draw();
 	
-	public boolean isRedrawNeeded() {
+	protected boolean isRedrawNeeded() {
 		return needRedraw;
 	}
-	public void setNeedRedraw(boolean needRedraw) {
+	protected void setNeedRedraw(boolean needRedraw) {
 		this.needRedraw = needRedraw;
 	}
+	protected abstract void refreshObject();
 }

@@ -14,10 +14,16 @@ public class ITextItem extends MItem{
 	}
 	public void setText(String text){
 		this.text = text;
+		setNeedRedraw(true);
 	}
 	
 	public void setTextColor(int r, int g, int b) {
 		textColor = new Color(r,g,b);
+		setNeedRedraw(true);
+	}
+	
+	protected void refreshObject() {
+		//we need a refresh for this???
 	}
 	
 	protected void draw() {

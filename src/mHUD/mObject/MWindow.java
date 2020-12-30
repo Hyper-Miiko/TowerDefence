@@ -35,6 +35,7 @@ public class MWindow extends Thread{
 				}
 				mousePressed = StdDraw.isMousePressed();
 				
+				mainFrame.refreshObject();
 				mainFrame.draw();
 				StdDraw.show();
 			}

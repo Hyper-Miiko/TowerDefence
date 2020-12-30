@@ -31,6 +31,10 @@ public class IGraphicView extends MItem {
 		entityList.remove(e);
 	}
 	
+	protected void refreshObject() {
+		//we need a refresh for this???
+	}
+	
 	protected void draw() {
 		imageEdit.setColor(color);
 		imageEdit.fill(new Rectangle(0,0,(int)getSize().x-1, (int)getSize().y-1));
