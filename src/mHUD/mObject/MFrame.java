@@ -67,6 +67,13 @@ public abstract class MFrame extends MObject {
 		return new Vector(px, py);
 	}
 	
+	protected void setPos(double x, double y) {
+		super.setPos(x, y);
+	}
+	protected void setPos(Vector pos) {
+		super.setPos(pos);
+	}
+	
  	public void setMinimumSize(double x, double y) {
 		minimumSize = new Vector(x,y);
 		recalculateUp();
@@ -90,7 +97,7 @@ public abstract class MFrame extends MObject {
 	}
 	
 	protected void setSize(Vector s) {
-		setSize(s.x, s.y);
+		this.setSize(s.x, s.y);
 	}
 	protected void setSize(double sx, double sy) {
 		if(sx < getMinimumSize().x)sx = getMinimumSize().x;

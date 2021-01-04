@@ -1,10 +1,10 @@
-package mHUD.mObject;
+package mHUD.mObject.mItem;
 
 import java.awt.Color;
 
 import mHUD.StdDraw;
 
-public class IButton extends ITextItem {
+public class IButton extends ILabel {
 	private Color normalColor = new Color(250,250,250);
 	private Color pressedColor = new Color(150,150,150);
 	private Color mouseOnColor = new Color(230,230,230);

@@ -1,11 +1,12 @@
-package mHUD.mObject;
+package mHUD.mObject.mItem;
 
 import java.awt.Color;
 
 import mHUD.StdDraw;
+import mHUD.mObject.MItem;
 
-public class ITextItem extends MItem{
-	private String text;
+public class ILabel extends MItem{
+	private String text = "";
 	
 	private Color textColor = new Color(0,0,0);
 	

@@ -38,6 +38,8 @@ public class MWindow extends Thread{
 				mainFrame.refreshObject();
 				mainFrame.draw();
 				StdDraw.show();
+				
+				StdDraw.pause(10);
 			}
 		}
 	}

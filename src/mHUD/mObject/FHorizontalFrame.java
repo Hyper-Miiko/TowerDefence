@@ -23,8 +23,8 @@ public class FHorizontalFrame extends MFrame
 		
 		Vector elementCenter = getElementPositon();
 		
-		for(MObject c : child) {			
-			c.setPos((elementCenter.x-getElementSize().x+c.getSize().x+sumX*2),(getPos().y));
+		for(MObject c : child) {		
+			c.setPos((elementCenter.x-getElementSize().x+c.getSize().x+sumX*2),(elementCenter.y));
 			sumX+=c.getSize().x;
 		}
 		

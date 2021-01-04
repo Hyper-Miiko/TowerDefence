@@ -18,13 +18,13 @@ public class FVerticalFrame extends MFrame
 	}
 	
 	protected void recalculateDown() {
-		if(mother == null)this.setPos((int)(0.5*getWindowSize().x),(int)(0.5*getWindowSize().y));
+		if(mother == null)this.setPos((0.5*getWindowSize().x),(0.5*getWindowSize().y));
 		double sumY = 0;
 		
 		Vector elementCenter = getElementPositon();
 		
 		for(MObject c : child) {			
-			c.setPos((int)(getPos().x), (int)(elementCenter.y-getElementSize().y+c.getSize().y+sumY*2));
+			c.setPos((elementCenter.x), (elementCenter.y-getElementSize().y+c.getSize().y+sumY*2));
 			sumY+=c.getSize().y;
 		}
 		

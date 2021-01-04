@@ -7,7 +7,7 @@ public abstract class MItem extends MObject{
 		super.setSize(s);
 		if(mother != null)mother.recalculateUp();
 	}
-	public void setSize(int x, int y) {
+	public void setSize(double x, double y) {
 		super.setSize(x,y);
 		if(mother != null)mother.recalculateUp();
 	}

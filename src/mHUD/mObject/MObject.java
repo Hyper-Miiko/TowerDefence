@@ -45,54 +45,68 @@ public abstract class MObject {
 	}
 	
 	protected void setPosX(double x) {
-		setNeedRedraw(true);
-		position = new Vector(x, position.y);
+		if(getPos().x != x) {
+			setNeedRedraw(true);
+			position = new Vector(x, position.y);
+		}
 	}
 	protected void setPosY(double y) {
-		setNeedRedraw(true);
-		position = new Vector(position.x, y);
+		if(getPos().y != y) {
+			setNeedRedraw(true);
+			position = new Vector(position.x, y);
+		}
 	}
 	protected void setSizeX(double x) {
-		setNeedRedraw(true);
-		size = new Vector(x, size.y);
+		if(getSize().x != x) {
+			setNeedRedraw(true);
+			size = new Vector(x, size.y);
+		}
 	}
 	protected void setSizeY(double y) {
-		setNeedRedraw(true);
-		size = new Vector(size.x, y);
+		if(getSize().y != y) {
+			setNeedRedraw(true);
+			size = new Vector(size.x, y);
+		}
 	}
 	
 	protected void setPos(Vector p) {
-		setNeedRedraw(true);
-		position = p;
+		if(!getPos().equals(p)) {
+			setNeedRedraw(true);
+			position = p;
+		}
 	}
 	protected void setPos(double x, double y) {
-		setNeedRedraw(true);
-		position = new Vector(x, y);
+		setPosX(x);
+		setPosY(y);
 	}
 	protected void setSize(Vector s) {
-		setNeedRedraw(true);
-		size = new Vector(s.x, s.y);
+		if(!getSize().equals(s)) {
+			setNeedRedraw(true);
+			size = s;
+		}
 	}
 	protected void setSize(double x, double y) {
-		setNeedRedraw(true);
-		size = new Vector(x, y);
+		setSizeX(x);
+		setSizeY(y);
 	}
 	
 	public void setBackgroundColor(int r, int g, int b) {
-		setNeedRedraw(true);
-		backgroundColor = new Color(r,g,b);
+		setBackgroundColor(new Color(r,g,b));
 	}
 	public void setLineColor(int r, int g, int b) {
-		setNeedRedraw(true);
-		lineColor = new Color(r,g,b);
+		setLineColor(new Color(r,g,b));
 	}
 	public void setBackgroundColor(Color c) {
-		setNeedRedraw(true);
-		backgroundColor = c;
+		if(c != backgroundColor) {
+			setNeedRedraw(true);
+			backgroundColor = c;
+		}
 	}
 	public void setLineColor(Color c) {
-		setNeedRedraw(true);
-		lineColor = c;
+		if(c != lineColor) {
+			setNeedRedraw(true);
+			lineColor = c;
+		}
 	}
 	
 	protected void drawBackground() {
