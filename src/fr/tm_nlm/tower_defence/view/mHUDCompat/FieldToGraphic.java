@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.tm_nlm.tower_defence.control.Entity;
+import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
 import mHUD.mGraphicEntity.GCircleEntity;
 import mHUD.mGraphicEntity.GRectEntity;
@@ -17,6 +18,7 @@ import mHUD.mGraphicEntity.MGraphicEntity;
  *
  */
 public class FieldToGraphic implements Runnable {
+	private Field field;
 	private HashMap<Entity, MGraphicEntity> entityToGraphic;
 	private HashMap<MGraphicEntity, Entity> graphicToEntity;
 	
@@ -25,8 +27,14 @@ public class FieldToGraphic implements Runnable {
 		graphicToEntity = new HashMap<>();
 	}
 	
+	public FieldToGraphic(Field field) {
+		this.field = field;
+	}
+	
 	public void add(Entity entity) {
-		//
+		if(!field.equals(entity.getField())) {
+			throw new IllegalArgumentException("L'entité n'appartient pas au bon champ.");
+		}
 		MGraphicEntity graphic;
 		if(entity.getAppareances().getCurrentImage() != null) {
 			//XXX Wait for GImageEntity setup
@@ -41,6 +49,9 @@ public class FieldToGraphic implements Runnable {
 	}
 	
 	public boolean remove(Entity entity) {
+		if(!field.equals(entity.getField())) {
+			throw new IllegalArgumentException("L'entité n'appartient pas au bon champ.");
+		}
 		MGraphicEntity graphic = entityToGraphic.get(entity);
 		entityToGraphic.remove(entity);
 		graphicToEntity.remove(graphic);
@@ -52,6 +63,9 @@ public class FieldToGraphic implements Runnable {
 	}
 	
 	public MGraphicEntity get(Entity entity) {
+		if(!field.equals(entity.getField())) {
+			throw new IllegalArgumentException("L'entité n'appartient pas au bon champ.");
+		}
 		return entityToGraphic.get(entity);
 	}
 

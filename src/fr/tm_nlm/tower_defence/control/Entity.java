@@ -17,10 +17,16 @@ public class Entity {
 		appareances = new Appareances(shape);
 		id = nextId++;
 		check = false;
+		
+		field.add(this);
 	}
 	
 	public void kill() {
 		field.remove(this);
+	}
+	
+	public Field getField() {
+		return field;
 	}
 	
 	public Vector getPosition() {
