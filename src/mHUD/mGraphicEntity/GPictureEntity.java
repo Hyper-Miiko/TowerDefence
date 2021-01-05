@@ -18,12 +18,9 @@ public class GPictureEntity extends MGraphicEntity{
 	}
 	public GPictureEntity(double x, double y, double sx, double sy, String imageName) {
 		setPosition(x,y);
-		
-		System.out.println(image);
-		image = StdDraw.getImage(imageName);
-		System.out.println(image);
-		
 		setSize(sx,sy);
+		
+		image = StdDraw.getImage(imageName);
 	}
 	
 	protected Vector getSize() {

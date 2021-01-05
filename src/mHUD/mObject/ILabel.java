@@ -1,9 +1,8 @@
-package mHUD.mObject.mItem;
+package mHUD.mObject;
 
 import java.awt.Color;
 
 import mHUD.StdDraw;
-import mHUD.mObject.MItem;
 
 public class ILabel extends MItem{
 	private String text = "";

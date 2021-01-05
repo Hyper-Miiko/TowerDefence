@@ -1,4 +1,4 @@
-package mHUD.mObject.mItem;
+package mHUD.mObject;
 
 import java.awt.Color;
 
