@@ -48,10 +48,6 @@ public class ISpinBox extends FHorizontalFrame{
  		plus.setSize(x*0.3,y*0.5);
 		recalculateUp();
 	}
- 	
-	public void setMinimumSize(Vector size) {
-		this.setMinimumSize(size.x, size.y);
-	}
 	public void refreshObject() {
 		
 		if(minus.buttonReleased() && value-step >= min) {

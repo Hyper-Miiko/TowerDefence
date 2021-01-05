@@ -8,6 +8,7 @@ import mHUD.geometric.Vector;
 
 public abstract class MGraphicEntity {
 	private Vector position;
+	private double rotation = 0;
 	
 	protected Graphics2D imageEdit;
 	protected BufferedImage imageBuffer;
@@ -23,6 +24,17 @@ public abstract class MGraphicEntity {
 	public void setPosition(double x, double y) {
 		this.position = new Vector(x,y);
 	}
+	public double getRotation() {
+		return rotation;
+	}
+
+	public void setRotation(double rotation) {
+		imageEdit.rotate(-getRotation());
+		this.rotation = rotation;
+		imageEdit.rotate(getRotation());
+	}
 	
 	protected abstract void reloadCanvas();
+
+
 }

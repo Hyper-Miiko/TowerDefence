@@ -42,7 +42,6 @@ public class GPictureEntity extends MGraphicEntity{
 	}
 	
 	protected Image getImage() {
-		
 		imageEdit.drawImage(image, 0,0, null);
 		return imageBuffer;
 	}
