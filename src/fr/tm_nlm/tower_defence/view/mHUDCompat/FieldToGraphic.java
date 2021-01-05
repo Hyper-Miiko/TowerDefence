@@ -7,6 +7,7 @@ import fr.tm_nlm.tower_defence.control.Entity;
 import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
 import mHUD.mGraphicEntity.GCircleEntity;
+import mHUD.mGraphicEntity.GPictureEntity;
 import mHUD.mGraphicEntity.GRectEntity;
 import mHUD.mGraphicEntity.MGraphicEntity;
 
@@ -38,7 +39,7 @@ public class FieldToGraphic implements Runnable {
 		MGraphicEntity graphic;
 		if(entity.getAppareances().getCurrentImage() != null) {
 			//XXX Wait for GImageEntity setup
-			graphic = new GImageEntity(entity.getPosition().x, entity.getPosition().y, entity.getAppareances().getCurrentImage());
+			graphic = new GPictureEntity(entity.getPosition().x, entity.getPosition().y,entity.getAppareances().getRect().getSize().x,entity.getAppareances().getRect().getSize().y, entity.getAppareances().getCurrentImage());
 		} else if(entity.getAppareances().isCircle()) {
 			graphic = new GCircleEntity(entity.getPosition().x, entity.getPosition().y, entity.getAppareances().getCircle().getRadius());
 		} else {
