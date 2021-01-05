@@ -178,11 +178,11 @@ public class Tower extends Entity {
 			mettaton.setCooldown(1d);
 			mettaton.setDammage(Math.PI);
 			mettaton.setMaxHealth(Integer.MAX_VALUE);
-			mettaton.canEvolveIn(buildMettatonEX(field), 63);
+			//mettaton.canEvolveIn(buildMettatonEX(field), 63);
 			return mettaton;
 		}
-		private Tower buildMettatonEX(Field field) {
+		/*private Tower buildMettatonEX(Field field) {
 			
-		}
+		}*/
 	}
 }

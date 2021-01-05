@@ -12,12 +12,12 @@ public class ActionFromUser implements Runnable {
 		return instance;
 	}
 	
-	private LinkedList<Couple<Entity, Action>> file;
+	private LinkedList<Couple<Tower, Action>> file;
 	private ActionFromUser() {
 		file = new LinkedList<>();
 	}
 	
-	public void push(Couple<Entity, Action> action) {
+	public void push(Couple<Tower, Action> action) {
 		file.push(action);
 	}
 
@@ -26,7 +26,7 @@ public class ActionFromUser implements Runnable {
 		if(file == null) {
 			return;
 		}
-		Couple<Entity, Action> action = file.pop();
+		Couple<Tower, Action> action = file.pop();
 		switch(action._2) {
 		case Evolve:
 			((Tower) action._1).evolve();
