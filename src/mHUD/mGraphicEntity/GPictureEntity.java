@@ -46,6 +46,7 @@ public class GPictureEntity extends MGraphicEntity{
 		return imageBuffer;
 	}
 	protected void reloadCanvas() {
+		rotate(getRotation());
 		imageBuffer = new BufferedImage((int)size.x, (int)size.y, BufferedImage.TYPE_INT_ARGB);
 		imageEdit = imageBuffer.createGraphics();
 	}

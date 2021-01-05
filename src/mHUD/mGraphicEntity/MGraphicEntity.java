@@ -28,7 +28,7 @@ public abstract class MGraphicEntity {
 		return rotation;
 	}
 
-	public void setRotation(double rotation) {
+	public void rotate(double rotation) {
 		imageEdit.rotate(-getRotation());
 		this.rotation = rotation;
 		imageEdit.rotate(getRotation());
