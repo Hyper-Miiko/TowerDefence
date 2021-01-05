@@ -1,16 +1,14 @@
 package fr.tm_nlm.tower_defence.control.entity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
 
-import fr.tm_nlm.tower_defence.Couple;
 import fr.tm_nlm.tower_defence.control.Entity;
 import fr.tm_nlm.tower_defence.control.Field;
-import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
+import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
+import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
 
-public abstract class Tower extends Entity {
+public class Tower extends Entity {
+	private static final int radius = 32;
 	private static HashMap<Field, HashMap<Tower, Boolean>> addables = new HashMap<>();
 	
 	public static HashMap<Tower, Boolean> getAddables(Field field) {
@@ -18,26 +16,29 @@ public abstract class Tower extends Entity {
 	}
 	
 	private boolean obstacle;
-	private int cost;
 	private int evolveCost;
+	private int range;
 	private double cooldown;
+	private double cost;
 	private double dammage;
+	private double determination; //multiplicateur du prix de résurrection
 	private double health;
 	private double maxHealth;
-	private double range;
+	private Bullet bullet;
 	private String name;
 	private Tower evolution;
 
-	public Tower(Field field, Shape shape, String name) {
-		super(field, shape);
+	public Tower(Field field, String name) {
+		super(field, null);
 		obstacle = false;
-		cost = 5;
 		evolveCost = -1;
+		range = 100;
 		cooldown = 1d;
+		cost = 5d;
 		dammage = 2d;
+		determination = 1.5d;
 		maxHealth = 20d;
 		health = maxHealth;
-		range = 100d;
 		this.name = name;
 		evolution = null;
 		
@@ -47,6 +48,18 @@ public abstract class Tower extends Entity {
 			Tower.addables.put(field, addables);
 		}
 		addables.put(this, false);
+	}
+	
+	public void canEvolveIn(Tower evolution, int evolveCost) {
+		if(evolution == null) {
+			throw new IllegalArgumentException("L'évolution doit exister");
+		}
+		if(evolveCost < 0) {
+			throw new IllegalArgumentException("Un prix est sensé être supérieur à 0 mais a reçu : " + evolveCost);
+		}
+		evolution.setCost(cost + evolveCost);
+		this.evolution = evolution;
+		this.evolveCost = evolveCost;
 	}
 	
 	public Tower evolve() {
@@ -59,11 +72,117 @@ public abstract class Tower extends Entity {
 		return evolution;
 	}
 	
+	public void place(Vector position) {
+		getAppareances().setShape(new Circle(position, radius));
+	}
+	
+	public void setCost(double cost) {
+		if(cost < 0) {
+			throw new IllegalArgumentException("Un prix est sensé être supérieur à 0 mais a reçu : " + cost);
+		}
+		this.cost = cost;
+	}
+	
+	public void setRange(int range) {
+		if(range < 0) {
+			throw new IllegalArgumentException("Une portée est sensée être supérieure à 0 mais a reçu : " + range);
+		}
+		this.range = range;
+	}
+	
+	public void setCooldown(double cooldown) {
+		if(cooldown < 0) {
+			throw new IllegalArgumentException("Un délai de récupération est sensé être supérieur à 0 mais a reçu : " + cooldown);
+		}
+		if(cooldown == 0) {
+			System.err.println("Cooldown de 0 impossible, limité par les performances machine.");
+		}
+		this.cooldown = cooldown;
+	}
+	
+	public void setDammage(double dammage) {
+		if(dammage < 0) {
+			throw new IllegalArgumentException("Soin par dégât impossible " + cooldown);
+		}
+		this.dammage = dammage;
+	}
+	
+	public void setMaxHealth(double maxHealth) {
+		if(maxHealth < this.maxHealth) { //On ne réduit pas la vie actuelle (sauf si elle dépasse)
+			health = (health > maxHealth) ? maxHealth : health;
+		} else { //On augmente la vie proportionnellement
+			health /= this.maxHealth;
+			health *= maxHealth;
+		}
+		this.maxHealth = maxHealth;
+	}
+	
 	public void setObstacle(boolean obstacle) {
 		this.obstacle = obstacle;
 	}
 	
 	public boolean isObstacle() {
 		return obstacle;
+	}
+	
+	public final class presetTower {
+		private presetTower() {}
+		
+		public Tower buildSans(Field field) {
+			Tower sans = new Tower(field, "Sans");
+			sans.setObstacle(true);
+			sans.setCost(0);
+			sans.setRange(10);
+			sans.setCooldown(10d);
+			sans.setDammage(1d);
+			sans.setMaxHealth(1d);
+			sans.canEvolveIn(buildInsaneSans(field), 10000);
+			return sans;
+		}
+		private Tower buildInsaneSans(Field field) {
+			Tower sans = new Tower(field, "Sans");
+			sans.setObstacle(true);
+			sans.setRange(150);
+			sans.setCooldown(0.1d);
+			sans.setDammage(1d);
+			sans.setMaxHealth(1d);
+			return sans;
+		}
+		
+		public Tower buildMadDummy(Field field) {
+			Tower madDummy = new Tower(field, "Mad Dummy");
+			madDummy.setObstacle(false);
+			madDummy.setCost(5);
+			madDummy.setRange(100);
+			madDummy.setCooldown(1d);
+			madDummy.setDammage(Math.PI);
+			madDummy.setMaxHealth(Integer.MAX_VALUE);
+			madDummy.canEvolveIn(buildMadMewMew(field), 63);
+			return madDummy;
+		}
+		private Tower buildMadMewMew(Field field) {
+			Tower madMewMew = new Tower(field, "Mad Mew Mew");
+			madMewMew.setObstacle(false);
+			madMewMew.setRange(200);
+			madMewMew.setCooldown(1.2d);
+			madMewMew.setDammage(3*Math.PI);
+			madMewMew.setMaxHealth(Integer.MAX_VALUE);
+			return madMewMew;
+		}
+		
+		public Tower buildMetaton(Field field) {
+			Tower mettaton = new Tower(field, "Mettaton");
+			mettaton.setObstacle(true);
+			mettaton.setCost(20);
+			mettaton.setRange(20);
+			mettaton.setCooldown(1d);
+			mettaton.setDammage(Math.PI);
+			mettaton.setMaxHealth(Integer.MAX_VALUE);
+			mettaton.canEvolveIn(buildMettatonEX(field), 63);
+			return mettaton;
+		}
+		private Tower buildMettatonEX(Field field) {
+			
+		}
 	}
 }

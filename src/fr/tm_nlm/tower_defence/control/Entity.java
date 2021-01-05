@@ -10,6 +10,7 @@ public class Entity {
 	protected Field field;
 	private Appareances appareances;
 	private boolean check;
+	private long lastNano;
 	private final long id;
 
 	public Entity(Field field, Shape shape) {
@@ -17,8 +18,17 @@ public class Entity {
 		appareances = new Appareances(shape);
 		id = nextId++;
 		check = false;
+		lastNano = System.nanoTime();
 		
 		field.add(this);
+	}
+	
+	protected void refreshNano() {
+		lastNano = System.nanoTime();
+	}
+	
+	protected long getLastNano() {
+		return lastNano;
 	}
 	
 	public void kill() {
