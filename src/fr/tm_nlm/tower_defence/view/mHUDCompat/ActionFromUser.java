@@ -23,20 +23,22 @@ public class ActionFromUser extends Thread {
 
 	@Override
 	public void run() {
-		if(file == null) {
-			return;
-		}
-		Couple<Tower, Action> action = file.pop();
-		switch(action._2) {
-		case Evolve:
-			((Tower) action._1).evolve();
-			break;
-		case Place:
-			break;
-		case Remove:
-			break;
-		default:
-			throw new InternalError("J'ai oublié l'action " + action._2);
+		while(true) {
+			if(file == null) {
+				return;
+			}
+			Couple<Tower, Action> action = file.pop();
+			switch(action._2) {
+			case Evolve:
+				((Tower) action._1).evolve();
+				break;
+			case Place:
+				break;
+			case Remove:
+				break;
+			default:
+				throw new InternalError("J'ai oublié l'action " + action._2);
+			}
 		}
 	}
 	

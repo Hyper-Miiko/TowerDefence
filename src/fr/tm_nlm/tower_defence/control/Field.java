@@ -1,6 +1,7 @@
 package fr.tm_nlm.tower_defence.control;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 import fr.tm_nlm.tower_defence.control.entity.Monster;
@@ -12,7 +13,7 @@ public class Field extends Thread {
 	int height;
 	private int lives;
 	private int temmies;
-	private LinkedList<Entity> entities;
+	private HashSet<Entity> entities;
 	private LinkedList<PathNode> pathNodes;
 	private LinkedList<Tower> towers;
 	private LinkedList<Monster> monsters;
@@ -23,14 +24,17 @@ public class Field extends Thread {
 		this.height = height;
 		lives = 10;
 		temmies = 100;
-		entities = new LinkedList<>();
+		entities = new HashSet<>();
 		pathNodes = new LinkedList<>();
 		towers = new LinkedList<>();
 		monsters = new LinkedList<>();
 	}
 
 	public void add(Entity entity) {
-		entities.add(entity);
+		if(!entities.add(entity)) {
+			System.err.println(entity + " était déjà enregistré.");
+			return;
+		}
 		if(entity instanceof PathNode) {
 			pathNodes.add((PathNode) entity);
 		} else if(entity instanceof Tower) {
