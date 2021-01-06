@@ -1,7 +1,9 @@
 package fr.tm_nlm.tower_defence.control.entity;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 
+import fr.tm_nlm.tower_defence.Couple;
 import fr.tm_nlm.tower_defence.control.Entity;
 import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
@@ -48,6 +50,42 @@ public class Tower extends Entity {
 			Tower.addables.put(field, addables);
 		}
 		addables.put(this, false);
+	}
+	
+	public void process() {
+		System.nanoTime();
+		if(getLastSecond() + cooldown > (double) System.nanoTime()/1000000000d) {
+			Monster target = seek();
+			if(target != null) {
+				refreshNano();
+				double angle = getPosition().angle(target.getPosition());
+				Bullet newBullet = bullet.add(getPosition(), angle);
+				field.add(newBullet);
+			}
+		}
+	}
+	
+	private Monster seek() {
+		LinkedList<Monster> monsters = field.getMonsters();
+		LinkedList<Couple<Monster, Double>> seekeds = new LinkedList<>();
+		for(Monster monster : monsters) {
+			double dist = getPosition().dist(monster.getPosition());
+			if(monster.getAppareances().isRect()) {
+				throw new InternalError("Pourquoi ta mis des monstre carré?");
+			}
+			if(dist < monster.getAppareances().getCircle().getRadius() + range) {
+				Couple<Monster, Double> seeked = new Couple<>(monster, dist);
+				seekeds.add(seeked);
+			}
+		}
+		Couple<Monster, Double> nearest = new Couple<>(null, null);
+		while(!seekeds.isEmpty()) {
+			Couple<Monster, Double> seeked = seekeds.pop();
+			if(nearest._1 == null || seeked._2 < nearest._2) {
+				nearest = seeked;
+			}
+		}
+		return nearest._1;
 	}
 	
 	public void canEvolveIn(Tower evolution, int evolveCost) {

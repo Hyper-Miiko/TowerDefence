@@ -19,6 +19,7 @@ import fr.tm_nlm.tower_defence.control.entity.FieldTile;
  *
  */
 public class PathNode extends FieldTile {
+	private static final double radius = 20;
 	private static final HashMap<Field, HashSet<PathNode>> allNodes = new HashMap<>();
 	public static boolean canCreateNodeHere(Field field, Circle circle) {
 		HashSet<PathNode> allNodesOfField = allNodes.get(field);
@@ -35,24 +36,54 @@ public class PathNode extends FieldTile {
 		return true;
 	}
 	
+	public static boolean canCreateNodeHere(Field field, double posX, double posY) {
+		return canCreateNodeHere(field, new Vector(posX, posY));
+	}
+	
+	public static boolean canCreateNodeHere(Field field, Vector positions) {
+		return canCreateNodeHere(field, new Circle(positions, radius));
+	}
+	
 	private final HashSet<PathBridge> bridges;
-	/**
-	 * Le pont a prendre ainsi que la distance total jusqu'à la fin du chemin
-	 * _1 le pont
-	 * _2 la distance
-	 */
-	private Couple<PathBridge, Double> passByToCastle;
+
+	private boolean castle;
+	private PathBridge passByToCastle;
+	{
+		bridges = new HashSet<>();
+		passByToCastle = null;
+	}
+	public PathNode(Field field, Vector positions, boolean castle) {
+		super(field, new Circle(positions, radius));
+		Circle circle = new Circle(positions, radius);
+		init(field, circle, castle);
+	}
+	
+	public PathNode(Field field, double posX, double posY, boolean castle) {
+		super(field, new Circle(new Vector(posX, posY), radius));
+		Circle circle = new Circle(new Vector(posX, posY), radius);
+		init(field, circle, castle);
+	}
 	
 	public PathNode(Field field, Circle circle, boolean castle) {
 		super(field, circle);
+		init(field, circle, castle);
+	}
+	
+	private void init(Field field, Circle circle, boolean castle) {
 		if(!canCreateNodeHere(field, circle)) {
 			throw new IllegalArgumentException("Impossible de créé deux noeuds aussi proche, merci d'utiliser canCreateNodeHere à l'avenir.");
 		}
-		bridges = new HashSet<>();
-		passByToCastle = null;
+		this.castle = castle;
 		if(castle) {
-			passByToCastle = new Couple<>(null, -1d);
+			passByToCastle = null;
 		}
+		
+		HashSet<PathNode> allNodesOfField = allNodes.get(field);
+		if(allNodesOfField == null) {
+			allNodesOfField = new HashSet<>();
+			allNodes.put(field, allNodesOfField);
+		}
+		allNodesOfField.add(this);
 	}
 	
 	/**
@@ -63,7 +94,18 @@ public class PathNode extends FieldTile {
 	public void bridgeTo(PathNode pathNode) {
 		PathBridge bridge = new PathBridge(this, pathNode);
 		bridges.add(bridge);
-		if(passByToCastle._2 == -1 || bridge.length + pathNode.passByToCastle._2 < passByToCastle._2) {
+		if(castle)
+			return;
+		boolean haveNoWay = passByToCastle == null;
+		boolean firstValidWay = !haveNoWay
+								&& bridge.getDistToCastle(this) != null
+								&& passByToCastle.getDistToCastle(this) == null;
+		boolean shorterWay = !haveNoWay
+							 && !firstValidWay
+							 && bridge.getDistToCastle(this) != null
+							 && passByToCastle.getDistToCastle(this) != null
+							 && bridge.getDistToCastle(this) < passByToCastle.getDistToCastle(this);
+		if(haveNoWay || firstValidWay || shorterWay) {
 			passBy(bridge);
 		}
 	}
@@ -77,8 +119,7 @@ public class PathNode extends FieldTile {
 		if(bridge == null) {
 			throw new IllegalArgumentException("On ne peut pas passer par un pont inexistant.");
 		}
-		double distToCastle = bridge.length + bridge.getDistToCastle(this);
-		passByToCastle = new Couple<>(bridge, distToCastle);
+		passByToCastle = bridge;
 		for(PathBridge currentBridge : bridges) {
 			currentBridge.otherNode(this).refreshPath(currentBridge);
 		}
@@ -92,23 +133,37 @@ public class PathNode extends FieldTile {
 		if(bridge == null) {
 			throw new IllegalArgumentException("On ne peut pas rafraichir un chemin inexistant.");
 		}
-		if(passByToCastle._1.equals(bridge)) {
-			Double newDist = bridge.getDistToCastle(this);
-			passByToCastle = new Couple<>(bridge, newDist);
+		if(passByToCastle != null && passByToCastle.equals(bridge)) {
+			passByToCastle = bridge;
 			for(PathBridge currentBridge : bridges) {
-				if(currentBridge.getDistToCastle(this) < passByToCastle._2) {
+				if(currentBridge.getDistToCastle(this) < passByToCastle.getDistToCastle(this)) {
 					passBy(currentBridge);
 				}
 			}
 		}
 	}
 	
-	public Field getField() {
-		return field;
+	public Double getDistToCastle() {
+		if(castle) {
+			return 0d;
+		}
+		if(passByToCastle == null) {
+			return null;
+		}
+		return passByToCastle.getDistToCastle(this);
 	}
 	
-	public double getDistToCastle() {
-		return passByToCastle._2;
+	public String getWayToCastle() {
+		String str = "";
+		str += "<" + getPosition() + ", " + getDistToCastle() + ">\n";
+		if(castle) {
+			str += "Castle";
+		} else if(passByToCastle == null) {
+			str += "Aucun chemin trouvé.";
+		} else {
+			str += passByToCastle.otherNode(this).getWayToCastle();
+		}
+		return str;
 	}
 	
 	@Override

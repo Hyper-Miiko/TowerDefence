@@ -6,9 +6,9 @@ import fr.tm_nlm.tower_defence.Couple;
 import fr.tm_nlm.tower_defence.control.Entity;
 import fr.tm_nlm.tower_defence.control.entity.Tower;
 
-public class ActionFromUser implements Runnable {
+public class ActionFromUser extends Thread {
 	private static ActionFromUser instance = new ActionFromUser();
-	private static ActionFromUser getInstance() {
+	public static ActionFromUser getInstance() {
 		return instance;
 	}
 	

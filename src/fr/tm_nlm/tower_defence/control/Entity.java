@@ -9,6 +9,7 @@ public class Entity {
 	
 	protected Field field;
 	private Appareances appareances;
+	private boolean dead;
 	private boolean check;
 	private long lastNano;
 	private final long id;
@@ -29,6 +30,10 @@ public class Entity {
 	
 	protected long getLastNano() {
 		return lastNano;
+	}
+	
+	protected double getLastSecond() {
+		return (double) lastNano/1000000000d;
 	}
 	
 	public void kill() {
@@ -62,6 +67,10 @@ public class Entity {
 	
 	public boolean isCheck() {
 		return check;
+	}
+	
+	public boolean isDead() {
+		return dead;
 	}
 	
 	public void check() {

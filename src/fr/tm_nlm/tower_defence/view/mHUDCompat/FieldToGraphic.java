@@ -18,7 +18,7 @@ import mHUD.mGraphicEntity.MGraphicEntity;
  * @author Hyper Mïko
  *
  */
-public class FieldToGraphic implements Runnable {
+public class FieldToGraphic extends Thread {
 	private Field field;
 	private HashMap<Entity, MGraphicEntity> entityToGraphic;
 	private HashMap<MGraphicEntity, Entity> graphicToEntity;

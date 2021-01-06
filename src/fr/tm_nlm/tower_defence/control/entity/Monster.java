@@ -27,7 +27,11 @@ public class Monster extends Entity {
 		deplacement = new Flying();
 	}
 	
-	public void move() {
+	public void process() {
+		move();
+	}
+	
+	private void move() {
 		setPosition(deplacement.move(getSpeed(), getAppareances().getShape(), nextNode, bridge));
 	}
 	

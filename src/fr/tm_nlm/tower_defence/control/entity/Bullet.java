@@ -5,6 +5,12 @@ import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 
+/**
+ * Un entité qui a pour but de chasser un type d'entité
+ * auto-guidé ou non
+ * @author Hyper Mïko
+ *
+ */
 public class Bullet extends Entity implements Movable {
 	private static final Tower towerDummy = new Tower(null, null);
 	private static final Monster monsterDummy = new Monster(null, null, 0d);
@@ -18,9 +24,19 @@ public class Bullet extends Entity implements Movable {
 		super(field, shape);
 		speed = 10d;
 		dammage = 0d;
-		currentAngle = 0d;
 		aimingFactor = -1d;
 		target = null;
+	}
+	
+	public Bullet add(Vector positions, double angle) {
+		Bullet clone = new Bullet(field, getAppareances().getShape());
+		clone.getAppareances().getShape().setPosition(positions);
+		clone.speed        = this.speed;
+		clone.dammage      = this.dammage;
+		clone.currentAngle = angle;
+		clone.aimingFactor = this.aimingFactor;
+		clone.target       = this.target;
+		return clone;
 	}
 	
 	public void target(Target target) {

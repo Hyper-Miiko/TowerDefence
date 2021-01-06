@@ -7,7 +7,9 @@ import fr.tm_nlm.tower_defence.control.entity.FieldTile;
 import fr.tm_nlm.tower_defence.control.entity.Monster;
 import fr.tm_nlm.tower_defence.control.entity.Tower;
 
-public class Field {
+public class Field extends Thread {
+	int width;
+	int height;
 	private int lives;
 	private int temmies;
 	private LinkedList<Entity> entities;
@@ -15,10 +17,16 @@ public class Field {
 	private LinkedList<Tower> towers;
 	private LinkedList<Monster> monsters;
 
-	public Field(int lives, int temmies) {
-		this.lives = lives;
-		this.temmies = temmies;
+	public Field(int width, int height) {
+		super("Champ");
+		this.width = width;
+		this.height = height;
+		lives = 10;
+		temmies = 100;
 		entities = new LinkedList<>();
+		fieldTiles = new LinkedList<>();
+		towers = new LinkedList<>();
+		monsters = new LinkedList<>();
 	}
 
 	public void add(Entity entity) {
@@ -49,5 +57,28 @@ public class Field {
 	
 	public HashMap<Tower, Boolean> getAllTower() {
 		return Tower.getAddables(this);
+	}
+	
+	public LinkedList<Monster> getMonsters() {
+		return monsters;
+	}
+
+	@Override
+	public void run() {
+		LinkedList<Entity> remove = new LinkedList<>();
+		for(Entity entity : entities) {
+			if(entity.isDead()) {
+				remove.push(entity);
+			}
+		}
+		while(!remove.isEmpty()) {
+			entities.remove(remove.pop());
+		}
+		for(Tower tower : towers) {
+			tower.process();
+		}
+		for(Monster monster : monsters) {
+			monster.process();
+		}
 	}
 }

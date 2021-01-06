@@ -24,6 +24,9 @@ public class PathBridge {
 		if(pathNodeA.getField() != pathNodeB.getField()) {
 			throw new IllegalArgumentException("Les deux noeuds de passage doivent appartenir à la même carte.");
 		}
+		if(pathNodeA == null || pathNodeB == null) {
+			throw new IllegalArgumentException("PathNode" + ((pathNodeA == null) ? "A" : "B") + " est null.");
+		}
 		length = pathNodeA.getPosition().dist(pathNodeB.getPosition());
 		field = pathNodeA.getField();
 		this.pathNodeA = pathNodeA;
@@ -35,11 +38,12 @@ public class PathBridge {
 		if(origin != pathNodeA && origin != pathNodeB) {
 			throw new IllegalArgumentException("Le noeux fourni n'est pas une extrémité du pont.");
 		}
-		return (origin == pathNodeA) ? pathNodeA : pathNodeB;
+		return (origin == pathNodeA) ? pathNodeB : pathNodeA;
 	}
 	
-	public double getDistToCastle(PathNode origin) {
-		return otherNode(origin).getDistToCastle() + length;
+	public Double getDistToCastle(PathNode origin) {
+		Double otherDist = otherNode(origin).getDistToCastle();
+		return (otherDist == null) ? null : length + otherDist;
 	}
 	
 	@Override
