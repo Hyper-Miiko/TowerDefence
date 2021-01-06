@@ -205,8 +205,8 @@ public class Tower extends Entity {
 		return obstacle;
 	}
 	
-	public final class presetTower {
-		private presetTower() {}
+	public final class PresetTower {
+		private PresetTower() {}
 		
 		public Tower buildSans(Field field) {
 			Tower sans = new Tower(field, "Sans");
