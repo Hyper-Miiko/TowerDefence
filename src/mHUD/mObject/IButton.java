@@ -48,6 +48,9 @@ public class IButton extends ILabel {
 	public void setToggle(boolean t) {
 		toogle = t;
 	}
+	public void setIfPressed(boolean p) {
+		isButtonPressed = p;
+	}
 	
 	public boolean buttonPressed() {
 			if(mouseIn() && StdDraw.isMousePressed() && !isPressed) {

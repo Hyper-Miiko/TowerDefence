@@ -1,10 +1,13 @@
 package fr.tm_nlm.tower_defence.control;
 
-import mHUD.StdDraw;
-import mHUD.mGraphicEntity.GRectEntity;
-import mHUD.mGraphicEntity.IGraphicView;
-import mHUD.mObject.FVerticalFrame;
-import mHUD.mObject.MWindow;
+import mHUD.mGraphicEntity.*;
+import mHUD.mObject.*;
+import fr.tm_nlm.tower_defence.Constant;
+import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
+import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
+import fr.tm_nlm.tower_defence.control.entity.Monster;
+import fr.tm_nlm.tower_defence.control.entity.Tower;
+import fr.tm_nlm.tower_defence.view.mHUDCompat.FieldToGraphic;
 
 public class TowerDefence {
 
@@ -13,21 +16,33 @@ public class TowerDefence {
 		MWindow window = new MWindow(800, 600);
 		
 		FVerticalFrame mainFrame = new FVerticalFrame();
+		mainFrame.setMinimumSize(800, 600);
+		mainFrame.setBackgroundColor(100,0,100);
 		window.setMainFrame(mainFrame);
-		mainFrame.setMinimumSize(800,600);
-		mainFrame.setBackgroundColor(100,100,100);
 		
-		IGraphicView graphic = new IGraphicView(800,600);
-		mainFrame.addObject(graphic);
+		IGraphicView view = new IGraphicView(600, 600);
+		view.setBackgroundColor(0, 0, 0);
+		mainFrame.addObject(view);
 		
-		GRectEntity rectEntity = new GRectEntity(0,0,80,80);
-		graphic.addGraphicEntity(rectEntity);
+		Field field = new Field(600, 600);
 		
+		FieldToGraphic fTg = new FieldToGraphic(field,view);
+		
+		field.start();
+		window.start();
+		fTg.start();
+
+		boolean flag = false;
 		while(true) {
-			window.draw();
-			
-			rectEntity.setBackgroundColor((int)(255*StdDraw.mouseX()), 150, (int)(255*StdDraw.mouseY()));
-			rectEntity.setPosition(graphic.mouseX(), graphic.mouseY());
+			if(view.mousePressed() && !flag) {
+				System.out.println("new Tower");
+				Tower m = new Tower(field, "Mad Dummy");
+				field.add(m);
+				flag = true;
+			}
+			if(!view.mousePressed()) {
+				flag = false;
+			}
 		}
 	}
 }

@@ -35,6 +35,16 @@ public class IGraphicView extends MItem {
 		//we need a refresh for this???
 	}
 	
+	public void setBackgroundColor(int r, int g, int b) {
+		this.setBackgroundColor(new Color(r,g,b));
+	}
+	public void setBackgroundColor(Color c) {
+		if(c != color) {
+			setNeedRedraw(true);
+			color = c;
+		}
+	}
+	
 	protected void draw() {
 		imageEdit.setColor(color);
 		imageEdit.fill(new Rectangle(0,0,(int)getSize().x-1, (int)getSize().y-1));

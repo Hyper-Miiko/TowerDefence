@@ -84,20 +84,22 @@ public class Field extends Thread {
 
 	@Override
 	public void run() {
-		LinkedList<Entity> remove = new LinkedList<>();
-		for(Entity entity : entities) {
-			if(entity.isDead()) {
-				remove.push(entity);
+		while(true) {
+			LinkedList<Entity> remove = new LinkedList<>();
+			for(Entity entity : entities) {
+				if(entity.isDead()) {
+					remove.push(entity);
+				}
 			}
-		}
-		while(!remove.isEmpty()) {
-			entities.remove(remove.pop());
-		}
-		for(Tower tower : towers) {
-			tower.process();
-		}
-		for(Monster monster : monsters) {
-			monster.process();
+			while(!remove.isEmpty()) {
+				entities.remove(remove.pop());
+			}
+			for(Tower tower : towers) {
+				tower.process();
+			}
+			for(Monster monster : monsters) {
+				monster.process();
+			}
 		}
 	}
 }
