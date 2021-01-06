@@ -6,19 +6,21 @@ import fr.tm_nlm.tower_defence.control.Entity;
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
+import fr.tm_nlm.tower_defence.control.data.geometric.shape.Rect;
 import fr.tm_nlm.tower_defence.control.entity.Tower;
 import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathBridge;
 import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathNode;
 
-public class Walking implements Deplacement {
+public final class Walking implements Deplacement {
 	@Override
 	public Vector move(double speed, Shape shape, PathNode nextNode, PathBridge bridge) {
 		double angle = shape.getPosition().angle(nextNode.getPosition());
 		Vector nextPosition = shape.getPosition().byAngle(angle, speed);
 		LinkedList<Tower> obstacles = bridge.obstacles;
-		Shape newShape = (shape instanceof Circle) ? shape.getCircle() : shape.getRect();
+		Shape newShape = shape.isCircle() ? new Circle(nextPosition, shape.getCircle().getRadius())
+										  : new Rect(nextPosition, shape.getRect().getSize());
 		for(Entity obstacle : obstacles) {
-			if(obstacle.getAppareances().getShape().collide(newShape)) {
+			if(obstacle.collide(newShape)) {
 				nextPosition = shape.getPosition();
 			}
 		}

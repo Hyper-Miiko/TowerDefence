@@ -8,6 +8,7 @@ import fr.tm_nlm.tower_defence.control.Entity;
 import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
+import fr.tm_nlm.tower_defence.control.entity.monster.Option;
 
 public class Tower extends Entity {
 	private static final int radius = 32;
@@ -15,6 +16,10 @@ public class Tower extends Entity {
 	
 	public static HashMap<Tower, Boolean> getAddables(Field field) {
 		return addables.get(field);
+	}
+	
+	public static Tower dummy() {
+		return new Tower();
 	}
 	
 	private boolean obstacle;
@@ -29,6 +34,8 @@ public class Tower extends Entity {
 	private Bullet bullet;
 	private String name;
 	private Tower evolution;
+	private LinkedList<Option> forbbidens;
+	private LinkedList<Option> requires;
 
 	public Tower(Field field, String name) {
 		super(field, null);
@@ -52,6 +59,10 @@ public class Tower extends Entity {
 		addables.put(this, false);
 	}
 	
+	private Tower() {
+		super(null, null);
+	}
+	
 	public void process() {
 		System.nanoTime();
 		if(getLastSecond() + cooldown > (double) System.nanoTime()/1000000000d) {
@@ -73,7 +84,8 @@ public class Tower extends Entity {
 			if(monster.getAppareances().isRect()) {
 				throw new InternalError("Pourquoi ta mis des monstre carré?");
 			}
-			if(dist < monster.getAppareances().getCircle().getRadius() + range) {
+			if(dist < monster.getAppareances().getCircle().getRadius() + range
+			   && optionAreGood(monster)) {
 				Couple<Monster, Double> seeked = new Couple<>(monster, dist);
 				seekeds.add(seeked);
 			}
@@ -88,7 +100,31 @@ public class Tower extends Entity {
 		return nearest._1;
 	}
 	
-	public void canEvolveIn(Tower evolution, int evolveCost) {
+	private boolean optionAreGood(Monster monster) {
+		LinkedList<Option> options = monster.getOptions();
+		for(Option forbbiden : forbbidens) {
+			for(Option option : options) {
+				if(forbbiden.getClass() == option.getClass()) {
+					return false;
+				}
+			}
+		}
+		for(Option require : requires) {
+			boolean found = false;
+			for(Option option : options) {
+				if(require.getClass() == option.getClass()) {
+					found = true;
+					break;
+				}
+			}
+			if(!found) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	public void evolveIn(Tower evolution, int evolveCost) {
 		if(evolution == null) {
 			throw new IllegalArgumentException("L'évolution doit exister");
 		}
@@ -100,10 +136,16 @@ public class Tower extends Entity {
 		this.evolveCost = evolveCost;
 	}
 	
+	public boolean canEvolve() {
+		return evolution != null
+			   && field.canBuy(evolveCost);
+	}
+	
 	public Tower evolve() {
 		if(evolution == null) {
 			throw new IllegalStateException("L'entité n'a pas d'évolution disponible.");
 		}
+		field.buy(evolveCost);
 		HashMap<Tower, Boolean> addable = getAddables(field);
 		addable.put(this, false);
 		addable.put(evolution, true);
@@ -174,7 +216,7 @@ public class Tower extends Entity {
 			sans.setCooldown(10d);
 			sans.setDammage(1d);
 			sans.setMaxHealth(1d);
-			sans.canEvolveIn(buildInsaneSans(field), 10000);
+			sans.evolveIn(buildInsaneSans(field), 10000);
 			return sans;
 		}
 		private Tower buildInsaneSans(Field field) {
@@ -195,7 +237,7 @@ public class Tower extends Entity {
 			madDummy.setCooldown(1d);
 			madDummy.setDammage(Math.PI);
 			madDummy.setMaxHealth(Integer.MAX_VALUE);
-			madDummy.canEvolveIn(buildMadMewMew(field), 63);
+			madDummy.evolveIn(buildMadMewMew(field), 63);
 			return madDummy;
 		}
 		private Tower buildMadMewMew(Field field) {

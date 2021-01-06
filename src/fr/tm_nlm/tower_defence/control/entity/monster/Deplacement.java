@@ -5,6 +5,6 @@ import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathBridge;
 import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathNode;
 
-public interface Deplacement {
+public interface Deplacement extends Option {
 	abstract Vector move(double speed, Shape shape, PathNode nextNode, PathBridge bridge);
 }

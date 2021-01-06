@@ -2,14 +2,11 @@ package fr.tm_nlm.tower_defence.control.entity.fieldTile;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
 
-import fr.tm_nlm.tower_defence.Couple;
+import fr.tm_nlm.tower_defence.control.Entity;
 import fr.tm_nlm.tower_defence.control.Field;
-import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
-import fr.tm_nlm.tower_defence.control.entity.FieldTile;
 
 /**
  * Un point de passage est un point de la carte par le quel peut passer les monstres.
@@ -18,7 +15,7 @@ import fr.tm_nlm.tower_defence.control.entity.FieldTile;
  * @author Hyper Mïko
  *
  */
-public class PathNode extends FieldTile {
+public class PathNode extends Entity {
 	private static final double radius = 20;
 	private static final HashMap<Field, HashSet<PathNode>> allNodes = new HashMap<>();
 	public static boolean canCreateNodeHere(Field field, Circle circle) {
@@ -143,6 +140,10 @@ public class PathNode extends FieldTile {
 		}
 	}
 	
+	public boolean isCastle() {
+		return castle;
+	}
+	
 	public Double getDistToCastle() {
 		if(castle) {
 			return 0d;
@@ -151,6 +152,10 @@ public class PathNode extends FieldTile {
 			return null;
 		}
 		return passByToCastle.getDistToCastle(this);
+	}
+	
+	public PathBridge getBridgeToCastle() {
+		return passByToCastle;
 	}
 	
 	public String getWayToCastle() {

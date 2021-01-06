@@ -4,7 +4,7 @@ import fr.tm_nlm.tower_defence.control.data.Appareances;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
 
-public class Entity {
+public abstract class Entity {
 	private static long nextId = 1;
 	
 	protected Field field;
@@ -34,6 +34,14 @@ public class Entity {
 	
 	protected double getLastSecond() {
 		return (double) lastNano/1000000000d;
+	}
+	
+	public boolean collide(Entity entity) {
+		return collide(entity.getAppareances().getShape());
+	}
+	
+	public boolean collide(Shape shape) {
+		return getAppareances().getShape().collide(shape);
 	}
 	
 	public void kill() {

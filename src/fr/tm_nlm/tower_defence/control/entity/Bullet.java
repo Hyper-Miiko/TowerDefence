@@ -12,8 +12,8 @@ import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
  *
  */
 public class Bullet extends Entity implements Movable {
-	private static final Tower towerDummy = new Tower(null, null);
-	private static final Monster monsterDummy = new Monster(null, null, 0d);
+	private static final Tower towerDummy = Tower.dummy();
+	private static final Monster monsterDummy = Monster.dummy();
 	
 	private double speed; //Pixels par secondes
 	private double dammage;
