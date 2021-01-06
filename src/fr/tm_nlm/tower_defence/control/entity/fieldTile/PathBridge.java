@@ -10,7 +10,7 @@ import fr.tm_nlm.tower_defence.control.entity.Tower;
  * @author Hyper Mïko
  *
  */
-public class PathBridge {
+/*public class PathBridge {
 	public final double length;
 	public final Field field;
 	public final PathNode pathNodeA;
@@ -55,4 +55,10 @@ public class PathBridge {
 		}
 		return false;
 	}
-}
+	
+	@Override
+	public String toString() {
+		String str = "Pont<" + pathNodeA + ", " + pathNodeB + ">";
+		return str;
+	}
+}*/

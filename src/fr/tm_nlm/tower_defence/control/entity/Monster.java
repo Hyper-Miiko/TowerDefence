@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import fr.tm_nlm.tower_defence.control.Entity;
 import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
-import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathBridge;
 import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathNode;
 import fr.tm_nlm.tower_defence.control.entity.monster.Deplacement;
 import fr.tm_nlm.tower_defence.control.entity.monster.Flying;
@@ -16,26 +15,26 @@ public class Monster extends Entity {
 	public static Monster dummy() {
 		return new Monster();
 	}
+	private int strength;
+	private double baseSpeed;
+	private double speedBoost; //Pourcentage
 	private Deplacement deplacement;
-	private int strenght;
-	private final double speed;
-	private double slow; //Pourcentage
 	private PathNode nextNode;
-	private PathBridge bridge;
 	
-	public Monster(Field field, Shape shape, PathNode start, double speed) {
+	public Monster(Field field, Shape shape, PathNode start) {
 		super(field, shape);
 		if(!isIn(start)) {
 			throw new IllegalArgumentException("Un monstre doit commencer sur une noeud.");
 		}
-		this.speed = speed;
-		slow = 0;
+		strength = 1;
+		speedBoost = 100d;
+		baseSpeed = 10d;
 		deplacement = new Walking();
+		nextNode = start.getNextToCastle();
 	}
 	
 	private Monster() {
 		super(null, null);
-		speed = 0;
 	}
 	
 	private boolean isIn(PathNode pathNode) {
@@ -48,38 +47,54 @@ public class Monster extends Entity {
 	}
 	
 	public void process() {
-		move();
-		checkCastle();
+		long nano = getLastNano();
+		refreshNano();
+		double timeToWalk = System.nanoTime() - nano;
+		move(timeToWalk/1000000000d);
 	}
 	
-	private void checkCastle() {
-		for(PathNode pathNode : field.getPathNodes()) {
-			if(pathNode.isCastle()) {
-				field.removeLive(strenght);
-				kill();
-			}
-		}
-	}
-	
-	private void move() {
-		setPosition(deplacement.move(getSpeed(), getAppareances().getShape(), nextNode, bridge));
+	private void move(double timeToWalk) {
+		setPosition(deplacement.move(getSpeed()*timeToWalk, getAppareances().getShape(), nextNode));
 		if(isIn(nextNode)) {
-			bridge = nextNode.getBridgeToCastle();
+			if(nextNode.isCastle()) {
+				field.removeLive(strength);
+				kill();
+			} else {
+				System.out.println("Hey");
+				setNextNode(nextNode.getNextToCastle());
+			}
 		}
 	}
 	
 	public PathNode getNextNode() {
 		return nextNode;
 	}
+	private void setNextNode(PathNode nextNode) {
+		this.nextNode = nextNode;
+	}
 	public Monster getMonster() {
 		return this;
 	}
 	public double getSpeed() {
-		return speed*(100d - slow)/100d;
+		return baseSpeed*speedBoost/100d;
+	}
+	public void setBaseSpeed(double baseSpeed) {
+		if(baseSpeed < 0)  {
+			throw new IllegalArgumentException("Speed must be over 9000!, hum over 0");
+		}
+		this.baseSpeed = baseSpeed;
 	}
 	public LinkedList<Option> getOptions() {
 		LinkedList<Option> options = new LinkedList<>();
 		options.add(deplacement);
 		return options;
+	}
+	
+	@Override
+	public String toString() {
+		String str = "Monster:" + getPosition();
+		str += ", target: " + nextNode.getPosition();
+		str += ", looking:" + (double) (int) (getPosition().angle(nextNode.getPosition())*100)/100;
+		return str;
 	}
 }

@@ -1,16 +1,23 @@
 package fr.tm_nlm.tower_defence.view.mHUDCompat;
 
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.tm_nlm.tower_defence.Couple;
 import fr.tm_nlm.tower_defence.control.Entity;
 import fr.tm_nlm.tower_defence.control.Field;
+import fr.tm_nlm.tower_defence.control.Field.Action;
+import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
+
 import mHUD.mGraphicEntity.GCircleEntity;
 import mHUD.mGraphicEntity.GPictureEntity;
 import mHUD.mGraphicEntity.GRectEntity;
 import mHUD.mGraphicEntity.IGraphicView;
 import mHUD.mGraphicEntity.MGraphicEntity;
+
+import static fr.tm_nlm.tower_defence.control.Field.Action.*;
 
 /**
  * GRectEntity
@@ -78,15 +85,43 @@ public class FieldToGraphic extends Thread {
 	@Override
 	public void run() {
 		while(true) {
-			for(Map.Entry<Entity, MGraphicEntity> entry : entityToGraphic.entrySet()) {
-				if(!entry.getKey().isCheck()) {
-					working();
-					remove(entry.getKey());
-					add(entry.getKey());
-					entry.getKey().check();
-					waiting();
-				}
+			output();
+			input();
+		}
+	}
+	
+	private void output() {
+		for(Map.Entry<Entity, MGraphicEntity> entry : entityToGraphic.entrySet()) {
+			if(!entry.getKey().isCheck()) {
+				working();
+				remove(entry.getKey());
+				add(entry.getKey());
+				entry.getKey().check();
+				waiting();
 			}
+		}
+	}
+	
+	private void input() {
+		boolean empty;
+		try {
+			empty = view.haveActiveEntity();
+			if(!empty) {
+				//TODO attente de l'action coté vue
+				
+				/*working();
+				Couple<MGraphicEntity, Couple<Double, Double>> graphicAction = view.getActiveEntity();
+				Action action;
+				Object target;
+				if(graphicAction._1 == null) {
+					
+				}
+				Couple<Action, Object> fieldAction = new Couple<>(action, target);
+				field.workOn(fieldAction);
+				waiting();*/
+			}
+		} catch(ConcurrentModificationException e) {
+			input();
 		}
 	}
 	

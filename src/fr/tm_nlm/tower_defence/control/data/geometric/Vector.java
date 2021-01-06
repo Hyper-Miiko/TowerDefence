@@ -25,19 +25,22 @@ public class Vector {
 	 */
 	public double angle(Vector vector) {
 		Vector vectorA = new Vector(vector.x - x, vector.y - y);
-		Vector vectorB = new Vector(1, 0);
+		Vector vectorB = new Vector(0, -1);
 		double normeA = vectorA.dist(new Vector(0, 0));
 		double normeB = vectorB.dist(new Vector(0, 0));
 		double scalaire = vectorA.x*vectorB.x + vectorA.y*vectorB.y;
 		double cos = scalaire/normeA*normeB;
 		double angle = Math.acos(cos);
+		if(vector.x > x) {
+			angle += Math.PI;
+		}
 		while(angle > Math.PI) {
 			angle -= 2*Math.PI;
 		}
 		while(angle < -Math.PI) {
 			angle += 2*Math.PI;
 		}
-		return Math.acos(cos);
+		return angle;
 	}
 	
 	/**
@@ -66,7 +69,7 @@ public class Vector {
 	 */
 	@Override
 	public String toString() {
-		return "(" + Double.toString(x) + "," + Double.toString(y) + ")";
+		return "(" + Integer.toString((int) x) + "," + Integer.toString((int) y) + ")";
 	}
 	
 	@Override

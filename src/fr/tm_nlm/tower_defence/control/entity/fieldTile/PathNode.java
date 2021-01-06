@@ -3,6 +3,7 @@ package fr.tm_nlm.tower_defence.control.entity.fieldTile;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import fr.tm_nlm.tower_defence.Couple;
 import fr.tm_nlm.tower_defence.control.Entity;
 import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
@@ -41,12 +42,16 @@ public class PathNode extends Entity {
 		return canCreateNodeHere(field, new Circle(positions, radius));
 	}
 	
-	private final HashSet<PathBridge> bridges;
+	private static void link(PathNode from, PathNode to) {
+		from.links.add(to);
+	}
+	
+	private final HashSet<PathNode> links;
 
 	private boolean castle;
-	private PathBridge passByToCastle;
+	private PathNode passByToCastle;
 	{
-		bridges = new HashSet<>();
+		links = new HashSet<>();
 		passByToCastle = null;
 	}
 	public PathNode(Field field, Vector positions, boolean castle) {
@@ -83,61 +88,37 @@ public class PathNode extends Entity {
 		allNodesOfField.add(this);
 	}
 	
+	public void calcWay() {
+		if(!castle) {
+			throw new IllegalStateException("Can only be called on castle, and must be called on all castle.");
+		}
+		for(PathNode link : links) {
+			link.calcWay(this);
+		}
+	}
+	
+	private void calcWay(PathNode messenger) {
+		passByToCastle = messenger;
+		double dist = getDistToCastle();
+		for(PathNode link : links) {
+			if(!link.equals(messenger)) {
+				if(link.passByToCastle == null) {
+					link.calcWay(this);
+				} else if(link.getDistToCastle() > dist + getPosition().dist(link.getPosition())) {
+					link.calcWay(this);
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Ajoute une liaison entre se point de passage et un autre
 	 * Si le nouveau chemin est plus interessant
 	 * @param pathNode point de passage à lier au point courant
 	 */
-	public void bridgeTo(PathNode pathNode) {
-		PathBridge bridge = new PathBridge(this, pathNode);
-		bridges.add(bridge);
-		if(castle)
-			return;
-		boolean haveNoWay = passByToCastle == null;
-		boolean firstValidWay = !haveNoWay
-								&& bridge.getDistToCastle(this) != null
-								&& passByToCastle.getDistToCastle(this) == null;
-		boolean shorterWay = !haveNoWay
-							 && !firstValidWay
-							 && bridge.getDistToCastle(this) != null
-							 && passByToCastle.getDistToCastle(this) != null
-							 && bridge.getDistToCastle(this) < passByToCastle.getDistToCastle(this);
-		if(haveNoWay || firstValidWay || shorterWay) {
-			passBy(bridge);
-		}
-	}
-	
-	/**
-	 * Choisis le pont de passage comme étant le pont par le quel les monstre doivent passer aveuglément.
-	 * Normalement le passage le plus court.
-	 * @param bridge
-	 */
-	private void passBy(PathBridge bridge) {
-		if(bridge == null) {
-			throw new IllegalArgumentException("On ne peut pas passer par un pont inexistant.");
-		}
-		passByToCastle = bridge;
-		for(PathBridge currentBridge : bridges) {
-			currentBridge.otherNode(this).refreshPath(currentBridge);
-		}
-	}
-	
-	/**
-	 * 
-	 * @param pathLand
-	 */
-	private void refreshPath(PathBridge bridge) {
-		if(bridge == null) {
-			throw new IllegalArgumentException("On ne peut pas rafraichir un chemin inexistant.");
-		}
-		if(passByToCastle != null && passByToCastle.equals(bridge)) {
-			passByToCastle = bridge;
-			for(PathBridge currentBridge : bridges) {
-				if(currentBridge.getDistToCastle(this) < passByToCastle.getDistToCastle(this)) {
-					passBy(currentBridge);
-				}
-			}
-		}
+	public void link(PathNode pathNode) {
+		link(this, pathNode);
+		link(pathNode, this);
 	}
 	
 	public boolean isCastle() {
@@ -145,16 +126,18 @@ public class PathNode extends Entity {
 	}
 	
 	public Double getDistToCastle() {
+		Double dist;
 		if(castle) {
-			return 0d;
+			dist = 0d;
+		} else if(passByToCastle == null) {
+			dist = null;
+		} else {
+			dist = passByToCastle.getDistToCastle();
 		}
-		if(passByToCastle == null) {
-			return null;
-		}
-		return passByToCastle.getDistToCastle(this);
+		return dist;
 	}
 	
-	public PathBridge getBridgeToCastle() {
+	public PathNode getNextToCastle() {
 		return passByToCastle;
 	}
 	
@@ -166,7 +149,7 @@ public class PathNode extends Entity {
 		} else if(passByToCastle == null) {
 			str += "Aucun chemin trouvé.";
 		} else {
-			str += passByToCastle.otherNode(this).getWayToCastle();
+			str += passByToCastle.getWayToCastle();
 		}
 		return str;
 	}
@@ -177,5 +160,11 @@ public class PathNode extends Entity {
 			return getPosition().equals(((PathNode) object).getPosition());
 		}
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		String str = "Noeud" + getPosition();
+		return str;
 	}
 }
