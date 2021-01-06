@@ -9,8 +9,10 @@ import fr.tm_nlm.tower_defence.control.entity.Tower;
 import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathNode;
 
 public class Field extends Thread {
-	int width;
-	int height;
+	private boolean activ;
+	private boolean running;
+	private int width;
+	private int height;
 	private int lives;
 	private int temmies;
 	private HashSet<Entity> entities;
@@ -88,7 +90,8 @@ public class Field extends Thread {
 
 	@Override
 	public void run() {
-		while(true) {
+		while(activ) {
+			running = true;
 			LinkedList<Entity> remove = new LinkedList<>();
 			for(Entity entity : entities) {
 				if(entity.isDead()) {
@@ -105,5 +108,19 @@ public class Field extends Thread {
 				monster.process();
 			}
 		}
+		running = false;
 	}
+	
+	public void setActiv(boolean activ) {
+		this.activ = activ;
+		if(activ) {
+			run();
+		}
+	}
+	
+	public boolean isRunning() {
+		return running;
+	}
+	
+	
 }
