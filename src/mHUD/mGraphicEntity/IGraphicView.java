@@ -5,14 +5,18 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
+import fr.tm_nlm.tower_defence.Couple;
 import mHUD.StdDraw;
 import mHUD.mObject.MItem;
 
 public class IGraphicView extends MItem {
 	private boolean active = true;
 	private boolean running = false;
+	private boolean clicked = false;
+	private LinkedList<Couple<MGraphicEntity, Couple<Double,Double>>> savedEntity = new LinkedList<>();
 	
 	private Set<MGraphicEntity> entityList =  new LinkedHashSet<MGraphicEntity>();
 	
@@ -34,14 +38,26 @@ public class IGraphicView extends MItem {
 	}
 	
 	public void addGraphicEntity(MGraphicEntity e) {
-		entityList.add(e);
+		if(!running)entityList.add(e);
 	}
 	public void removeGraphicEntity(MGraphicEntity e) {
-		entityList.remove(e);
+		if(!running)entityList.remove(e);
 	}
 	
 	protected void refreshObject() {
-		//we need a refresh for this???
+		if(active) {
+			running = true;
+			if(mousePressed() && !clicked) {
+				clicked = true;
+					for(MGraphicEntity e : entityList) {
+						if(e.isIn(mouseX(),mouseY())) {
+							savedEntity.add(new Couple<>(e, new Couple<>(mouseX(),mouseY())));
+						}
+					}
+			}
+			if(!mousePressed() && clicked) clicked = false;
+			running = false;
+		}
 	}
 	
 	public void setBackgroundColor(int r, int g, int b) {
@@ -75,5 +91,8 @@ public class IGraphicView extends MItem {
 	}
 	public boolean mousePressed() {
 		return  StdDraw.isMousePressed() && mouseIn();
+	}
+	public Couple<MGraphicEntity, Couple<Double,Double>> getActiveEntity() {
+		return savedEntity.pollFirst();
 	}
 }

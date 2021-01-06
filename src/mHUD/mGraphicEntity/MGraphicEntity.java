@@ -24,6 +24,12 @@ public abstract class MGraphicEntity {
 	public void setPosition(double x, double y) {
 		this.position = new Vector(x,y);
 	}
+	
+	public abstract boolean isIn(double x, double y);
+	
+	public boolean isIn(Vector position) {
+		return isIn(position.x, position.y);
+	}
 	public double getRotation() {
 		return rotation;
 	}

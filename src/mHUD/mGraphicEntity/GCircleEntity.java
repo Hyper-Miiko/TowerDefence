@@ -4,6 +4,8 @@ import java.awt.Image;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
+import java.math.*;
+
 import mHUD.geometric.Vector;
 
 
@@ -43,6 +45,10 @@ public class GCircleEntity extends GPlainEntity {
 		imageEdit.draw(new Ellipse2D.Double(0,0,radius,radius));
 		
 		return imageBuffer;
+	}
+	@Override
+	public boolean isIn(double x, double y) {
+		return Math.abs(Math.sqrt(Math.pow(getPosition().x-x,2) + Math.pow(getPosition().y-y,2))) <= getRadius();
 	}
 
 }

@@ -47,4 +47,12 @@ public class GRectEntity extends GPlainEntity {
 		imageBuffer = new BufferedImage((int)size.x, (int)size.y, BufferedImage.TYPE_INT_ARGB);
 		imageEdit = imageBuffer.createGraphics();
 	}
+
+	@Override
+	public boolean isIn(double x, double y) {
+		return x >= getPosition().x-getSize().x &&
+			   x <  getPosition().x+getSize().x &&
+			   y >= getPosition().y-getSize().y &&
+			   y <  getPosition().y+getSize().y;
+	}
 }
