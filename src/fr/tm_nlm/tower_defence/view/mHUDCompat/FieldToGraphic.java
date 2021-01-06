@@ -36,6 +36,7 @@ public class FieldToGraphic extends Thread {
 	}
 	
 	public void add(Entity entity) {
+
 		if(!field.equals(entity.getField())) {
 			throw new IllegalArgumentException("L'entité n'appartient pas au bon champ.");
 		}
@@ -79,9 +80,14 @@ public class FieldToGraphic extends Thread {
 		while(true) {
 			for(Map.Entry<Entity, MGraphicEntity> entry : entityToGraphic.entrySet()) {
 				if(!entry.getKey().isCheck()) {
+					view.setActive(false);
+					while(view.isRunning());
+					
 					remove(entry.getKey());
 					add(entry.getKey());
 					entry.getKey().check();
+					
+					view.setActive(true);
 				}
 			}
 		}

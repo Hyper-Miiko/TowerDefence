@@ -11,7 +11,9 @@ import mHUD.StdDraw;
 import mHUD.mObject.MItem;
 
 public class IGraphicView extends MItem {
-	//
+	private boolean active = true;
+	private boolean running = false;
+	
 	private Set<MGraphicEntity> entityList =  new LinkedHashSet<MGraphicEntity>();
 	
 	private Graphics2D imageEdit;
@@ -24,6 +26,13 @@ public class IGraphicView extends MItem {
 		imageEdit = imageBuffer.createGraphics();
 	}
 
+	public void setActive(boolean a) {
+		active = a;
+	}
+	public boolean isRunning() {
+		return running;
+	}
+	
 	public void addGraphicEntity(MGraphicEntity e) {
 		entityList.add(e);
 	}
@@ -46,13 +55,17 @@ public class IGraphicView extends MItem {
 	}
 	
 	protected void draw() {
-		imageEdit.setColor(color);
-		imageEdit.fill(new Rectangle(0,0,(int)getSize().x-1, (int)getSize().y-1));
-		
-		for(MGraphicEntity e : entityList)
-			imageEdit.drawImage(e.getImage(),(int)e.getPosition().x,(int)e.getPosition().y, null);
-		
-		StdDraw.picture(getPos().x/getWindowSize().x, getPos().y/getWindowSize().y, imageBuffer);
+		if(active) {
+			running = true;
+			imageEdit.setColor(color);
+			imageEdit.fill(new Rectangle(0,0,(int)getSize().x-1, (int)getSize().y-1));
+			
+			for(MGraphicEntity e : entityList)
+				imageEdit.drawImage(e.getImage(),(int)e.getPosition().x,(int)e.getPosition().y, null);
+			
+			StdDraw.picture(getPos().x/getWindowSize().x, getPos().y/getWindowSize().y, imageBuffer);
+			running = false;
+		}
 	}
 	public double mouseX() {
 		return (StdDraw.mouseX()*getWindowSize().x/2)-getPos().x/2+getSize().x/2;
