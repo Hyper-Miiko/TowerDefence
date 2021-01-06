@@ -80,17 +80,25 @@ public class FieldToGraphic extends Thread {
 		while(true) {
 			for(Map.Entry<Entity, MGraphicEntity> entry : entityToGraphic.entrySet()) {
 				if(!entry.getKey().isCheck()) {
-					view.setActive(false);
-					while(view.isRunning());
-					
+					working();
 					remove(entry.getKey());
 					add(entry.getKey());
 					entry.getKey().check();
-					
-					view.setActive(true);
+					waiting();
 				}
 			}
 		}
+	}
+	
+	private void working() {
+		view.setActive(false);
+		field.setActiv(false);
+		while(view.isRunning() || field.isRunning());
+	}
+	
+	private void waiting() {
+		view.setActive(true);
+		field.setActiv(true);
 	}
 
 }
