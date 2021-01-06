@@ -92,6 +92,9 @@ public class IGraphicView extends MItem {
 	public boolean mousePressed() {
 		return  StdDraw.isMousePressed() && mouseIn();
 	}
+	public boolean haveActiveEntity() {
+		return !savedEntity.isEmpty();
+	}
 	public Couple<MGraphicEntity, Couple<Double,Double>> getActiveEntity() {
 		return savedEntity.pollFirst();
 	}
