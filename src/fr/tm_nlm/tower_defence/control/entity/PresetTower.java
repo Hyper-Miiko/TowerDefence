@@ -10,8 +10,6 @@ public final class PresetTower {
 		sans.setObstacle(true);
 		sans.setCost(0);
 		sans.setRange(10);
-		sans.setCooldown(10d);
-		sans.setDammage(1d);
 		sans.setMaxHealth(1d);
 		sans.evolveIn(buildInsaneSans(field), 10000);
 		return sans;
@@ -20,8 +18,6 @@ public final class PresetTower {
 		Tower sans = new Tower(field, "Sans");
 		sans.setObstacle(true);
 		sans.setRange(150);
-		sans.setCooldown(0.1d);
-		sans.setDammage(1d);
 		sans.setMaxHealth(1d);
 		return sans;
 	}
@@ -31,19 +27,17 @@ public final class PresetTower {
 		madDummy.setObstacle(false);
 		madDummy.setCost(5);
 		madDummy.setRange(100);
-		madDummy.setCooldown(1d);
-		madDummy.setDammage(Math.PI);
 		madDummy.setMaxHealth(Integer.MAX_VALUE);
 		madDummy.evolveIn(buildMadMewMew(field), 63);
+		madDummy.setAttack(new PresetAttack<Monster>().buildShotGun(Monster.dummy()));
 		return madDummy;
 	}
 	private static Tower buildMadMewMew(Field field) {
 		Tower madMewMew = new Tower(field, "Mad Mew Mew");
 		madMewMew.setObstacle(false);
 		madMewMew.setRange(200);
-		madMewMew.setCooldown(1.2d);
-		madMewMew.setDammage(3*Math.PI);
 		madMewMew.setMaxHealth(Integer.MAX_VALUE);
+		madMewMew.setAttack(new PresetAttack<Monster>().buildTripleShot(Monster.dummy()));
 		return madMewMew;
 	}
 	
@@ -52,8 +46,6 @@ public final class PresetTower {
 		mettaton.setObstacle(true);
 		mettaton.setCost(20);
 		mettaton.setRange(20);
-		mettaton.setCooldown(1d);
-		mettaton.setDammage(Math.PI);
 		mettaton.setMaxHealth(Integer.MAX_VALUE);
 		//mettaton.canEvolveIn(buildMettatonEX(field), 63);
 		return mettaton;

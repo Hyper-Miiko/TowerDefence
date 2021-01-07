@@ -13,6 +13,7 @@ import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
  *
  */
 public class Bullet<E extends Entity> extends Entity implements Movable {
+	private long deathTime;
 	private boolean aiming;
 	private double aimingFactor;
 	private double angle;
@@ -66,6 +67,9 @@ public class Bullet<E extends Entity> extends Entity implements Movable {
 	}
 	void setTarget(E target) {
 		this.target = target;
+	}
+	void setLifeTime(int lifeTime) {
+		deathTime = System.nanoTime() + lifeTime;
 	}
 	
 }

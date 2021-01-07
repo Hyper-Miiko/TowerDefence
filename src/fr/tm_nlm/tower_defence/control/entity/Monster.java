@@ -44,7 +44,7 @@ public class Monster extends Entity {
 	}
 	
 	private Monster() {
-		super(null, null);
+		super(null, null, false);
 	}
 	
 	private boolean isIn(PathNode pathNode) {

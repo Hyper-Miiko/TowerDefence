@@ -12,11 +12,6 @@ import fr.tm_nlm.tower_defence.control.entity.monster.Option;
 
 public class Tower extends Entity {
 	private static final int radius = 32;
-	private static HashMap<Field, HashMap<Tower, Boolean>> addables = new HashMap<>();
-	
-	public static HashMap<Tower, Boolean> getAddables(Field field) {
-		return addables.get(field);
-	}
 	
 	public static Tower dummy() {
 		return new Tower();
@@ -25,26 +20,22 @@ public class Tower extends Entity {
 	private boolean obstacle;
 	private int evolveCost;
 	private int range;
-	private double cooldown;
 	private double cost;
-	private double dammage;
 	private double determination; //multiplicateur du prix de résurrection
 	private double health;
 	private double maxHealth;
-	private Attack attack;
+	private Attack<Monster> attack;
 	private String name;
 	private Tower evolution;
 	private LinkedList<Option> forbbidens;
 	private LinkedList<Option> requires;
 
 	public Tower(Field field, String name) {
-		super(field, null);
+		super(field, null, false);
 		obstacle = false;
 		evolveCost = -1;
 		range = 100;
-		cooldown = 1d;
 		cost = 5d;
-		dammage = 2d;
 		determination = 1.5d;
 		maxHealth = 20d;
 		health = maxHealth;
@@ -52,13 +43,6 @@ public class Tower extends Entity {
 		evolution = null;
 		forbbidens = new LinkedList<>();
 		requires = new LinkedList<>();
-		
-		HashMap<Tower, Boolean> addables = getAddables(field);
-		if(addables == null) {
-			addables = new HashMap<>();
-			Tower.addables.put(field, addables);
-		}
-		addables.put(this, false);
 	}
 	
 	private Tower() {
@@ -138,15 +122,27 @@ public class Tower extends Entity {
 			throw new IllegalStateException("L'entité n'a pas d'évolution disponible.");
 		}
 		field.buy(evolveCost);
-		HashMap<Tower, Boolean> addable = getAddables(field);
-		addable.put(this, false);
-		addable.put(evolution, true);
+		evolution.place(getPosition());
+		leave();
+		field.add(evolution);
+		field.remove(this);
 		return evolution;
+	}
+	
+	public void leave() {
+		getAppareances().setShape(null);
+		field.remove(this);
+		check = false;
 	}
 	
 	public void place(Vector position) {
 		getAppareances().setShape(new Circle(position, radius));
+		field.add(this);
 		check = false;
+	}
+	
+	public void setAttack(Attack<Monster> attack) {
+		this.attack = attack;
 	}
 	
 	public void setCost(double cost) {
@@ -161,23 +157,6 @@ public class Tower extends Entity {
 			throw new IllegalArgumentException("Une portée est sensée être supérieure à 0 mais a reçu : " + range);
 		}
 		this.range = range;
-	}
-	
-	public void setCooldown(double cooldown) {
-		if(cooldown < 0) {
-			throw new IllegalArgumentException("Un délai de récupération est sensé être supérieur à 0 mais a reçu : " + cooldown);
-		}
-		if(cooldown == 0) {
-			System.err.println("Cooldown de 0 impossible, limité par les performances machine.");
-		}
-		this.cooldown = cooldown;
-	}
-	
-	public void setDammage(double dammage) {
-		if(dammage < 0) {
-			throw new IllegalArgumentException("Soin par dégât impossible " + cooldown);
-		}
-		this.dammage = dammage;
 	}
 	
 	public void setMaxHealth(double maxHealth) {

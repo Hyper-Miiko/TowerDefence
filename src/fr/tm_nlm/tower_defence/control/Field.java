@@ -134,7 +134,7 @@ public class Field extends Thread {
 				// Merci De Morgan
 				if(((entities.length > 2 ||
 					 entities.length == 1 && !(entities[0] instanceof Tower)) && position == null ||
-					 entities.length == 2 && !(entities[0] instanceof Monster) || !(entities[1] instanceof PathNode) || position != null)) {
+					 entities.length == 2 && (!(entities[0] instanceof Monster) || !(entities[1] instanceof PathNode) || position != null))) {
 					actionFromUserError(action._1, action._2);
 				}
 				if(entities.length == 2) {
@@ -159,7 +159,7 @@ public class Field extends Thread {
 			elemsStr += entity + "\n";
 		}
 		elemsStr += elems._2 + "\n";
-		throw new IllegalStateException(action + " à reçu :\n" + elemsStr);
+		throw new IllegalStateException(action + " a reçu :\n" + elemsStr);
 	}
 	
 	private void connect(PathNode pathNodeA, PathNode pathNodeB) {
@@ -206,10 +206,6 @@ public class Field extends Thread {
 	
 	public HashSet<Entity> getEntities() {
 		return entities;
-	}
-	
-	public HashMap<Tower, Boolean> getAllTower() {
-		return Tower.getAddables(this);
 	}
 	
 	public LinkedList<Monster> getMonsters() {
