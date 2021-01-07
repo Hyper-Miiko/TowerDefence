@@ -56,6 +56,7 @@ public class Field extends Thread {
 		} else {
 			throw new InternalError("L'entité " + entity + " n'est pas reconnue");
 		}
+		someNews = true;
 	}
 	
 	public void buy(int price) {
@@ -80,6 +81,7 @@ public class Field extends Thread {
 		} else {
 			throw new InternalError("L'entité " + entity + " n'est pas reconnue");
 		}
+		someNews = true;
 	}
 	
 	public void removeLive(int nbrOfLive) {
