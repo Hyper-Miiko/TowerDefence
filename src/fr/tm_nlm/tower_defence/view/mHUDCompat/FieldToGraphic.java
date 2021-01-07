@@ -2,7 +2,9 @@ package fr.tm_nlm.tower_defence.view.mHUDCompat;
 
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import fr.tm_nlm.tower_defence.Couple;
 import fr.tm_nlm.tower_defence.control.Entity;
@@ -89,19 +91,20 @@ public class FieldToGraphic extends Thread {
 			output();
 			input();
 			waiting();
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {}
 		}
 	}
 	
 	private void output() {
+		HashSet<Entity> update = new HashSet<>();
 		for(Map.Entry<Entity, MGraphicEntity> entry : entityToGraphic.entrySet()) {
 			if(!entry.getKey().isCheck()) {
-				remove(entry.getKey());
-				add(entry.getKey());
+				update.add(entry.getKey());
 				entry.getKey().check();
 			}
+		}
+		for(Entity entity : update) {
+			add(entity);
+			remove(entity);
 		}
 	}
 	

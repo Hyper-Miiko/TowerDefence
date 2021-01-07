@@ -143,7 +143,7 @@ public class PathNode extends Entity {
 	
 	public String getWayToCastle() {
 		String str = "";
-		str += "<" + getPosition() + ", " + getDistToCastle() + ">\n";
+		str += getPosition() + "\n";
 		if(castle) {
 			str += "Castle";
 		} else if(passByToCastle == null) {

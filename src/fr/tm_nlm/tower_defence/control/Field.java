@@ -9,6 +9,7 @@ import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.entity.Monster;
 import fr.tm_nlm.tower_defence.control.entity.Tower;
 import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathNode;
+import fr.tm_nlm.tower_defence.view.mHUDCompat.FieldToGraphic;
 
 public class Field extends Thread {
 	private boolean activ;
@@ -17,11 +18,11 @@ public class Field extends Thread {
 	private int height;
 	private int lives;
 	private int temmies;
-	private HashSet<Entity> entities;
-	private LinkedList<PathNode> pathNodes;
-	private LinkedList<Tower> towers;
-	private LinkedList<Monster> monsters;
-	private LinkedList<Couple<Action, Object>> job;
+	private final HashSet<Entity> entities;
+	private final LinkedList<PathNode> pathNodes;
+	private final LinkedList<Tower> towers;
+	private final LinkedList<Monster> monsters;
+	private final LinkedList<Couple<Action, Object>> job;
 
 	public Field(int width, int height) {
 		super("Champ");
