@@ -11,7 +11,7 @@ import fr.tm_nlm.tower_defence.control.entity.monster.Flying;
 import fr.tm_nlm.tower_defence.control.entity.monster.Option;
 import fr.tm_nlm.tower_defence.control.entity.monster.Walking;
 
-public class Monster extends Entity {
+public class Monster extends Entity implements Damageable {
 	public static Monster dummy() {
 		return new Monster();
 	}
@@ -59,6 +59,13 @@ public class Monster extends Entity {
 			   && getField()
 			   .equals(pathNode
 					   .getField());
+	}
+	
+	public void dealDamage(double damage) {
+		health = (damage > health) ? 0 : health - damage;
+		if(health == 0) {
+			kill();
+		}
 	}
 	
 	public void fly() {

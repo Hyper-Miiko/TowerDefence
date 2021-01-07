@@ -10,7 +10,7 @@ import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
 import fr.tm_nlm.tower_defence.control.entity.monster.Option;
 
-public class Tower extends Entity {
+public class Tower extends Entity implements Damageable {
 	private static final int radius = 32;
 	
 	public static Tower dummy() {
@@ -24,7 +24,7 @@ public class Tower extends Entity {
 	private double determination; //multiplicateur du prix de résurrection
 	private double health;
 	private double maxHealth;
-	private Attack<Monster> attack;
+	private Attack attack;
 	private String name;
 	private Tower evolution;
 	private LinkedList<Option> forbbidens;
@@ -50,6 +50,43 @@ public class Tower extends Entity {
 	}
 	
 	public void process() {
+		Monster seek = seek();
+		attack.checkForBullet(getPosition());
+		if(seek != null) {
+			attack.checkForShootAt(seek);
+		}
+	}
+
+	@Override
+	public void dealDamage(double damage) {
+		health = (damage > health) ? 0 : health - damage;
+		if(health == 0) {
+			leave();
+		}
+	}
+	
+	public Tower evolve() {
+		if(evolution == null) {
+			throw new IllegalStateException("L'entité n'a pas d'évolution disponible.");
+		}
+		field.buy(evolveCost);
+		evolution.place(getPosition());
+		leave();
+		field.add(evolution);
+		field.remove(this);
+		return evolution;
+	}
+	
+	public void leave() {
+		getAppareances().setShape(null);
+		field.remove(this);
+		check = false;
+	}
+	
+	public void place(Vector position) {
+		getAppareances().setShape(new Circle(position, radius));
+		field.add(this);
+		check = false;
 	}
 	
 	private Monster seek() {
@@ -117,31 +154,7 @@ public class Tower extends Entity {
 			   && field.canBuy(evolveCost);
 	}
 	
-	public Tower evolve() {
-		if(evolution == null) {
-			throw new IllegalStateException("L'entité n'a pas d'évolution disponible.");
-		}
-		field.buy(evolveCost);
-		evolution.place(getPosition());
-		leave();
-		field.add(evolution);
-		field.remove(this);
-		return evolution;
-	}
-	
-	public void leave() {
-		getAppareances().setShape(null);
-		field.remove(this);
-		check = false;
-	}
-	
-	public void place(Vector position) {
-		getAppareances().setShape(new Circle(position, radius));
-		field.add(this);
-		check = false;
-	}
-	
-	public void setAttack(Attack<Monster> attack) {
+	public void setAttack(Attack attack) {
 		this.attack = attack;
 	}
 	

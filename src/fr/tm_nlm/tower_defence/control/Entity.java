@@ -57,6 +57,7 @@ public abstract class Entity {
 	
 	public void kill() {
 		dead = true;
+		check = false;
 	}
 	
 	public Field getField() {

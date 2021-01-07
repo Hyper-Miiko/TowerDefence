@@ -29,7 +29,7 @@ public final class PresetTower {
 		madDummy.setRange(100);
 		madDummy.setMaxHealth(Integer.MAX_VALUE);
 		madDummy.evolveIn(buildMadMewMew(field), 63);
-		madDummy.setAttack(new PresetAttack<Monster>().buildShotGun(Monster.dummy()));
+		madDummy.setAttack(new PresetAttack().buildShotGun(field));
 		return madDummy;
 	}
 	private static Tower buildMadMewMew(Field field) {
@@ -37,7 +37,7 @@ public final class PresetTower {
 		madMewMew.setObstacle(false);
 		madMewMew.setRange(200);
 		madMewMew.setMaxHealth(Integer.MAX_VALUE);
-		madMewMew.setAttack(new PresetAttack<Monster>().buildTripleShot(Monster.dummy()));
+		madMewMew.setAttack(new PresetAttack().buildTripleShot(field));
 		return madMewMew;
 	}
 	

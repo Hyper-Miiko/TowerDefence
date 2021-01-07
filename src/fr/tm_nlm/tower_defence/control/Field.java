@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 import fr.tm_nlm.tower_defence.Couple;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
+import fr.tm_nlm.tower_defence.control.entity.Bullet;
 import fr.tm_nlm.tower_defence.control.entity.Monster;
 import fr.tm_nlm.tower_defence.control.entity.Tower;
 import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathNode;
@@ -23,6 +24,7 @@ public class Field extends Thread {
 	private final LinkedList<PathNode> pathNodes;
 	private final LinkedList<Tower> towers;
 	private final LinkedList<Monster> monsters;
+	private final LinkedList<Bullet> bullets;
 	private final LinkedList<Couple<Action, Couple<Entity[], Vector>>> job;
 
 	public Field(int width, int height) {
@@ -36,6 +38,7 @@ public class Field extends Thread {
 		pathNodes = new LinkedList<>();
 		towers = new LinkedList<>();
 		monsters = new LinkedList<>();
+		bullets = new LinkedList<>();
 		job = new LinkedList<>();
 		someNews = true;
 	}
@@ -43,7 +46,6 @@ public class Field extends Thread {
 	public void add(Entity entity) {
 		int before = entities.size();
 		if(!entities.add(entity)) {
-			
 			System.err.println(entity + " était déjà enregistré. (" + before + "/" + entities.size() + ")");
 			return;
 		}
@@ -53,6 +55,8 @@ public class Field extends Thread {
 			towers.add((Tower) entity);
 		} else if(entity instanceof Monster) {
 			monsters.add((Monster) entity);
+		} else if(entity instanceof Bullet) {
+			bullets.add((Bullet) entity);
 		} else {
 			throw new InternalError("L'entité " + entity + " n'est pas reconnue");
 		}
@@ -202,6 +206,9 @@ public class Field extends Thread {
 		for(Monster monster : monsters) {
 			monster.process();
 		}
+		for(Bullet bullet : bullets) {
+			bullet.process();
+		}
 	}
 	
 	public HashSet<Entity> getEntities() {
@@ -214,6 +221,10 @@ public class Field extends Thread {
 	
 	public LinkedList<PathNode> getPathNodes() {
 		return pathNodes;
+	}
+	
+	public LinkedList<Tower> getTowers() {
+		return towers;
 	}
 	
 	public boolean getSomeNews() {

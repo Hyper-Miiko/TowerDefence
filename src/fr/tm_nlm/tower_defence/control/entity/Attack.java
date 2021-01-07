@@ -8,10 +8,9 @@ import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.data.Appareances;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 
-public class Attack<E extends Entity> {
+public class Attack {
 	private static Random random = new Random();
 	
-	private final E canTarget = null;
 	private boolean aiming;
 	private int minBullet;
 	private int maxBullet;
@@ -29,25 +28,24 @@ public class Attack<E extends Entity> {
 	private double minDamage;
 	private double maxDamage;
 	private double precisionLoss;
+	private double size;
 	private Appareances appareance;
-	private LinkedList<Bullet<E>> bulletLeft;
+	private LinkedList<Bullet> bulletLeft;
 	private Field field;
 	
-	public Attack(E canTarget) {
-		if(!(canTarget instanceof Monster) && !(canTarget instanceof Tower)) {
-			throw new IllegalArgumentException("Target must be Monster or Tower. get: " + canTarget.getClass());
-		}
+	public Attack(Field field) {
+		this.field = field;
 		bulletLeft = new LinkedList<>();
 	}
 	
-	public void checkForShootAt(E target) {
+	public void checkForShootAt(Entity target) {
 		long time = System.nanoTime();
 		if(time > nextRafaleInterval) {
-			nextRafaleInterval += random.nextInt(maxRafaleInterval - minRafaleInterval) + minRafaleInterval;
+			nextRafaleInterval = time + ((minRafaleInterval == maxRafaleInterval) ? minRafaleInterval : random.nextInt(maxRafaleInterval - minRafaleInterval) + minRafaleInterval);
 			bulletLeft = new LinkedList<>();
-			int bulletToMake = random.nextInt(maxBullet - minBullet) + minBullet;
+			int bulletToMake = (minBullet == maxBullet) ? minBullet : random.nextInt(maxBullet - minBullet) + minBullet;
 			for(int n = 0; n < bulletToMake; n++) {
-				Bullet<E> bullet = new Bullet<>(field);
+				Bullet bullet = new Bullet(field);
 				bullet.setAiming(aiming);
 				bullet.setAimingFactor(aimingFactor);
 				double damage = random.nextDouble()*maxDamage - minDamage;
@@ -55,6 +53,8 @@ public class Attack<E extends Entity> {
 				double bulletSpeed = random.nextDouble()*maxBulletSpeed - minBulletSpeed;
 				bullet.setSpeed(bulletSpeed);
 				bullet.setTarget(target);
+				bullet.setSize(size);
+				bulletLeft.add(bullet);
 			}
 		}
 	}
@@ -62,13 +62,13 @@ public class Attack<E extends Entity> {
 	public void checkForBullet(Vector from) {
 		long time = System.nanoTime();
 		if(time > nextInterval) {
-			nextInterval += random.nextInt(maxInterval - minInterval) + minInterval;
-			Bullet<E> bullet = bulletLeft.pop();
+			nextInterval = time + ((minInterval == maxInterval) ? minInterval : random.nextInt(maxInterval - minInterval) + minInterval);
+			Bullet bullet = bulletLeft.poll();
 			if(bullet != null) {
 				double loss = random.nextDouble()*precisionLoss*2 - precisionLoss;
 				double angle = from.angle(bullet.getTarget().getPosition()) + loss;
 				bullet.setAngle(angle);
-				int lifeTime = random.nextInt(maxLifeTime - minLifeTime) + minLifeTime;
+				int lifeTime = (minLifeTime == maxLifeTime) ? minLifeTime : random.nextInt(maxLifeTime - minLifeTime) + minLifeTime;
 				bullet.setLifeTime(lifeTime);
 				bullet.place(from);
 			}
@@ -135,6 +135,9 @@ public class Attack<E extends Entity> {
 	
 	public void setLifeTime(double lifeTime) {
 		setLifeTime(lifeTime, lifeTime);
+	}
+	void setSize(double size) {
+		this.size = size;
 	}
 	
 	public void setLifeTime(double minLifeTime, double maxLifeTime) {
