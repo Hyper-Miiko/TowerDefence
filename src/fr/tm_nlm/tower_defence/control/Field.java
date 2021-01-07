@@ -14,6 +14,7 @@ import fr.tm_nlm.tower_defence.view.mHUDCompat.FieldToGraphic;
 public class Field extends Thread {
 	private boolean activ;
 	private boolean running;
+	private boolean someNews;
 	private int width;
 	private int height;
 	private int lives;
@@ -36,6 +37,7 @@ public class Field extends Thread {
 		towers = new LinkedList<>();
 		monsters = new LinkedList<>();
 		job = new LinkedList<>();
+		someNews = true;
 	}
 
 	public void add(Entity entity) {
@@ -198,6 +200,12 @@ public class Field extends Thread {
 	
 	public LinkedList<PathNode> getPathNodes() {
 		return pathNodes;
+	}
+	
+	public boolean getSomeNews() {
+		boolean dummy = someNews;
+		someNews = false;
+		return someNews;
 	}
 	
 	public void setActiv(boolean activ) {
