@@ -1,4 +1,7 @@
 package fr.tm_nlm.tower_defence.control.data.geometric;
+
+import fr.tm_nlm.tower_defence.NotYetImplementedException;
+
 /**
  * Classe qui permet d'avoir des positions
  * @param x
@@ -22,9 +25,12 @@ public class Vector {
 	 * Renvoie l'angle entre ce vector et l'autre entre -pi et pi
 	 * @param vector
 	 * @return
+	 * @deprecated ne marche pas
 	 */
+	@Deprecated
 	public double angle(Vector vector) {
-		Vector vectorA = new Vector(vector.x - x, vector.y - y);
+		throw new NotYetImplementedException("");
+		/*Vector vectorA = new Vector(vector.x - x, vector.y - y);
 		Vector vectorB = new Vector(0, -1);
 		double normeA = vectorA.dist(new Vector(0, 0));
 		double normeB = vectorB.dist(new Vector(0, 0));
@@ -40,7 +46,7 @@ public class Vector {
 		while(angle < -Math.PI) {
 			angle += 2*Math.PI;
 		}
-		return angle;
+		return angle;*/
 	}
 	
 	/**
@@ -53,6 +59,28 @@ public class Vector {
 		double x = this.x + Math.sin(angle)*dist;
 		double y = this.y + Math.cos(angle)*dist;
 		return new Vector(x, y);
+	}
+	
+	/**
+	 * Génère un nouveau point plus proche de l'objectif d'une certaine distance passé en paramétre
+	 * @param objectif
+	 * @param dist
+	 * @return
+	 */
+	public Vector byObjectif(Vector objectif, double dist) {
+		double distObjectif = dist(objectif);
+		Vector newVector;
+		if(distObjectif < dist) {
+			newVector = new Vector(objectif);
+		} else {
+			double ratio = 1*dist/distObjectif;
+			double distX = objectif.x - x;
+			double distY = objectif.y - y;
+			double newX = x + distX*ratio;
+			double newY = y + distY*ratio;
+			newVector = new Vector(newX, newY);
+		}
+		return newVector;
 	}
 	
 	/**

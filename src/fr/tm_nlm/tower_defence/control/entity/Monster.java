@@ -94,7 +94,6 @@ public class Monster extends Entity {
 	public String toString() {
 		String str = "Monster:" + getPosition();
 		str += ", target: " + nextNode.getPosition();
-		str += ", looking:" + (double) (int) (getPosition().angle(nextNode.getPosition())*100)/100;
 		return str;
 	}
 }

@@ -45,7 +45,7 @@ public abstract class Entity {
 	}
 	
 	public void kill() {
-		field.remove(this);
+		dead = true;
 	}
 	
 	public Field getField() {

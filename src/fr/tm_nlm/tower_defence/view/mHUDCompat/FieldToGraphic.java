@@ -85,44 +85,40 @@ public class FieldToGraphic extends Thread {
 	@Override
 	public void run() {
 		while(true) {
+			working();
 			output();
 			input();
+			waiting();
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {}
 		}
 	}
 	
 	private void output() {
 		for(Map.Entry<Entity, MGraphicEntity> entry : entityToGraphic.entrySet()) {
 			if(!entry.getKey().isCheck()) {
-				working();
 				remove(entry.getKey());
 				add(entry.getKey());
 				entry.getKey().check();
-				waiting();
 			}
 		}
 	}
 	
 	private void input() {
 		boolean empty;
-		try {
-			empty = view.haveActiveEntity();
-			if(!empty) {
-				//TODO attente de l'action coté vue
-				
-				/*working();
-				Couple<MGraphicEntity, Couple<Double, Double>> graphicAction = view.getActiveEntity();
-				Action action;
-				Object target;
-				if(graphicAction._1 == null) {
-					
-				}
-				Couple<Action, Object> fieldAction = new Couple<>(action, target);
-				field.workOn(fieldAction);
-				waiting();*/
-			}
-		} catch(ConcurrentModificationException e) {
-			input();
+		//TODO attente de l'action coté vue
+		
+		/*working();
+		Couple<MGraphicEntity, Couple<Double, Double>> graphicAction = view.getActiveEntity();
+		Action action;
+		Object target;
+		if(graphicAction._1 == null) {
+			
 		}
+		Couple<Action, Object> fieldAction = new Couple<>(action, target);
+		field.workOn(fieldAction);
+		waiting();*/
 	}
 	
 	private void working() {

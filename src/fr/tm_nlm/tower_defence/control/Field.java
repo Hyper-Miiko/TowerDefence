@@ -201,6 +201,10 @@ public class Field extends Thread {
 		}
 	}
 	
+	public int getLives() {
+		return lives;
+	}
+	
 	public boolean isRunning() {
 		return running;
 	}
