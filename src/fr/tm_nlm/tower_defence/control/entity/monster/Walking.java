@@ -9,7 +9,9 @@ import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathNode;
 public final class Walking implements Deplacement {
 	@Override
 	public Vector move(double speed, Shape shape, PathNode nextNode) {
-		Vector nextPosition = shape.getPosition().byObjectif(nextNode.getPosition(), speed);
+		//Vector nextPosition = shape.getPosition().byObjectif(nextNode.getPosition(), speed);
+		double angle = shape.getPosition().angle(nextNode.getPosition());
+		Vector nextPosition = shape.getPosition().byAngle(angle, speed);
 		//LinkedList<Tower> obstacles = bridge.obstacles;
 		Shape newShape = shape.isCircle() ? new Circle(nextPosition, shape.getCircle().getRadius())
 										  : new Rect(nextPosition, shape.getRect().getSize());

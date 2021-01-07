@@ -106,6 +106,12 @@ public class Field extends Thread {
 		job.add(task);
 	}
 	
+	public void workOn(Action action, Entity... entities) {
+		Couple<Entity[], Vector> targets = new Couple<>(entities, null);
+		Couple<Action, Couple<Entity[], Vector>> task = new Couple<>(action, targets);
+		job.add(task);
+	}
+	
 	private void actionFromUser() {
 		Couple<Action, Couple<Entity[], Vector>> action = job.pollFirst();
 		if(action != null) {
@@ -126,11 +132,15 @@ public class Field extends Thread {
 				break;
 			case place:
 				// Merci De Morgan
-				if(position == null || ((entities.length != 1 || !(entities[0] instanceof Tower)) && entities.length != 0)) {
+				if(((entities.length > 2 ||
+					 entities.length == 1 && !(entities[0] instanceof Tower)) && position == null ||
+					 entities.length == 2 && !(entities[0] instanceof Monster) || !(entities[1] instanceof PathNode) || position != null)) {
 					actionFromUserError(action._1, action._2);
 				}
-				if(entities.length == 1) {
-					place((Tower) entities[0], position);
+				if(entities.length == 2) {
+					place((Monster) entities[0], (PathNode) entities[1]); //Monster
+				} if(entities.length == 1) {
+					place((Tower) entities[0], position); //Tower
 				} else {
 					place(position); //PathNode
 				}
@@ -170,6 +180,10 @@ public class Field extends Thread {
 	
 	private void place(Vector position) {
 
+	}
+	
+	private void place(Monster monster, PathNode pathNode) {
+		monster.place(pathNode);
 	}
 	
 	private void processEntities() {

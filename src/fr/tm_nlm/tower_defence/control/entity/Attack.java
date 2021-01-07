@@ -26,7 +26,7 @@ public class Attack<E extends Entity> {
 	private double damage;
 	private double precisionLoss;
 	private Appareances appareance;
-	private LinkedList<Bullet> bulletLeft;
+	private LinkedList<Bullet<E>> bulletLeft;
 	private Field field;
 	
 	public Attack() {
@@ -40,7 +40,7 @@ public class Attack<E extends Entity> {
 		bulletLeft = new LinkedList<>();
 		int bulletToMake = random.nextInt(maxBullet - minBullet) + minBullet;
 		for(int n = 0; n < bulletToMake; n++) {
-			Bullet<E> bullet = new Bullet();
+			Bullet<E> bullet = new Bullet<>(field);
 			bullet.setAiming(aiming);
 			bullet.setAimingFactor(aimingFactor);
 			bullet.setDamage(damage);
@@ -50,7 +50,7 @@ public class Attack<E extends Entity> {
 	}
 	
 	public void checkForBullet(Vector from) {
-		Bullet bullet = bulletLeft.pop();
+		Bullet<E> bullet = bulletLeft.pop();
 		if(bullet != null) {
 			double loss = random.nextDouble()*precisionLoss*2 - precisionLoss;
 			double angle = from.angle(bullet.getTarget().getPosition()) + loss;

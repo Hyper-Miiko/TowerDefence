@@ -4,6 +4,7 @@ import fr.tm_nlm.tower_defence.control.Entity;
 import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
+import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
 
 /**
  * Un entité qui a pour but de chasser un type d'entité
@@ -19,14 +20,24 @@ public class Bullet<E extends Entity> extends Entity implements Movable {
 	private double damage;
 	private E target;
 
-	public Bullet() {
-		super(null, null);
-		// TODO Auto-generated constructor stub
+	{
+		aiming = false;
+		aimingFactor = 0d;
+		angle = 0d;
+		speed = 50d;
+		damage = 2d;
+	}
+	public Bullet(Field field) {
+		super(field, new Circle(null, 2), false);
 	}
 
 	@Override
 	public void move() {
 		// TODO Auto-generated method stub
+		
+	}
+	
+	void place(Vector position) {
 		
 	}
 

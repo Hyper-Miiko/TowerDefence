@@ -24,19 +24,23 @@ public class Monster extends Entity {
 	private PathNode nextNode;
 	private String monsterType;
 	
-	public Monster(Field field, Shape shape, PathNode start) {
-		super(field, shape);
-		if(!isIn(start)) {
-			throw new IllegalArgumentException("Un monstre doit commencer sur une noeud.");
-		}
+	{
+		deplacement = new Walking();
 		strength = 1;
 		speedBoost = 100d;
 		baseSpeed = 10d;
 		maxHealth = 10;
 		health = maxHealth;
-		deplacement = new Walking();
-		nextNode = start.getNextToCastle();
 		monsterType = "undefined";
+	}
+	public Monster(Field field, Shape shape, PathNode start) {
+		super(field, shape);
+		nextNode = start.getNextToCastle();
+	}
+	
+	public Monster(Field field, Shape shape) {
+		super(field, shape, false);
+		nextNode = null;
 	}
 	
 	private Monster() {
@@ -44,19 +48,39 @@ public class Monster extends Entity {
 	}
 	
 	private boolean isIn(PathNode pathNode) {
-		return getAppareances().getCircle().getPosition().dist(pathNode.getPosition()) < pathNode.getAppareances().getCircle().getRadius()
-			   && getField().equals(pathNode.getField());
+		return getAppareances()
+				.getCircle()
+				.getPosition()
+				.dist(pathNode
+						.getPosition()) < pathNode
+				.getAppareances()
+				.getCircle()
+				.getRadius()
+			   && getField()
+			   .equals(pathNode
+					   .getField());
 	}
 	
-	public void Fly() {
+	public void fly() {
 		deplacement = new Flying();
+	}
+	
+	public void place(PathNode pathNode) {
+		if(getPosition() != null) {
+			throw new IllegalStateException("Can't place monster already on field");
+		}
+		getAppareances().getShape().setPosition(pathNode.getPosition());
+		nextNode = pathNode.getNextToCastle();
+		field.add(this);
 	}
 	
 	public void process() {
 		long nano = getLastNano();
 		refreshNano();
 		double timeToWalk = System.nanoTime() - nano;
-		move(timeToWalk/1000000000d);
+		if(getPosition() != null) {
+			move(timeToWalk/1000000000d);
+		}
 	}
 	
 	private void move(double timeToWalk) {
@@ -66,7 +90,6 @@ public class Monster extends Entity {
 				field.removeLive(strength);
 				kill();
 			} else {
-				System.out.println("Hey");
 				setNextNode(nextNode.getNextToCastle());
 			}
 		}

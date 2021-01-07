@@ -15,4 +15,11 @@ public final class PresetMonster {
 		kumo.setMonsterType("Kumo");
 		return kumo;
 	}
+	
+	public static Monster buildKumo(Field field) {
+		Monster kumo = new Monster(field, new Circle(null, 5));
+		kumo.setBaseSpeed(30);
+		kumo.setMonsterType("Kumo");
+		return kumo;
+	}
 }

@@ -25,28 +25,9 @@ public class Vector {
 	 * Renvoie l'angle entre ce vector et l'autre entre -pi et pi
 	 * @param vector
 	 * @return
-	 * @deprecated ne marche pas
 	 */
-	@Deprecated
 	public double angle(Vector vector) {
-		Vector vectorA = new Vector(vector.x - x, vector.y - y);
-		Vector vectorB = new Vector(0, -1);
-		double normeA = vectorA.dist(new Vector(0, 0));
-		double normeB = vectorB.dist(new Vector(0, 0));
-		double scalaire = vectorA.x*vectorB.x + vectorA.y*vectorB.y;
-		double cos = scalaire/normeA*normeB;
-		double angle = Math.acos(cos);
-		if(vector.x > x) {
-			angle += Math.PI;
-			angle = 2*Math.PI - angle;
-		}
-		while(angle > Math.PI) {
-			angle -= 2*Math.PI;
-		}
-		while(angle < -Math.PI) {
-			angle += 2*Math.PI;
-		}
-		return angle;
+		return Math.atan2(vector.y - y, vector.x - x);
 	}
 	
 	/**
@@ -56,8 +37,8 @@ public class Vector {
 	 * @return
 	 */
 	public Vector byAngle(double angle, double dist) {
-		double x = this.x + Math.sin(angle)*dist;
-		double y = this.y + Math.cos(angle)*dist;
+		double x = this.x + Math.cos(angle)*dist;
+		double y = this.y + Math.sin(angle)*dist;
 		return new Vector(x, y);
 	}
 	
@@ -97,7 +78,7 @@ public class Vector {
 	 */
 	@Override
 	public String toString() {
-		return "(" + Integer.toString((int) x) + "," + Integer.toString((int) y) + ")";
+		return "(" + Integer.toString((int) x) + ", " + Integer.toString((int) y) + ")";
 	}
 	
 	@Override

@@ -132,7 +132,7 @@ public class PathNode extends Entity {
 		} else if(passByToCastle == null) {
 			dist = null;
 		} else {
-			dist = passByToCastle.getDistToCastle();
+			dist = passByToCastle.getDistToCastle() + getPosition().dist(passByToCastle.getPosition());
 		}
 		return dist;
 	}
@@ -143,13 +143,13 @@ public class PathNode extends Entity {
 	
 	public String getWayToCastle() {
 		String str = "";
-		str += getPosition() + "\n";
+		str += getPosition();
 		if(castle) {
-			str += "Castle";
+			str += ": Castle";
 		} else if(passByToCastle == null) {
-			str += "Aucun chemin trouvé.";
+			str += ": Aucun chemin trouvé.";
 		} else {
-			str += passByToCastle.getWayToCastle();
+			str +=  " à " + passByToCastle.getDistToCastle() + "\n" + passByToCastle.getWayToCastle();
 		}
 		return str;
 	}
