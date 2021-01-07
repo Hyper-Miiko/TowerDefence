@@ -11,7 +11,7 @@ import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
 import fr.tm_nlm.tower_defence.control.entity.monster.Option;
 
 public class Tower extends Entity implements Damageable {
-	private static final int radius = 32;
+	private static final int radius = 16;
 	
 	public static Tower dummy() {
 		return new Tower();

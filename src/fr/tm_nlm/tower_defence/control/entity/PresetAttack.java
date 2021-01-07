@@ -3,7 +3,7 @@ package fr.tm_nlm.tower_defence.control.entity;
 import fr.tm_nlm.tower_defence.control.Field;
 
 public class PresetAttack {
-	public Attack buildShotGun(Field field) {
+	public static Attack buildShotGun(Field field) {
 		Attack attack = new Attack(field);
 		attack.setBulletSpeed(45, 55);
 		attack.setDamage(5, 10);
@@ -15,7 +15,7 @@ public class PresetAttack {
 		attack.setSize(3);
 		return attack;
 	}
-	public Attack buildFlameRobe(Field field) {
+	public static Attack buildFlameRobe(Field field) {
 		Attack attack = new Attack(field);
 		attack.setBulletSpeed(10, 30);
 		attack.setDamage(0.01, 0.1);
@@ -28,7 +28,7 @@ public class PresetAttack {
 		attack.setSize(0.1);
 		return attack;
 	}
-	public Attack buildTripleShot(Field field) {
+	public static Attack buildTripleShot(Field field) {
 		Attack attack = new Attack(field);
 		attack.setBulletSpeed(100);
 		attack.setDamage(10, 20);
