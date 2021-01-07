@@ -205,7 +205,7 @@ public class Field extends Thread {
 	public boolean getSomeNews() {
 		boolean dummy = someNews;
 		someNews = false;
-		return someNews;
+		return dummy;
 	}
 	
 	public void setActiv(boolean activ) {
