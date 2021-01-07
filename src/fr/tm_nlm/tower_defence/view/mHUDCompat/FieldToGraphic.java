@@ -32,15 +32,13 @@ public class FieldToGraphic extends Thread {
 	private Field field;
 	private IGraphicView view;
 	private HashMap<Entity, MGraphicEntity> entityToGraphic;
-	private HashMap<MGraphicEntity, Entity> graphicToEntity;
-	{
-		entityToGraphic = new HashMap<>();
-		graphicToEntity = new HashMap<>();
-	}
-	
+	//private HashMap<MGraphicEntity, Entity> graphicToEntity;
+
 	public FieldToGraphic(Field field, IGraphicView view) {
 		this.field = field;
 		this.view = view;
+		entityToGraphic = new HashMap<>();
+		//graphicToEntity = new HashMap<>();
 	}
 	
 	public void add(Entity entity) {
@@ -48,18 +46,21 @@ public class FieldToGraphic extends Thread {
 		if(!field.equals(entity.getField())) {
 			throw new IllegalArgumentException("L'entité n'appartient pas au bon champ.");
 		}
+		
+		System.out.println(entity.getPosition());
+		
 		MGraphicEntity graphic;
 		if(entity.getAppareances().getCurrentImage() != null) {
 			graphic = new GPictureEntity(entity.getPosition().x, entity.getPosition().y,entity.getAppareances().getRect().getSize().x,entity.getAppareances().getRect().getSize().y, entity.getAppareances().getCurrentImage());
 		} else if(entity.getAppareances().isCircle()) {
-			graphic = new GCircleEntity(entity.getPosition().x, entity.getPosition().y, entity.getAppareances().getCircle().getRadius());
+			graphic = new GCircleEntity(entity.getPosition().x, entity.getPosition().y, (entity.getAppareances().getCircle().getRadius()+1)*4);
 		} else {
 			graphic = new GRectEntity(entity.getPosition().x, entity.getPosition().y, entity.getAppareances().getRect().getSize().x, entity.getAppareances().getRect().getSize().y);
 		}
 		
 		view.addGraphicEntity(graphic);
 		entityToGraphic.put(entity, graphic);
-		graphicToEntity.put(graphic, entity);
+		//graphicToEntity.put(graphic, entity);
 	}
 	
 	public boolean remove(Entity entity) {
@@ -69,13 +70,21 @@ public class FieldToGraphic extends Thread {
 		MGraphicEntity graphic = entityToGraphic.get(entity);
 		view.removeGraphicEntity(graphic);
 		entityToGraphic.remove(entity);
-		graphicToEntity.remove(graphic);
+		//graphicToEntity.remove(graphic);
 		return graphic != null;
 	}
-	
-	public Entity get(MGraphicEntity graphic) {
-		return graphicToEntity.get(graphic);
+	public void edit(Entity entity) {
+		if(!field.equals(entity.getField())) {
+			throw new IllegalArgumentException("L'entité n'appartient pas au bon champ.");
+		}
+		
+		MGraphicEntity graphic = entityToGraphic.get(entity);
+		graphic.setPosition(entity.getPosition().x, entity.getPosition().y);
 	}
+	
+	/*public Entity get(MGraphicEntity graphic) {
+		return graphicToEntity.get(graphic);
+	}*/
 	
 	public MGraphicEntity get(Entity entity) {
 		if(!field.equals(entity.getField())) {
@@ -88,14 +97,28 @@ public class FieldToGraphic extends Thread {
 	public void run() {
 		while(true) {
 			working();
+			
 			output();
+			
 			input();
+			
 			waiting();
 		}
 	}
 	
 	private void output() {
-		HashSet<Entity> update = new HashSet<>();
+		for(Entity e : field.getEntities()) {
+			MGraphicEntity g = this.get(e);
+			
+			if(entityToGraphic.containsKey(e)) {
+				if(g == null) remove(e);
+				else edit(e);
+			}
+			else {
+				add(e);
+			}
+		}
+		/*HashSet<Entity> update = new HashSet<>();
 		for(Map.Entry<Entity, MGraphicEntity> entry : entityToGraphic.entrySet()) {
 			if(!entry.getKey().isCheck()) {
 				update.add(entry.getKey());
@@ -105,7 +128,7 @@ public class FieldToGraphic extends Thread {
 		for(Entity entity : update) {
 			remove(entity);
 			add(entity);
-		}
+		}*/
 	}
 	
 	private void input() {
@@ -127,12 +150,18 @@ public class FieldToGraphic extends Thread {
 	private void working() {
 		view.setActive(false);
 		field.setActiv(false);
-		while(view.isRunning() || field.isRunning());
+		while(!view.isRunning() && field.isRunning());
 	}
 	
 	private void waiting() {
 		view.setActive(true);
 		field.setActiv(true);
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

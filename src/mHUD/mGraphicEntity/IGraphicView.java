@@ -26,6 +26,7 @@ public class IGraphicView extends MItem {
 	
 	public IGraphicView(double x, double y) {
 		setSize(x,y);
+		this.setNeedRedraw(true);
 		imageBuffer = new BufferedImage((int)getSize().x-1, (int)getSize().y-1, BufferedImage.TYPE_INT_ARGB);
 		imageEdit = imageBuffer.createGraphics();
 	}
@@ -38,15 +39,17 @@ public class IGraphicView extends MItem {
 	}
 	
 	public void addGraphicEntity(MGraphicEntity e) {
-		if(!running)entityList.add(e);
+		if(running)entityList.add(e);
 	}
 	public void removeGraphicEntity(MGraphicEntity e) {
-		if(!running)entityList.remove(e);
+		if(running)entityList.remove(e);
 	}
 	
 	protected void refreshObject() {
-		if(active) {
-			running = true;
+		if(active) running = true;
+		else running = false;
+		
+		if(running) {
 			if(mousePressed() && !clicked) {
 				clicked = true;
 					for(MGraphicEntity e : entityList) {
@@ -56,7 +59,6 @@ public class IGraphicView extends MItem {
 					}
 			}
 			if(!mousePressed() && clicked) clicked = false;
-			running = false;
 		}
 	}
 	
@@ -71,9 +73,11 @@ public class IGraphicView extends MItem {
 	}
 	
 	protected void draw() {
-		if(active) {
-			
-			running = true;
+		if(active) running = true;
+		else running = false;
+
+		if(running)
+		{
 			imageEdit.setColor(color);
 			imageEdit.fill(new Rectangle(0,0,(int)getSize().x-1, (int)getSize().y-1));
 			
@@ -82,7 +86,6 @@ public class IGraphicView extends MItem {
 			}
 			
 			StdDraw.picture(getPos().x/getWindowSize().x, getPos().y/getWindowSize().y, imageBuffer);
-			running = false;
 		}
 	}
 	public double mouseX() {
