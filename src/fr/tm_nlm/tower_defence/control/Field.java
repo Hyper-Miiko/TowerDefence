@@ -94,12 +94,14 @@ public class Field extends Thread {
 
 	@Override
 	public void run() {
-		while(activ) {
-			running = true;
-			processEntities();
-			actionFromUser();
+		while(true) {
+			if(activ) {
+				running = true;
+				processEntities();
+				actionFromUser();
+			}
+			running = false;
 		}
-		running = false;
 	}
 	
 	private void processEntities() {
@@ -116,7 +118,6 @@ public class Field extends Thread {
 			tower.process();
 		}
 		for(Monster monster : monsters) {
-			System.out.println(monster);
 			monster.process();
 		}
 	}
@@ -212,9 +213,6 @@ public class Field extends Thread {
 	
 	public void setActiv(boolean activ) {
 		this.activ = activ;
-		if(activ) {
-			run();
-		}
 	}
 	
 	public int getLives() {
