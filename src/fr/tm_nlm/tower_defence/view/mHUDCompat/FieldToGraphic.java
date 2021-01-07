@@ -33,7 +33,6 @@ public class FieldToGraphic extends Thread {
 	private IGraphicView view;
 	private HashMap<Entity, MGraphicEntity> entityToGraphic;
 	private HashMap<MGraphicEntity, Entity> graphicToEntity;
-	
 	{
 		entityToGraphic = new HashMap<>();
 		graphicToEntity = new HashMap<>();
@@ -57,6 +56,7 @@ public class FieldToGraphic extends Thread {
 		} else {
 			graphic = new GRectEntity(entity.getPosition().x, entity.getPosition().y, entity.getAppareances().getRect().getSize().x, entity.getAppareances().getRect().getSize().y);
 		}
+		
 		view.addGraphicEntity(graphic);
 		entityToGraphic.put(entity, graphic);
 		graphicToEntity.put(graphic, entity);
@@ -103,8 +103,8 @@ public class FieldToGraphic extends Thread {
 			}
 		}
 		for(Entity entity : update) {
-			add(entity);
 			remove(entity);
+			add(entity);
 		}
 	}
 	

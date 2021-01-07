@@ -72,12 +72,14 @@ public class IGraphicView extends MItem {
 	
 	protected void draw() {
 		if(active) {
+			
 			running = true;
 			imageEdit.setColor(color);
 			imageEdit.fill(new Rectangle(0,0,(int)getSize().x-1, (int)getSize().y-1));
 			
-			for(MGraphicEntity e : entityList)
+			for(MGraphicEntity e : entityList) {
 				imageEdit.drawImage(e.getImage(),(int)e.getPosition().x,(int)e.getPosition().y, null);
+			}
 			
 			StdDraw.picture(getPos().x/getWindowSize().x, getPos().y/getWindowSize().y, imageBuffer);
 			running = false;

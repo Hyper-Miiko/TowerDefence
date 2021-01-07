@@ -36,8 +36,6 @@ public class TowerDefence {
 		boolean flag = false;
 		while(true) {
 			if(view.mousePressed() && !flag) {
-				System.out.println("new Tower");
-				Tower m = PresetTower.buildMadDummy(field);
 				flag = true;
 			}
 			if(!view.mousePressed()) {
