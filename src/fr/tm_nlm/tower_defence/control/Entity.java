@@ -10,7 +10,7 @@ public abstract class Entity {
 	protected Field field;
 	private Appareances appareances;
 	private boolean dead;
-	private boolean check;
+	protected boolean check;
 	private long lastNano;
 	private final long id;
 
@@ -64,15 +64,6 @@ public abstract class Entity {
 		return appareances;
 	}
 	
-	@Override
-	public boolean equals(Object entity) {
-		if(!(entity instanceof Entity)) {
-			return false;
-		} else {
-			return this.id == ((Entity) entity).id;
-		}
-	}
-	
 	public boolean isCheck() {
 		return check;
 	}
@@ -90,6 +81,12 @@ public abstract class Entity {
 		return "Entité n°" + id +
 			   " aux positions " + appareances.getShape().getPosition() +
 			   " dans la carte " + field + 
+			   ", check: " + check +
 			   ".";
+	}
+	
+	@Override
+	public boolean equals(Object object) {
+		return (object instanceof Entity) && (((Entity) object).id == id);
 	}
 }

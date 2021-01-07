@@ -87,18 +87,6 @@ public class Field extends Thread {
 	public void workOn(Couple<Action, Object> action) {
 		job.add(action);
 	}
-	
-	public HashMap<Tower, Boolean> getAllTower() {
-		return Tower.getAddables(this);
-	}
-	
-	public LinkedList<Monster> getMonsters() {
-		return monsters;
-	}
-	
-	public LinkedList<PathNode> getPathNodes() {
-		return pathNodes;
-	}
 
 	@Override
 	public void run() {
@@ -124,6 +112,7 @@ public class Field extends Thread {
 			tower.process();
 		}
 		for(Monster monster : monsters) {
+			System.out.println(monster);
 			monster.process();
 		}
 	}
@@ -193,6 +182,22 @@ public class Field extends Thread {
 		} else {
 			throw new IllegalStateException("place only work on Monster, PathNode or Tower " + object.getClass());
 		}
+	}
+	
+	public HashSet<Entity> getEntities() {
+		return entities;
+	}
+	
+	public HashMap<Tower, Boolean> getAllTower() {
+		return Tower.getAddables(this);
+	}
+	
+	public LinkedList<Monster> getMonsters() {
+		return monsters;
+	}
+	
+	public LinkedList<PathNode> getPathNodes() {
+		return pathNodes;
 	}
 	
 	public void setActiv(boolean activ) {

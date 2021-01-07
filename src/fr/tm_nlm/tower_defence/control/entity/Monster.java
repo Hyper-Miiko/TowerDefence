@@ -64,6 +64,7 @@ public class Monster extends Entity {
 				setNextNode(nextNode.getNextToCastle());
 			}
 		}
+		check = false;
 	}
 	
 	public PathNode getNextNode() {
@@ -88,12 +89,5 @@ public class Monster extends Entity {
 		LinkedList<Option> options = new LinkedList<>();
 		options.add(deplacement);
 		return options;
-	}
-	
-	@Override
-	public String toString() {
-		String str = "Monster:" + getPosition();
-		str += ", target: " + nextNode.getPosition();
-		return str;
 	}
 }
