@@ -31,7 +31,7 @@ public class Tower extends Entity {
 	private double determination; //multiplicateur du prix de résurrection
 	private double health;
 	private double maxHealth;
-	private Bullet bullet;
+	private Attack attack;
 	private String name;
 	private Tower evolution;
 	private LinkedList<Option> forbbidens;
@@ -50,6 +50,8 @@ public class Tower extends Entity {
 		health = maxHealth;
 		this.name = name;
 		evolution = null;
+		forbbidens = new LinkedList<>();
+		requires = new LinkedList<>();
 		
 		HashMap<Tower, Boolean> addables = getAddables(field);
 		if(addables == null) {
@@ -64,16 +66,6 @@ public class Tower extends Entity {
 	}
 	
 	public void process() {
-		System.nanoTime();
-		if(getLastSecond() + cooldown > (double) System.nanoTime()/1000000000d) {
-			Monster target = seek();
-			if(target != null) {
-				refreshNano();
-				double angle = getPosition().angle(target.getPosition());
-				Bullet newBullet = bullet.add(getPosition(), angle);
-				field.add(newBullet);
-			}
-		}
 	}
 	
 	private Monster seek() {
@@ -154,6 +146,7 @@ public class Tower extends Entity {
 	
 	public void place(Vector position) {
 		getAppareances().setShape(new Circle(position, radius));
+		check = false;
 	}
 	
 	public void setCost(double cost) {
@@ -203,5 +196,24 @@ public class Tower extends Entity {
 	
 	public boolean isObstacle() {
 		return obstacle;
+	}
+	
+	@Override
+	public String toString() {
+		String str = super.toString();
+		str += ": " + name;
+		if(isOnField()) {
+			str += " en " + getPosition();
+			str += " regarde ";
+			Monster seek = seek();
+			if(seek == null) {
+				str += "personne.";
+			} else {
+				str += seek;
+			}
+		} else {
+			str += " n'est pas sur le champ.";
+		}
+		return str;
 	}
 }

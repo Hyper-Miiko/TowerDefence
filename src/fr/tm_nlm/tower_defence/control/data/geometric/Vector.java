@@ -29,8 +29,7 @@ public class Vector {
 	 */
 	@Deprecated
 	public double angle(Vector vector) {
-		throw new NotYetImplementedException("");
-		/*Vector vectorA = new Vector(vector.x - x, vector.y - y);
+		Vector vectorA = new Vector(vector.x - x, vector.y - y);
 		Vector vectorB = new Vector(0, -1);
 		double normeA = vectorA.dist(new Vector(0, 0));
 		double normeB = vectorB.dist(new Vector(0, 0));
@@ -39,6 +38,7 @@ public class Vector {
 		double angle = Math.acos(cos);
 		if(vector.x > x) {
 			angle += Math.PI;
+			angle = 2*Math.PI - angle;
 		}
 		while(angle > Math.PI) {
 			angle -= 2*Math.PI;
@@ -46,7 +46,7 @@ public class Vector {
 		while(angle < -Math.PI) {
 			angle += 2*Math.PI;
 		}
-		return angle;*/
+		return angle;
 	}
 	
 	/**

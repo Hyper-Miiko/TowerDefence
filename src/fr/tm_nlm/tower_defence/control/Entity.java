@@ -72,17 +72,21 @@ public abstract class Entity {
 		return dead;
 	}
 	
+	public boolean isOnField() {
+		return appareances.getShape() != null;
+	}
+	
 	public void check() {
 		check = true;
 	}
 	
+	public long id() {
+		return id;
+	}
+	
 	@Override
 	public String toString() {
-		return "Entité n°" + id +
-			   " aux positions " + appareances.getShape().getPosition() +
-			   " dans la carte " + field + 
-			   ", check: " + check +
-			   ".";
+		return "Entité n°" + id;
 	}
 	
 	@Override

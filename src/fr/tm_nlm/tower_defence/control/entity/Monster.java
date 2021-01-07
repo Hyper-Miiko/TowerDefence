@@ -17,9 +17,12 @@ public class Monster extends Entity {
 	}
 	private int strength;
 	private double baseSpeed;
+	private double health;
+	private double maxHealth;
 	private double speedBoost; //Pourcentage
 	private Deplacement deplacement;
 	private PathNode nextNode;
+	private String monsterType;
 	
 	public Monster(Field field, Shape shape, PathNode start) {
 		super(field, shape);
@@ -29,8 +32,11 @@ public class Monster extends Entity {
 		strength = 1;
 		speedBoost = 100d;
 		baseSpeed = 10d;
+		maxHealth = 10;
+		health = maxHealth;
 		deplacement = new Walking();
 		nextNode = start.getNextToCastle();
+		monsterType = "undefined";
 	}
 	
 	private Monster() {
@@ -73,8 +79,8 @@ public class Monster extends Entity {
 	private void setNextNode(PathNode nextNode) {
 		this.nextNode = nextNode;
 	}
-	public Monster getMonster() {
-		return this;
+	public void setMonsterType(String monsterType) {
+		this.monsterType = monsterType;
 	}
 	public double getSpeed() {
 		return baseSpeed*speedBoost/100d;
@@ -89,5 +95,14 @@ public class Monster extends Entity {
 		LinkedList<Option> options = new LinkedList<>();
 		options.add(deplacement);
 		return options;
+	}
+	
+	@Override
+	public String toString() {
+		String str = super.toString();
+		str += ": " + monsterType;
+		str += " est en " + getPosition();
+		str += " et a " + (int) health + "/" + (int) maxHealth + " points de vie.";
+		return str;
 	}
 }

@@ -23,7 +23,7 @@ public class Field extends Thread {
 	private final LinkedList<PathNode> pathNodes;
 	private final LinkedList<Tower> towers;
 	private final LinkedList<Monster> monsters;
-	private final LinkedList<Couple<Action, Object>> job;
+	private final LinkedList<Couple<Action, Couple<Entity[], Vector>>> job;
 
 	public Field(int width, int height) {
 		super("Champ");
@@ -87,10 +87,6 @@ public class Field extends Thread {
 	public void removeLive(int nbrOfLive) {
 		lives = (nbrOfLive >= lives) ? 0 : lives - nbrOfLive;
 	}
-	
-	public void workOn(Couple<Action, Object> action) {
-		job.add(action);
-	}
 
 	@Override
 	public void run() {
@@ -102,6 +98,78 @@ public class Field extends Thread {
 			}
 			running = false;
 		}
+	}
+	
+	public void workOn(Action action, Vector position, Entity... entities) {
+		Couple<Entity[], Vector> targets = new Couple<>(entities, position);
+		Couple<Action, Couple<Entity[], Vector>> task = new Couple<>(action, targets);
+		job.add(task);
+	}
+	
+	private void actionFromUser() {
+		Couple<Action, Couple<Entity[], Vector>> action = job.pollFirst();
+		if(action != null) {
+			Entity[] entities = action._2._1;
+			Vector position = action._2._2;
+			switch(action._1) {
+			case connect:
+				if(entities.length != 2 || position != null) {
+					actionFromUserError(action._1, action._2);
+				}
+				connect((PathNode) entities[0], (PathNode) entities[1]); 
+				break;
+			case evolve:
+				if(entities.length != 1 || position != null) {
+					actionFromUserError(action._1, action._2);
+				}
+				evolve((Tower) entities[0]); 
+				break;
+			case place:
+				// Merci De Morgan
+				if(position == null || ((entities.length != 1 || !(entities[0] instanceof Tower)) && entities.length != 0)) {
+					actionFromUserError(action._1, action._2);
+				}
+				if(entities.length == 1) {
+					place((Tower) entities[0], position);
+				} else {
+					place(position); //PathNode
+				}
+				break;
+			case remove:
+				break;
+			default:
+				throw new InternalError("J'ai oublié " + action._1);
+			}
+		}
+	}
+	
+	private void actionFromUserError(Action action, Couple<Entity[], Vector> elems) {
+		String elemsStr = "";
+		for(Entity entity : elems._1) {
+			elemsStr += entity + "\n";
+		}
+		elemsStr += elems._2 + "\n";
+		throw new IllegalStateException(action + " à reçu :\n" + elemsStr);
+	}
+	
+	private void connect(PathNode pathNodeA, PathNode pathNodeB) {
+		pathNodeA.link(pathNodeB);
+	}
+	
+	private void evolve(Tower tower) {
+		if(tower.canEvolve()) {
+			tower.evolve();
+		} else {
+			System.err.println(tower + " essaie d'évoluer alors qu'il ne peut pas, blamez celui qui a envoyé la demande.");
+		}
+	}
+	
+	private void place(Tower tower, Vector position) {
+		tower.place(position);
+	}
+	
+	private void place(Vector position) {
+
 	}
 	
 	private void processEntities() {
@@ -119,73 +187,6 @@ public class Field extends Thread {
 		}
 		for(Monster monster : monsters) {
 			monster.process();
-		}
-	}
-	
-	private void actionFromUser() {
-		Couple<Action, Object> action = job.pollFirst();
-		if(action != null) {
-			if(action._1 == null) {
-				switch(action._1) {
-				case connect:
-					connect(action._2);
-					break;
-				case evolve:
-					evolve(action._2);
-					break;
-				case none:
-					System.err.println("Get a none statement at wrong place, no reason to get scared... Right?");
-					break;
-				case place:
-					place(action._2);
-					break;
-				case remove:
-					break;
-				default:
-					throw new InternalError("J'ai oublié " + action._1);
-				}
-			}
-		}
-	}
-	
-	private void connect(Object object) {
-		if(object instanceof Couple<?, ?>
-		   && ((Couple<?, ?>) object)._1 instanceof PathNode
-		   && ((Couple<?, ?>) object)._2 instanceof PathNode) {
-				@SuppressWarnings("unchecked")
-				Couple<PathNode, PathNode> pathNodes = (Couple<PathNode, PathNode>) object;
-				pathNodes._1.link(pathNodes._2);
-		} else {
-				throw new IllegalStateException("connect n'agit que sur des Couple<PathNode, PathNode> pas sur " + object.getClass());
-		}
-	}
-	
-	private void evolve(Object object) {
-		if(object instanceof Tower) {
-			Tower tower = (Tower) object;
-			if(tower.canEvolve()) {
-				tower.evolve();
-			} else {
-				System.err.println(tower + " essaie d'évoluer alors qu'il ne peut pas, blamez celui qui a envoyé la demande.");
-			}
-		} else {
-			throw new IllegalStateException("evolve n'agit que sur des Tower pas sur " + object.getClass());
-		}
-	}
-	
-	private void place(Object object) {
-		if(object instanceof Couple<?, ?>
-		   && ((Couple<?, ?>) object)._1 instanceof Monster
-		   && ((Couple<?, ?>) object)._1 instanceof PathNode) {
-			@SuppressWarnings("unchecked")
-			Couple<Monster, PathNode> coupleMonster = (Couple<Monster, PathNode>) object;
-			
-		} else if(object instanceof PathNode) {
-			PathNode pathNode = (PathNode) object;
-		} else if(object instanceof Tower) {
-			Tower tower = (Tower) object;
-		} else {
-			throw new IllegalStateException("place only work on Monster, PathNode or Tower " + object.getClass());
 		}
 	}
 	
@@ -223,10 +224,39 @@ public class Field extends Thread {
 		return running;
 	}
 	
+	@Override
+	public String toString() {
+		String str = "Field : " + getName();
+		
+		int nbrMonsters = monsters.size();
+		str += "\n\nIl y a actuellement " + nbrMonsters + " monstres sur le terrain.";
+		if(nbrMonsters <= 15) {
+			for(Monster monster : monsters) {
+				str += "\n\t" + monster;
+			}
+		}
+		
+		int nbrPathNodes = pathNodes.size();
+		str += "\n\nIl y a actuellement " + nbrPathNodes + " points de passage sur le terrain.";
+		if(nbrPathNodes <= 15) {
+			for(PathNode pathNode: pathNodes) {
+				str += "\n\t" + pathNode;
+			}
+		}
+		
+		int nbrTowers = towers.size();
+		str += "\n\nIl y a actuellement " + nbrTowers + " tours.";
+		for(Tower tower : towers) {
+			str += "\n\t" + tower;
+		}
+		
+		str += "\n\nPour un total de " + entities.size() + " entitée.";
+		return str;
+	}
+	
 	public enum Action {
 		connect,
 		evolve,
-		none,
 		place,
 		remove;
 	}

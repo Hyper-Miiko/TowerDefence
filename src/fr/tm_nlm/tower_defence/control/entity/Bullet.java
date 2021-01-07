@@ -11,59 +11,50 @@ import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
  * @author Hyper Mïko
  *
  */
-public class Bullet extends Entity implements Movable {
-	private static final Tower towerDummy = Tower.dummy();
-	private static final Monster monsterDummy = Monster.dummy();
-	
-	private double speed; //Pixels par secondes
-	private double dammage;
-	private double currentAngle;
+public class Bullet<E extends Entity> extends Entity implements Movable {
+	private boolean aiming;
 	private double aimingFactor;
-	private Entity target;
-	public Bullet(Field field, Shape shape) {
-		super(field, shape);
-		speed = 10d;
-		dammage = 0d;
-		aimingFactor = -1d;
-		target = null;
+	private double angle;
+	private double speed;
+	private double damage;
+	private E target;
+
+	public Bullet() {
+		super(null, null);
+		// TODO Auto-generated constructor stub
 	}
-	
-	public Bullet add(Vector positions, double angle) {
-		Bullet clone = new Bullet(field, getAppareances().getShape());
-		clone.getAppareances().getShape().setPosition(positions);
-		clone.speed        = this.speed;
-		clone.dammage      = this.dammage;
-		clone.currentAngle = angle;
-		clone.aimingFactor = this.aimingFactor;
-		clone.target       = this.target;
-		return clone;
-	}
-	
-	public void target(Target target) {
-		switch(target) {
-		case MONSTER:
-			this.target = monsterDummy;
-			break;
-		case TOWER:
-			this.target = towerDummy;
-			break;
-		default:
-			throw new InternalError("J'ai oublié une cible potentielle : " + target);
-		}
-	}
-	
+
+	@Override
 	public void move() {
-		long diffNano = System.nanoTime() - getLastNano();
-		refreshNano();
-		if(aimingFactor != -1) {
-			
-		}
-		double dist = ((double) speed*diffNano)/1000000000d;
-		Vector nextPosition = getPosition().byAngle(currentAngle, dist);
+		// TODO Auto-generated method stub
+		
+	}
+
+	void setAiming(boolean aiming) {
+		this.aiming = aiming;
+	}
+
+	void setAimingFactor(double aimingFactor) {
+		this.aimingFactor = aimingFactor;
 	}
 	
-	public enum Target {
-		TOWER,
-		MONSTER;
+	void setAngle(double angle) {
+		this.angle = angle;
 	}
+
+	void setSpeed(double speed) {
+		this.speed = speed;
+	}
+
+	void setDamage(double damage) {
+		this.damage = damage;
+	}
+	
+	E getTarget() {
+		return target;
+	}
+	void setTarget(E target) {
+		this.target = target;
+	}
+	
 }

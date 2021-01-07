@@ -164,7 +164,14 @@ public class PathNode extends Entity {
 	
 	@Override
 	public String toString() {
-		String str = "Noeud" + getPosition();
+		String str = super.toString();
+		str += ": Point" + getPosition();
+		if(castle) {
+			str += " mène vers la victoire";
+		} else if(passByToCastle != null) {
+			str += " mène vers le Point n°" + passByToCastle.id() + " en " + passByToCastle.getPosition();
+		}
+		str += ".";
 		return str;
 	}
 }

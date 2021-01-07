@@ -12,6 +12,7 @@ public final class PresetMonster {
 		Shape shape = new Circle(start.getPosition(), 5);
 		Monster kumo = new Monster(field, shape, start);
 		kumo.setBaseSpeed(30);
+		kumo.setMonsterType("Kumo");
 		return kumo;
 	}
 }
