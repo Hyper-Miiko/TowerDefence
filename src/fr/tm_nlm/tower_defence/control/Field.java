@@ -183,7 +183,7 @@ public class Field extends Thread {
 	}
 	
 	private void place(Vector position) {
-
+		//TODO pathNode
 	}
 	
 	private void place(Monster monster, PathNode pathNode) {
@@ -194,6 +194,7 @@ public class Field extends Thread {
 		LinkedList<Entity> remove = new LinkedList<>();
 		for(Entity entity : entities) {
 			if(entity.isDead()) {
+				System.out.println(entity);
 				remove.push(entity);
 			}
 		}

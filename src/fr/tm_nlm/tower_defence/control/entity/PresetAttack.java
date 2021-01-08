@@ -25,7 +25,7 @@ public class PresetAttack {
 		attack.setNbrOfBullet(10);
 		attack.setPrecisionLoss(40);
 		attack.setLifeTime(5, 7);
-		attack.setSize(0.1);
+		attack.setSize(1);
 		return attack;
 	}
 	public static Attack buildTripleShot(Field field) {
