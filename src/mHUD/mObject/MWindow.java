@@ -9,6 +9,9 @@ public class MWindow extends Thread{
 	private MItem focusItem;
 	private boolean mousePressed;
 	
+	private boolean active = true;
+	private boolean running = false;
+	
 	private final Vector windowSize;
 	
 	public MWindow(int x, int y) {
@@ -18,29 +21,37 @@ public class MWindow extends Thread{
 		StdDraw.enableDoubleBuffering();
 	}
 	
+	public void setActive(boolean a){
+		active = a;
+	}
+	public boolean isRunning() {
+		System.out.println("BOI");
+		return running;
+	}
+	
 	public void setMainFrame(MFrame mainFrame) {
 		this.mainFrame = mainFrame;
 		mainFrame.setWindowSize(windowSize);
 	}
 
 	public void run() {
-		while(true) {
-			if(mainFrame != null) {
-				if(mousePressed && !StdDraw.isMousePressed()) {
-					focusItem = mainFrame.getFocalisedItem(StdDraw.mouseX(), StdDraw.mouseY());
-				}
-				
-				if(focusItem != null) {
+		//while(true) {
+				if(active) {
+					running = true;
+					if(mousePressed && !StdDraw.isMousePressed()) {
+						focusItem = mainFrame.getFocalisedItem(StdDraw.mouseX(), StdDraw.mouseY());
+					}
 					
+					if(focusItem != null) {
+						
+					}
+					mousePressed = StdDraw.isMousePressed();
+					
+					mainFrame.refreshObject();
+					mainFrame.draw();
+					StdDraw.show();
 				}
-				mousePressed = StdDraw.isMousePressed();
-				
-				mainFrame.refreshObject();
-				mainFrame.draw();
-				StdDraw.show();
-				
-				StdDraw.pause(10);
-			}
-		}
+				running = false;
+		//}
 	}
 }

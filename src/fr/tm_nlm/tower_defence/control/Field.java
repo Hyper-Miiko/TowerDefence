@@ -94,14 +94,14 @@ public class Field extends Thread {
 
 	@Override
 	public void run() {
-		while(true) {
+		//while(true) {
 			if(activ) {
 				running = true;
 				processEntities();
 				actionFromUser();
 			}
 			running = false;
-		}
+		//}
 	}
 	
 	public void workOn(Action action, Vector position, Entity... entities) {

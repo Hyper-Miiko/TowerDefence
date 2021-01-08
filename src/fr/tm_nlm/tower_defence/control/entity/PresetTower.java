@@ -35,7 +35,7 @@ public final class PresetTower {
 	private static Tower buildMadMewMew(Field field) {
 		Tower madMewMew = new Tower(field, "Mad Mew Mew");
 		madMewMew.setObstacle(false);
-		madMewMew.setRange(200);
+		madMewMew.setRange(400);
 		madMewMew.setMaxHealth(Integer.MAX_VALUE);
 		madMewMew.setAttack(PresetAttack.buildTripleShot(field));
 		return madMewMew;
@@ -45,7 +45,7 @@ public final class PresetTower {
 		Tower mettaton = new Tower(field, "Mettaton");
 		mettaton.setObstacle(true);
 		mettaton.setCost(20);
-		mettaton.setRange(20);
+		mettaton.setRange(100);
 		mettaton.setMaxHealth(Integer.MAX_VALUE);
 		mettaton.setAttack(PresetAttack.buildFlameRobe(field));
 		//mettaton.canEvolveIn(buildMettatonEX(field), 63);

@@ -13,8 +13,6 @@ import mHUD.StdDraw;
 import mHUD.mObject.MItem;
 
 public class IGraphicView extends MItem {
-	private boolean active = true;
-	private boolean running = false;
 	private boolean clicked = false;
 	private LinkedList<Couple<MGraphicEntity, Couple<Double,Double>>> savedEntity = new LinkedList<>();
 	
@@ -29,14 +27,6 @@ public class IGraphicView extends MItem {
 		this.setNeedRedraw(true);
 		imageBuffer = new BufferedImage((int)getSize().x-1, (int)getSize().y-1, BufferedImage.TYPE_INT_ARGB);
 		imageEdit = imageBuffer.createGraphics();
-	}
-
-	public void setActive(boolean a) {
-		active = a;
-	}
-	public boolean isRunning() {
-		//System.out.println("Running : "+running);
-		return running;
 	}
 	
 	public void addGraphicEntity(MGraphicEntity e) {
@@ -57,8 +47,6 @@ public class IGraphicView extends MItem {
 	}
 	
 	protected void refreshObject() {
-		if(active) {
-			running = true;
 			if(mousePressed() && !clicked) {
 				clicked = true;
 					for(MGraphicEntity e : entityList) {
@@ -68,15 +56,11 @@ public class IGraphicView extends MItem {
 					}
 			}
 			if(!mousePressed() && clicked) clicked = false;
-		}
-		running = false;
 	}
 	
 
 	
 	protected void draw() {
-		if(active){
-			running = true;
 			imageEdit.setColor(color);
 			imageEdit.fill(new Rectangle(0,0,(int)getSize().x-1, (int)getSize().y-1));
 			
@@ -85,8 +69,6 @@ public class IGraphicView extends MItem {
 			}
 			
 			StdDraw.picture(getPos().x/getWindowSize().x, getPos().y/getWindowSize().y, imageBuffer);
-		}
-		running = false;
 	}
 	
 	public double mouseX() {

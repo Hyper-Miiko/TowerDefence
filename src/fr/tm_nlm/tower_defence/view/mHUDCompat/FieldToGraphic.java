@@ -44,8 +44,6 @@ public class FieldToGraphic extends Thread {
 		this.win = win;
 		entityToGraphic = new HashMap<>();
 		nodePath = new HashMap<>();
-		
-		//graphicToEntity = new HashMap<>();
 	}
 	
 	private void add(Entity entity) {
@@ -66,9 +64,7 @@ public class FieldToGraphic extends Thread {
 		view.addGraphicEntity(graphic);
 		entityToGraphic.put(entity, graphic);
 		
-		if(entity instanceof PathNode) addPath((PathNode)entity);
-		
-		//graphicToEntity.put(graphic, entity);
+		//if(entity instanceof PathNode) addPath((PathNode)entity);
 	}
 	
 	private void addPath(PathNode p) {
@@ -101,7 +97,6 @@ public class FieldToGraphic extends Thread {
 			view.removeGraphicEntity(graphic);
 			nodePath.remove(entity);
 		}
-		//graphicToEntity.remove(graphic);
 		return graphic != null;
 	}
 	private void edit(Entity entity) {
@@ -113,10 +108,6 @@ public class FieldToGraphic extends Thread {
 		graphic.setPosition(entity.getPosition().x, entity.getPosition().y);
 	}
 	
-	/*public Entity get(MGraphicEntity graphic) {
-		return graphicToEntity.get(graphic);
-	}*/
-	
 	private MGraphicEntity get(Entity entity) {
 		if(!field.equals(entity.getField())) {
 			throw new IllegalArgumentException("L'entité n'appartient pas au bon champ.");
@@ -126,15 +117,15 @@ public class FieldToGraphic extends Thread {
 
 	@Override
 	public void run() {
-		while(true) {
-			working();
+		//while(true) {
+			//working();
 			
 			output();
 			
 			input();
 			
-			waiting();
-		}
+			//waiting();
+		//}
 	}
 	
 	private void output() {
@@ -150,17 +141,6 @@ public class FieldToGraphic extends Thread {
 				add(e);
 			}
 		}
-		/*HashSet<Entity> update = new HashSet<>();
-		for(Map.Entry<Entity, MGraphicEntity> entry : entityToGraphic.entrySet()) {
-			if(!entry.getKey().isCheck()) {
-				update.add(entry.getKey());
-				entry.getKey().check();
-			}
-		}
-		for(Entity entity : update) {
-			remove(entity);
-			add(entity);
-		}*/
 	}
 	
 	private void input() {
@@ -180,42 +160,33 @@ public class FieldToGraphic extends Thread {
 	}
 	
 	private void working() {
-		/*
-		System.out.println("view IN");
-		
-		view.setActive(false);
-		while(view.isRunning());
-		
-		System.out.println("view OUT");
-		
-		
-		
-		System.out.println("field IN");
-		
+		win.setActive(false);
 		field.setActiv(false);
-		while(field.isRunning());
 		
-		System.out.println("field OUT");
-		*/
+		System.out.println("	IN");
+		while(field.isRunning());
+		System.out.println("	OUT");
+		
+		System.out.println("	IN");
+		while(win.isRunning());
+		System.out.println("	OUT");
 		
 		field.suspend();
 		win.suspend();
 	}
 	
 	private void waiting() {
+		win.setActive(true);
+		field.setActiv(true);
 		
 		field.resume();
 		win.resume();
 		try {
 			Thread.sleep(10);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			System.out.println("FTG.waiting.catchError");
 			e.printStackTrace();
 		}
-		/*
-		view.setActive(true);
-		field.setActiv(true);
-*/
 	}
 
 }
