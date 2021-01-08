@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Set;
@@ -16,7 +17,7 @@ public class IGraphicView extends MItem {
 	private boolean clicked = false;
 	private LinkedList<Couple<MGraphicEntity, Couple<Double,Double>>> savedEntity = new LinkedList<>();
 	
-	private Set<MGraphicEntity> entityList =  new LinkedHashSet<MGraphicEntity>();
+	private ArrayList<MGraphicEntity> entityList =  new ArrayList<MGraphicEntity>();
 	
 	private Graphics2D imageEdit;
 	private BufferedImage imageBuffer;
@@ -29,7 +30,10 @@ public class IGraphicView extends MItem {
 		imageEdit = imageBuffer.createGraphics();
 	}
 	
-	public void addGraphicEntity(MGraphicEntity e) {
+	public void addGraphicEntityAt(int n,MGraphicEntity e) {
+		entityList.add(n, e);
+	}
+	public void addGraphicEntityAt(MGraphicEntity e) {
 		entityList.add(e);
 	}
 	public void removeGraphicEntity(MGraphicEntity e) {
@@ -57,8 +61,6 @@ public class IGraphicView extends MItem {
 			}
 			if(!mousePressed() && clicked) clicked = false;
 	}
-	
-
 	
 	protected void draw() {
 			imageEdit.setColor(color);

@@ -28,7 +28,7 @@ public class TowerDefence {
 		window.start();
 		
 		GRectEntity t = new GRectEntity(300,300,100,100);
-		view.addGraphicEntity(t);
+		view.addGraphicEntityAt(t);
 		
 		boolean flag = false;
 		while(true) {

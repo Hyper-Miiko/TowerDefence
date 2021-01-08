@@ -61,7 +61,7 @@ public class FieldToGraphic extends Thread {
 			graphic = new GRectEntity(entity.getPosition().x, entity.getPosition().y, entity.getAppareances().getRect().getSize().x, entity.getAppareances().getRect().getSize().y);
 		}
 		
-		view.addGraphicEntity(graphic);
+		view.addGraphicEntityAt(graphic);
 		entityToGraphic.put(entity, graphic);
 		
 		//if(entity instanceof PathNode) addPath((PathNode)entity);
@@ -79,7 +79,7 @@ public class FieldToGraphic extends Thread {
 			graphic.rotate(roation);
 			graphic.setLineColor(255,255,255);
 			
-			view.addGraphicEntity(graphic);
+			view.addGraphicEntityAt(graphic);
 			nodePath.put(p, graphic);
 		}
 	}
