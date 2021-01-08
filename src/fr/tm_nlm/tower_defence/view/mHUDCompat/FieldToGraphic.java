@@ -138,7 +138,7 @@ public class FieldToGraphic extends Thread {
 			MGraphicEntity graphic = this.get(entity);
 			if(entityToGraphic.containsKey(entity)) {
 				if(graphic == null) {
-					remove(entity);
+					//remove(entity);
 				} else {
 					edit(entity);
 				}

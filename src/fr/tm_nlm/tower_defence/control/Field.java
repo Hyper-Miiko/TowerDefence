@@ -55,11 +55,12 @@ public class Field extends Thread {
 		someNews = true;
 	}
 	
-	public void buy(int price) {
-		if(price > temmies) {
-			throw new IllegalArgumentException("Pas assez de temmies, merci d'utiliser canBuy(price) à l'avenir.");
+	public boolean buy(int price) {
+		if(price <= temmies) {
+			temmies -= price;
+			return true;
 		}
-		temmies -= price;
+		return false;
 	}
 	
 	public boolean canBuy(int price) {
@@ -89,7 +90,9 @@ public class Field extends Thread {
 			} else if(junk instanceof Tower) {
 				towers.remove(junk);
 			} else if(junk instanceof Monster) {
+				System.out.println(monsters.size());
 				monsters.remove(junk);
+				System.out.println(monsters.size());
 			} else if(junk instanceof Bullet) {
 				bullets.remove(junk);
 			} else {
@@ -146,14 +149,10 @@ public class Field extends Thread {
 //	}
 	
 	private void processEntities() {
-		LinkedList<Entity> remove = new LinkedList<>();
 		for(Entity entity : entities) {
 			if(entity.isDead()) {
-				remove.push(entity);
+				trash.add(entity);
 			}
-		}
-		while(!remove.isEmpty()) {
-			entities.remove(remove.pop());
 		}
 		for(Tower tower : towers) {
 			if(tower.isOnField()) {
