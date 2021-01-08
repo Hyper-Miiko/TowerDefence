@@ -37,7 +37,6 @@ public class GCircleEntity extends GPlainEntity {
 		imageEdit = imageBuffer.createGraphics();
 	}
 	protected Image getImage() {
-		rotate(getRotation());
 		imageEdit.setColor(getBackgroundColor());
 		imageEdit.fill(new Ellipse2D.Double(0,0,radius,radius));
 		

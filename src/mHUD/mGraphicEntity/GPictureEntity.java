@@ -42,11 +42,13 @@ public class GPictureEntity extends MGraphicEntity{
 	}
 	
 	protected Image getImage() {
+		
+		imageEdit.rotate(getRotation());
 		imageEdit.drawImage(image, 0,0, null);
+		imageEdit.rotate(-getRotation());
 		return imageBuffer;
 	}
 	protected void reloadCanvas() {
-		rotate(getRotation());
 		imageBuffer = new BufferedImage((int)size.x, (int)size.y, BufferedImage.TYPE_INT_ARGB);
 		imageEdit = imageBuffer.createGraphics();
 	}

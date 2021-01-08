@@ -35,31 +35,15 @@ public class IGraphicView extends MItem {
 		active = a;
 	}
 	public boolean isRunning() {
+		//System.out.println("Running : "+running);
 		return running;
 	}
 	
 	public void addGraphicEntity(MGraphicEntity e) {
-		if(running)entityList.add(e);
+		entityList.add(e);
 	}
 	public void removeGraphicEntity(MGraphicEntity e) {
-		if(running)entityList.remove(e);
-	}
-	
-	protected void refreshObject() {
-		if(active) running = true;
-		else running = false;
-		
-		if(running) {
-			if(mousePressed() && !clicked) {
-				clicked = true;
-					for(MGraphicEntity e : entityList) {
-						if(e.isIn(mouseX(),mouseY())) {
-							savedEntity.add(new Couple<>(e, new Couple<>(mouseX(),mouseY())));
-						}
-					}
-			}
-			if(!mousePressed() && clicked) clicked = false;
-		}
+		entityList.remove(e);
 	}
 	
 	public void setBackgroundColor(int r, int g, int b) {
@@ -72,12 +56,27 @@ public class IGraphicView extends MItem {
 		}
 	}
 	
-	protected void draw() {
-		if(active) running = true;
-		else running = false;
+	protected void refreshObject() {
+		if(active) {
+			running = true;
+			if(mousePressed() && !clicked) {
+				clicked = true;
+					for(MGraphicEntity e : entityList) {
+						if(e.isIn(mouseX(),mouseY())) {
+							savedEntity.add(new Couple<>(e, new Couple<>(mouseX(),mouseY())));
+						}
+					}
+			}
+			if(!mousePressed() && clicked) clicked = false;
+		}
+		running = false;
+	}
+	
 
-		if(running)
-		{
+	
+	protected void draw() {
+		if(active){
+			running = true;
 			imageEdit.setColor(color);
 			imageEdit.fill(new Rectangle(0,0,(int)getSize().x-1, (int)getSize().y-1));
 			
@@ -87,7 +86,9 @@ public class IGraphicView extends MItem {
 			
 			StdDraw.picture(getPos().x/getWindowSize().x, getPos().y/getWindowSize().y, imageBuffer);
 		}
+		running = false;
 	}
+	
 	public double mouseX() {
 		return (StdDraw.mouseX()*getWindowSize().x/2)-getPos().x/2+getSize().x/2;
 	}
@@ -97,6 +98,7 @@ public class IGraphicView extends MItem {
 	public boolean mousePressed() {
 		return  StdDraw.isMousePressed() && mouseIn();
 	}
+	
 	public boolean haveActiveEntity() {
 		return !savedEntity.isEmpty();
 	}

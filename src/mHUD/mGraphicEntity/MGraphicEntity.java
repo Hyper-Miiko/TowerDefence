@@ -30,14 +30,14 @@ public abstract class MGraphicEntity {
 	public boolean isIn(Vector position) {
 		return isIn(position.x, position.y);
 	}
+	
+	
 	public double getRotation() {
 		return rotation;
 	}
 
 	public void rotate(double rotation) {
-		imageEdit.rotate(-getRotation());
 		this.rotation = rotation;
-		imageEdit.rotate(getRotation());
 	}
 	
 	protected abstract void reloadCanvas();

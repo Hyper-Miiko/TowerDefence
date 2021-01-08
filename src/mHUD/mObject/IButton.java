@@ -39,7 +39,7 @@ public class IButton extends ILabel {
 	
 	protected void refreshObject() {
 		buttonPressed();
-		buttonReleased();
+		//buttonReleased();
 		
 		if(isButtonPressed)super.setBackgroundColor(getPressedColor());
 		else if(mouseIn())super.setBackgroundColor(getMouseOnColor());

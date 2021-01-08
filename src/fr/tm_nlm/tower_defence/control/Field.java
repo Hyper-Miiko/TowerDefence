@@ -240,6 +240,9 @@ public class Field extends Thread {
 	public int getLives() {
 		return lives;
 	}
+	public int getTemmies() {
+		return temmies;
+	}
 	
 	public boolean isRunning() {
 		return running;

@@ -25,17 +25,16 @@ public class TowerDefence {
 		view.setBackgroundColor(0, 0, 0);
 		mainFrame.addObject(view);
 		
-		Field field = new Field(600, 600);
-		
-		FieldToGraphic fTg = new FieldToGraphic(field,view);
-		
-		field.start();
 		window.start();
-		fTg.start();
+		
+		GRectEntity t = new GRectEntity(300,300,100,100);
+		view.addGraphicEntity(t);
 		
 		boolean flag = false;
 		while(true) {
+			
 			if(view.mousePressed() && !flag) {
+				t.rotate(t.getRotation()+0.1);
 				flag = true;
 			}
 			if(!view.mousePressed()) {
