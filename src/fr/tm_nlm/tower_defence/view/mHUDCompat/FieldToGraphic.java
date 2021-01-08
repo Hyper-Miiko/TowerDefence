@@ -60,9 +60,11 @@ public class FieldToGraphic extends Thread {
 		} else */if(entity.getAppareances().isCircle()) {
 			graphic = new GCircleEntity(entity.getPosition().x, entity.getPosition().y, entity.getAppareances().getCircle().getRadius());
 			((GCircleEntity)graphic).setBackgroundColor(entity.getAppareances().getColor());
+			((GCircleEntity)graphic).setLineColor(entity.getAppareances().getColor());
 		} else {
 			graphic = new GRectEntity(entity.getPosition().x, entity.getPosition().y, entity.getAppareances().getRect().getSize().x, entity.getAppareances().getRect().getSize().y);
 			((GRectEntity)graphic).setBackgroundColor(entity.getAppareances().getColor());
+			((GRectEntity)graphic).setLineColor(entity.getAppareances().getColor());
 		}
 		
 		view.addGraphicEntityAt(graphic);
