@@ -39,12 +39,12 @@ public class Monster extends Entity implements Damageable {
 	}
 	
 	public Monster(Field field, Shape shape) {
-		super(field, shape, false);
+		super(field, shape);
 		nextNode = null;
 	}
 	
 	private Monster() {
-		super(null, null, false);
+		super(null, null);
 	}
 	
 	private boolean isIn(PathNode pathNode) {

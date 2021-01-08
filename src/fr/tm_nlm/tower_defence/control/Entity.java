@@ -13,26 +13,17 @@ public abstract class Entity {
 	protected boolean check;
 	private long lastNano;
 	private final long id;
-
+	
 	public Entity(Field field, Shape shape) {
 		id = nextId++;
-		init(field, shape, true);
+		init(field, shape);
 	}
 	
-	public Entity(Field field, Shape shape, boolean add) {
-		id = nextId++;
-		init(field, shape, add);
-	}
-	
-	private void init(Field field, Shape shape, boolean add) {
+	private void init(Field field, Shape shape) {
 		this.field = field;
 		appareances = new Appareances(shape);
 		check = false;
 		lastNano = System.nanoTime();
-		
-		if(add) {
-			field.add(this);
-		}
 	}
 	
 	protected void refreshNano() {
