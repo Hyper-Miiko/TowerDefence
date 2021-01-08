@@ -26,6 +26,9 @@ public class PresetAttack {
 		attack.setPrecisionLoss(40);
 		attack.setLifeTime(5, 7);
 		attack.setSize(2);
+		attack.setRed(255);
+		attack.setGreen(0, 150);
+		attack.setBlue(0);
 		return attack;
 	}
 	public static Attack buildTripleShot(Field field) {
@@ -39,6 +42,19 @@ public class PresetAttack {
 		attack.setPrecisionLoss(0);
 		attack.setLifeTime(3);
 		attack.setSize(5);
+		return attack;
+	}
+	public static Attack buildSpire(Field field) {
+		Attack attack = new Attack(field);
+		attack.setBulletSpeed(200);
+		attack.setDamage(50);
+		attack.setAimingFactor(0);
+		attack.setInterval(10);
+		attack.setRafaleInterval(1);
+		attack.setNbrOfBullet(1);
+		attack.setPrecisionLoss(0);
+		attack.setLifeTime(2);
+		attack.setSize(10);
 		return attack;
 	}
 }

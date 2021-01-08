@@ -54,9 +54,9 @@ public class FieldToGraphic extends Thread {
 		}
 		
 		MGraphicEntity graphic;
-		if(entity.getAppareances().getCurrentImage() != null) {
+		/*if(entity.getAppareances().getCurrentImage() != null) {
 			graphic = new GPictureEntity(entity.getPosition().x, entity.getPosition().y,entity.getAppareances().getRect().getSize().x,entity.getAppareances().getRect().getSize().y, entity.getAppareances().getCurrentImage());
-		} else if(entity.getAppareances().isCircle()) {
+		} else */if(entity.getAppareances().isCircle()) {
 			graphic = new GCircleEntity(entity.getPosition().x, entity.getPosition().y, entity.getAppareances().getCircle().getRadius());
 		} else {
 			graphic = new GRectEntity(entity.getPosition().x, entity.getPosition().y, entity.getAppareances().getRect().getSize().x, entity.getAppareances().getRect().getSize().y);

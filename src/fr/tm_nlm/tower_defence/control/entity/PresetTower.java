@@ -42,16 +42,23 @@ public final class PresetTower {
 	}
 	
 	public static Tower buildMetaton(Field field) {
-		Tower mettaton = new Tower(field, "Mettaton");
-		mettaton.setObstacle(true);
-		mettaton.setCost(20);
-		mettaton.setRange(100);
-		mettaton.setMaxHealth(Integer.MAX_VALUE);
-		mettaton.setAttack(PresetAttack.buildFlameRobe(field));
+		Tower metaton = new Tower(field, "Mettaton");
+		metaton.setObstacle(true);
+		metaton.setCost(20);
+		metaton.setRange(100);
+		metaton.setMaxHealth(Integer.MAX_VALUE);
+		metaton.setAttack(PresetAttack.buildFlameRobe(field));
 		//mettaton.canEvolveIn(buildMettatonEX(field), 63);
-		return mettaton;
+		return metaton;
 	}
 	/*private Tower buildMettatonEX(Field field) {
 		
 	}*/
+	
+	public static Tower buildUndyne(Field field) {
+		Tower undyne = new Tower(field, "Undyne");
+		undyne.setAttack(PresetAttack.buildSpire(field));
+		undyne.setRange(500);
+		return undyne;
+	}
 }

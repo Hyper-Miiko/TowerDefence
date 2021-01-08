@@ -20,7 +20,6 @@ public class Tower extends Entity implements Damageable {
 	private int evolveCost;
 	private int range;
 	private double cost;
-	private double determination; //multiplicateur du prix de résurrection
 	private double health;
 	private double maxHealth;
 	private Attack attack;
@@ -35,7 +34,6 @@ public class Tower extends Entity implements Damageable {
 		evolveCost = -1;
 		range = 100;
 		cost = 5d;
-		determination = 1.5d;
 		maxHealth = 20d;
 		health = maxHealth;
 		this.name = name;

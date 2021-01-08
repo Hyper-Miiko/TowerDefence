@@ -10,26 +10,29 @@ public class Attack {
 	private static Random random = new Random();
 	
 	private boolean aiming;
-	private int minBullet;
-	private int maxBullet;
-	private int minInterval;
-	private int maxInterval;
+	private int minRed, maxRed;
+	private int minGreen, maxGreen;
+	private int minBlue, maxBlue;
+	private int minBullet, maxBullet;
+	private int minInterval, maxInterval;
 	private long nextInterval;
-	private int minRafaleInterval;
-	private int maxRafaleInterval;
+	private int minRafaleInterval, maxRafaleInterval;
 	private long nextRafaleInterval;
-	private int minLifeTime;
-	private int maxLifeTime;
+	private int minLifeTime, maxLifeTime;
 	private double aimingFactor;
-	private double minBulletSpeed;
-	private double maxBulletSpeed;
-	private double minDamage;
-	private double maxDamage;
+	private double minBulletSpeed, maxBulletSpeed;
+	private double minDamage, maxDamage;
 	private double precisionLoss;
 	private double size;
 	private LinkedList<Bullet> bulletLeft;
 	private Field field;
 	
+	{
+		aiming = false;
+		minRed = maxRed = 200;
+		minGreen = maxGreen = 200;
+		minBlue = maxBlue = 0;
+	}
 	public Attack(Field field) {
 		this.field = field;
 		bulletLeft = new LinkedList<>();
@@ -45,12 +48,16 @@ public class Attack {
 				Bullet bullet = new Bullet(field);
 				bullet.setAiming(aiming);
 				bullet.setAimingFactor(aimingFactor);
-				double damage = random.nextDouble()*maxDamage - minDamage;
+				double damage = random.nextDouble()*(maxDamage - minDamage) + minDamage;
 				bullet.setDamage(damage);
-				double bulletSpeed = random.nextDouble()*maxBulletSpeed - minBulletSpeed;
+				double bulletSpeed = random.nextDouble()*(maxBulletSpeed - minBulletSpeed) + minBulletSpeed;
 				bullet.setSpeed(bulletSpeed);
 				bullet.setTarget(target);
 				bullet.setSize(size);
+				int red = (minRed == maxRed) ? minRed : random.nextInt(maxRed - minRed) + minRed;
+				int green = (minGreen == maxGreen) ? minGreen : random.nextInt(maxGreen - minGreen) + minGreen;
+				int blue = (minBlue == maxBlue) ? minBlue : random.nextInt(maxBlue - minBlue) + minBlue;
+				bullet.setColor(red, green, blue);
 				bulletLeft.add(bullet);
 			}
 		}
@@ -75,6 +82,33 @@ public class Attack {
 	public void setAimingFactor(double aimingFactor) {
 		this.aimingFactor = aimingFactor;
 		this.aiming = aimingFactor != 0d;
+	}
+	
+	public void setRed(int red) {
+		setRed(red, red);
+	}
+	
+	public void setRed(int minRed, int maxRed) {
+		this.minRed = minRed;
+		this.maxRed = maxRed;
+	}
+	
+	public void setGreen(int green) {
+		setGreen(green, green);
+	}
+	
+	public void setGreen(int minGreen, int maxGreen) {
+		this.minGreen = minGreen;
+		this.minGreen = minGreen;
+	}
+	
+	public void setBlue(int blue) {
+		setBlue(blue, blue);
+	}
+	
+	public void setBlue(int minBlue, int maxBlue) {
+		this.minBlue = minBlue;
+		this.maxBlue = maxBlue;
 	}
 	
 	public void setNbrOfBullet(int nbrOfBullet) {
@@ -127,7 +161,7 @@ public class Attack {
 		if(precisionLoss > 100) {
 			throw new IllegalArgumentException("Percent are under 100.");
 		}
-		this.precisionLoss = Math.PI/100*(100-precisionLoss);
+		this.precisionLoss = Math.PI/100*precisionLoss;
 	}
 	
 	public void setLifeTime(double lifeTime) {
