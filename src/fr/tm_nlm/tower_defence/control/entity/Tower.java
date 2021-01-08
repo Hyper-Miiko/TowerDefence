@@ -31,7 +31,7 @@ public class Tower extends Entity implements Damageable {
 	private LinkedList<Option> requires;
 
 	public Tower(Field field, String name) {
-		super(field, null, false);
+		super(field, null);
 		obstacle = false;
 		evolveCost = -1;
 		range = 100;

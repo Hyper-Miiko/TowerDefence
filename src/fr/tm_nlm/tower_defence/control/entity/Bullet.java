@@ -33,7 +33,7 @@ public class Bullet extends Entity implements Movable {
 		damage = 1d;
 	}
 	public Bullet(Field field) {
-		super(field, new Circle(null, 2), false);
+		super(field, new Circle(null, 2));
 	}
 	
 	public void process() {
