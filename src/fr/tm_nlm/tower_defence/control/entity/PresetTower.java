@@ -26,14 +26,15 @@ public final class PresetTower {
 		madDummy.setCost(5);
 		madDummy.setMaxHealth(Integer.MAX_VALUE);
 		madDummy.evolveIn(buildMadMewMew(field), 63);
-		madDummy.setAttack(PresetAttack.buildShotGun(field));
+		madDummy.addAttack(PresetAttack.buildShotGun(field));
+		madDummy.addAttack(PresetAttack.buildRocketLauncher(field));
 		return madDummy;
 	}
 	private static Tower buildMadMewMew(Field field) {
 		Tower madMewMew = new Tower(field, "Mad Mew Mew");
 		madMewMew.setObstacle(false);
 		madMewMew.setMaxHealth(Integer.MAX_VALUE);
-		madMewMew.setAttack(PresetAttack.buildTripleShot(field));
+		madMewMew.addAttack(PresetAttack.buildTripleShot(field));
 		return madMewMew;
 	}
 	
@@ -42,7 +43,7 @@ public final class PresetTower {
 		metaton.setObstacle(true);
 		metaton.setCost(20);
 		metaton.setMaxHealth(Integer.MAX_VALUE);
-		metaton.setAttack(PresetAttack.buildFlameRobe(field));
+		metaton.addAttack(PresetAttack.buildFlameRobe(field));
 		metaton.getAppareances().setColor(100, 100, 100);
 		//mettaton.canEvolveIn(buildMettatonEX(field), 63);
 		return metaton;
@@ -53,7 +54,8 @@ public final class PresetTower {
 	
 	public static Tower buildUndyne(Field field) {
 		Tower undyne = new Tower(field, "Undyne");
-		undyne.setAttack(PresetAttack.buildSpire(field));
+		undyne.addAttack(PresetAttack.buildSpire(field));
+		undyne.addAttack(PresetAttack.buildSpireOfJustice(field));
 		undyne.getAppareances().setColor(0, 0, 100);
 		return undyne;
 	}

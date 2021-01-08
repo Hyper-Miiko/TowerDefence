@@ -34,12 +34,14 @@ public class Bullet extends Entity implements Movable {
 	}
 	
 	public void process() {
+		if(aiming && !target.isDead()) {
+			double currentAngle = getPosition().angle(target.getPosition());
+			double angleDiff = angle - currentAngle;
+			angle = angle - angleDiff*aimingFactor;
+		}
 		move();
 		if(System.nanoTime() > deathTime) {
 			kill();
-		}
-		if(aiming) {
-			
 		}
 	}
 
@@ -93,7 +95,7 @@ public class Bullet extends Entity implements Movable {
 	void setDamage(double damage) {
 		this.damage = damage;
 	}
-	void setLifeTime(int lifeTime) {
+	void setLifeTime(long lifeTime) {
 		deathTime = System.nanoTime() + lifeTime;
 	}
 	void setSize(double size) {
@@ -109,5 +111,20 @@ public class Bullet extends Entity implements Movable {
 	
 	void setColor(int r, int g, int b) {
 		getAppareances().setColor(r, g, b);
+	}
+
+	@Override
+	public double getAngle() {
+		return angle;
+	}
+
+	@Override
+	public double getSpeed() {
+		return speed;
+	}
+	
+	public double travelTime(Vector from, Vector to) {
+		double dist = from.dist(to);
+		return dist/getSpeed();
 	}
 }

@@ -9,7 +9,7 @@ import fr.tm_nlm.tower_defence.control.entity.monster.Flying;
 import fr.tm_nlm.tower_defence.control.entity.monster.Option;
 import fr.tm_nlm.tower_defence.control.entity.monster.Walking;
 
-public class Monster extends Entity implements Damageable {
+public class Monster extends Entity implements Damageable, Movable {
 	public static Monster dummy() {
 		return new Monster();
 	}
@@ -80,12 +80,7 @@ public class Monster extends Entity implements Damageable {
 	}
 	
 	public void process() {
-		long nano = getLastNano();
-		refreshNano();
-		double timeToWalk = System.nanoTime() - nano;
-		if(getPosition() != null) {
-			move(timeToWalk/1000000000d);
-		}
+		move();
 	}
 	
 	private void move(double timeToWalk) {
@@ -99,6 +94,13 @@ public class Monster extends Entity implements Damageable {
 			}
 		}
 		check = false;
+	}
+	
+	public double travelTime() {
+		double dist = getPosition().dist(nextNode.getPosition());
+		dist += nextNode.getDistToCastle();
+		double time = dist/getSpeed();
+		return time;
 	}
 	
 	public PathNode getNextNode() {
@@ -130,7 +132,23 @@ public class Monster extends Entity implements Damageable {
 		String str = super.toString();
 		str += ": " + monsterType;
 		str += " est en " + getPosition();
-		str += " et a " + (int) health + "/" + (int) maxHealth + " points de vie.";
+		str += ", a " + (int) health + "/" + (int) maxHealth + " points de vie";
+		str += " et sera arrivé dans " + (double) ((int) (travelTime()*10))/10d + " secondes.";
 		return str;
+	}
+
+	@Override
+	public void move() {
+		long nano = getLastNano();
+		refreshNano();
+		double timeToWalk = System.nanoTime() - nano;
+		if(getPosition() != null) {
+			move(timeToWalk/1000000000d);
+		}
+	}
+
+	@Override
+	public double getAngle() {
+		return getPosition().angle(nextNode.getPosition());
 	}
 }

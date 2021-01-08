@@ -15,11 +15,11 @@ public class Attack {
 	private int minBlue, maxBlue;
 	private int minBullet, maxBullet;
 	private int minBulletByShot, maxBulletByShot;
-	private int minInterval, maxInterval;
-	private long nextInterval;
-	private int minCooldown, maxCooldown;
-	private long nextCooldom;
-	private int minLifeTime, maxLifeTime;
+	private double minInterval, maxInterval;
+	private double nextInterval;
+	private double minCooldown, maxCooldown;
+	private double nextCooldom;
+	private double minLifeTime, maxLifeTime;
 	private double aimingFactor;
 	private double minBulletSpeed, maxBulletSpeed;
 	private double minDamage, maxDamage;
@@ -36,9 +36,9 @@ public class Attack {
 		minBlue = maxBlue = 0;
 		minBullet = maxBullet = 1;
 		minBulletByShot = maxBulletByShot = 1;
-		minInterval = maxInterval = 500000000;
-		minCooldown = maxCooldown = 1000000000;
-		minLifeTime = maxLifeTime = 2000000000;
+		minInterval = maxInterval = 0.5;
+		minCooldown = maxCooldown = 1;
+		minLifeTime = maxLifeTime = 2;
 		aimingFactor = 0;
 		minBulletSpeed = maxBulletSpeed = 100;
 		minDamage = maxDamage = 2;
@@ -52,9 +52,9 @@ public class Attack {
 	}
 	
 	public void checkForShootAt(Entity target) {
-		long time = System.nanoTime();
+		double time = (double) System.nanoTime()/1000000000;
 		if(time > nextCooldom) {
-			nextCooldom = time + ((minCooldown == maxCooldown) ? minCooldown : random.nextInt(maxCooldown - minCooldown) + minCooldown);
+			nextCooldom = time + random.nextDouble()*(maxCooldown - minCooldown) + minCooldown;
 			bulletLeft = new LinkedList<>();
 			int bulletToMake = (minBullet == maxBullet) ? minBullet : random.nextInt(maxBullet - minBullet) + minBullet;
 			for(int n = 0; n < bulletToMake; n++) {
@@ -77,22 +77,41 @@ public class Attack {
 	}
 	
 	public void checkForBullet(Vector from) {
-		long time = System.nanoTime();
+		double time = (double) System.nanoTime()/1000000000;
 		if(time > nextInterval) {
-			nextInterval = time + ((minInterval == maxInterval) ? minInterval : random.nextInt(maxInterval - minInterval) + minInterval);
-			int bulletByShot = (minBulletByShot == maxBulletByShot) ? minBulletByShot : random.nextInt(maxBulletByShot - minBulletByShot) + minLifeTime;
+			nextInterval = time + random.nextDouble()*(maxInterval - minInterval) + minInterval;
+			int bulletByShot = (minBulletByShot == maxBulletByShot) ? minBulletByShot : random.nextInt(maxBulletByShot - minBulletByShot) + minBulletByShot;
 			for(int i = 0; i < bulletByShot; i++) {
 				Bullet bullet = bulletLeft.poll();
 				if(bullet != null) {
-					double loss = random.nextDouble()*precisionLoss*2 - precisionLoss;
-					double angle = from.angle(bullet.getTarget().getPosition()) + loss;
+					double angle = calcAngle(bullet, from);
 					bullet.setAngle(angle);
-					int lifeTime = (minLifeTime == maxLifeTime) ? minLifeTime : random.nextInt(maxLifeTime - minLifeTime) + minLifeTime;
-					bullet.setLifeTime(lifeTime);
+					double lifeTime = random.nextDouble()*(maxLifeTime - minLifeTime) + minLifeTime;
+					bullet.setLifeTime((long) (lifeTime*1000000000));
 					bullet.place(from);
 				}
 			}
 		}
+	}
+	
+	private double calcAngle(Bullet bullet, Vector from) {
+		Movable target = (Movable) bullet.getTarget();
+		double marge = bullet.getAppareances().getCircle().getRadius() + bullet.getTarget().getAppareances().getCircle().getRadius()/2;
+		final Vector targetPosition = target.getPosition();
+		final double targetDirection = target.getAngle();
+		Vector targetNextPosition = targetPosition;
+		Vector bulletNextPosition;
+		double travelTime;
+		double targetTravel;
+		do {
+			travelTime = bullet.travelTime(from, targetNextPosition);
+			bulletNextPosition = targetNextPosition;
+			targetNextPosition = targetPosition.byAngle(targetDirection, target.getSpeed()*travelTime);
+			targetTravel = bulletNextPosition.dist(targetNextPosition);
+		} while(targetTravel > marge);
+		double angle = from.angle(targetNextPosition);
+		double loss = 2*Math.PI*random.nextDouble()*precisionLoss - Math.PI*precisionLoss;
+		return angle + loss;
 	}
 	
 	public void setAimingFactor(double aimingFactor) {
@@ -160,8 +179,8 @@ public class Attack {
 	}
 	
 	public void setCooldown(double minCooldown, double maxCooldown) {
-		this.minCooldown = (int) (minCooldown*1000000000);
-		this.maxCooldown = (int) (maxCooldown*1000000000);
+		this.minCooldown = minCooldown;
+		this.maxCooldown = maxCooldown;
 	}
 	
 	public void setBulletSpeed(double bulletSpeed) {
@@ -183,8 +202,8 @@ public class Attack {
 	}
 	
 	public void setPrecisionLoss(double precisionLoss) {
-		if(precisionLoss > 100) {
-			throw new IllegalArgumentException("Percent are under 100.");
+		if(precisionLoss > 1 || precisionLoss < 0) {
+			throw new IllegalArgumentException("between 0 and 1.");
 		}
 		this.precisionLoss = Math.PI/100*precisionLoss;
 	}
@@ -193,13 +212,13 @@ public class Attack {
 		setLifeTime(lifeTime, lifeTime);
 	}
 	
-	void setSize(double size) {
-		this.size = size;
+	public void setLifeTime(double minLifeTime, double maxLifeTime) {
+		this.minLifeTime = minLifeTime;
+		this.maxLifeTime = maxLifeTime;
 	}
 	
-	public void setLifeTime(double minLifeTime, double maxLifeTime) {
-		this.minLifeTime = (int) (minLifeTime*1000000000);
-		this.maxLifeTime = (int) (maxLifeTime*1000000000);
+	void setSize(double size) {
+		this.size = size;
 	}
 	
 	double getRange() {

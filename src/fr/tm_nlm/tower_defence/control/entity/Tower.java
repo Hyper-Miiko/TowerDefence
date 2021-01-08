@@ -20,7 +20,7 @@ public class Tower extends Entity implements Damageable {
 	private double cost;
 	private double health;
 	private double maxHealth;
-	private Attack attack;
+	private LinkedList<Attack> attacks;
 	private String name;
 	private Tower evolution;
 	private LinkedList<Option> forbbidens;
@@ -37,6 +37,7 @@ public class Tower extends Entity implements Damageable {
 		evolution = null;
 		forbbidens = new LinkedList<>();
 		requires = new LinkedList<>();
+		attacks = new LinkedList<>();
 	}
 	
 	private Tower() {
@@ -44,10 +45,12 @@ public class Tower extends Entity implements Damageable {
 	}
 	
 	public void process() {
-		Monster seek = seek();
-		attack.checkForBullet(getPosition());
-		if(seek != null) {
-			attack.checkForShootAt(seek);
+		for(Attack attack : attacks) {
+			Monster seek = seek(attack.getRange());
+			attack.checkForBullet(getPosition());
+			if(seek != null) {
+				attack.checkForShootAt(seek);
+			}
 		}
 	}
 
@@ -83,7 +86,7 @@ public class Tower extends Entity implements Damageable {
 		check = false;
 	}
 	
-	private Monster seek() {
+	private Monster seek(double range) {
 		LinkedList<Monster> monsters = field.getMonsters();
 		LinkedList<Couple<Monster, Double>> seekeds = new LinkedList<>();
 		for(Monster monster : monsters) {
@@ -91,9 +94,9 @@ public class Tower extends Entity implements Damageable {
 			if(monster.getAppareances().isRect()) {
 				throw new InternalError("Pourquoi ta mis des monstre carré?");
 			}
-			if(dist < monster.getAppareances().getCircle().getRadius() + attack.getRange()
+			if(dist < monster.getAppareances().getCircle().getRadius() + range
 			   && optionAreGood(monster)) {
-				Couple<Monster, Double> seeked = new Couple<>(monster, dist);
+				Couple<Monster, Double> seeked = new Couple<>(monster, monster.travelTime());
 				seekeds.add(seeked);
 			}
 		}
@@ -105,6 +108,19 @@ public class Tower extends Entity implements Damageable {
 			}
 		}
 		return nearest._1;
+	}
+	
+	private double getRange() {
+		Double range = null;
+		for(Attack attack : attacks) {
+			if(range == null || attack.getRange() > range) {
+				range = attack.getRange();
+			}
+		}
+		if(range == null) {
+			throw new IllegalStateException("Tower placer on field without any attack");
+		}
+		return range;
 	}
 	
 	private boolean optionAreGood(Monster monster) {
@@ -148,8 +164,8 @@ public class Tower extends Entity implements Damageable {
 			   && field.canBuy(evolveCost);
 	}
 	
-	public void setAttack(Attack attack) {
-		this.attack = attack;
+	public void addAttack(Attack attack) {
+		attacks.add(attack);
 	}
 	
 	public void setCost(double cost) {
@@ -184,7 +200,7 @@ public class Tower extends Entity implements Damageable {
 		if(isOnField()) {
 			str += " en " + getPosition();
 			str += " regarde ";
-			Monster seek = seek();
+			Monster seek = seek(getRange());
 			if(seek == null) {
 				str += "personne.";
 			} else {
