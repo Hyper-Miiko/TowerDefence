@@ -35,10 +35,12 @@ public class Bullet extends Entity implements Movable {
 	
 	public void process() {
 		move();
-//		if(System.nanoTime() > deathTime) {
-//			System.out.println(System.nanoTime() - deathTime);
-//			kill();
-//		}
+		if(System.nanoTime() > deathTime) {
+			kill();
+		}
+		if(aiming) {
+			
+		}
 	}
 
 	@Override

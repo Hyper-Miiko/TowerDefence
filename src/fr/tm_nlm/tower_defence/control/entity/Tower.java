@@ -17,7 +17,6 @@ public class Tower extends Entity implements Damageable {
 	
 	private boolean obstacle;
 	private int evolveCost;
-	private int range;
 	private double cost;
 	private double health;
 	private double maxHealth;
@@ -31,7 +30,6 @@ public class Tower extends Entity implements Damageable {
 		super(field, null);
 		obstacle = false;
 		evolveCost = -1;
-		range = 100;
 		cost = 5d;
 		maxHealth = 20d;
 		health = maxHealth;
@@ -93,7 +91,7 @@ public class Tower extends Entity implements Damageable {
 			if(monster.getAppareances().isRect()) {
 				throw new InternalError("Pourquoi ta mis des monstre carré?");
 			}
-			if(dist < monster.getAppareances().getCircle().getRadius() + range
+			if(dist < monster.getAppareances().getCircle().getRadius() + attack.getRange()
 			   && optionAreGood(monster)) {
 				Couple<Monster, Double> seeked = new Couple<>(monster, dist);
 				seekeds.add(seeked);
@@ -159,13 +157,6 @@ public class Tower extends Entity implements Damageable {
 			throw new IllegalArgumentException("Un prix est sensé être supérieur à 0 mais a reçu : " + cost);
 		}
 		this.cost = cost;
-	}
-	
-	public void setRange(int range) {
-		if(range < 0) {
-			throw new IllegalArgumentException("Une portée est sensée être supérieure à 0 mais a reçu : " + range);
-		}
-		this.range = range;
 	}
 	
 	public void setMaxHealth(double maxHealth) {

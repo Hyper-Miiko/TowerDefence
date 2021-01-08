@@ -21,6 +21,7 @@ public class Field extends Thread {
 	private final LinkedList<Tower> towers;
 	private final LinkedList<Monster> monsters;
 	private final LinkedList<Bullet> bullets;
+	private final LinkedList<Entity> trash;
 
 	public Field() {
 		super("Champ");
@@ -32,6 +33,7 @@ public class Field extends Thread {
 		towers = new LinkedList<>();
 		monsters = new LinkedList<>();
 		bullets = new LinkedList<>();
+		trash = new LinkedList<>();
 		someNews = true;
 	}
 
@@ -67,19 +69,7 @@ public class Field extends Thread {
 	}
 
 	public void remove(Entity entity) {
-		entities.remove(entity);
-		if(entity instanceof PathNode) {
-			pathNodes.remove(entity);
-		} else if(entity instanceof Tower) {
-			towers.remove(entity);
-		} else if(entity instanceof Monster) {
-			monsters.remove(entity);
-		} else if(entity instanceof Bullet) {
-			bullets.remove(entity);
-		} else {
-			throw new InternalError("L'entité " + entity + " n'est pas reconnue");
-		}
-		someNews = true;
+		trash.add(entity);
 	}
 	
 	public void removeLive(int nbrOfLive) {
@@ -88,11 +78,27 @@ public class Field extends Thread {
 
 	@Override
 	public void run() {
-		if(activ) {
-			running = true;
-			processEntities();
+		processEntities();
+		emptyTrash();
+	}
+	
+	private void emptyTrash() {
+		while(!trash.isEmpty()) {
+			Entity junk = trash.poll();
+			entities.remove(junk);
+			if(junk instanceof PathNode) {
+				pathNodes.remove(junk);
+			} else if(junk instanceof Tower) {
+				towers.remove(junk);
+			} else if(junk instanceof Monster) {
+				monsters.remove(junk);
+			} else if(junk instanceof Bullet) {
+				bullets.remove(junk);
+			} else {
+				throw new InternalError("L'entité " + junk + " n'est pas reconnue");
+			}
+			someNews = true;
 		}
-		running = false;
 	}
 	
 	public PathNode createPathNode(Vector position, boolean castle) {
