@@ -34,11 +34,15 @@ public class Bullet extends Entity implements Movable {
 	}
 	
 	public void process() {
+		if(aiming && !target.isDead()) {
+			double currentAngle = getPosition().angle(target.getPosition());
+			double angleDiff = angle - currentAngle;
+			angle = angle - angleDiff*aimingFactor;
+		}
 		move();
-//		if(System.nanoTime() > deathTime) {
-//			System.out.println(System.nanoTime() - deathTime);
-//			kill();
-//		}
+		if(System.nanoTime() > deathTime) {
+			kill();
+		}
 	}
 
 	@Override
@@ -46,7 +50,7 @@ public class Bullet extends Entity implements Movable {
 		long diffNano = System.nanoTime() - getLastNano();
 		refreshNano();
 		double diffSecond = (double) diffNano/1000000000d;
-		Vector nextPosition = getPosition().byAngle(angle, -speed*diffSecond);
+		Vector nextPosition = getPosition().byAngle(angle, speed*diffSecond);
 		LinkedList<Entity> targetables = new LinkedList<>();
 		if(target instanceof Monster) {
 			targetables.addAll(field.getMonsters());
@@ -69,6 +73,7 @@ public class Bullet extends Entity implements Movable {
 		getAppareances().setShape(new Circle(position, size));
 		field.add(this);
 		check = false;
+		refreshNano();
 	}
 
 	void setAiming(boolean aiming) {
@@ -90,7 +95,7 @@ public class Bullet extends Entity implements Movable {
 	void setDamage(double damage) {
 		this.damage = damage;
 	}
-	void setLifeTime(int lifeTime) {
+	void setLifeTime(long lifeTime) {
 		deathTime = System.nanoTime() + lifeTime;
 	}
 	void setSize(double size) {
@@ -104,4 +109,22 @@ public class Bullet extends Entity implements Movable {
 		this.target = target;
 	}
 	
+	void setColor(int r, int g, int b) {
+		getAppareances().setColor(r, g, b);
+	}
+
+	@Override
+	public double getAngle() {
+		return angle;
+	}
+
+	@Override
+	public double getSpeed() {
+		return speed;
+	}
+	
+	public double travelTime(Vector from, Vector to) {
+		double dist = from.dist(to);
+		return dist/getSpeed();
+	}
 }

@@ -3,7 +3,6 @@ package fr.tm_nlm.tower_defence.control.entity;
 import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
 import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
-import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathNode;
 
 public final class PresetMonster {
 	private PresetMonster() {}
@@ -20,6 +19,7 @@ public final class PresetMonster {
 		Monster kumo = new Monster(field, new Circle(null, 5));
 		kumo.setBaseSpeed(30);
 		kumo.setMonsterType("Kumo");
+		kumo.getAppareances().setColor(200, 0, 200);
 		return kumo;
 	}
 }

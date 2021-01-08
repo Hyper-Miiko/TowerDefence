@@ -9,7 +9,6 @@ public final class PresetTower {
 		Tower sans = new Tower(field, "Sans");
 		sans.setObstacle(true);
 		sans.setCost(0);
-		sans.setRange(10);
 		sans.setMaxHealth(1d);
 		sans.evolveIn(buildInsaneSans(field), 10000);
 		return sans;
@@ -17,7 +16,6 @@ public final class PresetTower {
 	private static Tower buildInsaneSans(Field field) {
 		Tower sans = new Tower(field, "Sans");
 		sans.setObstacle(true);
-		sans.setRange(150);
 		sans.setMaxHealth(1d);
 		return sans;
 	}
@@ -26,32 +24,39 @@ public final class PresetTower {
 		Tower madDummy = new Tower(field, "Mad Dummy");
 		madDummy.setObstacle(false);
 		madDummy.setCost(5);
-		madDummy.setRange(100);
 		madDummy.setMaxHealth(Integer.MAX_VALUE);
 		madDummy.evolveIn(buildMadMewMew(field), 63);
-		madDummy.setAttack(PresetAttack.buildShotGun(field));
+		madDummy.addAttack(PresetAttack.buildShotGun(field));
+		madDummy.addAttack(PresetAttack.buildRocketLauncher(field));
 		return madDummy;
 	}
 	private static Tower buildMadMewMew(Field field) {
 		Tower madMewMew = new Tower(field, "Mad Mew Mew");
 		madMewMew.setObstacle(false);
-		madMewMew.setRange(400);
 		madMewMew.setMaxHealth(Integer.MAX_VALUE);
-		madMewMew.setAttack(PresetAttack.buildTripleShot(field));
+		madMewMew.addAttack(PresetAttack.buildTripleShot(field));
 		return madMewMew;
 	}
 	
 	public static Tower buildMetaton(Field field) {
-		Tower mettaton = new Tower(field, "Mettaton");
-		mettaton.setObstacle(true);
-		mettaton.setCost(20);
-		mettaton.setRange(100);
-		mettaton.setMaxHealth(Integer.MAX_VALUE);
-		mettaton.setAttack(PresetAttack.buildFlameRobe(field));
+		Tower metaton = new Tower(field, "Mettaton");
+		metaton.setObstacle(true);
+		metaton.setCost(20);
+		metaton.setMaxHealth(Integer.MAX_VALUE);
+		metaton.addAttack(PresetAttack.buildFlameRobe(field));
+		metaton.getAppareances().setColor(100, 100, 100);
 		//mettaton.canEvolveIn(buildMettatonEX(field), 63);
-		return mettaton;
+		return metaton;
 	}
 	/*private Tower buildMettatonEX(Field field) {
 		
 	}*/
+	
+	public static Tower buildUndyne(Field field) {
+		Tower undyne = new Tower(field, "Undyne");
+		undyne.addAttack(PresetAttack.buildSpire(field));
+		undyne.addAttack(PresetAttack.buildSpireOfJustice(field));
+		undyne.getAppareances().setColor(0, 0, 100);
+		return undyne;
+	}
 }

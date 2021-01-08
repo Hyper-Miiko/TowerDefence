@@ -15,7 +15,7 @@ import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
 import fr.tm_nlm.tower_defence.control.entity.Bullet;
 import fr.tm_nlm.tower_defence.control.entity.Entity;
 import fr.tm_nlm.tower_defence.control.entity.Monster;
-import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathNode;
+import fr.tm_nlm.tower_defence.control.entity.PathNode;
 import mHUD.mGraphicEntity.GCircleEntity;
 import mHUD.mGraphicEntity.GPictureEntity;
 import mHUD.mGraphicEntity.GRectEntity;
@@ -55,9 +55,9 @@ public class FieldToGraphic extends Thread {
 		}
 		
 		MGraphicEntity graphic;
-		if(entity.getAppareances().getCurrentImage() != null) {
+		/*if(entity.getAppareances().getCurrentImage() != null) {
 			graphic = new GPictureEntity(entity.getPosition().x, entity.getPosition().y,entity.getAppareances().getRect().getSize().x,entity.getAppareances().getRect().getSize().y, entity.getAppareances().getCurrentImage());
-		} else if(entity.getAppareances().isCircle()) {
+		} else */if(entity.getAppareances().isCircle()) {
 			graphic = new GCircleEntity(entity.getPosition().x, entity.getPosition().y, entity.getAppareances().getCircle().getRadius());
 			((GCircleEntity)graphic).setBackgroundColor(entity.getAppareances().getColor());
 		} else {
@@ -164,7 +164,6 @@ public class FieldToGraphic extends Thread {
 	
 	private void working() {
 		win.setActive(false);
-		field.setActiv(false);
 		
 		System.out.println("	IN");
 		while(field.isRunning());
@@ -180,7 +179,6 @@ public class FieldToGraphic extends Thread {
 	
 	private void waiting() {
 		win.setActive(true);
-		field.setActiv(true);
 		
 		field.resume();
 		win.resume();

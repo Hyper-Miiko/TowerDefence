@@ -7,11 +7,10 @@ import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.entity.Bullet;
 import fr.tm_nlm.tower_defence.control.entity.Entity;
 import fr.tm_nlm.tower_defence.control.entity.Monster;
+import fr.tm_nlm.tower_defence.control.entity.PathNode;
 import fr.tm_nlm.tower_defence.control.entity.Tower;
-import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathNode;
 
 public class Field extends Thread {
-	private boolean activ;
 	private boolean running;
 	private boolean someNews;
 	private int lives;
@@ -21,10 +20,10 @@ public class Field extends Thread {
 	private final LinkedList<Tower> towers;
 	private final LinkedList<Monster> monsters;
 	private final LinkedList<Bullet> bullets;
+	private final LinkedList<Entity> trash;
 
 	public Field() {
 		super("Champ");
-		activ = true;
 		lives = 10;
 		temmies = 100;
 		entities = new HashSet<>();
@@ -32,6 +31,7 @@ public class Field extends Thread {
 		towers = new LinkedList<>();
 		monsters = new LinkedList<>();
 		bullets = new LinkedList<>();
+		trash = new LinkedList<>();
 		someNews = true;
 	}
 
@@ -67,19 +67,7 @@ public class Field extends Thread {
 	}
 
 	public void remove(Entity entity) {
-		entities.remove(entity);
-		if(entity instanceof PathNode) {
-			pathNodes.remove(entity);
-		} else if(entity instanceof Tower) {
-			towers.remove(entity);
-		} else if(entity instanceof Monster) {
-			monsters.remove(entity);
-		} else if(entity instanceof Bullet) {
-			bullets.remove(entity);
-		} else {
-			throw new InternalError("L'entité " + entity + " n'est pas reconnue");
-		}
-		someNews = true;
+		trash.add(entity);
 	}
 	
 	public void removeLive(int nbrOfLive) {
@@ -88,11 +76,27 @@ public class Field extends Thread {
 
 	@Override
 	public void run() {
-		if(activ) {
-			running = true;
-			processEntities();
+		processEntities();
+		emptyTrash();
+	}
+	
+	private void emptyTrash() {
+		while(!trash.isEmpty()) {
+			Entity junk = trash.poll();
+			entities.remove(junk);
+			if(junk instanceof PathNode) {
+				pathNodes.remove(junk);
+			} else if(junk instanceof Tower) {
+				towers.remove(junk);
+			} else if(junk instanceof Monster) {
+				monsters.remove(junk);
+			} else if(junk instanceof Bullet) {
+				bullets.remove(junk);
+			} else {
+				throw new InternalError("L'entité " + junk + " n'est pas reconnue");
+			}
+			someNews = true;
 		}
-		running = false;
 	}
 	
 	public PathNode createPathNode(Vector position, boolean castle) {
@@ -187,10 +191,6 @@ public class Field extends Thread {
 		boolean dummy = someNews;
 		someNews = false;
 		return dummy;
-	}
-	
-	public void setActiv(boolean activ) {
-		this.activ = activ;
 	}
 	
 	public int getLives() {
