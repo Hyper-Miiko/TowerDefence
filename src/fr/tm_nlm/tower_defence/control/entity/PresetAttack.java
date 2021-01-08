@@ -28,9 +28,11 @@ public class PresetAttack {
 		attack.setAimingFactor(5);
 		attack.setInterval(0);
 		attack.setCooldown(0);
-		attack.setNbrOfBullet(10);
-		attack.setPrecisionLoss(40);
-		attack.setLifeTime(5, 7);
+		attack.setNbrOfBullet(100);
+		attack.setBulletByShot(100);
+		attack.setPrecisionLoss(100);
+		attack.setLifeTime(10, 12);
+		attack.setRange(100);
 		attack.setSize(2);
 		attack.setRed(255);
 		attack.setGreen(0, 150);

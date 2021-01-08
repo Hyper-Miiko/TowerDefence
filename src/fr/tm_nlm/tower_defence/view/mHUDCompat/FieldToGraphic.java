@@ -171,7 +171,6 @@ public class FieldToGraphic extends Thread {
 	
 	private void working() {
 		win.setActive(false);
-		field.setActiv(false);
 		
 		System.out.println("	IN");
 		while(field.isRunning());
@@ -187,7 +186,6 @@ public class FieldToGraphic extends Thread {
 	
 	private void waiting() {
 		win.setActive(true);
-		field.setActiv(true);
 		
 		field.resume();
 		win.resume();
