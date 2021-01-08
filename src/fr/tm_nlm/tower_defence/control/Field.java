@@ -104,17 +104,36 @@ public class Field extends Thread {
 		//}
 	}
 	
-	public void workOn(Action action, Vector position, Entity... entities) {
-		Couple<Entity[], Vector> targets = new Couple<>(entities, position);
-		Couple<Action, Couple<Entity[], Vector>> task = new Couple<>(action, targets);
-		job.add(task);
+	public PathNode createPathNode(Vector position, boolean castle) {
+		PathNode pathNode = new PathNode(this, position, castle);
+		add(pathNode);
+		return pathNode;
 	}
 	
-	public void workOn(Action action, Entity... entities) {
-		Couple<Entity[], Vector> targets = new Couple<>(entities, null);
-		Couple<Action, Couple<Entity[], Vector>> task = new Couple<>(action, targets);
-		job.add(task);
+	public PathNode createPathNode(double x, double y, boolean castle) {
+		return createPathNode(new Vector(x, y), castle);
 	}
+	
+	public void workOn(Action action, Tower tower, Vector position) {
+		switch(action) {
+		case place:
+			tower.place(position);
+		default:
+			throw new IllegalArgumentException(action + "do not work with these arguments. (or might forget something)");
+		}
+	}
+	
+//	public void workOn(Action action, Vector position, Entity... entities) {
+//		Couple<Entity[], Vector> targets = new Couple<>(entities, position);
+//		Couple<Action, Couple<Entity[], Vector>> task = new Couple<>(action, targets);
+//		job.add(task);
+//	}
+//	
+//	public void workOn(Action action, Entity... entities) {
+//		Couple<Entity[], Vector> targets = new Couple<>(entities, null);
+//		Couple<Action, Couple<Entity[], Vector>> task = new Couple<>(action, targets);
+//		job.add(task);
+//	}
 	
 	private void actionFromUser() {
 		Couple<Action, Couple<Entity[], Vector>> action = job.pollFirst();
@@ -226,6 +245,10 @@ public class Field extends Thread {
 	
 	public LinkedList<Tower> getTowers() {
 		return towers;
+	}
+	
+	public LinkedList<Bullet> getBullets() {
+		return bullets;
 	}
 	
 	public boolean getSomeNews() {
