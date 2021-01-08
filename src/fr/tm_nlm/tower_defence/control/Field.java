@@ -74,6 +74,8 @@ public class Field extends Thread {
 			towers.remove(entity);
 		} else if(entity instanceof Monster) {
 			monsters.remove(entity);
+		} else if(entity instanceof Bullet) {
+			bullets.remove(entity);
 		} else {
 			throw new InternalError("L'entité " + entity + " n'est pas reconnue");
 		}
