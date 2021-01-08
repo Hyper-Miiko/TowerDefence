@@ -13,6 +13,7 @@ import fr.tm_nlm.tower_defence.control.Field.Action;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
 import fr.tm_nlm.tower_defence.control.entity.Entity;
+import fr.tm_nlm.tower_defence.control.entity.Monster;
 import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathNode;
 import mHUD.mGraphicEntity.GCircleEntity;
 import mHUD.mGraphicEntity.GPictureEntity;
@@ -59,6 +60,15 @@ public class FieldToGraphic extends Thread {
 			graphic = new GCircleEntity(entity.getPosition().x, entity.getPosition().y, entity.getAppareances().getCircle().getRadius());
 		} else {
 			graphic = new GRectEntity(entity.getPosition().x, entity.getPosition().y, entity.getAppareances().getRect().getSize().x, entity.getAppareances().getRect().getSize().y);
+		}
+		
+		if(entity instanceof PathNode) {
+			((GCircleEntity)graphic).setBackgroundColor(0,0,120);
+			((GCircleEntity)graphic).setLineColor(0,0,120);
+		}
+		else if(entity instanceof Monster) {
+			((GCircleEntity)graphic).setBackgroundColor(120,0,0);
+			((GCircleEntity)graphic).setLineColor(120,0,0);
 		}
 		
 		view.addGraphicEntityAt(graphic);
