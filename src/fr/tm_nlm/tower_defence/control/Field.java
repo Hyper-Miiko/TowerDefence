@@ -11,7 +11,6 @@ import fr.tm_nlm.tower_defence.control.entity.PathNode;
 import fr.tm_nlm.tower_defence.control.entity.Tower;
 
 public class Field extends Thread {
-	private boolean activ;
 	private boolean running;
 	private boolean someNews;
 	private int lives;
@@ -25,7 +24,6 @@ public class Field extends Thread {
 
 	public Field() {
 		super("Champ");
-		activ = true;
 		lives = 10;
 		temmies = 100;
 		entities = new HashSet<>();
@@ -193,10 +191,6 @@ public class Field extends Thread {
 		boolean dummy = someNews;
 		someNews = false;
 		return dummy;
-	}
-	
-	public void setActiv(boolean activ) {
-		this.activ = activ;
 	}
 	
 	public int getLives() {
