@@ -13,25 +13,25 @@ public class PresetAttack {
 		attack.setNbrOfBullet(12, 14);
 		attack.setBulletByShot(7);
 		attack.setPrecisionLoss(0.1);
-		attack.setSize(3);
-		attack.setRed(127);
-		attack.setGreen(127);
-		attack.setBlue(127);
+		attack.setSize(10);
+		attack.setRed(200);
+		attack.setGreen(200);
+		attack.setBlue(200);
 		attack.setLifeTime(3);
 		attack.setRange(150);
 		return attack;
 	}
 	public static Attack buildRocketLauncher(Field field) {
 		Attack attack = new Attack(field);
-		attack.setBulletSpeed(95, 105);
+		attack.setBulletSpeed(45, 55);
 		attack.setDamage(20);
 		attack.setAimingFactor(0.2);
 		attack.setCooldown(40, 50);
-		attack.setInterval(1, 2);
+		attack.setInterval(0.8);
 		attack.setNbrOfBullet(25, 30);
 		attack.setBulletByShot(5, 6);
-		attack.setPrecisionLoss(0.2);
-		attack.setSize(3);
+		attack.setPrecisionLoss(0.8);
+		attack.setSize(10);
 		attack.setRed(127);
 		attack.setGreen(127);
 		attack.setBlue(127);
@@ -49,7 +49,7 @@ public class PresetAttack {
 		attack.setNbrOfBullet(100);
 		attack.setBulletByShot(100);
 		attack.setPrecisionLoss(1);
-		attack.setLifeTime(10, 12);
+		attack.setLifeTime(4, 6);
 		attack.setRange(100);
 		attack.setSize(2);
 		attack.setRed(255);
@@ -61,13 +61,16 @@ public class PresetAttack {
 		Attack attack = new Attack(field);
 		attack.setBulletSpeed(100);
 		attack.setDamage(10, 20);
-		attack.setAimingFactor(1);
-		attack.setInterval(1, 3);
-		attack.setCooldown(0.1);
+		attack.setAimingFactor(0);
+		attack.setInterval(0.2);
+		attack.setCooldown(1, 3);
 		attack.setNbrOfBullet(3);
 		attack.setPrecisionLoss(0);
 		attack.setLifeTime(3);
-		attack.setSize(5);
+		attack.setSize(10);
+		attack.setRed(0, 255);
+		attack.setGreen(0);
+		attack.setBlue(0, 255);
 		return attack;
 	}
 	public static Attack buildSpire(Field field) {

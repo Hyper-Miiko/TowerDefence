@@ -12,9 +12,15 @@ public abstract class Entity {
 	private Appareances appareances;
 	private boolean dead;
 	protected boolean check;
+	private boolean trash;
 	private long lastNano;
 	private final long id;
 	
+	{
+		trash = false;
+		check = false;
+		lastNano = System.nanoTime();
+	}
 	public Entity(Field field, Shape shape) {
 		id = nextId++;
 		init(field, shape);
@@ -23,8 +29,6 @@ public abstract class Entity {
 	private void init(Field field, Shape shape) {
 		this.field = field;
 		appareances = new Appareances(shape);
-		check = false;
-		lastNano = System.nanoTime();
 	}
 	
 	protected void refreshNano() {
@@ -50,7 +54,6 @@ public abstract class Entity {
 	public void kill() {
 		dead = true;
 		check = false;
-		field.remove(this);
 	}
 	
 	public Field getField() {
@@ -97,5 +100,13 @@ public abstract class Entity {
 	@Override
 	public boolean equals(Object object) {
 		return (object instanceof Entity) && (((Entity) object).id == id);
+	}
+
+	public void toTrash() {
+		trash = true;
+	}
+	
+	public boolean isTrash() {
+		return trash;
 	}
 }

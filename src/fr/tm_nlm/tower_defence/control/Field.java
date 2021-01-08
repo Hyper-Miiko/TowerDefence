@@ -149,7 +149,6 @@ public class Field extends Thread {
 		LinkedList<Entity> remove = new LinkedList<>();
 		for(Entity entity : entities) {
 			if(entity.isDead()) {
-				System.out.println(entity);
 				remove.push(entity);
 			}
 		}
@@ -157,7 +156,9 @@ public class Field extends Thread {
 			entities.remove(remove.pop());
 		}
 		for(Tower tower : towers) {
-			tower.process();
+			if(tower.isOnField()) {
+				tower.process();
+			}
 		}
 		for(Monster monster : monsters) {
 			monster.process();

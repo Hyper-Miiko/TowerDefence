@@ -28,6 +28,7 @@ public final class PresetTower {
 		madDummy.evolveIn(buildMadMewMew(field), 63);
 		madDummy.addAttack(PresetAttack.buildShotGun(field));
 		madDummy.addAttack(PresetAttack.buildRocketLauncher(field));
+		madDummy.getAppareances().setColor(255, 255, 125);
 		return madDummy;
 	}
 	private static Tower buildMadMewMew(Field field) {
@@ -35,6 +36,7 @@ public final class PresetTower {
 		madMewMew.setObstacle(false);
 		madMewMew.setMaxHealth(Integer.MAX_VALUE);
 		madMewMew.addAttack(PresetAttack.buildTripleShot(field));
+		madMewMew.getAppareances().setColor(255, 150, 255);
 		return madMewMew;
 	}
 	

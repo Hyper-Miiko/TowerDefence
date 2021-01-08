@@ -134,16 +134,20 @@ public class FieldToGraphic extends Thread {
 	}
 	
 	private void output() {
-		for(Entity e : field.getEntities()) {
-			MGraphicEntity g = this.get(e);
-			
-			if(entityToGraphic.containsKey(e)) {
-				
-				if(g == null) remove(e);
-				else edit(e);
+		for(Entity entity : field.getEntities()) {
+			MGraphicEntity graphic = this.get(entity);
+			if(entityToGraphic.containsKey(entity)) {
+				if(graphic == null) {
+					remove(entity);
+				} else {
+					edit(entity);
+				}
 			}
 			else {
-				add(e);
+				add(entity);
+			}
+			if(entity.isDead()) {
+				remove(entity);
 			}
 		}
 	}

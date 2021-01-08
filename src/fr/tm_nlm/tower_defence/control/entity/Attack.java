@@ -100,15 +100,17 @@ public class Attack {
 		final Vector targetPosition = target.getPosition();
 		final double targetDirection = target.getAngle();
 		Vector targetNextPosition = targetPosition;
-		Vector bulletNextPosition;
-		double travelTime;
-		double targetTravel;
-		do {
-			travelTime = bullet.travelTime(from, targetNextPosition);
-			bulletNextPosition = targetNextPosition;
-			targetNextPosition = targetPosition.byAngle(targetDirection, target.getSpeed()*travelTime);
-			targetTravel = bulletNextPosition.dist(targetNextPosition);
-		} while(targetTravel > marge);
+		if(minBulletSpeed > target.getSpeed()) {
+			Vector bulletNextPosition;
+			double travelTime;
+			double targetTravel;
+			do {
+				travelTime = bullet.travelTime(from, targetNextPosition);
+				bulletNextPosition = targetNextPosition;
+				targetNextPosition = targetPosition.byAngle(targetDirection, target.getSpeed()*travelTime);
+				targetTravel = bulletNextPosition.dist(targetNextPosition);
+			} while(targetTravel > marge);
+		}
 		double angle = from.angle(targetNextPosition);
 		double loss = 2*Math.PI*random.nextDouble()*precisionLoss - Math.PI*precisionLoss;
 		return angle + loss;
@@ -170,8 +172,8 @@ public class Attack {
 	}
 	
 	public void setInterval(double minInterval, double maxInterval) {
-		this.minInterval = (int) (minInterval*1000000000);
-		this.maxInterval = (int) (maxInterval*1000000000);
+		this.minInterval = minInterval;
+		this.maxInterval = maxInterval;
 	}
 	
 	public void setCooldown(double cooldown) {
@@ -205,7 +207,7 @@ public class Attack {
 		if(precisionLoss > 1 || precisionLoss < 0) {
 			throw new IllegalArgumentException("between 0 and 1.");
 		}
-		this.precisionLoss = Math.PI/100*precisionLoss;
+		this.precisionLoss = precisionLoss;
 	}
 	
 	public void setLifeTime(double lifeTime) {
