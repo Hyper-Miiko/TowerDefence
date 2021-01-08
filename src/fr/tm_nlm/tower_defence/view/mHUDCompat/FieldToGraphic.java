@@ -8,11 +8,11 @@ import java.util.Map;
 import java.util.Set;
 
 import fr.tm_nlm.tower_defence.Couple;
-import fr.tm_nlm.tower_defence.control.Entity;
 import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.Field.Action;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
+import fr.tm_nlm.tower_defence.control.entity.Entity;
 import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathNode;
 import mHUD.mGraphicEntity.GCircleEntity;
 import mHUD.mGraphicEntity.GPictureEntity;

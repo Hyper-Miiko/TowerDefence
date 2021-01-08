@@ -1,23 +1,19 @@
 package fr.tm_nlm.tower_defence.control;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import fr.tm_nlm.tower_defence.Couple;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.entity.Bullet;
+import fr.tm_nlm.tower_defence.control.entity.Entity;
 import fr.tm_nlm.tower_defence.control.entity.Monster;
 import fr.tm_nlm.tower_defence.control.entity.Tower;
 import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathNode;
-import fr.tm_nlm.tower_defence.view.mHUDCompat.FieldToGraphic;
 
 public class Field extends Thread {
 	private boolean activ;
 	private boolean running;
 	private boolean someNews;
-	private int width;
-	private int height;
 	private int lives;
 	private int temmies;
 	private final HashSet<Entity> entities;
@@ -25,13 +21,10 @@ public class Field extends Thread {
 	private final LinkedList<Tower> towers;
 	private final LinkedList<Monster> monsters;
 	private final LinkedList<Bullet> bullets;
-	private final LinkedList<Couple<Action, Couple<Entity[], Vector>>> job;
 
-	public Field(int width, int height) {
+	public Field() {
 		super("Champ");
 		activ = true;
-		this.width = width;
-		this.height = height;
 		lives = 10;
 		temmies = 100;
 		entities = new HashSet<>();
@@ -39,7 +32,6 @@ public class Field extends Thread {
 		towers = new LinkedList<>();
 		monsters = new LinkedList<>();
 		bullets = new LinkedList<>();
-		job = new LinkedList<>();
 		someNews = true;
 	}
 
@@ -94,14 +86,11 @@ public class Field extends Thread {
 
 	@Override
 	public void run() {
-		//while(true) {
-			if(activ) {
-				running = true;
-				processEntities();
-				actionFromUser();
-			}
-			running = false;
-		//}
+		if(activ) {
+			running = true;
+			processEntities();
+		}
+		running = false;
 	}
 	
 	public PathNode createPathNode(Vector position, boolean castle) {
@@ -114,13 +103,28 @@ public class Field extends Thread {
 		return createPathNode(new Vector(x, y), castle);
 	}
 	
-	public void workOn(Action action, Tower tower, Vector position) {
-		switch(action) {
-		case place:
-			tower.place(position);
-		default:
-			throw new IllegalArgumentException(action + "do not work with these arguments. (or might forget something)");
+	public void placeTower(Tower tower, Vector position) {
+		tower.place(position);
+	}
+	
+	public void placeTower(Tower tower, double x, double y) {
+		placeTower(tower, new Vector(x, y));
+	}
+	
+	public void placeMonster(Monster monster, PathNode pathNode) {
+		monster.place(pathNode);
+	}
+	
+	public void evolveTower(Tower tower) {
+		if(tower.canEvolve()) {
+			tower.evolve();
+		} else {
+			System.err.println(tower + " essaie d'évoluer alors qu'il ne peut pas, blamez celui qui a envoyé la demande.");
 		}
+	}
+	
+	public void connect(PathNode pathNodeA, PathNode pathNodeB) {
+		pathNodeA.link(pathNodeB);
 	}
 	
 //	public void workOn(Action action, Vector position, Entity... entities) {
@@ -134,80 +138,6 @@ public class Field extends Thread {
 //		Couple<Action, Couple<Entity[], Vector>> task = new Couple<>(action, targets);
 //		job.add(task);
 //	}
-	
-	private void actionFromUser() {
-		Couple<Action, Couple<Entity[], Vector>> action = job.pollFirst();
-		if(action != null) {
-			Entity[] entities = action._2._1;
-			Vector position = action._2._2;
-			switch(action._1) {
-			case connect:
-				if(entities.length != 2 || position != null) {
-					actionFromUserError(action._1, action._2);
-				}
-				connect((PathNode) entities[0], (PathNode) entities[1]); 
-				break;
-			case evolve:
-				if(entities.length != 1 || position != null) {
-					actionFromUserError(action._1, action._2);
-				}
-				evolve((Tower) entities[0]); 
-				break;
-			case place:
-				// Merci De Morgan
-				if(((entities.length > 2 ||
-					 entities.length == 1 && !(entities[0] instanceof Tower)) && position == null ||
-					 entities.length == 2 && (!(entities[0] instanceof Monster) || !(entities[1] instanceof PathNode) || position != null))) {
-					actionFromUserError(action._1, action._2);
-				}
-				if(entities.length == 2) {
-					place((Monster) entities[0], (PathNode) entities[1]); //Monster
-				} if(entities.length == 1) {
-					place((Tower) entities[0], position); //Tower
-				} else {
-					place(position); //PathNode
-				}
-				break;
-			case remove:
-				break;
-			default:
-				throw new InternalError("J'ai oublié " + action._1);
-			}
-		}
-	}
-	
-	private void actionFromUserError(Action action, Couple<Entity[], Vector> elems) {
-		String elemsStr = "";
-		for(Entity entity : elems._1) {
-			elemsStr += entity + "\n";
-		}
-		elemsStr += elems._2 + "\n";
-		throw new IllegalStateException(action + " a reçu :\n" + elemsStr);
-	}
-	
-	private void connect(PathNode pathNodeA, PathNode pathNodeB) {
-		pathNodeA.link(pathNodeB);
-	}
-	
-	private void evolve(Tower tower) {
-		if(tower.canEvolve()) {
-			tower.evolve();
-		} else {
-			System.err.println(tower + " essaie d'évoluer alors qu'il ne peut pas, blamez celui qui a envoyé la demande.");
-		}
-	}
-	
-	private void place(Tower tower, Vector position) {
-		tower.place(position);
-	}
-	
-	private void place(Vector position) {
-		//TODO pathNode
-	}
-	
-	private void place(Monster monster, PathNode pathNode) {
-		monster.place(pathNode);
-	}
 	
 	private void processEntities() {
 		LinkedList<Entity> remove = new LinkedList<>();

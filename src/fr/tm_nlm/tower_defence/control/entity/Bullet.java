@@ -2,12 +2,9 @@ package fr.tm_nlm.tower_defence.control.entity;
 
 import java.util.LinkedList;
 
-import fr.tm_nlm.tower_defence.control.Entity;
 import fr.tm_nlm.tower_defence.control.Field;
-import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
-import fr.tm_nlm.tower_defence.control.data.geometric.shape.Rect;
 
 /**
  * Un entité qui a pour but de chasser un type d'entité

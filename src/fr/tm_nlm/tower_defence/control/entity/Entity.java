@@ -1,5 +1,6 @@
-package fr.tm_nlm.tower_defence.control;
+package fr.tm_nlm.tower_defence.control.entity;
 
+import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.data.Appareances;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;

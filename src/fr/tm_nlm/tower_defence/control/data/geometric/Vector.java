@@ -1,7 +1,5 @@
 package fr.tm_nlm.tower_defence.control.data.geometric;
 
-import fr.tm_nlm.tower_defence.NotYetImplementedException;
-
 /**
  * Classe qui permet d'avoir des positions
  * @param x

@@ -2,7 +2,6 @@ package fr.tm_nlm.tower_defence.control.entity;
 
 import java.util.LinkedList;
 
-import fr.tm_nlm.tower_defence.control.Entity;
 import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
 import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathNode;

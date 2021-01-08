@@ -3,9 +3,7 @@ package fr.tm_nlm.tower_defence.control.entity;
 import java.util.LinkedList;
 import java.util.Random;
 
-import fr.tm_nlm.tower_defence.control.Entity;
 import fr.tm_nlm.tower_defence.control.Field;
-import fr.tm_nlm.tower_defence.control.data.Appareances;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 
 public class Attack {
@@ -29,7 +27,6 @@ public class Attack {
 	private double maxDamage;
 	private double precisionLoss;
 	private double size;
-	private Appareances appareance;
 	private LinkedList<Bullet> bulletLeft;
 	private Field field;
 	

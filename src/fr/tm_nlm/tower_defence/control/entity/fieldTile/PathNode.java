@@ -3,11 +3,10 @@ package fr.tm_nlm.tower_defence.control.entity.fieldTile;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import fr.tm_nlm.tower_defence.Couple;
-import fr.tm_nlm.tower_defence.control.Entity;
 import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
+import fr.tm_nlm.tower_defence.control.entity.Entity;
 
 /**
  * Un point de passage est un point de la carte par le quel peut passer les monstres.
