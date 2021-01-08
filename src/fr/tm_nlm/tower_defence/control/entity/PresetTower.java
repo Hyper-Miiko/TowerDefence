@@ -48,6 +48,7 @@ public final class PresetTower {
 		metaton.setRange(100);
 		metaton.setMaxHealth(Integer.MAX_VALUE);
 		metaton.setAttack(PresetAttack.buildFlameRobe(field));
+		metaton.getAppareances().setColor(100, 100, 100);
 		//mettaton.canEvolveIn(buildMettatonEX(field), 63);
 		return metaton;
 	}
@@ -59,6 +60,7 @@ public final class PresetTower {
 		Tower undyne = new Tower(field, "Undyne");
 		undyne.setAttack(PresetAttack.buildSpire(field));
 		undyne.setRange(500);
+		undyne.getAppareances().setColor(0, 0, 100);
 		return undyne;
 	}
 }

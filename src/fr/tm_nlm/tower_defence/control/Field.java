@@ -7,8 +7,8 @@ import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.entity.Bullet;
 import fr.tm_nlm.tower_defence.control.entity.Entity;
 import fr.tm_nlm.tower_defence.control.entity.Monster;
+import fr.tm_nlm.tower_defence.control.entity.PathNode;
 import fr.tm_nlm.tower_defence.control.entity.Tower;
-import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathNode;
 
 public class Field extends Thread {
 	private boolean activ;

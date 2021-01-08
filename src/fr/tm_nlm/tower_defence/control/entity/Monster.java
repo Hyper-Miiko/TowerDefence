@@ -4,7 +4,6 @@ import java.util.LinkedList;
 
 import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
-import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathNode;
 import fr.tm_nlm.tower_defence.control.entity.monster.Deplacement;
 import fr.tm_nlm.tower_defence.control.entity.monster.Flying;
 import fr.tm_nlm.tower_defence.control.entity.monster.Option;

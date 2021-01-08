@@ -1,4 +1,4 @@
-package fr.tm_nlm.tower_defence.control.entity.fieldTile;
+package fr.tm_nlm.tower_defence.control.entity;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -6,7 +6,6 @@ import java.util.HashSet;
 import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
-import fr.tm_nlm.tower_defence.control.entity.Entity;
 
 /**
  * Un point de passage est un point de la carte par le quel peut passer les monstres.
@@ -78,6 +77,7 @@ public class PathNode extends Entity {
 		if(castle) {
 			passByToCastle = null;
 		}
+		getAppareances().setColor(100, 150, 0);
 		
 		HashSet<PathNode> allNodesOfField = allNodes.get(field);
 		if(allNodesOfField == null) {

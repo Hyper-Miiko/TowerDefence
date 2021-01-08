@@ -1,6 +1,5 @@
 package fr.tm_nlm.tower_defence.control.entity;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 
 import fr.tm_nlm.tower_defence.Couple;

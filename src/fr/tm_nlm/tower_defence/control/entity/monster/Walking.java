@@ -2,7 +2,7 @@ package fr.tm_nlm.tower_defence.control.entity.monster;
 
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
-import fr.tm_nlm.tower_defence.control.entity.fieldTile.PathNode;
+import fr.tm_nlm.tower_defence.control.entity.PathNode;
 
 public final class Walking implements Deplacement {
 	@Override
