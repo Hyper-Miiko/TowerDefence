@@ -57,7 +57,8 @@ public class FieldToGraphic extends Thread {
 		MGraphicEntity graphic;
 		/*if(entity.getAppareances().getCurrentImage() != null) {
 			graphic = new GPictureEntity(entity.getPosition().x, entity.getPosition().y,entity.getAppareances().getRect().getSize().x,entity.getAppareances().getRect().getSize().y, entity.getAppareances().getCurrentImage());
-		} else */if(entity.getAppareances().isCircle()) {
+		} else */
+		if(entity.getAppareances().isCircle()) {
 			graphic = new GCircleEntity(entity.getPosition().x, entity.getPosition().y, entity.getAppareances().getCircle().getRadius());
 			((GCircleEntity)graphic).setBackgroundColor(entity.getAppareances().getColor());
 			((GCircleEntity)graphic).setLineColor(entity.getAppareances().getColor());
@@ -142,15 +143,12 @@ public class FieldToGraphic extends Thread {
 		HashMap<Entity, MGraphicEntity> list = new HashMap<Entity, MGraphicEntity>(entityToGraphic);
 		for(Entity e1 : list.keySet()) {
 			boolean isPresent = false;
-
-			System.out.println(e1);
 			
 			if(field.getEntities().contains(e1)) {
 				isPresent = true;
 			}
 			if(!isPresent)remove(e1);
 		}
-		System.out.println();
 	}
 	
 	/*private void working() {

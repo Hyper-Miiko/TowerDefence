@@ -67,8 +67,11 @@ public class Bullet extends Entity implements Movable {
 		for(Entity entity : targetables) {
 			if(getAppareances().getShape().collide(entity.getAppareances().getShape()) && attack.isValidTarget(entity)) {
 				double modifiedDamage = damage;
-				if(!options.containsKey(GHOST)) {
-					kill(true);
+				if(options.containsKey(ASGORE)) {
+					double excessSlow = 50 - ((Movable) entity).getSpeed();
+					double damageMult = excessSlow*options.get(ASGORE)[0]/50;
+					modifiedDamage *= damageMult;
+					modifiedDamage = (modifiedDamage < 0) ? 0 : modifiedDamage;
 				}
 				if(options.containsKey(BLEEDING)) {
 					((Damageable) entity).affectWith(Effect.BLEED, options.get(BLEEDING));
@@ -76,15 +79,18 @@ public class Bullet extends Entity implements Movable {
 				if(options.containsKey(CONFUSING)) {
 					((Damageable) entity).affectWith(Effect.CONFUSED, options.get(CONFUSING));
 				}
+				if(!options.containsKey(GHOST)) {
+					kill(true);
+				}
 				if(options.containsKey(PAPYRUS)) {
 					double excessSpeed = ((Movable) entity).getSpeed() - 50;
 					double damageMult = excessSpeed*options.get(PAPYRUS)[0]/50;
 					modifiedDamage *= damageMult;
+					modifiedDamage = (modifiedDamage < 0) ? 0 : modifiedDamage;
 				}
 				if(options.containsKey(SLOWING)) {
 					((Damageable) entity).affectWith(Effect.SLOWED, options.get(SLOWING));
 				}
-				modifiedDamage = (modifiedDamage > 0) ? 0 : modifiedDamage;
 				((Damageable) entity).dealDamage(modifiedDamage);
 				if(options.containsKey(LIFESTEAL)) {
 					((Damageable) attack.getOwner()).heal(modifiedDamage*options.get(LIFESTEAL)[0]);

@@ -9,6 +9,7 @@ import fr.tm_nlm.tower_defence.control.entity.Entity;
 import fr.tm_nlm.tower_defence.control.entity.Monster;
 import fr.tm_nlm.tower_defence.control.entity.PathNode;
 import fr.tm_nlm.tower_defence.control.entity.Tower;
+import fr.tm_nlm.tower_defence.control.entity.Wave;
 
 public class Field extends Thread {
 	private boolean running;
@@ -22,6 +23,7 @@ public class Field extends Thread {
 	private final LinkedList<Bullet> bullets;
 	private final LinkedList<Entity> trash;
 	private final LinkedList<Entity> toAdd;
+	private final LinkedList<Wave> waves;
 
 	public Field() {
 		super("Champ");
@@ -34,6 +36,7 @@ public class Field extends Thread {
 		bullets = new LinkedList<>();
 		trash = new LinkedList<>();
 		toAdd = new LinkedList<>();
+		waves = new LinkedList<>();
 		someNews = true;
 	}
 
@@ -84,6 +87,9 @@ public class Field extends Thread {
 
 	@Override
 	public void run() {
+		for(Wave wave : waves) {
+			wave.run();
+		}
 		processEntities();
 		emptyTrash();
 		workOnAdd();
@@ -209,6 +215,10 @@ public class Field extends Thread {
 	
 	public boolean isRunning() {
 		return running;
+	}
+	
+	public void addWave(Wave wave) {
+		waves.add(wave);
 	}
 	
 	@Override

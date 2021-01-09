@@ -70,7 +70,6 @@ public class PresetAttack {
 		Attack attack = new Attack(field);
 		attack.setBulletSpeed(150);
 		attack.setDamage(10, 20);
-		attack.setAimingFactor(0);
 		attack.setInterval(0.1);
 		attack.setCooldown(1, 3);
 		attack.setNbrOfBullet(3);

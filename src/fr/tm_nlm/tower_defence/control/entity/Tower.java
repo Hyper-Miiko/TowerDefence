@@ -65,8 +65,6 @@ public class Tower extends Entity implements Damageable {
 		field.buy(evolveCost);
 		evolution.place(getPosition());
 		leave();
-		field.add(evolution);
-		field.remove(this);
 		return evolution;
 	}
 	

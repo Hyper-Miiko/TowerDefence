@@ -157,7 +157,7 @@ public class PathNode extends Entity {
 		} else if(passByToCastle == null) {
 			str += ": Aucun chemin trouvé.";
 		} else {
-			str +=  " à " + passByToCastle.getDistToCastle() + "\n" + passByToCastle.getWayToCastle();
+			str +=  " à " + getDistToCastle() + "\n" + passByToCastle.getWayToCastle();
 		}
 		return str;
 	}

@@ -425,6 +425,7 @@ public class Attack {
 			}
 			data = null;
 			break;
+		case ASGORE:
 		case CONFUSING:
 		case INCREASS_BULLET:
 		case INCREASS_BULLET_BY_SHOT:
@@ -458,6 +459,7 @@ public class Attack {
 	}
 	
 	public enum Option {
+		ASGORE,
 		BLEEDING,
 		CONFUSING,
 		GHOST,
