@@ -4,13 +4,11 @@ import java.awt.Image;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
-import java.math.*;
-
 import mHUD.geometric.Vector;
 
 
 public class GCircleEntity extends GPlainEntity {
-	private double radius;
+	private double diameter;
 	
 	public GCircleEntity() {
 		setPosition(0,0);
@@ -21,33 +19,33 @@ public class GCircleEntity extends GPlainEntity {
 		setRadius(r);
 	}
 	
-	protected double getRadius() {
-		return radius;
+	protected double getDiameter() {
+		return diameter;
 	}
-	public void setRadius(double r) {
-		radius = r;
+	public void setRadius(double radius) {
+		diameter = radius*2;
 		reloadCanvas();
 	}
 	protected Vector getPosition() {
-		return new Vector(super.getPosition().x-getRadius()/2,super.getPosition().y-getRadius()/2);
+		return new Vector(super.getPosition().x-getDiameter()/2,super.getPosition().y-getDiameter()/2);
 	}
 	
 	protected void reloadCanvas() {
-		imageBuffer = new BufferedImage((int)radius, (int)radius, BufferedImage.TYPE_INT_ARGB);
+		imageBuffer = new BufferedImage((int)diameter, (int)diameter, BufferedImage.TYPE_INT_ARGB);
 		imageEdit = imageBuffer.createGraphics();
 	}
 	protected Image getImage() {
 		imageEdit.setColor(getBackgroundColor());
-		imageEdit.fill(new Ellipse2D.Double(0,0,radius,radius));
+		imageEdit.fill(new Ellipse2D.Double(0,0,diameter,diameter));
 		
 		imageEdit.setColor(getLineColor());
-		imageEdit.draw(new Ellipse2D.Double(0,0,radius,radius));
+		imageEdit.draw(new Ellipse2D.Double(0,0,diameter,diameter));
 		
 		return imageBuffer;
 	}
 	@Override
 	public boolean isIn(double x, double y) {
-		return Math.abs(Math.sqrt(Math.pow(getPosition().x-x,2) + Math.pow(getPosition().y-y,2))) <= getRadius();
+		return Math.abs(Math.sqrt(Math.pow(getPosition().x-x,2) + Math.pow(getPosition().y-y,2))) <= getDiameter();
 	}
 
 }
