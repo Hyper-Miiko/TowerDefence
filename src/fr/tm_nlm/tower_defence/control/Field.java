@@ -13,7 +13,7 @@ import fr.tm_nlm.tower_defence.control.entity.Tower;
 public class Field extends Thread {
 	private boolean running;
 	private boolean someNews;
-	private int lives;
+	private double lives;
 	private int temmies;
 	private final HashSet<Entity> entities;
 	private final LinkedList<PathNode> pathNodes;
@@ -71,7 +71,7 @@ public class Field extends Thread {
 		trash.add(entity);
 	}
 	
-	public void removeLive(int nbrOfLive) {
+	public void removeLive(double nbrOfLive) {
 		lives = (nbrOfLive >= lives) ? 0 : lives - nbrOfLive;
 	}
 
@@ -122,12 +122,13 @@ public class Field extends Thread {
 		monster.place(pathNode);
 	}
 	
-	public void evolveTower(Tower tower) {
+	public Tower evolveTower(Tower tower) {
 		if(tower.canEvolve()) {
-			tower.evolve();
+			return tower.evolve();
 		} else {
 			System.err.println(tower + " essaie d'évoluer alors qu'il ne peut pas, blamez celui qui a envoyé la demande.");
 		}
+		return null;
 	}
 	
 	public void connect(PathNode pathNodeA, PathNode pathNodeB) {
@@ -192,7 +193,7 @@ public class Field extends Thread {
 	}
 	
 	public int getLives() {
-		return lives;
+		return (int) lives;
 	}
 	public int getTemmies() {
 		return temmies;

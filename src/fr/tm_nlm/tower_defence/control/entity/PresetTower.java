@@ -19,6 +19,8 @@ public final class PresetTower {
 		sans.setObstacle(true);
 		sans.setMaxHealth(1d);
 		sans.addAttack(PresetAttack.buildGhasterBlaster(field));
+		sans.addAttack(PresetAttack.buildGravityControl(field));
+		sans.addAttack(PresetAttack.buildFrozenBone(field));
 		return sans;
 	}
 	
@@ -42,24 +44,46 @@ public final class PresetTower {
 		return madMewMew;
 	}
 	
-	public static Tower buildMetaton(Field field) {
-		Tower metaton = new Tower(field, "Mettaton");
-		metaton.setObstacle(true);
-		metaton.setCost(20);
-		metaton.setMaxHealth(Integer.MAX_VALUE);
-		metaton.addAttack(PresetAttack.buildFlameRobe(field));
-		metaton.getAppareances().setColor(100, 100, 100);
-		//mettaton.canEvolveIn(buildMettatonEX(field), 63);
-		return metaton;
+	public static Tower buildMettaton(Field field) {
+		Tower mettaton = new Tower(field, "Mettaton");
+		mettaton.setObstacle(true);
+		mettaton.setCost(20);
+		mettaton.setMaxHealth(Integer.MAX_VALUE);
+		mettaton.addAttack(PresetAttack.buildFlameRobe(field));
+		mettaton.getAppareances().setColor(100, 100, 100);
+		mettaton.evolveIn(buildMettatonEX(field), 63);
+		return mettaton;
 	}
-	/*private Tower buildMettatonEX(Field field) {
-		
-	}*/
+	private static Tower buildMettatonEX(Field field) {
+		Tower mettaton = new Tower(field, "Mettaton EX");
+		mettaton.getAppareances().setColor(255, 100, 255);
+		mettaton.addAttack(PresetAttack.buildHeartBreaker(field));
+		mettaton.addAttack(PresetAttack.buildYellowHearth(field));
+		mettaton.evolveIn(buildMettatonNEO(field), 50);
+		return mettaton;
+	}
+	private static Tower buildMettatonNEO(Field field) {
+		Tower mettaton = new Tower(field, "Mettaton NEO");
+		mettaton.getAppareances().setColor(255, 100, 255);
+		mettaton.addAttack(PresetAttack.buildPinkBeam(field));
+		mettaton.addAttack(PresetAttack.buildYellowBeam(field));
+		mettaton.addAttack(PresetAttack.buildWhiteBeam(field));
+		return mettaton;
+	}
 	
 	public static Tower buildUndyne(Field field) {
 		Tower undyne = new Tower(field, "Undyne");
 		undyne.addAttack(PresetAttack.buildSpire(field));
 		undyne.addAttack(PresetAttack.buildSpireOfJustice(field));
+		undyne.getAppareances().setColor(0, 0, 100);
+		undyne.evolveIn(buildUndyneTheUndying(field), 50);
+		return undyne;
+	}
+	private static Tower buildUndyneTheUndying(Field field) {
+		Tower undyne = new Tower(field, "Undyne The Undying");
+		undyne.addAttack(PresetAttack.buildSpireOfUndying(field));
+		undyne.addAttack(PresetAttack.buildSpireOfJustice(field));
+		undyne.addAttack(PresetAttack.buildShield(field));
 		undyne.getAppareances().setColor(0, 0, 100);
 		return undyne;
 	}

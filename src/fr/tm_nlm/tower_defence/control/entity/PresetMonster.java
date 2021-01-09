@@ -16,11 +16,14 @@ public final class PresetMonster {
 	}
 	
 	public static Monster buildAirplanChan(Field field) {
-		Monster airplan = new Monster(field, new Circle(null, 10));
+		Monster airplan = new Monster(field, new Circle(null, 50));
 		airplan.setBaseSpeed(40);
+		airplan.setHealth(200);
 		airplan.setMonsterType("Airplan-Chan");
 		airplan.getAppareances().setColor(255, 0, 200);
-		//airplan.setStrenght(2);
+		airplan.setFly(true);
+		airplan.setBoss(true);
+		airplan.setStrength(5);
 		return airplan;
 	}
 }

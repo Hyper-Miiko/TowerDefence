@@ -7,4 +7,6 @@ public interface Movable {
 	public double getAngle();
 	public Vector getPosition();
 	public double getSpeed();
+	public boolean isSlow();
+	public boolean isFlying();
 }
