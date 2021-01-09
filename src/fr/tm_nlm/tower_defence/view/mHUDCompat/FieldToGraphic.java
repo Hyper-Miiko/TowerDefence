@@ -57,8 +57,7 @@ public class FieldToGraphic extends Thread {
 		MGraphicEntity graphic;
 		/*if(entity.getAppareances().getCurrentImage() != null) {
 			graphic = new GPictureEntity(entity.getPosition().x, entity.getPosition().y,entity.getAppareances().getRect().getSize().x,entity.getAppareances().getRect().getSize().y, entity.getAppareances().getCurrentImage());
-		} else */
-		if(entity.getAppareances().isCircle()) {
+		} else */if(entity.getAppareances().isCircle()) {
 			graphic = new GCircleEntity(entity.getPosition().x, entity.getPosition().y, entity.getAppareances().getCircle().getRadius());
 			((GCircleEntity)graphic).setBackgroundColor(entity.getAppareances().getColor());
 			((GCircleEntity)graphic).setLineColor(entity.getAppareances().getColor());
@@ -74,7 +73,7 @@ public class FieldToGraphic extends Thread {
 		//if(entity instanceof PathNode) addPath((PathNode)entity);
 	}
 	
-	private void addPath(PathNode p) {
+	/*private void addPath(PathNode p) {
 		if(p.getNextToCastle() != null) {
 			int sizeY = (int) p.getAppareances().getCircle().getRadius();
 			int sizeX = (int) p.getPosition().dist(p.getNextToCastle().getPosition());
@@ -89,13 +88,13 @@ public class FieldToGraphic extends Thread {
 			view.addGraphicEntityAt(graphic);
 			nodePath.put(p, graphic);
 		}
-	}
+	}*/
 	
 	private void remove(Entity entity) {
 		if(!field.equals(entity.getField())) {
 			throw new IllegalArgumentException("L'entité n'appartient pas au bon champ.");
 		}
-		MGraphicEntity graphic = entityToGraphic.get(entity);
+		MGraphicEntity graphic = get(entity);
 		view.removeGraphicEntity(graphic);
 		entityToGraphic.remove(entity);
 		
@@ -111,7 +110,7 @@ public class FieldToGraphic extends Thread {
 			throw new IllegalArgumentException("L'entité n'appartient pas au bon champ.");
 		}
 		
-		MGraphicEntity graphic = entityToGraphic.get(entity);
+		MGraphicEntity graphic = get(entity);
 		graphic.setPosition(entity.getPosition().x, entity.getPosition().y);
 	}
 	
@@ -134,16 +133,13 @@ public class FieldToGraphic extends Thread {
 	
 	private void output() {
 		for(Entity entity : field.getEntities()) {
-			MGraphicEntity graphic = this.get(entity);
-			
 			if(entityToGraphic.containsKey(entity))	edit(entity);
 			else add(entity);
 		}
 		
 		HashMap<Entity, MGraphicEntity> list = new HashMap<Entity, MGraphicEntity>(entityToGraphic);
 		for(Entity e1 : list.keySet()) {
-			boolean isPresent = false;
-			
+			boolean isPresent = false;		
 			if(field.getEntities().contains(e1)) {
 				isPresent = true;
 			}

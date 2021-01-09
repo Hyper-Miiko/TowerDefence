@@ -5,8 +5,8 @@ import mHUD.geometric.Vector;
 public class ISpinBox extends FHorizontalFrame{
 	
 	FVerticalFrame buttonFrame = new FVerticalFrame();
-	IButton plus = new IButton();
-	IButton minus = new IButton();
+	IPushButton plus = new IPushButton();
+	IPushButton minus = new IPushButton();
 	ILabel label = new ILabel();
 	
 	int value = 0;
