@@ -26,6 +26,7 @@ public class Bullet extends Entity implements Movable {
 	private double size;
 	private double speed;
 	private Attack attack;
+	private Attack chainAttack;
 	private Entity target;
 	private HashMap<Option, double[]> options;
 	
@@ -44,7 +45,7 @@ public class Bullet extends Entity implements Movable {
 			}
 			move();
 			if(System.nanoTime() > deathTime) {
-				kill();
+				kill(true);
 			}
 		}
 	}
@@ -67,7 +68,7 @@ public class Bullet extends Entity implements Movable {
 			if(getAppareances().getShape().collide(entity.getAppareances().getShape()) && attack.isValidTarget(entity)) {
 				double modifiedDamage = damage;
 				if(!options.containsKey(GHOST)) {
-					kill();
+					kill(true);
 				}
 				if(options.containsKey(BLEEDING)) {
 					((Damageable) entity).affectWith(Effect.BLEED, options.get(BLEEDING));
@@ -76,13 +77,14 @@ public class Bullet extends Entity implements Movable {
 					((Damageable) entity).affectWith(Effect.CONFUSED, options.get(CONFUSING));
 				}
 				if(options.containsKey(PAPYRUS)) {
-					double speed = ((Movable) entity).getSpeed();
-					double damageMult = speed/50*options.get(PAPYRUS)[0];
+					double excessSpeed = ((Movable) entity).getSpeed() - 50;
+					double damageMult = excessSpeed*options.get(PAPYRUS)[0]/50;
 					modifiedDamage *= damageMult;
 				}
 				if(options.containsKey(SLOWING)) {
 					((Damageable) entity).affectWith(Effect.SLOWED, options.get(SLOWING));
 				}
+				modifiedDamage = (modifiedDamage > 0) ? 0 : modifiedDamage;
 				((Damageable) entity).dealDamage(modifiedDamage);
 				if(options.containsKey(LIFESTEAL)) {
 					((Damageable) attack.getOwner()).heal(modifiedDamage*options.get(LIFESTEAL)[0]);
@@ -91,6 +93,23 @@ public class Bullet extends Entity implements Movable {
 			}
 		}
 		getAppareances().getCircle().setPosition(nextPosition);
+	}
+	
+	public void kill(boolean chaine) {
+		if(chaine) {
+			Entity dummy = null;
+			if(target instanceof Monster) {
+				dummy = Monster.dummy(getPosition());
+			} else if(target instanceof Tower) {
+				dummy = Tower.dummy();
+			}
+			if(chainAttack != null) {
+				chainAttack.forceShoot(dummy);
+				chainAttack.forceBullet(getPosition());
+			}
+		}
+		kill();
+
 	}
 	
 	private boolean seekNewTarget() {
@@ -185,5 +204,9 @@ public class Bullet extends Entity implements Movable {
 	@Override
 	public boolean isFlying() {
 		return false;
+	}
+
+	public void setChainAttack(Attack chainAttack) {
+		this.chainAttack = chainAttack;
 	}
 }

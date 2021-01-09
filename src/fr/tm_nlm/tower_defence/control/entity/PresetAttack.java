@@ -394,24 +394,45 @@ public class PresetAttack {
 		attack.addOption(TARGET_BOSS);
 		return attack;
 	}
-	public static Attack buildStarBlast(Field field) {
+	public static Attack buildRainbowBlast(Field field) {
 		Attack attack = new Attack(field);
-		attack.setBulletSpeed(170, 340);
+		attack.setBulletSpeed(30, 50);
 		attack.setRange(200);
-		attack.setDamage(2);
-		attack.setInterval(0.5);
+		attack.setDamage(0);
+		attack.setInterval(2);
 		attack.setCooldown(10, 20);
-		attack.setLifeTime(10, 20);
-		attack.setSize(5);
-		attack.setAimingFactor(0.1);
+		attack.setLifeTime(60);
+		attack.setSize(20);
+		attack.setAimingFactor(0.05);
 		attack.setPrecisionLoss(1);
-		attack.setBulletByShot(15);
-		attack.setNbrOfBullet(60);
+		attack.setBulletByShot(3, 5);
+		attack.setNbrOfBullet(9, 15);
 		attack.setRed(0, 255);
 		attack.setGreen(0, 255);
 		attack.setBlue(0, 255);
 		attack.setNbrOfColor(1);
 		attack.addOption(TARGET_FLYING);
+		attack.addOption(TARGET_MOB);
+		attack.addOption(TARGET_BOSS);
+		attack.setChainAttack(buildStarBlast(field));
+		return attack;
+	}
+	private static Attack buildStarBlast(Field field) {
+		Attack attack = new Attack(field);
+		attack.setBulletSpeed(50, 250);
+		attack.setRange(100);
+		attack.setDamage(2);
+		attack.setLifeTime(5, 10);
+		attack.setSize(2);
+		attack.setAimingFactor(0.05);
+		attack.setPrecisionLoss(1);
+		attack.setBulletByShot(150);
+		attack.setNbrOfBullet(150);
+		attack.setRed(0, 255);
+		attack.setGreen(0, 255);
+		attack.setBlue(0, 255);
+		attack.setNbrOfColor(1);
+		attack.addOption(TARGET_WALKING);
 		attack.addOption(TARGET_MOB);
 		attack.addOption(TARGET_BOSS);
 		return attack;

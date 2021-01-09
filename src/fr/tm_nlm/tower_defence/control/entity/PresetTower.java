@@ -92,7 +92,7 @@ public final class PresetTower {
 		Tower asriel = new Tower(field, "Asriel Dremurr");
 		asriel.addAttack(PresetAttack.buildRainbowBlaster(field));
 		asriel.addAttack(PresetAttack.buildRainbowShotgun(field));
-		asriel.addAttack(PresetAttack.buildStarBlast(field));
+		asriel.addAttack(PresetAttack.buildRainbowBlast(field));
 		asriel.getAppareances().setColor(0, 255, 150);
 		return asriel;
 	}

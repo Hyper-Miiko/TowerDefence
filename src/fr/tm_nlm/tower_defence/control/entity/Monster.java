@@ -7,13 +7,14 @@ import java.util.Random;
 import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
+import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
 
 import static fr.tm_nlm.tower_defence.control.entity.Monster.Effect.*;
 
 public class Monster extends Entity implements Damageable, Movable {
 	private static final Random random = new Random();
-	public static Monster dummy() {
-		return new Monster();
+	public static Monster dummy(Vector vector) {
+		return new Monster(vector);
 	}
 	private boolean boss;
 	private boolean fly;
@@ -50,8 +51,10 @@ public class Monster extends Entity implements Damageable, Movable {
 		nextNode = null;
 	}
 	
-	private Monster() {
-		super(null, null);
+	private Monster(Vector vector) {
+		super(null, new Circle(vector, 1));
+		nextNode = PathNode.dummy(vector);
+		kill();
 	}
 	
 	public void affectWith(Effect effect, double... ds) {

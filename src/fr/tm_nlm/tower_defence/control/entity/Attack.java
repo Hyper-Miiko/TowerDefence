@@ -32,6 +32,7 @@ public class Attack {
 	private double range;
 	private double size;
 	private ArrayList<String> quotes;
+	private Attack chainAttack;
 	private Entity lastTarget;
 	private Entity owner;
 	private Field field;
@@ -56,6 +57,7 @@ public class Attack {
 		range = 200;
 		size = 3;
 		quotes = new ArrayList<>();
+		chainAttack = null;
 		lastTarget = null;
 		owner = null;
 		bulletLeft = new LinkedList<>();
@@ -71,23 +73,29 @@ public class Attack {
 			calcIncreassOptions(target);
 			launchQuote();
 			nextCooldom = time + random.nextDouble()*(maxCooldown - minCooldown) + minCooldown;
-			bulletLeft = new LinkedList<>();
-			int bulletToMake = (int) ((minBullet == maxBullet) ? minBullet : random.nextInt((int) (maxBullet - minBullet)) + minBullet);
-			for(int n = 0; n < bulletToMake; n++) {
-				Bullet bullet = new Bullet(field);
-				bullet.setAiming(aiming);
-				bullet.setAimingFactor(aimingFactor);
-				double damage = random.nextDouble()*(maxDamage - minDamage) + minDamage;
-				bullet.setDamage(damage);
-				double bulletSpeed = random.nextDouble()*(maxBulletSpeed - minBulletSpeed) + minBulletSpeed;
-				bullet.setSpeed(bulletSpeed);
-				bullet.setTarget(target);
-				bullet.setSize(size);
-				calcColor(bullet);
-				sendOptions(bullet);
-				bullet.setAttack(this);
-				bulletLeft.add(bullet);
-			}
+			forceShoot(target);
+		}
+	}
+	
+	public void forceShoot(Entity target) {
+		launchQuote();
+		bulletLeft = new LinkedList<>();
+		int bulletToMake = (int) ((minBullet == maxBullet) ? minBullet : random.nextInt((int) (maxBullet - minBullet)) + minBullet);
+		for(int n = 0; n < bulletToMake; n++) {
+			Bullet bullet = new Bullet(field);
+			bullet.setAiming(aiming);
+			bullet.setAimingFactor(aimingFactor);
+			double damage = random.nextDouble()*(maxDamage - minDamage) + minDamage;
+			bullet.setDamage(damage);
+			double bulletSpeed = random.nextDouble()*(maxBulletSpeed - minBulletSpeed) + minBulletSpeed;
+			bullet.setSpeed(bulletSpeed);
+			bullet.setTarget(target);
+			bullet.setSize(size);
+			calcColor(bullet);
+			sendOptions(bullet);
+			bullet.setAttack(this);
+			bullet.setChainAttack(chainAttack);
+			bulletLeft.add(bullet);
 		}
 	}
 	
@@ -95,18 +103,21 @@ public class Attack {
 		double time = (double) System.nanoTime()/1000000000;
 		if(time > nextInterval) {
 			nextInterval = time + random.nextDouble()*(maxInterval - minInterval) + minInterval;
-			int bulletByShot = (int) ((minBulletByShot == maxBulletByShot) ? minBulletByShot : random.nextInt((int) (maxBulletByShot - minBulletByShot)) + minBulletByShot);
-			for(int i = 0; i < bulletByShot; i++) {
-				Bullet bullet = bulletLeft.poll();
-				if(bullet != null) {
-					System.out.println(minDamage);
-					calcIncreassOptions(bullet.getTarget());
-					double angle = calcAngle(bullet, from);
-					bullet.setAngle(angle);
-					double lifeTime = random.nextDouble()*(maxLifeTime - minLifeTime) + minLifeTime;
-					bullet.setLifeTime((long) (lifeTime*1000000000));
-					bullet.place(from);
-				}
+			forceBullet(from);
+		}
+	}
+	
+	public void forceBullet(Vector from) {
+		int bulletByShot = (int) ((minBulletByShot == maxBulletByShot) ? minBulletByShot : random.nextInt((int) (maxBulletByShot - minBulletByShot)) + minBulletByShot);
+		for(int i = 0; i < bulletByShot; i++) {
+			Bullet bullet = bulletLeft.poll();
+			if(bullet != null) {
+				calcIncreassOptions(bullet.getTarget());
+				double angle = calcAngle(bullet, from);
+				bullet.setAngle(angle);
+				double lifeTime = random.nextDouble()*(maxLifeTime - minLifeTime) + minLifeTime;
+				bullet.setLifeTime((long) (lifeTime*1000000000));
+				bullet.place(from);
 			}
 		}
 	}
@@ -440,6 +451,10 @@ public class Attack {
 	
 	public Entity getOwner() {
 		return owner;
+	}
+	
+	public void setChainAttack(Attack chainAttack) {
+		this.chainAttack = chainAttack;
 	}
 	
 	public enum Option {

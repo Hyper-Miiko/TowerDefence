@@ -21,6 +21,7 @@ public class Field extends Thread {
 	private final LinkedList<Monster> monsters;
 	private final LinkedList<Bullet> bullets;
 	private final LinkedList<Entity> trash;
+	private final LinkedList<Entity> toAdd;
 
 	public Field() {
 		super("Champ");
@@ -32,27 +33,33 @@ public class Field extends Thread {
 		monsters = new LinkedList<>();
 		bullets = new LinkedList<>();
 		trash = new LinkedList<>();
+		toAdd = new LinkedList<>();
 		someNews = true;
 	}
 
 	public void add(Entity entity) {
-		int before = entities.size();
-		if(!entities.add(entity)) {
-			System.err.println(entity + " était déjà enregistré. (" + before + "/" + entities.size() + ")");
-			return;
+		toAdd.add(entity);
+	}
+	
+	private void workOnAdd() {
+		while(!toAdd.isEmpty()) {
+			Entity add = toAdd.poll();
+			if(!entities.add(add)) {
+				return;
+			}
+			if(add instanceof PathNode) {
+				pathNodes.add((PathNode) add);
+			} else if(add instanceof Tower) {
+				towers.add((Tower) add);
+			} else if(add instanceof Monster) {
+				monsters.add((Monster) add);
+			} else if(add instanceof Bullet) {
+				bullets.add((Bullet) add);
+			} else {
+				throw new InternalError("L'entité " + add + " n'est pas reconnue");
+			}
+			someNews = true;
 		}
-		if(entity instanceof PathNode) {
-			pathNodes.add((PathNode) entity);
-		} else if(entity instanceof Tower) {
-			towers.add((Tower) entity);
-		} else if(entity instanceof Monster) {
-			monsters.add((Monster) entity);
-		} else if(entity instanceof Bullet) {
-			bullets.add((Bullet) entity);
-		} else {
-			throw new InternalError("L'entité " + entity + " n'est pas reconnue");
-		}
-		someNews = true;
 	}
 	
 	public boolean buy(int price) {
@@ -79,6 +86,7 @@ public class Field extends Thread {
 	public void run() {
 		processEntities();
 		emptyTrash();
+		workOnAdd();
 	}
 	
 	private void emptyTrash() {

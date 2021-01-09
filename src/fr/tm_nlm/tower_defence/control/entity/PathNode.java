@@ -17,6 +17,11 @@ import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
 public class PathNode extends Entity {
 	private static final double radius = 20;
 	private static final HashMap<Field, HashSet<PathNode>> allNodes = new HashMap<>();
+	
+	public static PathNode dummy(Vector vector) {
+		return new PathNode(vector);
+	}
+	
 	public static boolean canCreateNodeHere(Field field, Circle circle) {
 		HashSet<PathNode> allNodesOfField = allNodes.get(field);
 		if(allNodesOfField == null) {
@@ -67,6 +72,10 @@ public class PathNode extends Entity {
 	public PathNode(Field field, Circle circle, boolean castle) {
 		super(field, circle);
 		init(field, circle, castle);
+	}
+	
+	private PathNode(Vector vector) {
+		super(null, new Circle(vector, 1));
 	}
 	
 	private void init(Field field, Circle circle, boolean castle) {

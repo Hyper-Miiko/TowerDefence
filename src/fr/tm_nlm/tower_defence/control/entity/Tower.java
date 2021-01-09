@@ -37,6 +37,7 @@ public class Tower extends Entity implements Damageable {
 	
 	private Tower() {
 		super(null, null);
+		kill();
 	}
 	
 	public void process() {
