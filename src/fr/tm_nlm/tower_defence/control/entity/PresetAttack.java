@@ -7,7 +7,7 @@ import static fr.tm_nlm.tower_defence.control.entity.Attack.Option.*;
 public class PresetAttack {
 	public static Attack buildShotGun(Field field) {
 		Attack attack = new Attack(field);
-		attack.setBulletSpeed(95, 105);
+		attack.setBulletSpeed(195, 205);
 		attack.setDamage(10);
 		attack.setAimingFactor(0);
 		attack.setCooldown(4, 5);
@@ -15,7 +15,7 @@ public class PresetAttack {
 		attack.setNbrOfBullet(12, 14);
 		attack.setBulletByShot(7);
 		attack.setPrecisionLoss(0.1);
-		attack.setSize(10);
+		attack.setSize(5);
 		attack.setRed(200);
 		attack.setGreen(200);
 		attack.setBlue(200);
@@ -28,11 +28,11 @@ public class PresetAttack {
 	}
 	public static Attack buildRocketLauncher(Field field) {
 		Attack attack = new Attack(field);
-		attack.setBulletSpeed(45, 55);
+		attack.setBulletSpeed(80, 120);
 		attack.setDamage(20);
-		attack.setAimingFactor(0.2);
+		attack.setAimingFactor(0.1);
 		attack.setCooldown(40, 50);
-		attack.setInterval(0.8);
+		attack.setInterval(1);
 		attack.setNbrOfBullet(25, 30);
 		attack.setBulletByShot(5, 6);
 		attack.setPrecisionLoss(0.8);
@@ -42,6 +42,24 @@ public class PresetAttack {
 		attack.setBlue(127);
 		attack.setLifeTime(10);
 		attack.setRange(250);
+		attack.addOption(TARGET_FLYING);
+		attack.addOption(TARGET_MOB);
+		attack.addOption(TARGET_BOSS);
+		attack.setChainAttack(buildSizedEkusplosion(field));
+		return attack;
+	}
+	private static Attack buildSizedEkusplosion(Field field) {
+		Attack attack = new Attack(field);
+		attack.setBulletSpeed(0, 200);
+		attack.setDamage(2);
+		attack.setNbrOfBullet(1000);
+		attack.setBulletByShot(1000);
+		attack.setPrecisionLoss(1);
+		attack.setSize(1);
+		attack.setRed(255);
+		attack.setGreen(-200, 200);
+		attack.setBlue(0);
+		attack.setLifeTime(0.25);
 		attack.addOption(TARGET_WALKING);
 		attack.addOption(TARGET_FLYING);
 		attack.addOption(TARGET_MOB);
@@ -421,10 +439,9 @@ public class PresetAttack {
 		Attack attack = new Attack(field);
 		attack.setBulletSpeed(50, 250);
 		attack.setRange(100);
-		attack.setDamage(2);
+		attack.setDamage(5);
 		attack.setLifeTime(5, 10);
 		attack.setSize(2);
-		attack.setAimingFactor(0.05);
 		attack.setPrecisionLoss(1);
 		attack.setBulletByShot(150);
 		attack.setNbrOfBullet(150);
@@ -433,6 +450,7 @@ public class PresetAttack {
 		attack.setBlue(0, 255);
 		attack.setNbrOfColor(1);
 		attack.addOption(TARGET_WALKING);
+		attack.addOption(TARGET_FLYING);
 		attack.addOption(TARGET_MOB);
 		attack.addOption(TARGET_BOSS);
 		return attack;
