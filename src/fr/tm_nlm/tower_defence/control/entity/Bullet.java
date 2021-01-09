@@ -34,10 +34,12 @@ public class Bullet extends Entity implements Movable {
 	}
 	
 	public void process() {
-		if(aiming && !target.isDead()) {
-			double currentAngle = getPosition().angle(target.getPosition());
-			double angleDiff = angle - currentAngle;
-			angle = angle - angleDiff*aimingFactor;
+		if(aiming) {
+			if(!target.isDead() || seekNewTarget()) {
+				double currentAngle = getPosition().angle(target.getPosition());
+				double angleDiff = angle - currentAngle;
+				angle = angle - angleDiff*aimingFactor;
+			}
 		}
 		move();
 		if(System.nanoTime() > deathTime) {
@@ -67,6 +69,23 @@ public class Bullet extends Entity implements Movable {
 			}
 		}
 		getAppareances().getCircle().setPosition(nextPosition);
+	}
+	
+	private boolean seekNewTarget() {
+		boolean found = false;
+		LinkedList<Entity> targets = new LinkedList<>();
+		if(target instanceof Monster) {
+			targets.addAll(field.getMonsters());
+		} else if(target instanceof Tower) {
+			targets.addAll(field.getTowers());
+		}
+		for(Entity seek : targets) {
+			if(target.isDead() || getPosition().dist(seek.getPosition()) < getPosition().dist(target.getPosition())) {
+				target = seek;
+				found = true;
+			}
+		}
+		return found;
 	}
 	
 	void place(Vector position) {

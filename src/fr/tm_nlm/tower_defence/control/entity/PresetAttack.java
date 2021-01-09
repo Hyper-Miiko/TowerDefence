@@ -41,36 +41,37 @@ public class PresetAttack {
 	}
 	public static Attack buildFlameRobe(Field field) {
 		Attack attack = new Attack(field);
-		attack.setBulletSpeed(10, 30);
+		attack.setBulletSpeed(20, 40);
 		attack.setDamage(0.01, 0.1);
 		attack.setAimingFactor(0.05);
-		attack.setInterval(0);
-		attack.setCooldown(0);
-		attack.setNbrOfBullet(100);
-		attack.setBulletByShot(100);
+		attack.setInterval(0.025);
+		attack.setCooldown(15);
+		attack.setNbrOfBullet(8000);
+		attack.setBulletByShot(50);
 		attack.setPrecisionLoss(1);
 		attack.setLifeTime(4, 6);
 		attack.setRange(100);
-		attack.setSize(2);
+		attack.setSize(1);
 		attack.setRed(255);
-		attack.setGreen(0, 150);
+		attack.setGreen(-200, 200);
 		attack.setBlue(0);
 		return attack;
 	}
 	public static Attack buildTripleShot(Field field) {
 		Attack attack = new Attack(field);
-		attack.setBulletSpeed(100);
+		attack.setBulletSpeed(150);
 		attack.setDamage(10, 20);
 		attack.setAimingFactor(0);
-		attack.setInterval(0.2);
+		attack.setInterval(0.1);
 		attack.setCooldown(1, 3);
 		attack.setNbrOfBullet(3);
 		attack.setPrecisionLoss(0);
 		attack.setLifeTime(3);
-		attack.setSize(10);
+		attack.setSize(7);
 		attack.setRed(0, 255);
 		attack.setGreen(0);
 		attack.setBlue(0, 255);
+		attack.setNbrOfColor(1);
 		return attack;
 	}
 	public static Attack buildSpire(Field field) {
@@ -93,6 +94,94 @@ public class PresetAttack {
 		attack.setCooldown(10);
 		attack.setLifeTime(15);
 		attack.setSize(10);
+		attack.addQuote("Nyarg!");
+		return attack;
+	}
+	public static Attack buildGhasterBlaster(Field field) {
+		Attack attack = new Attack(field);
+		attack.setBulletSpeed(250, 300);
+		attack.setRange(10000);
+		attack.setDamage(1);
+		attack.setInterval(0);
+		attack.setCooldown(20);
+		attack.setLifeTime(3);
+		attack.setSize(30);
+		attack.setPrecisionLoss(0);
+		attack.setBulletByShot(20);
+		attack.setNbrOfBullet(2000);
+		attack.setRed(255);
+		attack.setGreen(255);
+		attack.setBlue(255);
+		attack.addQuote("Never understood why people don't use their best attack first.");
+		return attack;
+	}
+	public static Attack buildLazyBone(Field field) {
+		Attack attack = new Attack(field);
+		attack.setBulletSpeed(0);
+		attack.setRange(0);
+		attack.setDamage(0);
+		attack.setCooldown(10000);
+		attack.setLifeTime(0);
+		attack.setSize(1);
+		attack.setNbrOfBullet(0);
+		attack.setRed(255);
+		attack.setGreen(255);
+		attack.setBlue(255);
+		return attack;
+	}
+	public static Attack buildRainbowBlaster(Field field) {
+		Attack attack = new Attack(field);
+		attack.setBulletSpeed(200, 400);
+		attack.setRange(10000);
+		attack.setDamage(0.05);
+		attack.setInterval(0);
+		attack.setCooldown(200);
+		attack.setLifeTime(1, 3);
+		attack.setSize(5);
+		attack.setPrecisionLoss(0.05);
+		attack.setBulletByShot(200);
+		attack.setNbrOfBullet(20000);
+		attack.setRed(0, 255);
+		attack.setGreen(0, 255);
+		attack.setBlue(0, 255);
+		attack.setNbrOfColor(1);
+		return attack;
+	}
+	public static Attack buildRainbowShotgun(Field field) {
+		Attack attack = new Attack(field);
+		attack.setBulletSpeed(200);
+		attack.setRange(200);
+		attack.setDamage(5);
+		attack.setInterval(0.2);
+		attack.setCooldown(10, 20);
+		attack.setLifeTime(2.5, 3);
+		attack.setSize(10);
+		attack.setPrecisionLoss(0.1);
+		attack.setBulletByShot(4);
+		attack.setNbrOfBullet(20);
+		attack.setRed(0, 255);
+		attack.setGreen(0, 255);
+		attack.setBlue(0, 255);
+		attack.setNbrOfColor(1);
+		return attack;
+	}
+	public static Attack buildStarBlast(Field field) {
+		Attack attack = new Attack(field);
+		attack.setBulletSpeed(170, 340);
+		attack.setRange(200);
+		attack.setDamage(2);
+		attack.setInterval(0.5);
+		attack.setCooldown(10, 20);
+		attack.setLifeTime(10, 20);
+		attack.setSize(5);
+		attack.setAimingFactor(0.1);
+		attack.setPrecisionLoss(1);
+		attack.setBulletByShot(15);
+		attack.setNbrOfBullet(60);
+		attack.setRed(0, 255);
+		attack.setGreen(0, 255);
+		attack.setBlue(0, 255);
+		attack.setNbrOfColor(1);
 		return attack;
 	}
 }

@@ -14,10 +14,12 @@ public abstract class Entity {
 	protected boolean check;
 	private long lastNano;
 	private final long id;
+	private String name;
 	
 	{
 		check = false;
 		lastNano = System.nanoTime();
+		name = "undefined";
 	}
 	public Entity(Field field, Shape shape) {
 		id = nextId++;
@@ -98,5 +100,13 @@ public abstract class Entity {
 	@Override
 	public boolean equals(Object object) {
 		return (object instanceof Entity) && (((Entity) object).id == id);
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	protected void setName(String name) {
+		this.name = name;
 	}
 }

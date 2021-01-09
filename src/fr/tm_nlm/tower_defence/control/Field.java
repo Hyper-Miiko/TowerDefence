@@ -25,7 +25,7 @@ public class Field extends Thread {
 	public Field() {
 		super("Champ");
 		lives = 10;
-		temmies = 100;
+		temmies = 1000000;
 		entities = new HashSet<>();
 		pathNodes = new LinkedList<>();
 		towers = new LinkedList<>();
@@ -90,9 +90,7 @@ public class Field extends Thread {
 			} else if(junk instanceof Tower) {
 				towers.remove(junk);
 			} else if(junk instanceof Monster) {
-				System.out.println(monsters.size());
 				monsters.remove(junk);
-				System.out.println(monsters.size());
 			} else if(junk instanceof Bullet) {
 				bullets.remove(junk);
 			} else {

@@ -21,7 +21,6 @@ public class Tower extends Entity implements Damageable {
 	private double health;
 	private double maxHealth;
 	private LinkedList<Attack> attacks;
-	private String name;
 	private Tower evolution;
 	private LinkedList<Option> forbbidens;
 	private LinkedList<Option> requires;
@@ -33,7 +32,7 @@ public class Tower extends Entity implements Damageable {
 		cost = 5d;
 		maxHealth = 20d;
 		health = maxHealth;
-		this.name = name;
+		super.setName(name);
 		evolution = null;
 		forbbidens = new LinkedList<>();
 		requires = new LinkedList<>();
@@ -165,6 +164,7 @@ public class Tower extends Entity implements Damageable {
 	}
 	
 	public void addAttack(Attack attack) {
+		attack.setOwner(this);
 		attacks.add(attack);
 	}
 	
@@ -196,7 +196,7 @@ public class Tower extends Entity implements Damageable {
 	@Override
 	public String toString() {
 		String str = super.toString();
-		str += ": " + name;
+		str += ": " + getName();
 		if(isOnField()) {
 			str += " en " + getPosition();
 			str += " regarde ";

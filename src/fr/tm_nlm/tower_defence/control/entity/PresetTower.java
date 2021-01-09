@@ -11,12 +11,14 @@ public final class PresetTower {
 		sans.setCost(0);
 		sans.setMaxHealth(1d);
 		sans.evolveIn(buildInsaneSans(field), 10000);
+		sans.addAttack(PresetAttack.buildLazyBone(field));
 		return sans;
 	}
 	private static Tower buildInsaneSans(Field field) {
 		Tower sans = new Tower(field, "Sans");
 		sans.setObstacle(true);
 		sans.setMaxHealth(1d);
+		sans.addAttack(PresetAttack.buildGhasterBlaster(field));
 		return sans;
 	}
 	
@@ -60,5 +62,14 @@ public final class PresetTower {
 		undyne.addAttack(PresetAttack.buildSpireOfJustice(field));
 		undyne.getAppareances().setColor(0, 0, 100);
 		return undyne;
+	}
+	
+	public static Tower buildAsriel(Field field) {
+		Tower asriel = new Tower(field, "Asriel Dremurr");
+		asriel.addAttack(PresetAttack.buildRainbowBlaster(field));
+		asriel.addAttack(PresetAttack.buildRainbowShotgun(field));
+		asriel.addAttack(PresetAttack.buildStarBlast(field));
+		asriel.getAppareances().setColor(0, 255, 150);
+		return asriel;
 	}
 }
