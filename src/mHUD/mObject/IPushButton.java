@@ -4,15 +4,12 @@ import java.awt.Color;
 
 import mHUD.StdDraw;
 
-public class IButton extends ILabel {
+public class IPushButton extends ILabel {
 	private Color normalColor = new Color(250,250,250);
 	private Color pressedColor = new Color(150,150,150);
 	private Color mouseOnColor = new Color(230,230,230);
 	
-	private boolean toogle = false; 
-	private boolean isPressed = false;
-	private boolean isButtonPressed = false;
-	
+	protected boolean isPressed = false;
 	
 	protected Color getBackgroundColor() {
 		return normalColor;
@@ -38,34 +35,22 @@ public class IButton extends ILabel {
 	}
 	
 	protected void refreshObject() {
-		buttonPressed();
-		//buttonReleased();
-		
-		if(isButtonPressed)super.setBackgroundColor(getPressedColor());
+		if(buttonPressed())super.setBackgroundColor(getPressedColor());
 		else if(mouseIn())super.setBackgroundColor(getMouseOnColor());
 		else super.setBackgroundColor(getBackgroundColor());
 	}
-	public void setToggle(boolean t) {
-		toogle = t;
-	}
-	public void setIfPressed(boolean p) {
-		isButtonPressed = p;
-	}
 	
 	public boolean buttonPressed() {
-			if(mouseIn() && StdDraw.isMousePressed() && !isPressed) {
+			if(mouseIn() && StdDraw.isMousePressed()) {
 				isPressed = true;
-				if(!toogle) isButtonPressed = true;
-				return isButtonPressed;
+				return true;
 			}
-			else return isButtonPressed;
+			else return false;
 	}
 	public boolean buttonReleased() {
-		
 		if(mouseIn() && !StdDraw.isMousePressed() && isPressed) {
 			isPressed = false;
-			isButtonPressed = !isButtonPressed;
-			return !toogle || (toogle && !isButtonPressed);
+			return true;
 		}
 		else return false;
 	}

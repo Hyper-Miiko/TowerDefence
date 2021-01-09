@@ -73,7 +73,7 @@ public class FieldToGraphic extends Thread {
 		//if(entity instanceof PathNode) addPath((PathNode)entity);
 	}
 	
-	private void addPath(PathNode p) {
+	/*private void addPath(PathNode p) {
 		if(p.getNextToCastle() != null) {
 			int sizeY = (int) p.getAppareances().getCircle().getRadius();
 			int sizeX = (int) p.getPosition().dist(p.getNextToCastle().getPosition());
@@ -88,13 +88,13 @@ public class FieldToGraphic extends Thread {
 			view.addGraphicEntityAt(graphic);
 			nodePath.put(p, graphic);
 		}
-	}
+	}*/
 	
 	private void remove(Entity entity) {
 		if(!field.equals(entity.getField())) {
 			throw new IllegalArgumentException("L'entité n'appartient pas au bon champ.");
 		}
-		MGraphicEntity graphic = entityToGraphic.get(entity);
+		MGraphicEntity graphic = get(entity);
 		view.removeGraphicEntity(graphic);
 		entityToGraphic.remove(entity);
 		
@@ -110,7 +110,7 @@ public class FieldToGraphic extends Thread {
 			throw new IllegalArgumentException("L'entité n'appartient pas au bon champ.");
 		}
 		
-		MGraphicEntity graphic = entityToGraphic.get(entity);
+		MGraphicEntity graphic = get(entity);
 		graphic.setPosition(entity.getPosition().x, entity.getPosition().y);
 	}
 	
@@ -133,24 +133,18 @@ public class FieldToGraphic extends Thread {
 	
 	private void output() {
 		for(Entity entity : field.getEntities()) {
-			MGraphicEntity graphic = this.get(entity);
-			
 			if(entityToGraphic.containsKey(entity))	edit(entity);
 			else add(entity);
 		}
 		
 		HashMap<Entity, MGraphicEntity> list = new HashMap<Entity, MGraphicEntity>(entityToGraphic);
 		for(Entity e1 : list.keySet()) {
-			boolean isPresent = false;
-
-			System.out.println(e1);
-			
+			boolean isPresent = false;		
 			if(field.getEntities().contains(e1)) {
 				isPresent = true;
 			}
 			if(!isPresent)remove(e1);
 		}
-		System.out.println();
 	}
 	
 	/*private void working() {
