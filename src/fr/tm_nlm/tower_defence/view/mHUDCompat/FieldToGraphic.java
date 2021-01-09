@@ -90,7 +90,7 @@ public class FieldToGraphic extends Thread {
 		}
 	}
 	
-	private boolean remove(Entity entity) {
+	private void remove(Entity entity) {
 		if(!field.equals(entity.getField())) {
 			throw new IllegalArgumentException("L'entité n'appartient pas au bon champ.");
 		}
@@ -98,12 +98,12 @@ public class FieldToGraphic extends Thread {
 		view.removeGraphicEntity(graphic);
 		entityToGraphic.remove(entity);
 		
-		if(entity instanceof PathNode) {
+		/*if(entity instanceof PathNode) {
 			graphic = nodePath.get(entity);
 			view.removeGraphicEntity(graphic);
 			nodePath.remove(entity);
 		}
-		return graphic != null;
+		return graphic != null;*/
 	}
 	private void edit(Entity entity) {
 		if(!field.equals(entity.getField())) {
@@ -123,61 +123,41 @@ public class FieldToGraphic extends Thread {
 
 	@Override
 	public void run() {
-		//while(true) {
-			//working();
-			
+		output();
+		/*while(true) {
+			working();
 			output();
-			input();
-			
-			//waiting();
-		//}
+			waiting();
+		}*/
 	}
 	
 	private void output() {
 		for(Entity entity : field.getEntities()) {
 			MGraphicEntity graphic = this.get(entity);
-			if(entityToGraphic.containsKey(entity)) {
-				if(graphic == null) {
-					//remove(entity);
-				} else {
-					edit(entity);
-				}
-			}
-			else {
-				add(entity);
-			}
-			if(entity.isDead()) {
-				remove(entity);
-			}
-		}
-	}
-	
-	private void input() {
-		boolean empty;
-		//TODO attente de l'action coté vue
-		
-		/*working();
-		Couple<MGraphicEntity, Couple<Double, Double>> graphicAction = view.getActiveEntity();
-		Action action;
-		Object target;
-		if(graphicAction._1 == null) {
 			
+			if(entityToGraphic.containsKey(entity))	edit(entity);
+			else add(entity);
 		}
-		Couple<Action, Object> fieldAction = new Couple<>(action, target);
-		field.workOn(fieldAction);
-		waiting();*/
+		
+		HashMap<Entity, MGraphicEntity> list = new HashMap<Entity, MGraphicEntity>(entityToGraphic);
+		for(Entity e1 : list.keySet()) {
+			boolean isPresent = false;
+
+			System.out.println(e1);
+			
+			if(field.getEntities().contains(e1)) {
+				isPresent = true;
+			}
+			if(!isPresent)remove(e1);
+		}
+		System.out.println();
 	}
 	
-	private void working() {
+	/*private void working() {
 		win.setActive(false);
+		field.setActive(false);
 		
-		System.out.println("	IN");
-		while(field.isRunning());
-		System.out.println("	OUT");
-		
-		System.out.println("	IN");
-		while(win.isRunning());
-		System.out.println("	OUT");
+		while(field.isRunning() || win.isRunning());
 		
 		field.suspend();
 		win.suspend();
@@ -185,15 +165,17 @@ public class FieldToGraphic extends Thread {
 	
 	private void waiting() {
 		win.setActive(true);
+		field.setActive(true);
 		
 		field.resume();
 		win.resume();
+		
 		try {
 			Thread.sleep(10);
 		} catch (InterruptedException e) {
 			System.out.println("FTG.waiting.catchError");
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 }
