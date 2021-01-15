@@ -26,7 +26,6 @@ public class Wave {
 			Monster monster = monsters.poll();
 			if(monster != null) {
 				field.placeMonster(monster, pathNode);
-				System.out.println(monster);
 			} else {
 				return false;
 			}

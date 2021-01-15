@@ -8,6 +8,10 @@ import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
 public abstract class Entity {
 	private static long nextId = 1;
 	
+	public static Entity dummy(Vector vector) {
+		return null;
+	}
+	
 	protected Field field;
 	private Appareances appareances;
 	private boolean dead;

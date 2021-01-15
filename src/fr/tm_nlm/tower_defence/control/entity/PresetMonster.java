@@ -8,7 +8,7 @@ public final class PresetMonster {
 	private PresetMonster() {}
 	
 	public static Monster buildKumo(Field field) {
-		Monster kumo = new Monster(field, new Circle(null, 5));
+		Monster kumo = new Monster(field, new Circle(null, 10));
 		kumo.setBaseSpeed(60);
 		kumo.setMonsterType("Kumo");
 		kumo.getAppareances().setColor(200, 0, 200);

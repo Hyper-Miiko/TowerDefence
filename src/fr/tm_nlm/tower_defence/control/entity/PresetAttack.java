@@ -88,12 +88,12 @@ public class PresetAttack {
 	}
 	public static Attack buildFlameRobe(Field field) {
 		Attack attack = new Attack(field);
-		attack.setBulletSpeed(20, 40);
-		attack.setDamage(0.01, 0.1);
-		attack.setAimingFactor(0.05);
-		attack.setInterval(0.025);
-		attack.setCooldown(15);
-		attack.setNbrOfBullet(8000);
+		attack.setBulletSpeed(30, 60);
+		attack.setDamage(0.01);
+		attack.setAimingFactor(0.01);
+		attack.setInterval(0);
+		attack.setCooldown(10);
+		attack.setNbrOfBullet(16000);
 		attack.setBulletByShot(50);
 		attack.setPrecisionLoss(1);
 		attack.setLifeTime(4, 6);
@@ -324,6 +324,7 @@ public class PresetAttack {
 		attack.addOption(TARGET_FLYING);
 		attack.addOption(TARGET_MOB);
 		attack.addOption(TARGET_BOSS);
+		attack.addOption(LOCK_TARGET);
 		return attack;
 	}
 	public static Attack buildGravityControl(Field field) {
@@ -372,11 +373,11 @@ public class PresetAttack {
 		Attack attack = new Attack(field);
 		attack.setBulletSpeed(200, 400);
 		attack.setRange(10000);
-		attack.setDamage(0.05);
+		attack.setDamage(0.005);
 		attack.setInterval(0);
 		attack.setCooldown(200);
 		attack.setLifeTime(1, 3);
-		attack.setSize(5);
+		attack.setSize(2);
 		attack.setPrecisionLoss(0.05);
 		attack.setBulletByShot(200);
 		attack.setNbrOfBullet(20000);
@@ -388,6 +389,8 @@ public class PresetAttack {
 		attack.addOption(TARGET_FLYING);
 		attack.addOption(TARGET_MOB);
 		attack.addOption(TARGET_BOSS);
+		attack.addOption(LOCK_TARGET);
+		attack.addOption(GHOST);
 		return attack;
 	}
 	public static Attack buildRainbowShotgun(Field field) {
@@ -395,17 +398,16 @@ public class PresetAttack {
 		attack.setBulletSpeed(200);
 		attack.setRange(200);
 		attack.setDamage(5);
-		attack.setInterval(0.2);
+		attack.setInterval(0.4);
 		attack.setCooldown(10, 20);
-		attack.setLifeTime(2.5, 3);
+		attack.setLifeTime(3, 3);
 		attack.setSize(10);
 		attack.setPrecisionLoss(0.1);
 		attack.setBulletByShot(4);
 		attack.setNbrOfBullet(20);
-		attack.setRed(0, 255);
-		attack.setGreen(0, 255);
-		attack.setBlue(0, 255);
-		attack.setNbrOfColor(1);
+		attack.setRed(255);
+		attack.setGreen(255);
+		attack.setBlue(255);
 		attack.addOption(TARGET_WALKING);
 		attack.addOption(TARGET_MOB);
 		attack.addOption(TARGET_BOSS);

@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import javax.sound.midi.Soundbank;
+
 import fr.tm_nlm.tower_defence.control.Field;
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
@@ -119,12 +121,15 @@ public class Monster extends Entity implements Damageable, Movable {
 		getAppareances().getShape().setPosition(pathNode.getPosition());
 		nextNode = pathNode.getNextToCastle();
 		field.add(this);
+		refreshNano();
 	}
 	
 	public void process() {
-		move();
-		checkDirection();
-		effect();
+		if(!isDead()) {
+			move();
+			checkDirection();
+			effect();
+		}
 	}
 	
 	private void checkDirection() {
@@ -149,7 +154,7 @@ public class Monster extends Entity implements Damageable, Movable {
 				switch(entry.getKey()) {
 				case BLEED:
 					if(currentTime > datas[2]) {
-						datas[2] = currentTime + 1;
+						datas[2] = currentTime + 0.2;
 						dealDamage(datas[1]);
 					}
 					break;
@@ -273,5 +278,13 @@ public class Monster extends Entity implements Damageable, Movable {
 	
 	public void setStrength(double strength) {
 		this.strength = strength;
+	}
+	
+	public double getHealth() {
+		return health;
+	}
+	
+	public double getMaxHealth() {
+		return maxHealth;
 	}
 }

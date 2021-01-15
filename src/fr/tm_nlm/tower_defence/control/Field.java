@@ -15,6 +15,7 @@ public class Field extends Thread {
 	private boolean running;
 	private boolean someNews;
 	private double lives;
+	private double maxLives;
 	private int temmies;
 	private final HashSet<Entity> entities;
 	private final LinkedList<PathNode> pathNodes;
@@ -27,8 +28,8 @@ public class Field extends Thread {
 
 	public Field() {
 		super("Champ");
-		lives = 10;
-		temmies = 1000000;
+		maxLives = lives = 10;
+		temmies = 10;
 		entities = new HashSet<>();
 		pathNodes = new LinkedList<>();
 		towers = new LinkedList<>();
@@ -219,6 +220,10 @@ public class Field extends Thread {
 	
 	public void addWave(Wave wave) {
 		waves.add(wave);
+	}
+	
+	public int getMaxLives() {
+		return (int) maxLives;
 	}
 	
 	@Override

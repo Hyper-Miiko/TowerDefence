@@ -25,6 +25,14 @@ public class Vector {
 	 * @return
 	 */
 	public double angle(Vector vector) {
+		double angle = Math.atan2(vector.y - y, vector.x - x);
+		while(angle < 0) {
+			angle += 2*Math.PI;
+		}
+		while(angle > 0)
+		if(angle > 2*Math.PI) {
+			angle = 2*Math.PI - (angle - 2*Math.PI);
+		}
 		return Math.atan2(vector.y - y, vector.x - x);
 	}
 	

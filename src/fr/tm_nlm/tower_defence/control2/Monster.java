@@ -1,0 +1,140 @@
+package fr.tm_nlm.tower_defence.control2;
+
+import java.awt.Color;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
+import java.util.LinkedList;
+
+import fr.tm_nlm.tower_defence.Couple;
+
+public class Monster implements Damageable, Displayable, Movable {
+	private Game game;
+	private double health;
+	private double maxHealth;
+	private double strength;
+	/**
+	 * _1 Ralentissement 0.0 à 1.0
+	 * _2 Timer de fin en seconde
+	 */
+	private LinkedList<Couple<Double, Double>> slows;
+	private double baseSpeed;
+	private Geometric shape;
+	private double lastMoveTimer;
+	private PathNode objectif;
+	
+	{
+		slows = new LinkedList<>();
+	}
+	public void process() {
+		double currentTime = Game.time();
+		double time = currentTime - lastMoveTimer;
+		lastMoveTimer = currentTime;
+		shape.setAngle(getPosition().angle(objectif.getPosition()));
+		move(time, true);
+	}
+	public void resetMove() {
+		lastMoveTimer = Game.time();
+	}
+
+	@Override
+	public void heal(double sustain) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void hurt(double damage) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public boolean move(double time, boolean checkCollide) {
+		Geometric nextShape = (Geometric) shape.clone();
+		nextShape.translateByAngle(getSpeed()*time);
+		boolean collide = false;
+		if(checkCollide ) {
+			for(Tower tower : game.readTowers()) {
+				if(nextShape.collide(tower)) {
+					if(tower.handle(this)) {
+						collide = true;
+						break;
+					}
+				}
+			}
+		}
+		if(!collide) {
+			shape = nextShape;
+			if(getPosition().dist(objectif.getPosition()) < 20) {
+				objectif = objectif.next(true);
+			}
+		}
+		return !collide;
+	}
+
+	@Override
+	public double getHealth() {
+		return health;
+	}
+	@Override
+	public double getMaxHealth() {
+		return maxHealth;
+	}
+	@Override
+	public boolean isOnScreen() {
+		return havePosition();
+	}
+	@Override
+	public Vector getPosition() {
+		return shape.getPosition();
+	}
+	public void setSpeed(double speed) {
+		this.baseSpeed = speed;
+	}
+	@Override
+	public double getSpeed() {
+		double speed = getBaseSpeed();
+		for(Couple<Double, Double> slow : slows) {
+			speed *= 1 - slow._1;
+		}
+		return speed;
+	}
+	@Override
+	public double getBaseSpeed() {
+		return baseSpeed;
+	}
+	public void setStrength(double strength) {
+		this.strength = strength;
+	}
+	@Override
+	public boolean haveImage() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public Couple<Area, Color> getShape() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Couple<String, Area> getImage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public void setPosition(Vector position) {
+		shape.setPosition(position);
+	}
+	public void setPath(PathNode pathNode) {
+		this.objectif = pathNode;
+	}
+	public double getAngle() {
+		return shape.getAngle();
+	}
+	public PathNode getPath() {
+		return objectif;
+	}
+	public void setShape(Geometric shape) {
+		this.shape = shape;
+	}
+	public void setGame(Game game) {
+		this.game = game;
+	}
+}

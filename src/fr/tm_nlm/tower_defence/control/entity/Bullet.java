@@ -29,6 +29,7 @@ public class Bullet extends Entity implements Movable {
 	private Attack chainAttack;
 	private Entity target;
 	private HashMap<Option, double[]> options;
+	private Vector vectorTarget;
 	
 	public Bullet(Field field) {
 		super(field, new Circle(null, 2));
@@ -107,7 +108,7 @@ public class Bullet extends Entity implements Movable {
 			if(target instanceof Monster) {
 				dummy = Monster.dummy(getPosition());
 			} else if(target instanceof Tower) {
-				dummy = Tower.dummy();
+				dummy = Tower.dummy(target.getPosition());
 			}
 			if(chainAttack != null) {
 				chainAttack.forceShoot(dummy);
@@ -173,6 +174,9 @@ public class Bullet extends Entity implements Movable {
 	}
 	void setTarget(Entity target) {
 		this.target = target;
+	}
+	void setTarget(Vector vector) {
+		this.vectorTarget = vector;
 	}
 	
 	void setColor(int r, int g, int b) {

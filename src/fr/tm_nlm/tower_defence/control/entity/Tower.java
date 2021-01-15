@@ -11,7 +11,7 @@ import fr.tm_nlm.tower_defence.control.entity.Monster.Effect;
 public class Tower extends Entity implements Damageable {
 	private static final int radius = 16;
 	
-	public static Tower dummy() {
+	public static Entity dummy(Vector vector) {
 		return new Tower();
 	}
 	

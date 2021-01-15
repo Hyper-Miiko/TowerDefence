@@ -90,6 +90,7 @@ public class Attack {
 			double bulletSpeed = random.nextDouble()*(maxBulletSpeed - minBulletSpeed) + minBulletSpeed;
 			bullet.setSpeed(bulletSpeed);
 			bullet.setTarget(target);
+			bullet.setTarget(target);
 			bullet.setSize(size);
 			calcColor(bullet);
 			sendOptions(bullet);
@@ -416,6 +417,7 @@ public class Attack {
 	public void addOption(Option option, double... data) {
 		switch(option) {
 		case GHOST:
+		case LOCK_TARGET:
 		case TARGET_BOSS:
 		case TARGET_MOB:
 		case TARGET_FLYING:
@@ -468,6 +470,7 @@ public class Attack {
 		INCREASS_DAMAGE,
 		INCREASS_SIZE,
 		LIFESTEAL,
+		LOCK_TARGET,
 		PAPYRUS,
 		SLOWING,
 		TARGET_BOSS,

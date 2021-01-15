@@ -6,24 +6,24 @@ public class PresetMap {
 	public static Field buildIntroGrassland() {
 		Field field = new Field();
 		
-		PathNode pathNodeStart = new PathNode(field, -25, 445, false);
+		PathNode pathNodeStart = field.createPathNode(-25, 445, false);
 		
-		PathNode pathNode1  = new PathNode(field, 283, 451, false);
-		PathNode pathNode2  = new PathNode(field, 336, 432, false);
-		PathNode pathNode3  = new PathNode(field, 364, 384, false);
-		PathNode pathNode4  = new PathNode(field, 368, 271, false);
-		PathNode pathNode5  = new PathNode(field, 396, 237, false);
-		PathNode pathNode6  = new PathNode(field, 445, 218, false);
-		PathNode pathNode7  = new PathNode(field, 492, 229, false);
-		PathNode pathNode8  = new PathNode(field, 528, 272, false);
-		PathNode pathNode9  = new PathNode(field, 558, 356, false);
-		PathNode pathNode10 = new PathNode(field, 609, 383, false);
-		PathNode pathNode11 = new PathNode(field, 674, 386, false);
-		PathNode pathNode12 = new PathNode(field, 721, 410, false);
-		PathNode pathNode13 = new PathNode(field, 761, 444, false);
-		PathNode pathNode14 = new PathNode(field, 807, 455, false);
+		PathNode pathNode1  = field.createPathNode(283, 451, false);
+		PathNode pathNode2  = field.createPathNode(336, 432, false);
+		PathNode pathNode3  = field.createPathNode(364, 384, false);
+		PathNode pathNode4  = field.createPathNode(368, 271, false);
+		PathNode pathNode5  = field.createPathNode(396, 237, false);
+		PathNode pathNode6  = field.createPathNode(445, 218, false);
+		PathNode pathNode7  = field.createPathNode(492, 229, false);
+		PathNode pathNode8  = field.createPathNode(528, 272, false);
+		PathNode pathNode9  = field.createPathNode(558, 356, false);
+		PathNode pathNode10 = field.createPathNode(609, 383, false);
+		PathNode pathNode11 = field.createPathNode(674, 386, false);
+		PathNode pathNode12 = field.createPathNode(721, 410, false);
+		PathNode pathNode13 = field.createPathNode(761, 444, false);
+		PathNode pathNode14 = field.createPathNode(807, 455, false);
 		
-		PathNode pathNodeEnd = new PathNode(field, 925, 460, true);
+		PathNode pathNodeEnd = field.createPathNode(925, 460, true);
 		
 		field.connect(pathNodeStart, pathNode1);
 		field.connect(pathNode1, pathNode2);
@@ -42,15 +42,19 @@ public class PresetMap {
 		field.connect(pathNode14, pathNodeEnd);
 		
 		pathNodeEnd.calcWay();
-		
+
 		Wave wave = new Wave(pathNodeStart, 1);
-		for(int i = 0; i < 10; i++) {
+		for(int i = 0; i < 3; i++) {
 			wave.addMonster(PresetMonster.buildKumo(field));
 		}
 		field.addWave(wave);
 		
-		wave.setTimer(5);
-		//System.out.println(pathNodeStart.getWayToCastle());
+		wave = new Wave(pathNodeStart, 1);
+		for(int i = 0; i < 5; i++) {
+			wave.addMonster(PresetMonster.buildKumo(field));
+		}
+		field.addWave(wave);
+		
 		return field;
 	}
 }
