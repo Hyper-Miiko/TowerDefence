@@ -79,4 +79,7 @@ public final class PathNode implements Localisable {
 	public Vector getPosition() {
 		return position;
 	}
+	public boolean isEnd() {
+		return end;
+	}
 }

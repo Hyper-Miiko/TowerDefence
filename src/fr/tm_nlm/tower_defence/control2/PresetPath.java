@@ -8,7 +8,7 @@ public abstract class PresetPath {
 		PathNode pathNode3 = new PathNode(364, 384);
 		PathNode pathNode4 = new PathNode(368, 271);
 		PathNode pathNode5 = new PathNode(396, 237);
-		PathNode pathNode6 = new PathNode(445, 218);
+		PathNode pathNode6 = new PathNode(445, 213);
 		PathNode pathNode7 = new PathNode(492, 229);
 		PathNode pathNode8 = new PathNode(528, 272);
 		PathNode pathNode9 = new PathNode(558, 356);

@@ -3,24 +3,30 @@ package fr.tm_nlm.tower_defence.control2;
 import java.util.HashSet;
 
 public class Map {
+	private int lives;
 	private String background;
 	private HashSet<Wave> waves;
 	private Game game;
 	
 	{
-		waves= new HashSet<>();
+		lives = 10;
+		waves = new HashSet<>();
 	}
 	
+	public void place(Monster monster) {
+		monster.setPosition(monster.getPath().getPosition());
+		monster.setGame(game);
+		monster.setMap(this);
+		game.add(monster);
+		monster.resetMove();
+	}
+	public void removeLives(int nbrOfLivesLost) {
+		lives = (nbrOfLivesLost > lives) ? 0 : lives - nbrOfLivesLost;
+	}
 	public void run() {
 		for(Wave wave : waves) {
 			wave.run();
 		}
-	}
-	public void place(Monster monster) {
-		monster.setPosition(monster.getPath().getPosition());
-		monster.setGame(game);
-		game.add(monster);
-		monster.resetMove();
 	}
 	
 	public void addWave(Wave wave) {

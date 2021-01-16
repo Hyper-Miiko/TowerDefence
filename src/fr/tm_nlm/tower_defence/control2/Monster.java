@@ -8,10 +8,12 @@ import java.util.LinkedList;
 import fr.tm_nlm.tower_defence.Couple;
 
 public class Monster implements Damageable, Displayable, Movable {
+	private boolean dead;
 	private Game game;
+	private Map map;
 	private double health;
 	private double maxHealth;
-	private double strength;
+	private int strength;
 	/**
 	 * _1 Ralentissement 0.0 à 1.0
 	 * _2 Timer de fin en seconde
@@ -23,14 +25,17 @@ public class Monster implements Damageable, Displayable, Movable {
 	private PathNode objectif;
 	
 	{
+		dead = false;
 		slows = new LinkedList<>();
 	}
 	public void process() {
-		double currentTime = Game.time();
-		double time = currentTime - lastMoveTimer;
-		lastMoveTimer = currentTime;
-		shape.setAngle(getPosition().angle(objectif.getPosition()));
-		move(time, true);
+		if(!dead) {
+			double currentTime = Game.time();
+			double time = currentTime - lastMoveTimer;
+			lastMoveTimer = currentTime;
+			shape.setAngle(getPosition().angle(objectif.getPosition()));
+			move(time, true);
+		}
 	}
 	public void resetMove() {
 		lastMoveTimer = Game.time();
@@ -64,7 +69,12 @@ public class Monster implements Damageable, Displayable, Movable {
 		if(!collide) {
 			shape = nextShape;
 			if(getPosition().dist(objectif.getPosition()) < 20) {
-				objectif = objectif.next(true);
+				if(objectif.isEnd()) {
+					dead = true;
+					map.removeLives(strength);
+				} else {
+					objectif = objectif.next(true);
+				}
 			}
 		}
 		return !collide;
@@ -101,7 +111,7 @@ public class Monster implements Damageable, Displayable, Movable {
 	public double getBaseSpeed() {
 		return baseSpeed;
 	}
-	public void setStrength(double strength) {
+	public void setStrength(int strength) {
 		this.strength = strength;
 	}
 	@Override
@@ -136,5 +146,11 @@ public class Monster implements Damageable, Displayable, Movable {
 	}
 	public void setGame(Game game) {
 		this.game = game;
+	}
+	public void setMap(Map map) {
+		this.map = map;
+	}
+	public boolean isDead() {
+		return dead;
 	}
 }

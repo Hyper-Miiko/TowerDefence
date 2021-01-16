@@ -2,14 +2,37 @@ package fr.tm_nlm.tower_defence.control2;
 
 import java.awt.Color;
 import java.awt.geom.Area;
-import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import fr.tm_nlm.tower_defence.Couple;
 
 public class Tower implements Damageable, Displayable {
-	private ArrayList<Monster> handle;
+	private boolean dead;
 	private int maxHandle;
+	private double lastShootTimer;
+	private ArrayList<Monster> handle;
+	private Geometric shape;
+	private LinkedList<Attack> attacks;
+	private final String name;
+	
+	{
+		attacks = new LinkedList<>();
+		handle = new ArrayList<>();
+		dead = false;
+		shape = PresetShape.circle(30);
+	}
+	public Tower(String name) {
+		this.name = name;
+	}
+	
+	public void process() {
+		if(!dead) {
+			for(Attack attack : attacks) {
+				attack.process();
+			}
+		}
+	}
 	
 	public boolean handle(Monster monster) {
 		for(Monster monsterHandled : handle) {
@@ -26,8 +49,7 @@ public class Tower implements Damageable, Displayable {
 
 	@Override
 	public boolean havePosition() {
-		// TODO Auto-generated method stub
-		return false;
+		return shape.havePosition();
 	}
 
 	@Override
@@ -62,8 +84,7 @@ public class Tower implements Damageable, Displayable {
 
 	@Override
 	public Vector getPosition() {
-		// TODO Auto-generated method stub
-		return null;
+		return shape.getPosition();
 	}
 
 	@Override
@@ -74,8 +95,7 @@ public class Tower implements Damageable, Displayable {
 
 	@Override
 	public Couple<Area, Color> getShape() {
-		// TODO Auto-generated method stub
-		return null;
+		return shape.getShape();
 	}
 
 	@Override
@@ -83,5 +103,18 @@ public class Tower implements Damageable, Displayable {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	public void setMaxHandle(int maxHandle) {
+		this.maxHandle = maxHandle;
+	}
+	public void addAttack(Attack attack) {
+		this.attacks.add(attack);
+	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setPosition(Vector position) {
+		shape.setPosition(position);
+	}
 }

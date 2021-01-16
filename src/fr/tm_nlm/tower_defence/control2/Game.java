@@ -1,6 +1,7 @@
 package fr.tm_nlm.tower_defence.control2;
 
 import java.util.HashSet;
+import java.util.Random;
 
 /**
  * Class centrale qui centralise en sont centre sans trop qu'on s'entre tue les données du jeu
@@ -8,6 +9,7 @@ import java.util.HashSet;
  *
  */
 public final class Game extends Thread {
+	private static final Random random = new Random();
 	private static Game instance;
 	
 	/**
@@ -15,7 +17,7 @@ public final class Game extends Thread {
 	 * @return 
 	 * @throws InterruptedException pour éviter de toucher aux listes depuis deux endroits différents.
 	 */
-	public static HashSet<DisplayEntity> getAll() throws InterruptedException {
+	public static HashSet<DisplayEntity> getAll() {
 		HashSet<Displayable> origin = instance.readAll();
 		HashSet<DisplayEntity> clone = new HashSet<>();
 		for(Displayable elem : origin) {
@@ -28,7 +30,7 @@ public final class Game extends Thread {
 	 * @return 
 	 * @throws InterruptedException pour éviter de toucher aux listes depuis deux endroits différents.
 	 */
-	public static HashSet<DisplayEntity> getBullets() throws InterruptedException {
+	public static HashSet<DisplayEntity> getBullets() {
 		HashSet<Bullet> origin = instance.readBullets();
 		HashSet<DisplayEntity> clone = new HashSet<>();
 		for(Displayable elem : origin) {
@@ -41,7 +43,7 @@ public final class Game extends Thread {
 	 * @return 
 	 * @throws InterruptedException pour éviter de toucher aux listes depuis deux endroits différents.
 	 */
-	public static HashSet<DisplayEntity> getMonsters() throws InterruptedException {
+	public static HashSet<DisplayEntity> getMonsters() {
 		HashSet<Monster> origin = instance.readMonsters();
 		HashSet<DisplayEntity> clone = new HashSet<>();
 		for(Displayable elem : origin) {
@@ -54,7 +56,7 @@ public final class Game extends Thread {
 	 * @return 
 	 * @throws InterruptedException pour éviter de toucher aux listes depuis deux endroits différents.
 	 */
-	public static HashSet<DisplayEntity> getTowers() throws InterruptedException {
+	public static HashSet<DisplayEntity> getTowers() {
 		HashSet<Tower> origin = instance.readTowers();
 		HashSet<DisplayEntity> clone = new HashSet<>();
 		for(Displayable elem : origin) {
@@ -71,42 +73,48 @@ public final class Game extends Thread {
 		map.setGame(instance);
 	}
 	
+	public static void placeTower(String towerName, Vector position) {
+		Tower tower = ExistingTower.get(towerName);
+		tower.setPosition(position);
+		instance.add(tower);
+	}
+	
 	private double startTime;
 	private HashSet<Bullet> bullets;
-	private boolean bulletsBussy;
+	private WaitingBool bulletsBussy;
 	private HashSet<Monster> monsters;
-	private boolean monstersBussy;
+	private WaitingBool monstersBussy;
 	private HashSet<Tower> towers;
-	private boolean towersBussy;
+	private WaitingBool towersBussy;
 	/**
 	 * File d'attente pour être ajouté dans les collections
 	 */
 	private HashSet<Localisable> input;
-	private boolean inputBussy;
+	private WaitingBool inputBussy;
 	/**
 	 * File d'attente pour être retiré des collections
 	 */
 	private HashSet<Localisable> trashput;
-	private boolean trashputBussy;
+	private WaitingBool trashputBussy;
 	private Map map;
 	
 	{
 		bullets = new HashSet<>();
+		bulletsBussy = new WaitingBool("Bullets");
 		monsters = new HashSet<>();
+		monstersBussy = new WaitingBool("Monsters");
 		towers = new HashSet<>();
+		towersBussy = new WaitingBool("Towers");
 		input = new HashSet<>();
+		inputBussy = new WaitingBool("Input");
 		trashput = new HashSet<>();
+		trashputBussy = new WaitingBool("Trashput");
 	}
 	/**
 	 * Est appelé lors de l'initialisation du programme sans avoir à le mettre dans le main.
 	 * les booléen servent pour savoir si les collections sont en cour d'utilisations ou non.
 	 */
 	private Game(Map map) {
-		bulletsBussy = false;
-		monstersBussy = false;
-		towersBussy = false;
-		inputBussy = false;
-		trashputBussy = false;
 		startTime = (double) (System.nanoTime())/1000000000d;
 		this.map = map;
 		start();
@@ -117,11 +125,12 @@ public final class Game extends Thread {
 		while(true) {
 			map.run();
 			refreshAllList();
-			try {
-				for(Monster monster : readMonsters()) {
-					monster.process();
+			for(Monster monster : readMonsters()) {
+				monster.process();
+				if(monster.isDead()) {
+					remove(monster);
 				}
-			} catch (InterruptedException e) {}
+			}
 		}
 	}
 	
@@ -129,10 +138,8 @@ public final class Game extends Thread {
 	 * Fait rentrer ceux qui toc à la porte et vire ceux qui roupille sur le paillasson
 	 */
 	private void refreshAllList() {
-		try {
-			refreshInputAllList();
-			refreshTrashputAllList();
-		} catch (InterruptedException e) {}
+		refreshInputAllList();
+		refreshTrashputAllList();
 	}
 	
 	/**
@@ -140,25 +147,25 @@ public final class Game extends Thread {
 	 * On soulève une erreur si on envoie un mauvais élément au cas où
 	 * @throws InterruptedException
 	 */
-	private void refreshInputAllList() throws InterruptedException {
+	private void refreshInputAllList() {
 		HashSet<Localisable> cloneInput = readInput();
 		for(Localisable input : cloneInput) {
 			boolean notIn = true;
 			if(input instanceof Bullet) {
-				while(bulletsBussy) sleep(1);
-				bulletsBussy = true;
+				waitFor(bulletsBussy);
+				bulletsBussy.set(true);
 				notIn &= bullets.add((Bullet) input);
-				bulletsBussy = false;
+				bulletsBussy.set(false);
 			} else if(input instanceof Monster) {
-				while(monstersBussy) sleep(1);
-				monstersBussy = true;
+				waitFor(monstersBussy);
+				monstersBussy.set(true);
 				notIn &= monsters.add((Monster) input);
-				monstersBussy = false;
+				monstersBussy.set(false);
 			} else if(input instanceof Tower) {
-				while(towersBussy) sleep(1);
-				towersBussy = true;
+				waitFor(towersBussy);
+				towersBussy.set(true);
 				notIn &= towers.add((Tower) input);
-				towersBussy = false;
+				towersBussy.set(false);
 			} else {
 				throw new IllegalStateException(input + " is not recognized.");
 			}
@@ -172,25 +179,25 @@ public final class Game extends Thread {
 	 * Pareil que refreshInputAllList(), il est à noter que je clone pour éviter de supprimer un élément d'une collection que je parcours
 	 * @throws InterruptedException
 	 */
-	private void refreshTrashputAllList() throws InterruptedException {
+	private void refreshTrashputAllList() {
 		HashSet<Localisable> cloneTrashput = readTrashput();
 		for(Localisable trashput : cloneTrashput) {
 			boolean in = true;
 			if(trashput instanceof Bullet) {
-				while(bulletsBussy) sleep(1);
-				bulletsBussy = true;
+				waitFor(bulletsBussy);
+				bulletsBussy.set(true);
 				in &= bullets.remove((Bullet) trashput);
-				bulletsBussy = false;
+				bulletsBussy.set(false);
 			} else if(trashput instanceof Monster) {
-				while(monstersBussy) sleep(1);
-				monstersBussy = true;
+				waitFor(monstersBussy);
+				monstersBussy.set(true);
 				in &= monsters.remove((Monster) trashput);
-				monstersBussy = false;
+				monstersBussy.set(false);
 			} else if(trashput instanceof Tower) {
-				while(towersBussy) sleep(1);
-				towersBussy = true;
+				waitFor(towersBussy);
+				towersBussy.set(true);
 				in &= towers.remove((Tower) trashput);
-				towersBussy = false;
+				towersBussy.set(false);
 			} else {
 				throw new IllegalStateException(trashput + " is not recognized.");
 			}
@@ -206,23 +213,19 @@ public final class Game extends Thread {
 	 * @throws InterruptedException
 	 */
 	@SuppressWarnings("unchecked")
-	private HashSet<Localisable> readInput() throws InterruptedException {
-		while(inputBussy) sleep(1);
-		inputBussy = true;
+	private HashSet<Localisable> readInput() {
+		waitFor(inputBussy);
+		inputBussy.set(true);
 		HashSet<Localisable> cloneInput = (HashSet<Localisable>) input.clone();
 		input = new HashSet<>();
-		inputBussy = false;
+		inputBussy.set(false);
 		return cloneInput;
 	}
 	public void add(Localisable elem) {
-		while(inputBussy) {
-			try {
-				sleep(1);
-			} catch (InterruptedException e) {}
-		}
-		inputBussy = true;
+		waitFor(inputBussy);
+		inputBussy.set(true);
 		input.add(elem);
-		inputBussy = false;
+		inputBussy.set(false);
 	}
 	/**
 	 * Copie trashInput et le reset
@@ -230,12 +233,12 @@ public final class Game extends Thread {
 	 * @throws InterruptedException
 	 */
 	@SuppressWarnings("unchecked")
-	private HashSet<Localisable> readTrashput() throws InterruptedException {
-		while(trashputBussy) sleep(1);
-		trashputBussy = true;
+	private HashSet<Localisable> readTrashput() {
+		waitFor(trashputBussy);
+		trashputBussy.set(true);
 		HashSet<Localisable> cloneTrashput = (HashSet<Localisable>) trashput.clone();
 		trashput = new HashSet<>();
-		trashputBussy = false;
+		trashputBussy.set(false);
 		return cloneTrashput;
 	}
 	/**
@@ -244,17 +247,13 @@ public final class Game extends Thread {
 	 * @throws InterruptedException
 	 */
 	public void remove(Localisable elem){
-		while(trashputBussy) {
-			try {
-				sleep(1);
-			} catch (InterruptedException e) {}
-		}
-		trashputBussy = false;
+		waitFor(trashputBussy);
+		trashputBussy.set(true);
 		trashput.add(elem);
-		trashputBussy = true;
+		trashputBussy.set(false);
 	}
 	
-	private HashSet<Displayable> readAll() throws InterruptedException {
+	private HashSet<Displayable> readAll() {
 		HashSet<Displayable> all = new HashSet<>();
 		all.addAll(readBullets());
 		all.addAll(readMonsters());
@@ -263,33 +262,42 @@ public final class Game extends Thread {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private HashSet<Bullet> readBullets() throws InterruptedException {
-		while(bulletsBussy) sleep(1);
-		bulletsBussy = true;
+	private HashSet<Bullet> readBullets() {
+		waitFor(bulletsBussy);
+		bulletsBussy.set(true);
 		HashSet<Bullet> cloneBullets = (HashSet<Bullet>) bullets.clone();
-		bulletsBussy = false;
+		bulletsBussy.set(false);
 		return cloneBullets;
 	}
 	
 	@SuppressWarnings("unchecked")
-	private HashSet<Monster> readMonsters() throws InterruptedException {
-		while(monstersBussy) sleep(1);
-		monstersBussy = true;
+	private HashSet<Monster> readMonsters() {
+		waitFor(monstersBussy);
+		monstersBussy.set(true);
 		HashSet<Monster> cloneMonsters = (HashSet<Monster>) monsters.clone();
-		monstersBussy = false;
+		monstersBussy.set(false);
 		return cloneMonsters;
 	}
 	
 	@SuppressWarnings("unchecked")
 	HashSet<Tower> readTowers() {
-		while(towersBussy) {
-			try {
-				sleep(1);
-			} catch (InterruptedException e) {}
-		}
-		towersBussy = true;
+		waitFor(towersBussy);
+		towersBussy.set(true);
 		HashSet<Tower> cloneTowers = (HashSet<Tower>) towers.clone();
-		towersBussy = false;
+		towersBussy.set(false);
 		return cloneTowers;
+	}
+	
+	private void waitFor(WaitingBool who) {
+		int wait = 1;
+		while(who.get()) {
+			try {
+				sleep(random.nextInt(wait));
+			} catch(InterruptedException e) {}
+			if(wait > 1000) {
+				System.err.println(who.name + " is waiting for a while.");
+			}
+			wait *= 2;
+		}
 	}
 }
