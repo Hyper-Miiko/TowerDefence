@@ -11,6 +11,7 @@ import fr.tm_nlm.tower_defence.control.entity.PresetTower;
 import fr.tm_nlm.tower_defence.control.entity.Tower;
 import fr.tm_nlm.tower_defence.view.mHUDCompat.FieldToGraphic;
 import mHUD.mGraphicEntity.GCircleEntity;
+import mHUD.mGraphicEntity.GPictureEntity;
 import mHUD.mGraphicEntity.IGraphicView;
 import mHUD.mObject.FHorizontalFrame;
 import mHUD.mObject.FVerticalFrame;
@@ -46,7 +47,7 @@ public class Test {
 		upgrade.setSize(140,80);
 		towerFrame.addObject(upgrade);
 		
-		IGraphicView view = new IGraphicView(height, width);
+		IGraphicView view = new IGraphicView(height, width,5);
 		view.setBackgroundColor(0, 0, 0);
 		mainFrame.addObject(view);
 		
@@ -104,7 +105,7 @@ public class Test {
 		//pathNodeCenter.link(pathNodeSE);
 		pathNodeSE.calcWay();
 
-		FieldToGraphic fieldToGraphic = new FieldToGraphic(field,view,window);
+		FieldToGraphic fieldToGraphic = new FieldToGraphic(field,view);
 		
 		/*field.setName("Field");
 		field.start();
@@ -133,6 +134,8 @@ public class Test {
 		Tower asriel = PresetTower.buildAsriel(field);
 		Tower sans = PresetTower.buildSans(field);
 		Tower undyne = PresetTower.buildUndyne(field);
+		
+
 		
 		boolean flag = false;
 		while(true) {
