@@ -33,7 +33,7 @@ public abstract class MFrame extends MObject {
 		return honrizontalAlignement;
 	}
 	
-	public Vector getElementPositon() {
+	protected Vector getElementPositon() {
 		double px = 0;
 		double py = 0;
 		
@@ -138,7 +138,7 @@ public abstract class MFrame extends MObject {
 		}
 		return null;
 	}
-	public void refreshObject() {
+	protected void refreshObject() {
 		for(MObject i : child) i.refreshObject();
 	}
 	protected void draw() {

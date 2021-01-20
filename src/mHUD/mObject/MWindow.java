@@ -25,7 +25,6 @@ public class MWindow extends Thread{
 		active = a;
 	}
 	public boolean isRunning() {
-		System.out.println("BOI");
 		return running;
 	}
 	
@@ -36,7 +35,7 @@ public class MWindow extends Thread{
 
 	public void run() {
 		//while(true) {
-				if(active) {
+				if(active && mainFrame != null) {
 					running = true;
 					if(mousePressed && !StdDraw.isMousePressed()) {
 						focusItem = mainFrame.getFocalisedItem(StdDraw.mouseX(), StdDraw.mouseY());

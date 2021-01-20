@@ -1,5 +1,6 @@
 package fr.tm_nlm.tower_defence.view.mHUDCompat;
 
+import java.awt.Color;
 import java.math.*;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import fr.tm_nlm.tower_defence.control.entity.Bullet;
 import fr.tm_nlm.tower_defence.control.entity.Entity;
 import fr.tm_nlm.tower_defence.control.entity.Monster;
 import fr.tm_nlm.tower_defence.control.entity.PathNode;
+import fr.tm_nlm.tower_defence.control.entity.Tower;
 import mHUD.mGraphicEntity.GCircleEntity;
 import mHUD.mGraphicEntity.GPictureEntity;
 import mHUD.mGraphicEntity.GRectEntity;
@@ -35,21 +37,21 @@ import static fr.tm_nlm.tower_defence.control.Field.Action.*;
 public class FieldToGraphic extends Thread {
 	private Field field;
 	private IGraphicView view;
-	private MWindow win;
 	private HashMap<Entity, MGraphicEntity> entityToGraphic;
 	private HashMap<PathNode, MGraphicEntity> nodePath;
 	//private HashMap<MGraphicEntity, Entity> graphicToEntity;
 
-	public FieldToGraphic(Field field, IGraphicView view,MWindow win) {
+	public FieldToGraphic(Field field, IGraphicView view) {
 		this.field = field;
 		this.view = view;
-		this.win = win;
 		entityToGraphic = new HashMap<>();
 		nodePath = new HashMap<>();
 	}
 	
 	private void add(Entity entity) {
 
+		
+		
 		if(!field.equals(entity.getField())) {
 			throw new IllegalArgumentException("L'entité n'appartient pas au bon champ.");
 		}
@@ -67,28 +69,34 @@ public class FieldToGraphic extends Thread {
 			((GRectEntity)graphic).setLineColor(entity.getAppareances().getColor());
 		}
 		
-		view.addGraphicEntityAt(graphic);
-		entityToGraphic.put(entity, graphic);
+		if(entity instanceof Tower) view.addGraphicEntityAt(4,graphic);
+		if(entity instanceof Monster) view.addGraphicEntityAt(3,graphic);
+		if(entity instanceof Bullet) view.addGraphicEntityAt(2,graphic);
+		else if(entity instanceof PathNode) {
+			view.addGraphicEntityAt(1,graphic);
+			addPath((PathNode)entity);
+		}
 		
-		//if(entity instanceof PathNode) addPath((PathNode)entity);
+		entityToGraphic.put(entity, graphic);
 	}
 	
-	/*private void addPath(PathNode p) {
+	private void addPath(PathNode p) {
 		if(p.getNextToCastle() != null) {
 			int sizeY = (int) p.getAppareances().getCircle().getRadius();
 			int sizeX = (int) p.getPosition().dist(p.getNextToCastle().getPosition());
-			int posX = (int) (p.getPosition().x);
-			int posY = (int) (p.getPosition().y);
+			int posX = (int) Math.abs(p.getPosition().x-(p.getPosition().x-p.getNextToCastle().getPosition().x)/2);
+			int posY = (int) Math.abs(p.getPosition().y-(p.getPosition().y-p.getNextToCastle().getPosition().y)/2);
 			double roation = p.getPosition().angle(p.getNextToCastle().getPosition());
 			
 			GRectEntity graphic = new GRectEntity(posX,posY,sizeX,sizeY);
-			graphic.rotate(roation);
-			graphic.setLineColor(255,255,255);
+			graphic.rotate(-Math.toDegrees(roation));
+			graphic.setLineColor(0,150,0);
+			graphic.setBackgroundColor(new Color(0,150,0,100));
 			
-			view.addGraphicEntityAt(graphic);
+			view.addGraphicEntityAt(0,graphic);
 			nodePath.put(p, graphic);
 		}
-	}*/
+	}
 	
 	private void remove(Entity entity) {
 		if(!field.equals(entity.getField())) {
@@ -98,12 +106,12 @@ public class FieldToGraphic extends Thread {
 		view.removeGraphicEntity(graphic);
 		entityToGraphic.remove(entity);
 		
-		/*if(entity instanceof PathNode) {
+		if(entity instanceof PathNode) {
 			graphic = nodePath.get(entity);
 			view.removeGraphicEntity(graphic);
 			nodePath.remove(entity);
 		}
-		return graphic != null;*/
+		/*return graphic != null;*/
 	}
 	private void edit(Entity entity) {
 		if(!field.equals(entity.getField())) {

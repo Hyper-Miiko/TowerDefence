@@ -1,5 +1,6 @@
 package mHUD.mGraphicEntity;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Rectangle;
@@ -10,6 +11,7 @@ import mHUD.geometric.Vector;
 public class GRectEntity extends GPlainEntity {
 	
 	private Vector size = new Vector(0,0);
+	private int hyp = 0;
 	
 	public GRectEntity() {
 		setPosition(0,0);
@@ -26,33 +28,38 @@ public class GRectEntity extends GPlainEntity {
 	}
 	public void setSize(Vector size) {
 		this.size = size;
+		hyp = (int)Math.hypot(size.x, size.y);
 		reloadCanvas();
 	}
 	public void setSize(double x, double y) {
 		setSize(new Vector(x,y));
 	}
 	protected Vector getPosition() {
-		return new Vector(super.getPosition().x-getSize().x/2,super.getPosition().y-getSize().y/2);
+		return new Vector(super.getPosition().x-hyp/2,super.getPosition().y-hyp/2);
 	}
 	
 	protected Image getImage() {
-		imageEdit.clearRect(0,0, (int)size.x*2, (int)size.y*2);
-		imageEdit.setColor(new Color(255,255,0,20));
-		imageEdit.fill(new Rectangle(0,0,(int)size.x*2, (int)size.y*2));
+		//clear
+		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
+		imageEdit.fillRect(0,0,hyp,hyp);
+
+		//reset composite
+		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
 		
-		imageEdit.rotate(getRotation());
+		
+		
+		imageEdit.rotate(-Math.toRadians(getRotation()),hyp/2,hyp/2);
+		
 		imageEdit.setColor(getBackgroundColor());
-		imageEdit.fill(new Rectangle(0,0,(int)size.x-1, (int)size.y-1));
+		imageEdit.fill(new Rectangle((int)(hyp/2-size.x/2),(int)(hyp/2-size.y/2),(int)size.x-1, (int)size.y-1));
 		
 		imageEdit.setColor(getLineColor());
-		imageEdit.draw(new Rectangle(0,0,(int)size.x-1, (int)size.y-1));
-		imageEdit.rotate(-getRotation());
+		imageEdit.draw(new Rectangle((int)(hyp/2-size.x/2),(int)(hyp/2-size.y/2),(int)size.x-1, (int)size.y-1));
+		imageEdit.rotate(Math.toRadians(getRotation()),hyp/2,hyp/2);
 		return imageBuffer;
 	}
 	protected void reloadCanvas() {
-		int s = Math.max((int)size.x*2,  (int)size.y*2);
-		
-		imageBuffer = new BufferedImage(s,s, BufferedImage.TYPE_INT_ARGB);
+		imageBuffer = new BufferedImage(hyp,hyp, BufferedImage.TYPE_INT_ARGB);
 		imageEdit = imageBuffer.createGraphics();
 	}
 

@@ -5,9 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
-import java.util.Set;
 
 import fr.tm_nlm.tower_defence.Couple;
 import mHUD.StdDraw;
@@ -16,28 +14,40 @@ import mHUD.mObject.MItem;
 public class IGraphicView extends MItem {
 	private boolean clicked = false;
 	private LinkedList<Couple<MGraphicEntity, Couple<Double,Double>>> savedEntity = new LinkedList<>();
+	private ArrayList<LinkedList<MGraphicEntity>> entityList = new ArrayList<LinkedList<MGraphicEntity>>();
+	//private ArrayList<MGraphicEntity> entityList =  new ArrayList<MGraphicEntity>();
 	
-	private ArrayList<MGraphicEntity> entityList =  new ArrayList<MGraphicEntity>();
+	public static int arraySize;
 	
 	private Graphics2D imageEdit;
 	private BufferedImage imageBuffer;
 	private java.awt.Color color = new Color(255,255,255);
 	
-	public IGraphicView(double x, double y) {
+	@SuppressWarnings("unchecked")
+	public IGraphicView(double x, double y, int arraySize) {
 		setSize(x,y);
 		this.setNeedRedraw(true);
 		imageBuffer = new BufferedImage((int)getSize().x-1, (int)getSize().y-1, BufferedImage.TYPE_INT_ARGB);
 		imageEdit = imageBuffer.createGraphics();
+		
+		this.arraySize = arraySize;
+		for(int i = 0; i < this.arraySize; i++) {
+			entityList.add(new LinkedList<MGraphicEntity>());
+		}
 	}
 	
 	public void addGraphicEntityAt(int n,MGraphicEntity e) {
-		entityList.add(n, e);
-	}
-	public void addGraphicEntityAt(MGraphicEntity e) {
-		entityList.add(e);
+		removeGraphicEntity(e);
+		entityList.get(n).add(e);
 	}
 	public void removeGraphicEntity(MGraphicEntity e) {
-		entityList.remove(e);
+		for(int i = 0; i < entityList.size(); i++) {
+			if(entityList.get(i).contains(e)) {
+				entityList.get(i).remove(e);
+				break;
+			}
+		}
+		
 	}
 	
 	public void setBackgroundColor(int r, int g, int b) {
@@ -53,11 +63,13 @@ public class IGraphicView extends MItem {
 	protected void refreshObject() {
 			if(mousePressed() && !clicked) {
 				clicked = true;
-					for(MGraphicEntity e : entityList) {
+				for(int i = 0; i < entityList.size(); i++) {
+					for(MGraphicEntity e : entityList.get(i)) {
 						if(e.isIn(mouseX(),mouseY())) {
 							savedEntity.add(new Couple<>(e, new Couple<>(mouseX(),mouseY())));
 						}
 					}
+				}
 			}
 			if(!mousePressed() && clicked) clicked = false;
 	}
@@ -66,8 +78,10 @@ public class IGraphicView extends MItem {
 			imageEdit.setColor(color);
 			imageEdit.fill(new Rectangle(0,0,(int)getSize().x-1, (int)getSize().y-1));
 			
-			for(MGraphicEntity e : entityList) {
-				imageEdit.drawImage(e.getImage(),(int)e.getPosition().x,(int)e.getPosition().y, null);
+			for(int i = 0; i < entityList.size(); i++) {
+				for(MGraphicEntity e : entityList.get(i)) {
+					imageEdit.drawImage(e.getImage(),(int)e.getPosition().x,(int)e.getPosition().y, null);
+				}
 			}
 			
 			StdDraw.picture(getPos().x/getWindowSize().x, getPos().y/getWindowSize().y, imageBuffer);

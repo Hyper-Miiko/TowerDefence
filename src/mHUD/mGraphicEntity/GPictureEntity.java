@@ -1,7 +1,6 @@
 package mHUD.mGraphicEntity;
 
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import mHUD.geometric.Vector;
@@ -14,27 +13,20 @@ public class GPictureEntity extends MGraphicEntity{
 	
 	public GPictureEntity() {
 		setPosition(0,0);
-		setSize(1,1);
 	}
-	public GPictureEntity(double x, double y, double sx, double sy, String imageName) {
+	public GPictureEntity(double x, double y, String imageName) {
 		setPosition(x,y);
-		setSize(sx,sy);
-		
-		image = StdDraw.getImage(imageName);
+		setPicture(imageName);
 	}
 	
 	protected Vector getSize() {
 		return size;
 	}
-	public void setSize(Vector size) {
-		this.size = size;
-		reloadCanvas();
-	}
-	public void setSize(double x, double y) {
-		setSize(new Vector(x,y));
-	}
+
 	public void setPicture(String imageName) {
 		this.image = StdDraw.getImage(imageName);
+		size = new Vector(image.getWidth(null), image.getHeight(null));
+		reloadCanvas();
 	}
 	
 	protected Vector getPosition() {

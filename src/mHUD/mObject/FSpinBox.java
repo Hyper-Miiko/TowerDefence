@@ -1,8 +1,7 @@
 package mHUD.mObject;
 
-import mHUD.geometric.Vector;
 
-public class ISpinBox extends FHorizontalFrame{
+public class FSpinBox extends FHorizontalFrame{
 	
 	FVerticalFrame buttonFrame = new FVerticalFrame();
 	IPushButton plus = new IPushButton();
@@ -14,7 +13,7 @@ public class ISpinBox extends FHorizontalFrame{
 	int max = 9000;
 	int step = 1;
 	
-	public ISpinBox() {
+	public FSpinBox() {
 		this.addObject(buttonFrame);
 		this.addObject(label);
 		

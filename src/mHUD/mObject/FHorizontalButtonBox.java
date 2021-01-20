@@ -2,12 +2,10 @@ package mHUD.mObject;
 
 import java.util.ArrayList;
 
-import mHUD.geometric.Vector;
-
-public class IHorizontalButtonBox extends FHorizontalFrame{
+public class FHorizontalButtonBox extends FHorizontalFrame{
 	ArrayList<IToogleButton> buttonList = new ArrayList<IToogleButton>();
 	
-	public IHorizontalButtonBox(){
+	public FHorizontalButtonBox(){
 		
 	}
 	public void addButton(String name) {
