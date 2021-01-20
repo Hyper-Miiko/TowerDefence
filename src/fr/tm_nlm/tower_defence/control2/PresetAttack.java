@@ -2,7 +2,7 @@ package fr.tm_nlm.tower_defence.control2;
 
 public class PresetAttack {
 	public static Attack magicBullets() {
-		Attack attack = new Attack();
+		Attack attack = new Attack("Magic Bullet");
 		
 		attack.setBullet(PresetBullet.magicBullet());
 		attack.setCooldown(7.5, 10);

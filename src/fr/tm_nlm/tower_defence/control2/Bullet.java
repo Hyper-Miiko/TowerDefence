@@ -2,10 +2,32 @@ package fr.tm_nlm.tower_defence.control2;
 
 import java.awt.Color;
 import java.awt.geom.Area;
+import java.util.HashSet;
 
 import fr.tm_nlm.tower_defence.Couple;
 
 public class Bullet implements Displayable, Movable {
+	private boolean ghost;
+	private boolean track;
+	private double aimingFactor;
+	private double lastMove;
+	private Game game;
+	private Vector aimingPosition;
+	private Localisable tracked;
+	
+	public void process() {
+		double currentTime = Game.time();
+		move(currentTime - lastMove, !ghost);
+		HashSet<Localisable> potentialTargets = new HashSet<>();
+		if(tracked instanceof Monster) {
+			potentialTargets.addAll(game.readMonsters());
+		}
+		for(Localisable potentialTarget : potentialTargets) {
+			if(collide(potentialTarget)) {
+				
+			}
+		}
+	}
 
 	@Override
 	public boolean isOnScreen() {
