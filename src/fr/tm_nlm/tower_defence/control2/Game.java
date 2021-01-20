@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Random;
 
 /**
- * Class centrale qui centralise en sont centre sans trop qu'on s'entre tue les données du jeu
+ * Class centrale qui centralise en sont centre sans trop qu'on s'entre tue sur les données du jeu
  * @author Hyper Mïko
  *
  */
@@ -52,6 +52,19 @@ public final class Game extends Thread {
 		return clone;
 	}
 	/**
+	 * Récupère tous les emplacement de tour qui peuvent être affichés à l'écran.
+	 * @return 
+	 * @throws InterruptedException pour éviter de toucher aux listes depuis deux endroits différents.
+	 */
+	public static HashSet<DisplayEntity> getSlots() {
+		HashSet<Slot> origin = instance.readSlots();
+		HashSet<DisplayEntity> clone = new HashSet<>();
+		for(Displayable elem : origin) {
+			clone.add(new DisplayEntity(elem));
+		}
+		return clone;
+	}
+	/**
 	 * Récupère toutes les tours qui peuvent être affichées à l'écran.
 	 * @return 
 	 * @throws InterruptedException pour éviter de toucher aux listes depuis deux endroits différents.
@@ -73,9 +86,23 @@ public final class Game extends Thread {
 		map.setGame(instance);
 	}
 	
-	public static void placeTower(String towerName, Vector position) {
-		Tower tower = ExistingTower.get(towerName);
-		tower.setPosition(position);
+	public static void placeTower(long towerId, Vector position) {
+		Tower tower = ExistingTower.get(towerId);
+		HashSet<Slot> slots = instance.readSlots();
+		Slot slot = null;
+		for(Slot elem : slots) {
+			if(position.dist(elem.getPosition()) < 25) {
+				slot = elem;
+			}
+		}
+		if(slot == null) {
+			System.err.println("No slot here: " + position + ".");
+		} else if(!slot.canPlaceTower()) {
+			System.err.println(slot.getTower().getName() + " is already here: " + position + ".");
+		} else {
+			tower.setSlot(slot);
+		}
+		tower.setGame(instance);
 		instance.add(tower);
 	}
 	
@@ -84,6 +111,8 @@ public final class Game extends Thread {
 	private WaitingBool bulletsBussy;
 	private HashSet<Monster> monsters;
 	private WaitingBool monstersBussy;
+	private HashSet<Slot> slots;
+	private WaitingBool slotsBussy;
 	private HashSet<Tower> towers;
 	private WaitingBool towersBussy;
 	/**
@@ -103,6 +132,8 @@ public final class Game extends Thread {
 		bulletsBussy = new WaitingBool("Bullets");
 		monsters = new HashSet<>();
 		monstersBussy = new WaitingBool("Monsters");
+		slots = new HashSet<>();
+		slotsBussy = new WaitingBool("Slots");
 		towers = new HashSet<>();
 		towersBussy = new WaitingBool("Towers");
 		input = new HashSet<>();
@@ -117,6 +148,7 @@ public final class Game extends Thread {
 	private Game(Map map) {
 		startTime = (double) (System.nanoTime())/1000000000d;
 		this.map = map;
+		this.slots = map.getSlots();
 		start();
 	}
 	
@@ -129,6 +161,12 @@ public final class Game extends Thread {
 				monster.process();
 				if(monster.isDead()) {
 					remove(monster);
+				}
+			}
+			for(Tower tower : readTowers()) {
+				tower.process();
+				if(tower.isKO()) {
+					remove(tower);
 				}
 			}
 		}
@@ -150,27 +188,23 @@ public final class Game extends Thread {
 	private void refreshInputAllList() {
 		HashSet<Localisable> cloneInput = readInput();
 		for(Localisable input : cloneInput) {
-			boolean notIn = true;
 			if(input instanceof Bullet) {
 				waitFor(bulletsBussy);
 				bulletsBussy.set(true);
-				notIn &= bullets.add((Bullet) input);
+				bullets.add((Bullet) input);
 				bulletsBussy.set(false);
 			} else if(input instanceof Monster) {
 				waitFor(monstersBussy);
 				monstersBussy.set(true);
-				notIn &= monsters.add((Monster) input);
+				monsters.add((Monster) input);
 				monstersBussy.set(false);
 			} else if(input instanceof Tower) {
 				waitFor(towersBussy);
 				towersBussy.set(true);
-				notIn &= towers.add((Tower) input);
+				towers.add((Tower) input);
 				towersBussy.set(false);
 			} else {
 				throw new IllegalStateException(input + " is not recognized.");
-			}
-			if(!notIn) {
-				System.err.println("L'élément " + input + "a essayé d'être ajouté alors qu'il était déjà enregistré.");
 			}
 		}
 	}
@@ -271,12 +305,21 @@ public final class Game extends Thread {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private HashSet<Monster> readMonsters() {
+	HashSet<Monster> readMonsters() {
 		waitFor(monstersBussy);
 		monstersBussy.set(true);
 		HashSet<Monster> cloneMonsters = (HashSet<Monster>) monsters.clone();
 		monstersBussy.set(false);
 		return cloneMonsters;
+	}
+
+	@SuppressWarnings("unchecked")
+	private HashSet<Slot> readSlots() {
+		waitFor(slotsBussy);
+		slotsBussy.set(true);
+		HashSet<Slot> cloneSlots = (HashSet<Slot>) slots.clone();
+		slotsBussy.set(false);
+		return cloneSlots;
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -8,6 +8,10 @@ public abstract class PresetMap {
 		Map map = new Map();
 		
 		map.setBackground("data/img/grasslang.png");
+		map.addSlot(new Slot(new Vector(284, 380)));
+		map.addSlot(new Slot(new Vector(447, 281)));
+		map.addSlot(new Slot(new Vector(620, 316)));
+		map.addSlot(new Slot(new Vector(655, 442)));
 		map.addWave(PresetWave.intro());
 		
 		return map;

@@ -9,6 +9,7 @@ import fr.tm_nlm.tower_defence.Couple;
 
 public class Monster implements Damageable, Displayable, Movable {
 	private boolean dead;
+	private boolean fly;
 	private Game game;
 	private Map map;
 	private double health;
@@ -26,6 +27,7 @@ public class Monster implements Damageable, Displayable, Movable {
 	
 	{
 		dead = false;
+		fly = false;
 		slows = new LinkedList<>();
 	}
 	public void process() {
@@ -152,5 +154,8 @@ public class Monster implements Damageable, Displayable, Movable {
 	}
 	public boolean isDead() {
 		return dead;
+	}
+	public double timeToEnd() {
+		return objectif.distToEnd(!fly)/getSpeed();
 	}
 }

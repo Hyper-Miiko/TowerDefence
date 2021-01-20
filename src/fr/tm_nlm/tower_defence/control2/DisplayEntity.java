@@ -49,4 +49,12 @@ public class DisplayEntity implements Displayable {
 			return ((Damageable) elem).getMaxHealth();
 		}
 	}
+	
+	public long getId() {
+		if(elem instanceof Identifiable) {
+			return ((Identifiable) elem).getId();
+		} else {
+			throw new ClassCastException(elem.getClass().getSimpleName() + " is not an instance of Identifiable.");
+		}
+	}
 }

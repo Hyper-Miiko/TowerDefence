@@ -1,7 +1,11 @@
 package fr.tm_nlm.tower_defence.control2;
 
+import java.awt.Color;
+import java.awt.geom.Area;
 import java.util.ArrayList;
 import java.util.Random;
+
+import fr.tm_nlm.tower_defence.Couple;
 
 /**
  * Chemins que vont suivre les monstres de manière quasi aléatoire, passant d'un point à l'autre
@@ -60,6 +64,25 @@ public final class PathNode implements Localisable {
 			return null;
 		}
 	}
+	private PathNode nextShortest(boolean checkObstacle) {
+		if(checkObstacle && isPossibleWay()) {
+			ArrayList<PathNode> possibleWays = possibleWays();
+			return possibleWays.get(random.nextInt(possibleWays.size()));
+		} else if(nexts.size() > 0){
+			PathNode next = nexts.get(0);
+			double dist = next.distToEnd(checkObstacle);
+			for(int index = 1; index < nexts.size(); index++) {
+				double tempDist = nexts.get(index).distToEnd(checkObstacle);
+				if(tempDist < dist) {
+					dist = tempDist;
+					next = nexts.get(index);
+				}
+			}
+			return next;
+		} else {
+			return null;
+		}
+	}
 
 	private ArrayList<PathNode> possibleWays() {
 		ArrayList<PathNode> possibleWays = new ArrayList<>();
@@ -81,5 +104,17 @@ public final class PathNode implements Localisable {
 	}
 	public boolean isEnd() {
 		return end;
+	}
+	public double distToEnd(boolean checkObstacle) {
+		if(isEnd()) {
+			return 0;
+		} else {
+			PathNode next = nextShortest(checkObstacle);
+			return getPosition().dist(next.getPosition()) + next.distToEnd(checkObstacle);
+		}
+	}
+	@Override
+	public Couple<Area, Color> getShape() {
+		return null;
 	}
 }

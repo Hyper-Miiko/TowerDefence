@@ -5,11 +5,13 @@ import java.util.HashSet;
 public class Map {
 	private int lives;
 	private String background;
+	private HashSet<Slot> slots;
 	private HashSet<Wave> waves;
 	private Game game;
 	
 	{
 		lives = 10;
+		slots = new HashSet<>();
 		waves = new HashSet<>();
 	}
 	
@@ -29,6 +31,9 @@ public class Map {
 		}
 	}
 	
+	public void addSlot(Slot slot) {
+		slots.add(slot);
+	}
 	public void addWave(Wave wave) {
 		wave.setMap(this);
 		waves.add(wave);
@@ -46,4 +51,7 @@ public class Map {
 //		this.width = width;
 //		this.height = height;
 //	}
+	public HashSet<Slot> getSlots() {
+		return slots;
+	}
 }

@@ -3,33 +3,43 @@ package fr.tm_nlm.tower_defence.control2;
 import java.awt.Color;
 import java.awt.geom.Area;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 
 import fr.tm_nlm.tower_defence.Couple;
 
-public class Tower implements Damageable, Displayable {
-	private boolean dead;
+public class Tower extends Identifiable implements Damageable, Displayable {
+	private boolean ko;
 	private int maxHandle;
-	private double lastShootTimer;
 	private ArrayList<Monster> handle;
+	private Game game;
 	private Geometric shape;
 	private LinkedList<Attack> attacks;
+	private Monster seek;
+	private Slot slot;
 	private final String name;
 	
 	{
 		attacks = new LinkedList<>();
 		handle = new ArrayList<>();
-		dead = false;
+		ko = false;
 		shape = PresetShape.circle(30);
 	}
 	public Tower(String name) {
+		if(name == null) {
+			throw new IllegalArgumentException("You monster! :(");
+		}
 		this.name = name;
 	}
 	
 	public void process() {
-		if(!dead) {
-			for(Attack attack : attacks) {
-				attack.process();
+		if(!ko) {
+			if(havePosition()) {
+				for(Attack attack : attacks) {
+					HashSet<Localisable> monsters = new HashSet<>();
+					monsters.addAll(game.readMonsters());
+					attack.process(getPosition(), monsters);
+				}
 			}
 		}
 	}
@@ -49,7 +59,7 @@ public class Tower implements Damageable, Displayable {
 
 	@Override
 	public boolean havePosition() {
-		return shape.havePosition();
+		return shape != null && shape.havePosition();
 	}
 
 	@Override
@@ -113,8 +123,33 @@ public class Tower implements Damageable, Displayable {
 	public String getName() {
 		return name;
 	}
-
-	public void setPosition(Vector position) {
-		shape.setPosition(position);
+	
+	public void setSlot(Slot slot) {
+		if(this.slot != null) {
+			this.slot.removeTower();
+		}
+		for(Attack attack : attacks) {
+			attack.resetCooldown();
+		}
+		this.slot = slot;
+		this.slot.setTower(this);
+		shape.setPosition(slot.getPosition());
+	}
+	
+	@Override
+	public String toString() {
+		String str = name;
+		if(havePosition()) {
+			str += ": " + getPosition();
+		}
+		return str;
+	}
+	
+	public void setGame(Game game) {
+		this.game = game;
+	}
+	
+	public boolean isKO() {
+		return ko;
 	}
 }
