@@ -21,14 +21,14 @@ public class TowerDefence {
 		mainFrame.setBackgroundColor(100,0,100);
 		window.setMainFrame(mainFrame);
 		
-		IGraphicView view = new IGraphicView(600, 600);
+		IGraphicView view = new IGraphicView(600, 600,1);
 		view.setBackgroundColor(0, 0, 0);
 		mainFrame.addObject(view);
 		
 		window.start();
 		
 		GRectEntity t = new GRectEntity(300,300,100,100);
-		view.addGraphicEntityAt(t);
+		view.addGraphicEntityAt(0,t);
 		
 		boolean flag = false;
 		while(true) {

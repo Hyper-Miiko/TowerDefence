@@ -35,7 +35,7 @@ public class MWindow extends Thread{
 
 	public void run() {
 		//while(true) {
-				if(active && mainFrame != null) {//comment
+				if(active && mainFrame != null) {
 					running = true;
 					if(mousePressed && !StdDraw.isMousePressed()) {
 						focusItem = mainFrame.getFocalisedItem(StdDraw.mouseX(), StdDraw.mouseY());

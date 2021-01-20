@@ -1,6 +1,9 @@
 package mHUD.mGraphicEntity;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import mHUD.geometric.Vector;
@@ -9,6 +12,7 @@ import mHUD.StdDraw;
 public class GPictureEntity extends MGraphicEntity{
 	
 	private Vector size = new Vector(0,0);
+	private int hyp = 0;
 	Image image = null;
 	
 	public GPictureEntity() {
@@ -25,7 +29,8 @@ public class GPictureEntity extends MGraphicEntity{
 
 	public void setPicture(String imageName) {
 		this.image = StdDraw.getImage(imageName);
-		size = new Vector(image.getWidth(null), image.getHeight(null));
+		size = new Vector(image.getWidth(null),image.getHeight(null));
+		hyp = (int)Math.hypot(size.x, size.y);
 		reloadCanvas();
 	}
 	
@@ -35,13 +40,19 @@ public class GPictureEntity extends MGraphicEntity{
 	
 	protected Image getImage() {
 		
-		imageEdit.rotate(getRotation());
-		imageEdit.drawImage(image, 0,0, null);
-		imageEdit.rotate(-getRotation());
+		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
+		imageEdit.fillRect(0,0,hyp,hyp);
+		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+		
+		imageEdit.rotate(-Math.toRadians(getRotation()),hyp/2,hyp/2);
+		
+		imageEdit.drawImage(image,(int)(hyp/2-size.x/2),(int)(hyp/2-size.y/2), null);
+		
+		imageEdit.rotate(Math.toRadians(getRotation()),hyp/2,hyp/2);
 		return imageBuffer;
 	}
 	protected void reloadCanvas() {
-		imageBuffer = new BufferedImage((int)size.x, (int)size.y, BufferedImage.TYPE_INT_ARGB);
+		imageBuffer = new BufferedImage(hyp,hyp, BufferedImage.TYPE_INT_ARGB);
 		imageEdit = imageBuffer.createGraphics();
 	}
 	public boolean isIn(double x, double y) {

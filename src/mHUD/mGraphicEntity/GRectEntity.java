@@ -39,14 +39,9 @@ public class GRectEntity extends GPlainEntity {
 	}
 	
 	protected Image getImage() {
-		//clear
 		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
 		imageEdit.fillRect(0,0,hyp,hyp);
-
-		//reset composite
 		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
-		
-		
 		
 		imageEdit.rotate(-Math.toRadians(getRotation()),hyp/2,hyp/2);
 		
@@ -56,6 +51,7 @@ public class GRectEntity extends GPlainEntity {
 		imageEdit.setColor(getLineColor());
 		imageEdit.draw(new Rectangle((int)(hyp/2-size.x/2),(int)(hyp/2-size.y/2),(int)size.x-1, (int)size.y-1));
 		imageEdit.rotate(Math.toRadians(getRotation()),hyp/2,hyp/2);
+		
 		return imageBuffer;
 	}
 	protected void reloadCanvas() {
