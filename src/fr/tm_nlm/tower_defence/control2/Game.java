@@ -167,8 +167,8 @@ public final class Game extends Thread {
 	@Override
 	public void run() {
 		while(true) {
-			System.out.println("FPS: " + (int) (1/(Game.time() - fpsTime)));
-			fpsTime = Game.time();
+//			System.out.println("FPS: " + (int) (1/(Game.time() - fpsTime)));
+//			fpsTime = Game.time();
 			map.run();
 			refreshAllList();
 			for(Monster monster : readMonsters()) {
