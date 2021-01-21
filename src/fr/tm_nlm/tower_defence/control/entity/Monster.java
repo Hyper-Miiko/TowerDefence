@@ -13,7 +13,7 @@ import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
 
 import static fr.tm_nlm.tower_defence.control.entity.Monster.Effect.*;
 
-public class Monster extends Entity implements Damageable, Movable {
+public class Monster extends DisplayEntity implements Damageable, Movable {
 	private static final Random random = new Random();
 	public static Monster dummy(Vector vector) {
 		return new Monster(vector);

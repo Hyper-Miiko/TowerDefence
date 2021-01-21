@@ -33,8 +33,8 @@ public class Attack {
 	private double size;
 	private ArrayList<String> quotes;
 	private Attack chainAttack;
-	private Entity lastTarget;
-	private Entity owner;
+	private DisplayEntity lastTarget;
+	private DisplayEntity owner;
 	private Field field;
 	private LinkedList<Bullet> bulletLeft;
 	private HashMap<Option, double[]> options;
@@ -67,7 +67,7 @@ public class Attack {
 		this.field = field;
 	}
 	
-	public void checkForShootAt(Entity target) {
+	public void checkForShootAt(DisplayEntity target) {
 		double time = (double) System.nanoTime()/1000000000;
 		if(time > nextCooldom) {
 			calcIncreassOptions(target);
@@ -77,7 +77,7 @@ public class Attack {
 		}
 	}
 	
-	public void forceShoot(Entity target) {
+	public void forceShoot(DisplayEntity target) {
 		launchQuote();
 		bulletLeft = new LinkedList<>();
 		int bulletToMake = (int) ((minBullet == maxBullet) ? minBullet : random.nextInt((int) (maxBullet - minBullet)) + minBullet);
@@ -123,7 +123,7 @@ public class Attack {
 		}
 	}
 	
-	public boolean isValidTarget(Entity entity) {
+	public boolean isValidTarget(DisplayEntity entity) {
 		boolean valid = true;
 		if(((Movable) entity).isFlying()) {
 			valid &= options.containsKey(TARGET_FLYING);
@@ -138,7 +138,7 @@ public class Attack {
 		return valid;
 	}
 	
-	private void calcIncreassOptions(Entity target) {
+	private void calcIncreassOptions(DisplayEntity target) {
 		if(lastTarget != null) {
 			double[] datas;
 			if(target.equals(lastTarget)) {
@@ -408,7 +408,7 @@ public class Attack {
 	public void addQuote(String quote) {
 		quotes.add(quote);
 	}
-	public void setOwner(Entity owner) {
+	public void setOwner(DisplayEntity owner) {
 		this.owner = owner;
 	}
 	public void setNbrOfColor(int nbrOfColor) {
@@ -452,7 +452,7 @@ public class Attack {
 		options.put(option,  null);
 	}
 	
-	public Entity getOwner() {
+	public DisplayEntity getOwner() {
 		return owner;
 	}
 	

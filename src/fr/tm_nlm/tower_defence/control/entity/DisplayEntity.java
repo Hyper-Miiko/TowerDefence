@@ -5,10 +5,10 @@ import fr.tm_nlm.tower_defence.control.data.Appareances;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.data.geometric.Shape;
 
-public abstract class Entity {
+public abstract class DisplayEntity {
 	private static long nextId = 1;
 	
-	public static Entity dummy(Vector vector) {
+	public static DisplayEntity dummy(Vector vector) {
 		return null;
 	}
 	
@@ -25,7 +25,7 @@ public abstract class Entity {
 		lastNano = System.nanoTime();
 		name = "undefined";
 	}
-	public Entity(Field field, Shape shape) {
+	public DisplayEntity(Field field, Shape shape) {
 		id = nextId++;
 		init(field, shape);
 	}
@@ -47,7 +47,7 @@ public abstract class Entity {
 		return (double) lastNano/1000000000d;
 	}
 	
-	public boolean collide(Entity entity) {
+	public boolean collide(DisplayEntity entity) {
 		return collide(entity.getAppareances().getShape());
 	}
 	
@@ -103,7 +103,7 @@ public abstract class Entity {
 	
 	@Override
 	public boolean equals(Object object) {
-		return (object instanceof Entity) && (((Entity) object).id == id);
+		return (object instanceof DisplayEntity) && (((DisplayEntity) object).id == id);
 	}
 	
 	public String getName() {

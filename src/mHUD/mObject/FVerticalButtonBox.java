@@ -2,10 +2,10 @@ package mHUD.mObject;
 
 import java.util.ArrayList;
 
-public class FVertivalButtonBox extends MFrame {
-ArrayList<IToogleButton> buttonList = new ArrayList<IToogleButton>();
+public class FVerticalButtonBox extends FVerticalFrame {
+	ArrayList<IToogleButton> buttonList = new ArrayList<IToogleButton>();
 	
-	public FVertivalButtonBox(){
+	public FVerticalButtonBox(){
 		
 	}
 	public void addButton(String name) {
