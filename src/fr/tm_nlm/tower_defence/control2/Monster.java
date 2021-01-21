@@ -26,9 +26,13 @@ public class Monster implements Damageable, Displayable, Movable {
 	private PathNode objectif;
 	
 	{
+		baseSpeed = 50;
 		dead = false;
 		fly = false;
+		health = maxHealth = 10;
+		shape = PresetShape.circle(20);
 		slows = new LinkedList<>();
+		strength = 1;
 	}
 	public void process() {
 		if(!dead) {
