@@ -26,7 +26,7 @@ public class DisplayEntity implements Displayable {
 		return elem.haveImage();
 	}
 	@Override
-	public Couple<String, Area> getImage() {
+	public String getImage() {
 		return elem.getImage();
 	}
 	@Override
@@ -55,6 +55,14 @@ public class DisplayEntity implements Displayable {
 			return ((Identifiable) elem).getId();
 		} else {
 			throw new ClassCastException(elem.getClass().getSimpleName() + " is not an instance of Identifiable.");
+		}
+	}
+	
+	public double getRange() {
+		if(elem instanceof Tower) {
+			return ((Tower) elem).getRange();
+		} else {
+			throw new ClassCastException(elem + " have no range.");
 		}
 	}
 }

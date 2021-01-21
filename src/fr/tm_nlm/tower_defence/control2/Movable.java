@@ -8,6 +8,7 @@ public interface Movable extends Localisable {
 	 * @return
 	 */
 	public boolean move(double time, boolean collide);
+	public void resetMove();
 	public double getSpeed();
 	public double getBaseSpeed();
 }

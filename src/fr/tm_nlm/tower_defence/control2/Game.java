@@ -103,6 +103,7 @@ public final class Game extends Thread {
 			tower.setSlot(slot);
 		}
 		tower.setGame(instance);
+		tower.resetCooldown();
 		instance.add(tower);
 	}
 	
@@ -167,6 +168,12 @@ public final class Game extends Thread {
 				tower.process();
 				if(tower.isKO()) {
 					remove(tower);
+				}
+			}
+			for(Bullet bullet : readBullets()) {
+				bullet.process();
+				if(bullet.isDead()) {
+					remove(bullet);
 				}
 			}
 		}
@@ -342,5 +349,9 @@ public final class Game extends Thread {
 			}
 			wait *= 2;
 		}
+	}
+	
+	Map getMap() {
+		return map;
 	}
 }

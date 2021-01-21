@@ -50,8 +50,10 @@ public class Monster implements Damageable, Displayable, Movable {
 	}
 	@Override
 	public void hurt(double damage) {
-		// TODO Auto-generated method stub
-		
+		health = (health < damage) ? 0 : health - damage;
+		if(health == 0) {
+			dead = true;
+		}
 	}
 	@Override
 	public boolean move(double time, boolean checkCollide) {
@@ -123,11 +125,10 @@ public class Monster implements Damageable, Displayable, Movable {
 	}
 	@Override
 	public Couple<Area, Color> getShape() {
-		// TODO Auto-generated method stub
-		return null;
+		return shape.getShape();
 	}
 	@Override
-	public Couple<String, Area> getImage() {
+	public String getImage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -137,7 +138,7 @@ public class Monster implements Damageable, Displayable, Movable {
 	public void setPath(PathNode pathNode) {
 		this.objectif = pathNode;
 	}
-	public double getAngle() {
+	public Angle getAngle() {
 		return shape.getAngle();
 	}
 	public PathNode getPath() {
@@ -157,5 +158,9 @@ public class Monster implements Damageable, Displayable, Movable {
 	}
 	public double timeToEnd() {
 		return objectif.distToEnd(!fly)/getSpeed();
+	}
+	public void setMaxHealth(int maxHealth) {
+		this.maxHealth = maxHealth;
+		health = maxHealth;
 	}
 }

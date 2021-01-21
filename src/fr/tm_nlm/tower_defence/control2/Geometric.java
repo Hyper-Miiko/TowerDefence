@@ -49,8 +49,8 @@ public class Geometric implements Displayable, Cloneable {
 		return collideArea.isEmpty();
 	}
 
-	public double getAngle() {
-		return angle.value();
+	public Angle getAngle() {
+		return angle;
 	}
 	
 	@Override
@@ -76,8 +76,8 @@ public class Geometric implements Displayable, Cloneable {
 	}
 
 	@Override
-	public Couple<String, Area> getImage() {
-		return new Couple<>(imageName, (Area) area.clone());
+	public String getImage() {
+		return imageName;
 	}
 	public void setAngle(Angle angle) {
 		this.angle = angle;

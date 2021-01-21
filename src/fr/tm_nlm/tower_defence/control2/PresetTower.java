@@ -4,6 +4,7 @@ public class PresetTower {
 	public static Tower madDummy() {
 		Tower tower = new Tower("Mad Dummy");
 		tower.addAttack(PresetAttack.magicBullets());
+		//tower.addAttack(PresetAttack.test());
 		tower.setMaxHandle(0);
 		return tower;
 	}
