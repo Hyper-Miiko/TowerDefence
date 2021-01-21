@@ -82,9 +82,7 @@ public class Monster implements Damageable, Displayable, Movable {
 					dead = true;
 					map.removeLives(strength);
 				} else {
-					Vector position = objectif.getPosition();
 					objectif = objectif.next(true);
-					System.out.println(position.angle(objectif.getPosition()));
 				}
 			}
 		}

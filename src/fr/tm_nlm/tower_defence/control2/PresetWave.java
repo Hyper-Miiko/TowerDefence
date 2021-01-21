@@ -16,4 +16,24 @@ public abstract class PresetWave {
 		
 		return wave;
 	}
+	public static Wave wave1() {
+		Wave wave = new Wave();
+		
+		Monster monster;
+		for(int i = 0; i < 20; i++) {
+			monster = PresetMonster.drunkHuman();
+			monster.setPath(PresetPath.grassland());
+			wave.add(monster, 1);
+		}
+		monster = PresetMonster.ufo();
+		monster.setPath(PresetPath.grassland());
+		wave.add(monster, 10);
+		for(int i = 0; i < 4; i++) {
+			monster = PresetMonster.ufo();
+			monster.setPath(PresetPath.grassland());
+			wave.add(monster, 1);
+		}
+		
+		return wave;
+	}
 }

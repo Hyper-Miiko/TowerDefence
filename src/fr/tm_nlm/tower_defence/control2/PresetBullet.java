@@ -22,12 +22,12 @@ public class PresetBullet {
 	public static Bullet magicMissile() {
 		Bullet bullet = new Bullet();
 		
-		bullet.setShape(PresetShape.triangle(20, 40));
-		bullet.setSpeed(200);
+		bullet.setShape(PresetShape.triangle(23, 28));
+		bullet.setSpeed(150);
 		bullet.setDamage(2*Math.PI);
-		bullet.setAimingFactor(0.5);
+		bullet.setAimingFactor(0.75);
 		bullet.setTrack(true);
-		bullet.setLifeTime(5);
+		bullet.setLifeTime(5, 10);
 		bullet.setOnDeathAttack(PresetAttack.tinyEkusplosion(), true, false);
 		bullet.setImage("mad_missile");
 		

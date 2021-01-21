@@ -12,7 +12,7 @@ public abstract class PresetMap {
 		map.addSlot(new Slot(new Vector(447, 281)));
 		map.addSlot(new Slot(new Vector(620, 316)));
 		map.addSlot(new Slot(new Vector(655, 442)));
-		map.addWave(PresetWave.intro());
+		map.addWave(PresetWave.wave1());
 		
 		return map;
 	}

@@ -39,13 +39,13 @@ public class PresetAttack {
 		Attack attack = new Attack("Magic Missiles");
 		
 		attack.setBullet(PresetBullet.magicMissile());
-		attack.setCooldown(1);
+		attack.setCooldown(15, 25);
 		attack.setSpreadRange(Math.PI);
 		attack.setRandomSpread(true);
-		attack.setBulletsByShot(10);
-		attack.setNbrOfShot(1);
+		attack.setBulletsByShot(4, 8);
+		attack.setNbrOfShot(2, 5);
 		attack.setInterval(2, 5);
-		attack.setRange(400);
+		attack.setRange(200);
 		attack.setKeepTracking(true);
 		
 		return attack;
