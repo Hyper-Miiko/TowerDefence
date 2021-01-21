@@ -35,6 +35,8 @@ public class ILabel extends MItem{
 			StdDraw.text(((double)getPos().x/getWindowSize().x), 
 						 ((double)getPos().y/getWindowSize().y),
 						  text);
+			
+			this.setNeedRedraw(false);
 		}
 	}
 }

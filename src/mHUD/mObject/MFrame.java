@@ -145,10 +145,11 @@ public abstract class MFrame extends MObject {
 		if(isRedrawNeeded()) {
 			drawBackground();
 			drawRect();
-			setNeedRedraw(false);	
+			setNeedRedraw(false);
 		}
 		for(MObject i : child) {
 			i.draw();
 		}
+		
 	}
 }
