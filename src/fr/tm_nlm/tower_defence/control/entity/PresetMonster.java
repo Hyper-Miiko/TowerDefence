@@ -24,6 +24,7 @@ public final class PresetMonster {
 		airplan.setFly(true);
 		airplan.setBoss(true);
 		airplan.setStrength(5);
+		
 		return airplan;
 	}
 }
