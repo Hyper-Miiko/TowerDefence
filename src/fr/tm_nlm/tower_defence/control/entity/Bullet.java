@@ -17,7 +17,7 @@ import static fr.tm_nlm.tower_defence.control.entity.Attack.Option.*;
  * @author Hyper Mïko
  *
  */
-public class Bullet extends Entity implements Movable {
+public class Bullet extends DisplayEntity implements Movable {
 	private boolean aiming;
 	private long deathTime;
 	private double aimingFactor;
@@ -27,7 +27,7 @@ public class Bullet extends Entity implements Movable {
 	private double speed;
 	private Attack attack;
 	private Attack chainAttack;
-	private Entity target;
+	private DisplayEntity target;
 	private HashMap<Option, double[]> options;
 	private Vector vectorTarget;
 	
@@ -57,7 +57,7 @@ public class Bullet extends Entity implements Movable {
 		refreshNano();
 		double diffSecond = (double) diffNano/1000000000d;
 		Vector nextPosition = getPosition().byAngle(angle, speed*diffSecond);
-		LinkedList<Entity> targetables = new LinkedList<>();
+		LinkedList<DisplayEntity> targetables = new LinkedList<>();
 		if(target instanceof Monster) {
 			targetables.addAll(field.getMonsters());
 		} else if(target instanceof Tower) {
@@ -65,7 +65,7 @@ public class Bullet extends Entity implements Movable {
 		} else {
 			throw new IllegalStateException("Forgot : " + target.getClass());
 		}
-		for(Entity entity : targetables) {
+		for(DisplayEntity entity : targetables) {
 			if(getAppareances().getShape().collide(entity.getAppareances().getShape()) && attack.isValidTarget(entity)) {
 				double modifiedDamage = damage;
 				if(options.containsKey(ASGORE)) {
@@ -104,7 +104,7 @@ public class Bullet extends Entity implements Movable {
 	
 	public void kill(boolean chaine) {
 		if(chaine) {
-			Entity dummy = null;
+			DisplayEntity dummy = null;
 			if(target instanceof Monster) {
 				dummy = Monster.dummy(getPosition());
 			} else if(target instanceof Tower) {
@@ -121,13 +121,13 @@ public class Bullet extends Entity implements Movable {
 	
 	private boolean seekNewTarget() {
 		boolean found = false;
-		LinkedList<Entity> targets = new LinkedList<>();
+		LinkedList<DisplayEntity> targets = new LinkedList<>();
 		if(target instanceof Monster) {
 			targets.addAll(field.getMonsters());
 		} else if(target instanceof Tower) {
 			targets.addAll(field.getTowers());
 		}
-		for(Entity seek : targets) {
+		for(DisplayEntity seek : targets) {
 			if(target.isDead() || (getPosition().dist(seek.getPosition()) < getPosition().dist(target.getPosition()) && attack.isValidTarget(seek))) {
 				target = seek;
 				found = true;
@@ -169,10 +169,10 @@ public class Bullet extends Entity implements Movable {
 		this.size = size;
 	}
 	
-	Entity getTarget() {
+	DisplayEntity getTarget() {
 		return target;
 	}
-	void setTarget(Entity target) {
+	void setTarget(DisplayEntity target) {
 		this.target = target;
 	}
 	void setTarget(Vector vector) {
