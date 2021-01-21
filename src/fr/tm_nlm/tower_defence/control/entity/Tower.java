@@ -8,10 +8,10 @@ import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
 import fr.tm_nlm.tower_defence.control.entity.Monster.Effect;
 
-public class Tower extends Entity implements Damageable {
+public class Tower extends DisplayEntity implements Damageable {
 	private static final int radius = 16;
 	
-	public static Entity dummy(Vector vector) {
+	public static DisplayEntity dummy(Vector vector) {
 		return new Tower();
 	}
 	

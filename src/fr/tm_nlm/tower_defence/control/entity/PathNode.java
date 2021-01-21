@@ -14,7 +14,7 @@ import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
  * @author Hyper Mïko
  *
  */
-public class PathNode extends Entity {
+public class PathNode extends DisplayEntity {
 	private static final double radius = 20;
 	private static final HashMap<Field, HashSet<PathNode>> allNodes = new HashMap<>();
 	

@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.entity.Bullet;
-import fr.tm_nlm.tower_defence.control.entity.Entity;
+import fr.tm_nlm.tower_defence.control.entity.DisplayEntity;
 import fr.tm_nlm.tower_defence.control.entity.Monster;
 import fr.tm_nlm.tower_defence.control.entity.PathNode;
 import fr.tm_nlm.tower_defence.control.entity.Tower;
@@ -17,13 +17,13 @@ public class Field extends Thread {
 	private double lives;
 	private double maxLives;
 	private int temmies;
-	private final HashSet<Entity> entities;
+	private final HashSet<DisplayEntity> entities;
 	private final LinkedList<PathNode> pathNodes;
 	private final LinkedList<Tower> towers;
 	private final LinkedList<Monster> monsters;
 	private final LinkedList<Bullet> bullets;
-	private final LinkedList<Entity> trash;
-	private final LinkedList<Entity> toAdd;
+	private final LinkedList<DisplayEntity> trash;
+	private final LinkedList<DisplayEntity> toAdd;
 	private final LinkedList<Wave> waves;
 
 	public Field() {
@@ -41,13 +41,13 @@ public class Field extends Thread {
 		someNews = true;
 	}
 
-	public void add(Entity entity) {
+	public void add(DisplayEntity entity) {
 		toAdd.add(entity);
 	}
 	
 	private void workOnAdd() {
 		while(!toAdd.isEmpty()) {
-			Entity add = toAdd.poll();
+			DisplayEntity add = toAdd.poll();
 			if(!entities.add(add)) {
 				return;
 			}
@@ -78,7 +78,7 @@ public class Field extends Thread {
 		return price <= temmies;
 	}
 
-	public void remove(Entity entity) {
+	public void remove(DisplayEntity entity) {
 		trash.add(entity);
 	}
 	
@@ -98,7 +98,7 @@ public class Field extends Thread {
 	
 	private void emptyTrash() {
 		while(!trash.isEmpty()) {
-			Entity junk = trash.poll();
+			DisplayEntity junk = trash.poll();
 			entities.remove(junk);
 			if(junk instanceof PathNode) {
 				pathNodes.remove(junk);
@@ -163,7 +163,7 @@ public class Field extends Thread {
 //	}
 	
 	private void processEntities() {
-		for(Entity entity : entities) {
+		for(DisplayEntity entity : entities) {
 			if(entity.isDead()) {
 				trash.add(entity);
 			}
@@ -181,7 +181,7 @@ public class Field extends Thread {
 		}
 	}
 	
-	public HashSet<Entity> getEntities() {
+	public HashSet<DisplayEntity> getEntities() {
 		return entities;
 	}
 	

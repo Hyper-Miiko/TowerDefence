@@ -14,7 +14,7 @@ import fr.tm_nlm.tower_defence.control.Field.Action;
 import fr.tm_nlm.tower_defence.control.data.geometric.Vector;
 import fr.tm_nlm.tower_defence.control.data.geometric.shape.Circle;
 import fr.tm_nlm.tower_defence.control.entity.Bullet;
-import fr.tm_nlm.tower_defence.control.entity.Entity;
+import fr.tm_nlm.tower_defence.control.entity.DisplayEntity;
 import fr.tm_nlm.tower_defence.control.entity.Monster;
 import fr.tm_nlm.tower_defence.control.entity.PathNode;
 import fr.tm_nlm.tower_defence.control.entity.Tower;
@@ -37,7 +37,7 @@ import static fr.tm_nlm.tower_defence.control.Field.Action.*;
 public class FieldToGraphic extends Thread {
 	private Field field;
 	private IGraphicView view;
-	private HashMap<Entity, MGraphicEntity> entityToGraphic;
+	private HashMap<DisplayEntity, MGraphicEntity> entityToGraphic;
 	private HashMap<PathNode, MGraphicEntity> nodePath;
 	//private HashMap<MGraphicEntity, Entity> graphicToEntity;
 
@@ -48,7 +48,7 @@ public class FieldToGraphic extends Thread {
 		nodePath = new HashMap<>();
 	}
 	
-	private void add(Entity entity) {
+	private void add(DisplayEntity entity) {
 
 		
 		
@@ -98,7 +98,7 @@ public class FieldToGraphic extends Thread {
 		}
 	}
 	
-	private void remove(Entity entity) {
+	private void remove(DisplayEntity entity) {
 		if(!field.equals(entity.getField())) {
 			throw new IllegalArgumentException("L'entité n'appartient pas au bon champ.");
 		}
@@ -113,7 +113,7 @@ public class FieldToGraphic extends Thread {
 		}
 		/*return graphic != null;*/
 	}
-	private void edit(Entity entity) {
+	private void edit(DisplayEntity entity) {
 		if(!field.equals(entity.getField())) {
 			throw new IllegalArgumentException("L'entité n'appartient pas au bon champ.");
 		}
@@ -122,7 +122,7 @@ public class FieldToGraphic extends Thread {
 		graphic.setPosition(entity.getPosition().x, entity.getPosition().y);
 	}
 	
-	private MGraphicEntity get(Entity entity) {
+	private MGraphicEntity get(DisplayEntity entity) {
 		if(!field.equals(entity.getField())) {
 			throw new IllegalArgumentException("L'entité n'appartient pas au bon champ.");
 		}
@@ -140,13 +140,13 @@ public class FieldToGraphic extends Thread {
 	}
 	
 	private void output() {
-		for(Entity entity : field.getEntities()) {
+		for(DisplayEntity entity : field.getEntities()) {
 			if(entityToGraphic.containsKey(entity))	edit(entity);
 			else add(entity);
 		}
 		
-		HashMap<Entity, MGraphicEntity> list = new HashMap<Entity, MGraphicEntity>(entityToGraphic);
-		for(Entity e1 : list.keySet()) {
+		HashMap<DisplayEntity, MGraphicEntity> list = new HashMap<DisplayEntity, MGraphicEntity>(entityToGraphic);
+		for(DisplayEntity e1 : list.keySet()) {
 			boolean isPresent = false;		
 			if(field.getEntities().contains(e1)) {
 				isPresent = true;
