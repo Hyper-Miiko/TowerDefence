@@ -11,9 +11,9 @@ import mHUD.StdDraw;
 
 public class GPictureEntity extends MGraphicEntity{
 	
-	private Vector size = new Vector(0,0);
-	private int hyp = 0;
-	Image image = null;
+	protected Vector size = new Vector(0,0);
+	protected int hyp = 0;
+	protected Image image = null;
 	
 	public GPictureEntity() {
 		setPosition(0,0);

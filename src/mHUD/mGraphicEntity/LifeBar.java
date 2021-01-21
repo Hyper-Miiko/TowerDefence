@@ -41,7 +41,7 @@ public class LifeBar extends MGraphicEntity {
 		super.setPosition(x, y-1.5*size.y);
 	}
 	protected Vector getPosition() {
-		return new Vector(super.getPosition().x-size.x/2,super.getPosition().y-size.y/2-10);
+		return new Vector(super.getPosition().x-size.x/2,super.getPosition().y-size.y*2-10);
 	}
 	
 	protected Image getImage() {

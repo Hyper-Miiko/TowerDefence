@@ -11,6 +11,7 @@ import fr.tm_nlm.tower_defence.control2.Monster;
 import fr.tm_nlm.tower_defence.control2.PathNode;
 import fr.tm_nlm.tower_defence.control2.Tower;
 import mHUD.mGraphicEntity.GCircleEntity;
+import mHUD.mGraphicEntity.GMonsterEntity;
 import mHUD.mGraphicEntity.GPictureEntity;
 import mHUD.mGraphicEntity.GRectEntity;
 import mHUD.mGraphicEntity.IGraphicView;
@@ -37,8 +38,8 @@ public class FieldToGraphic2 extends Thread {
 		
 		Rectangle r = entity.getShape()._1.getBounds();
 		if(entity.haveImage()) {
-			graphic = new GPictureEntity(r.getCenterX(), r.getCenterY(), entity.getImage());
-			
+			if(entity.getClassName().equals("Monster"))graphic = new GMonsterEntity(r.getCenterX(), r.getCenterY(), entity.getImage());
+			else graphic = new GPictureEntity(r.getCenterX(), r.getCenterY(), entity.getImage());
 		}
 		else {
 			graphic = new GCircleEntity(r.getCenterX(), r.getCenterY(),r.getSize().height/2);
@@ -52,7 +53,7 @@ public class FieldToGraphic2 extends Thread {
 		entityToGraphic.put(entity, graphic);
 		
 		if(entity.isDamageable()) {
-			LifeBar l = new LifeBar(r.getCenterX(), r.getCenterY(),r.getSize().height*2,r.getSize().height/4,entity.getHealth());
+			LifeBar l = new LifeBar(r.getCenterX(), r.getCenterY(),50,10,entity.getHealth());
 			lifeBar.put(entity, l);
 			l.setDisplay(entity.isOnScreen());
 			view.addGraphicEntityAt(entity.getPriority(),l);
