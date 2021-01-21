@@ -23,6 +23,7 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 		attacks = new LinkedList<>();
 		handle = new ArrayList<>();
 		ko = false;
+		maxHandle = 3;
 		shape = PresetShape.circle(30);
 	}
 	public Tower(String name) {
@@ -104,20 +105,13 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 	}
 
 	@Override
-	public boolean haveImage() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public Couple<Area, Color> getShape() {
 		return shape.getShape();
 	}
 
 	@Override
 	public String getImage() {
-		// TODO Auto-generated method stub
-		return null;
+		return shape.getImage();
 	}
 	public void setMaxHandle(int maxHandle) {
 		this.maxHandle = maxHandle;
@@ -172,5 +166,9 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 		}
 		
 		return range;
+	}
+	
+	public void setImage(String image) {
+		shape.setImage(image);
 	}
 }

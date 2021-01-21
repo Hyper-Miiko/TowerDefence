@@ -39,7 +39,7 @@ public class Geometric implements Displayable, Cloneable {
 	public void setPosition(Vector position) {
 		double diffX = this.position.x - position.x;
 		double diffY = this.position.y - position.y;
-		area.transform(AffineTransform.getTranslateInstance(diffX,  diffY));
+		area.transform(AffineTransform.getTranslateInstance(-diffX,  -diffY));
 		this.position = position;
 	}
 	
@@ -77,12 +77,16 @@ public class Geometric implements Displayable, Cloneable {
 
 	@Override
 	public String getImage() {
-		return imageName;
+		return "/data/img/" + imageName + ".png";
 	}
 	public void setAngle(Angle angle) {
 		this.angle = angle;
 		double diff = Angle.diff(this.angle, angle).value();
 		area.transform(AffineTransform.getRotateInstance(diff));
 		this.angle = angle;
+	}
+
+	public void setImage(String image) {
+		this.imageName = image;
 	}
 }
