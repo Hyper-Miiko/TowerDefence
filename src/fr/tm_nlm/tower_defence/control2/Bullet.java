@@ -55,12 +55,6 @@ public class Bullet implements Displayable, Movable, Cloneable {
 	}
 
 	@Override
-	public boolean haveImage() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public boolean isOnScreen() {
 		// TODO Auto-generated method stub
 		return false;
@@ -117,7 +111,7 @@ public class Bullet implements Displayable, Movable, Cloneable {
 
 	@Override
 	public boolean move(double time, boolean b) {
-		shape.setPosition(getPosition().byAngle(shape.getAngle(), time*getSpeed()));
+		shape.translateByAngle( time*getSpeed());
 		HashSet<Localisable> collideables = new HashSet<>();
 		switch(collideWith) {
 		case MONSTER:

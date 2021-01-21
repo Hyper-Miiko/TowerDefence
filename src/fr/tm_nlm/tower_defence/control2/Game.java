@@ -95,7 +95,7 @@ public final class Game extends Thread {
 		HashSet<Slot> slots = instance.readSlots();
 		Slot slot = null;
 		for(Slot elem : slots) {
-			if(position.dist(elem.getPosition()) < 25) {
+			if(position.dist(elem.getPosition()) < 50) {
 				slot = elem;
 			}
 		}

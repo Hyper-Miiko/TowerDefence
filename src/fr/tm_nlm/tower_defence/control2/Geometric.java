@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.HashSet;
 
 import fr.tm_nlm.tower_defence.Couple;
@@ -11,13 +12,11 @@ import fr.tm_nlm.tower_defence.Couple;
 public class Geometric implements Displayable, Cloneable {
 	private Angle angle;
 	private String imageName;
-	private Vector position;
 	private Area area;
 	private Color color;
 	
 	public Geometric(Area area) {
 		this.area = area;
-		position = new Vector(0, 0);
 		angle = new Angle(0);
 	}
 	
@@ -26,21 +25,19 @@ public class Geometric implements Displayable, Cloneable {
 		Geometric clone = new Geometric((Area) area.clone());
 		clone.angle = angle;
 		clone.imageName = imageName;
-		clone.position = position;
 		clone.color = color;
 		return clone;
 	}
 	
 	public void translateByAngle(double dist) {
-		Vector newPosition = position.byAngle(angle, dist);
-		setPosition(newPosition);
+		Vector diff = new Vector(0, 0).byAngle(angle, dist);
+		area.transform(AffineTransform.getTranslateInstance(diff.x,  diff.y));
 	}
 	
 	public void setPosition(Vector position) {
-		double diffX = this.position.x - position.x;
-		double diffY = this.position.y - position.y;
-		area.transform(AffineTransform.getTranslateInstance(-diffX,  -diffY));
-		this.position = position;
+		Rectangle2D bounds = area.getBounds2D();
+		area.transform(AffineTransform.getTranslateInstance(-bounds.getCenterX(),  -bounds.getCenterY()));
+		area.transform(AffineTransform.getTranslateInstance(position.x,  position.y));
 	}
 	
 	public boolean collide(Displayable entity) {
@@ -55,19 +52,18 @@ public class Geometric implements Displayable, Cloneable {
 	
 	@Override
 	public Vector getPosition() {
-		return position;
+		Rectangle2D bound = area.getBounds2D();
+		return new Vector(bound.getCenterX(), bound.getCenterY());
 	}
 
 	@Override
 	public boolean isOnScreen() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean haveImage() {
-		// TODO Auto-generated method stub
-		return false;
+		return imageName != null;
 	}
 
 	@Override

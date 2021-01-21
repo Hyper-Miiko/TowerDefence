@@ -71,8 +71,7 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 
 	@Override
 	public boolean isOnScreen() {
-		// TODO Auto-generated method stub
-		return false;
+		return slot != null;
 	}
 
 	@Override
