@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -77,7 +78,9 @@ public class IGraphicView extends MItem {
 	}
 	
 	protected void draw() {	
+		imageEdit.setColor(Color.black);
 		if(background != null)imageEdit.drawImage(background,0,0, null);
+		else imageEdit.fill(new Rectangle2D.Double(0, 0, getSize().x, getSize().y));
 		
 		for(int i = 0; i < entityList.size(); i++) {
 			for(MGraphicEntity e : entityList.get(i)) {

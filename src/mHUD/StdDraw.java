@@ -1213,7 +1213,8 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         double ws = factorX(2*halfLength);
         double hs = factorY(2*halfLength);
         if (ws <= 1 && hs <= 1) pixel(x, y);
-        else offscreen.draw(new Rectangle2D.Double(xs - ws/2, ys - hs/2, ws, hs));
+		else
+			offscreen.draw(new Rectangle2D.Double(xs - ws / 2, ys - hs / 2, ws, hs));
         draw();
     }
 
