@@ -56,8 +56,7 @@ public class Bullet implements Displayable, Movable, Cloneable {
 
 	@Override
 	public boolean isOnScreen() {
-		// TODO Auto-generated method stub
-		return false;
+		return havePosition();
 	}
 	
 	public void process() {
