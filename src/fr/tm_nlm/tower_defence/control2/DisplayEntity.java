@@ -2,10 +2,9 @@ package fr.tm_nlm.tower_defence.control2;
 
 import java.awt.Color;
 import java.awt.geom.Area;
-import java.awt.geom.Point2D.Double;
+import java.util.LinkedList;
 
 import fr.tm_nlm.tower_defence.Couple;
-import fr.tm_nlm.tower_defence.NotYetImplementedException;
 
 public class DisplayEntity implements Displayable {
 	private final Displayable elem;
@@ -66,15 +65,7 @@ public class DisplayEntity implements Displayable {
 		if(!(elem instanceof Damageable)) {
 			throw new ClassCastException(elem + " have no health.");
 		} else {
-			return ((Damageable) elem).getHealth();
-		}
-	}
-
-	public double getMaxHealth() {
-		if(!(elem instanceof Damageable)) {
-			throw new ClassCastException(elem + " have no health.");
-		} else {
-			return ((Damageable) elem).getMaxHealth();
+			return ((Damageable) elem).getHealth() / ((Damageable) elem).getMaxHealth();
 		}
 	}
 	
@@ -89,6 +80,14 @@ public class DisplayEntity implements Displayable {
 	public double getRange() {
 		if(elem instanceof Tower) {
 			return ((Tower) elem).getRange();
+		} else {
+			throw new ClassCastException(elem + " have no range.");
+		}
+	}
+	
+	public LinkedList<Double> getCooldowns() {
+		if(elem instanceof Tower) {
+			return ((Tower) elem).getCooldowns();
 		} else {
 			throw new ClassCastException(elem + " have no range.");
 		}

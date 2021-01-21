@@ -11,6 +11,7 @@ import java.util.Random;
  *
  */
 public final class Game extends Thread {
+	private static double fpsTime;
 	private static final Random random = new Random();
 	private static Game instance;
 	
@@ -156,15 +157,18 @@ public final class Game extends Thread {
 	 * les booléen servent pour savoir si les collections sont en cour d'utilisations ou non.
 	 */
 	private Game(Map map) {
-		startTime = (double) (System.nanoTime())/1000000000d;
+		startTime = System.nanoTime()/1000000000d;
 		this.map = map;
 		this.slots = map.getSlots();
+		fpsTime = startTime;
 		start();
 	}
 	
 	@Override
 	public void run() {
 		while(true) {
+			System.out.println("FPS: " + (int) (1/(Game.time() - fpsTime)));
+			fpsTime = Game.time();
 			map.run();
 			refreshAllList();
 			for(Monster monster : readMonsters()) {

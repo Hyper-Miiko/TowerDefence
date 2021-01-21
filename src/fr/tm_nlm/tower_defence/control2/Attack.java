@@ -14,6 +14,7 @@ public class Attack {
 	private boolean startRandomSpread;
 	private int minBulletsByShot, maxBulletsByShot;
 	private int minNbrOfShot, maxNbrOfShot;
+	private double cooldown;
 	private double minCooldown, maxCooldown;
 	private double minInterval, maxInterval;
 	private double nextAttackTimer;
@@ -70,7 +71,8 @@ public class Attack {
 				if(target != null) {
 					targetPosition = target.getPosition();
 					attack(target);
-					nextAttackTimer = currentTime + valueBetween(minCooldown, maxCooldown);
+					cooldown = valueBetween(minCooldown, maxCooldown);
+					nextAttackTimer = currentTime + cooldown;
 				}
 			}
 		}
@@ -244,5 +246,9 @@ public class Attack {
 
 	public void setStartSpreadRange(double startSpreadRange) {
 		this.startSpreadRange = startSpreadRange;
+	}
+	
+	public double getCooldown() {
+		return 1 - (nextAttackTimer - Game.time())/cooldown;
 	}
 }

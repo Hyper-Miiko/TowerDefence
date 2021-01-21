@@ -170,4 +170,12 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 	public void setImage(String image) {
 		shape.setImage(image);
 	}
+
+	public LinkedList<Double> getCooldowns() {
+		LinkedList<Double> cooldowns = new LinkedList<>();
+		for(Attack attack : attacks) {
+			cooldowns.add(attack.getCooldown());
+		}
+		return cooldowns;
+	}
 }
