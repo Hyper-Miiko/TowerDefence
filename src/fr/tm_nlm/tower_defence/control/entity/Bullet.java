@@ -30,6 +30,7 @@ public class Bullet extends DisplayEntity implements Movable {
 	private DisplayEntity target;
 	private HashMap<Option, double[]> options;
 	private Vector vectorTarget;
+	private String image;
 	
 	public Bullet(Field field) {
 		super(field, new Circle(null, 2));
@@ -218,5 +219,9 @@ public class Bullet extends DisplayEntity implements Movable {
 
 	public void setChainAttack(Attack chainAttack) {
 		this.chainAttack = chainAttack;
+	}
+	
+	public void setImage(String image) {
+		this.image = image;
 	}
 }

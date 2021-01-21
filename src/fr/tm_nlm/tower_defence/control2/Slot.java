@@ -37,7 +37,7 @@ public class Slot implements Displayable {
 	}
 
 	@Override
-	public Couple<String, Area> getImage() {
+	public String getImage() {
 		return null;
 	}
 	public boolean canPlaceTower() {

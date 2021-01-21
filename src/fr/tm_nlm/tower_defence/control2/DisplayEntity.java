@@ -5,6 +5,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Point2D.Double;
 
 import fr.tm_nlm.tower_defence.Couple;
+import fr.tm_nlm.tower_defence.NotYetImplementedException;
 
 public class DisplayEntity implements Displayable {
 	private final Displayable elem;
@@ -13,6 +14,19 @@ public class DisplayEntity implements Displayable {
 		this.elem = elem;
 	}
 
+	public int getPriority() {
+		throw new NotYetImplementedException("coming soon!");
+		
+	}
+	public boolean isDamageable() {
+		return elem instanceof Damageable;
+	}
+	public boolean isIdentifiable() {
+		return elem instanceof Identifiable;
+	}
+	public boolean haveRange() {
+		return elem instanceof Tower;
+	}
 	@Override
 	public boolean isOnScreen() {
 		return elem.isOnScreen();
@@ -26,7 +40,7 @@ public class DisplayEntity implements Displayable {
 		return elem.haveImage();
 	}
 	@Override
-	public Couple<String, Area> getImage() {
+	public String getImage() {
 		return elem.getImage();
 	}
 	@Override
@@ -56,5 +70,18 @@ public class DisplayEntity implements Displayable {
 		} else {
 			throw new ClassCastException(elem.getClass().getSimpleName() + " is not an instance of Identifiable.");
 		}
+	}
+	
+	public double getRange() {
+		if(elem instanceof Tower) {
+			return ((Tower) elem).getRange();
+		} else {
+			throw new ClassCastException(elem + " have no range.");
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return elem.toString();
 	}
 }

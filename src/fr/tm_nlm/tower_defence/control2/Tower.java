@@ -56,6 +56,12 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 		}
 		return false;
 	}
+	
+	public void resetCooldown() {
+		for(Attack attack : attacks) {
+			attack.resetCooldown();
+		}
+	}
 
 	@Override
 	public boolean havePosition() {
@@ -109,7 +115,7 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 	}
 
 	@Override
-	public Couple<String, Area> getImage() {
+	public String getImage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -147,9 +153,24 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 	
 	public void setGame(Game game) {
 		this.game = game;
+		for(Attack attack : attacks) {
+			attack.setMap(game.getMap());
+		}
 	}
 	
 	public boolean isKO() {
 		return ko;
+	}
+	
+	public double getRange() {
+		double range = 0;
+		
+		for(Attack attack : attacks) {
+			if(attack.getRange() > range) {
+				range = attack.getRange();
+			}
+		}
+		
+		return range;
 	}
 }

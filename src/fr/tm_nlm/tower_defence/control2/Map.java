@@ -14,7 +14,13 @@ public class Map {
 		slots = new HashSet<>();
 		waves = new HashSet<>();
 	}
-	
+
+	public void place(Bullet bullet, Vector position) {
+		bullet.setPosition(position);
+		bullet.setGame(game);
+		game.add(bullet);
+		bullet.resetMove();
+	}
 	public void place(Monster monster) {
 		monster.setPosition(monster.getPath().getPosition());
 		monster.setGame(game);
