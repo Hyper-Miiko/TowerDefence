@@ -13,9 +13,10 @@ public class PresetBullet {
 	public static Bullet magicBullet() {
 		Bullet bullet = new Bullet();
 		
-		bullet.setShape(PresetShape.circle(20));
+		bullet.setShape(PresetShape.circle(10));
 		bullet.setSpeed(125);
 		bullet.setDamage(Math.PI);
+		bullet.setImage("mad_magic");
 		
 		return bullet;
 	}
