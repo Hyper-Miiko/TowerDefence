@@ -42,7 +42,7 @@ public class FieldToGraphic2 extends Thread {
 		else {
 			graphic = new GCircleEntity(r.getCenterX(), r.getCenterY(),r.getSize().height/2);
 			((GCircleEntity)graphic).setBackgroundColor(entity.getShape()._2);
-			((GCircleEntity)graphic).setLineColor(new Color(0,0,0));
+			if(entity.isSlot())((GCircleEntity)graphic).setLineColor(new Color(255,255,255));
 		}
 		
 		view.addGraphicEntityAt(entity.getPriority(),graphic);
@@ -78,7 +78,6 @@ public class FieldToGraphic2 extends Thread {
 		
 		if(graphic instanceof GCircleEntity) {
 			((GCircleEntity)graphic).setBackgroundColor(entity.getShape()._2);
-			((GCircleEntity)graphic).setLineColor(new Color(255,255,255));
 		}
 		
 		LifeBar l = getLifeBar(entity);
