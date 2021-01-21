@@ -124,18 +124,12 @@ public class Monster implements Damageable, Displayable, Movable {
 		this.strength = strength;
 	}
 	@Override
-	public boolean haveImage() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
 	public Couple<Area, Color> getShape() {
 		return shape.getShape();
 	}
 	@Override
 	public String getImage() {
-		// TODO Auto-generated method stub
-		return null;
+		return shape.getImage();
 	}
 	public void setPosition(Vector position) {
 		shape.setPosition(position);
@@ -177,5 +171,11 @@ public class Monster implements Damageable, Displayable, Movable {
 	}
 	public void setBoss(boolean boss) {
 		this.boss = boss;
+	}
+	public void setFly(boolean fly) {
+		this.fly = fly;
+	}
+	public void setImage(String image) {
+		shape.setImage(image);
 	}
 }

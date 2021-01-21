@@ -44,6 +44,9 @@ public class DisplayEntity implements Displayable {
 	public boolean haveRange() {
 		return elem instanceof Tower;
 	}
+	public String getClassName() {
+		return elem.getClass().getSimpleName();
+	}
 	@Override
 	public boolean isOnScreen() {
 		return elem.isOnScreen();

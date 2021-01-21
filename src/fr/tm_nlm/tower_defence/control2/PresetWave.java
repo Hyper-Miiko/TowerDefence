@@ -7,6 +7,12 @@ public abstract class PresetWave {
 		Monster monster = PresetMonster.annoyingDog();
 		monster.setPath(PresetPath.grassland());
 		wave.add(monster, 1);
+		monster = PresetMonster.drunkHuman();
+		monster.setPath(PresetPath.grassland());
+		wave.add(monster, 1);
+		monster = PresetMonster.ufo();
+		monster.setPath(PresetPath.grassland());
+		wave.add(monster, 1);
 		
 		return wave;
 	}

@@ -92,6 +92,7 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		Angle angle = getPosition().angle(aimingPosition);
 		Angle diff = Angle.diff(shape.getAngle(), angle);
 		double adjust = Math.PI*time*aimingFactor;
+		System.out.println(adjust + "/" + diff.value());
 		adjust = (adjust > diff.value()) ? diff.value() : adjust;
 		Angle newAngle;
 		if(diff.value() > Math.PI) {
@@ -100,42 +101,6 @@ public class Bullet implements Displayable, Movable, Cloneable {
 			newAngle = new Angle(angle.value() + adjust);
 		}
 		setAngle(newAngle);
-	}
-	
-	private void die() {
-		fadeAt = Game.time() + fadingTime;
-	}
-
-	@Override
-	public String getImage() {
-		return shape.getImage();
-	}
-
-	@Override
-	public double getSpeed() {
-		double actualSpeed = getBaseSpeed();
-		return actualSpeed;
-	}
-
-	@Override
-	public double getBaseSpeed() {
-		return baseSpeed;
-	}
-
-	@Override
-	public Couple<Area, Color> getShape() {
-		if(fadeAt != Double.POSITIVE_INFINITY) {
-			Area area = shape.getShape()._1;
-			Color color = shape.getShape()._2;
-			int alpha = color.getAlpha();
-			alpha *= (fadeAt - Game.time())/fadingTime;
-			alpha = (alpha < 0) ? 0 : alpha;
-			alpha = (alpha > 255) ? 255 : alpha;
-			color = new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
-			return new Couple<>(area, color);
-		} else {
-			return shape.getShape();
-		}
 	}
 
 	@Override
@@ -180,6 +145,48 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		return true;
 	}
 	
+	@Override
+	public Object clone() {
+		Bullet bullet = new Bullet();
+		bullet.ghost = ghost;
+		bullet.aimingFactor = aimingFactor;
+		bullet.aimingPosition = aimingPosition;
+		bullet.game = game;
+		bullet.shape = (Geometric) shape.clone();
+		bullet.baseSpeed = baseSpeed;
+		bullet.tracked = tracked;
+		bullet.track = track;
+		bullet.minLifeTime = minLifeTime;
+		bullet.maxLifeTime = maxLifeTime;
+		return bullet;
+	}
+
+	@Override
+	public void resetMove() {
+		lastMove = Game.time();
+		decayTimer = Game.time() + valueBetween(minLifeTime, maxLifeTime);
+	}
+	
+	private void die() {
+		fadeAt = Game.time() + fadingTime;
+	}
+
+	@Override
+	public String getImage() {
+		return shape.getImage();
+	}
+
+	@Override
+	public double getSpeed() {
+		double actualSpeed = getBaseSpeed();
+		return actualSpeed;
+	}
+
+	@Override
+	public double getBaseSpeed() {
+		return baseSpeed;
+	}
+	
 	private double valueBetween(double min, double max) {
 		return (max > min) ? (max - min)*random.nextDouble() + min : min;
 	}
@@ -217,27 +224,23 @@ public class Bullet implements Displayable, Movable, Cloneable {
 	}
 
 	@Override
-	public void resetMove() {
-		lastMove = Game.time();
-		decayTimer = Game.time() + valueBetween(minLifeTime, maxLifeTime);
+	public Couple<Area, Color> getShape() {
+		if(fadeAt != Double.POSITIVE_INFINITY) {
+			Area area = shape.getShape()._1;
+			Color color = shape.getShape()._2;
+			int alpha = color.getAlpha();
+			alpha *= (fadeAt - Game.time())/fadingTime;
+			alpha = (alpha < 0) ? 0 : alpha;
+			alpha = (alpha > 255) ? 255 : alpha;
+			color = new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
+			return new Couple<>(area, color);
+		} else {
+			return shape.getShape();
+		}
 	}
 
 	public void setAngle(Angle angle) {
 		shape.setAngle(angle);
-	}
-	
-	@Override
-	public Object clone() {
-		Bullet bullet = new Bullet();
-		bullet.ghost = ghost;
-		bullet.aimingFactor = aimingFactor;
-		bullet.aimingPosition = aimingPosition;
-		bullet.game = game;
-		bullet.shape = (Geometric) shape.clone();
-		bullet.baseSpeed = baseSpeed;
-		bullet.tracked = tracked;
-		bullet.track = track;
-		return bullet;
 	}
 
 	public boolean isDead() {
@@ -256,7 +259,7 @@ public class Bullet implements Displayable, Movable, Cloneable {
 	}
 	
 	public void setLifeTime(double lifeTime) {
-		setLifeTime(minLifeTime, maxLifeTime);
+		setLifeTime(lifeTime, lifeTime);
 	}
 
 	public void setLifeTime(double minLifeTime, double maxLifeTime) {
