@@ -65,7 +65,7 @@ public class IGraphicView extends MItem {
 				clicked = true;
 				for(int i = 0; i < entityList.size(); i++) {
 					for(MGraphicEntity e : entityList.get(i)) {
-						if(e.isIn(mouseX(),mouseY())) {
+						if(e != null && e.isIn(mouseX(),mouseY())) {
 							savedEntity.add(new Couple<>(e, new Couple<>(mouseX(),mouseY())));
 						}
 					}
@@ -80,7 +80,7 @@ public class IGraphicView extends MItem {
 			
 			for(int i = 0; i < entityList.size(); i++) {
 				for(MGraphicEntity e : entityList.get(i)) {
-					imageEdit.drawImage(e.getImage(),(int)e.getPosition().x,(int)e.getPosition().y, null);
+					if(e != null && e.isDisplay())imageEdit.drawImage(e.getImage(),(int)e.getPosition().x,(int)e.getPosition().y, null);
 				}
 			}
 			
@@ -91,7 +91,7 @@ public class IGraphicView extends MItem {
 		return (StdDraw.mouseX()*getWindowSize().x/2)-getPos().x/2+getSize().x/2;
 	}
 	public double mouseY() {
-		return (getWindowSize().y/2 - StdDraw.mouseY()*getWindowSize().y/2)-getPos().y/2+getSize().y/2;
+		return Math.abs(StdDraw.mouseY()*getWindowSize().y/2 - getWindowSize().y/2)-Math.abs(getPos().y-getWindowSize().y/2);
 	}
 	public boolean mousePressed() {
 		return  StdDraw.isMousePressed() && mouseIn();

@@ -13,6 +13,8 @@ public abstract class MGraphicEntity {
 	protected Graphics2D imageEdit;
 	protected BufferedImage imageBuffer;
 	
+	private boolean display = true;
+	
 	protected abstract Image getImage();
 
 	protected Vector getPosition() {
@@ -41,6 +43,14 @@ public abstract class MGraphicEntity {
 	}
 	
 	protected abstract void reloadCanvas();
+
+	public boolean isDisplay() {
+		return display;
+	}
+
+	public void setDisplay(boolean display) {
+		this.display = display;
+	}
 
 
 }

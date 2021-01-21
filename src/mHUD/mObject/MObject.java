@@ -37,10 +37,10 @@ public abstract class MObject {
 		return fc;
 	}
 	
-	protected Vector getPos() {
+	public Vector getPos() {
 		return position;
 	}
-	protected Vector getSize() {
+	public Vector getSize() {
 		return size;
 	}
 	

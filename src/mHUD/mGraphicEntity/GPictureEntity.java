@@ -35,11 +35,10 @@ public class GPictureEntity extends MGraphicEntity{
 	}
 	
 	protected Vector getPosition() {
-		return new Vector(super.getPosition().x-getSize().x/2,super.getPosition().y-getSize().y/2);
+		return new Vector(super.getPosition().x-hyp/2,super.getPosition().y-hyp/2);
 	}
 	
 	protected Image getImage() {
-		
 		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
 		imageEdit.fillRect(0,0,hyp,hyp);
 		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
