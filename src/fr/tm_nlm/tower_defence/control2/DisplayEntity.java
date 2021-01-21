@@ -95,4 +95,9 @@ public class DisplayEntity implements Displayable {
 	public String toString() {
 		return elem.toString();
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return elem.equals(obj);
+	}
 }
