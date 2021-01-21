@@ -13,8 +13,10 @@ public class ILabel extends MItem{
 		return text;
 	}
 	public void setText(String text){
-		this.text = text;
-		setNeedRedraw(true);
+		if(!text.equals(this.text)) {
+			this.text = text;
+			setNeedRedraw(true);
+		}
 	}
 	
 	public void setTextColor(int r, int g, int b) {

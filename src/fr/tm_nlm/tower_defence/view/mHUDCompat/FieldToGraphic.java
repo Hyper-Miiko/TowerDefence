@@ -89,7 +89,7 @@ public class FieldToGraphic extends Thread {
 			double roation = p.getPosition().angle(p.getNextToCastle().getPosition());
 			
 			GRectEntity graphic = new GRectEntity(posX,posY,sizeX,sizeY);
-			graphic.rotate(-Math.toDegrees(roation));
+			graphic.rotate(roation);
 			graphic.setLineColor(0,150,0);
 			graphic.setBackgroundColor(new Color(0,150,0,100));
 			
