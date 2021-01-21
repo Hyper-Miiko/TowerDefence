@@ -2,6 +2,7 @@ package fr.tm_nlm.tower_defence.control2;
 
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -349,10 +350,15 @@ public final class Game extends Thread {
 	
 	@SuppressWarnings("unchecked")
 	private HashSet<Bullet> readBullets() {
-		waitFor(bulletsBussy);
-		bulletsBussy.set(true);
-		HashSet<Bullet> cloneBullets = (HashSet<Bullet>) bullets.clone();
-		bulletsBussy.set(false);
+		HashSet<Bullet> cloneBullets;
+		try {
+			waitFor(bulletsBussy);
+			bulletsBussy.set(true);
+			cloneBullets = (HashSet<Bullet>) bullets.clone();
+			bulletsBussy.set(false);
+		} catch(ConcurrentModificationException e) {
+			cloneBullets = readBullets();
+		}
 		return cloneBullets;
 	}
 	

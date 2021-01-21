@@ -63,8 +63,8 @@ public class PresetAttack {
 		Attack attack = new Attack("Loli Megumin");
 		
 		attack.setBullet(PresetBullet.tinyEkusplosionFlame());
-		attack.setBulletsByShot(200, 300);
-		attack.setSpreadRange(0);
+		attack.setBulletsByShot(100, 150);
+		attack.setSpreadRange(Math.PI);
 		attack.setStartSpreadRange(Math.PI);
 		attack.setStartShotRange(0, 25);
 		attack.setCooldown(0);

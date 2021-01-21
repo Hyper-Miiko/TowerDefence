@@ -47,14 +47,14 @@ public class PresetBullet {
 	public static Bullet tinyEkusplosionFlame() {
 		Bullet bullet = new Bullet();
 		
-		bullet.setDamage(0.01);
-		bullet.setSpeed(250);
+		bullet.setDamage(0.1);
+		bullet.setSpeed(100);
 		bullet.setLifeTime(0, 0.3);
-		bullet.setShape(PresetShape.circle(1));
+		bullet.setShape(PresetShape.circle(3));
 		bullet.setRed(255);
-		bullet.setGreen(127, 255);
+		bullet.setGreen(0, 127);
 		bullet.setBlue(0);
-		bullet.setFadingTime(0.5, 3);
+		bullet.setFadingTime(3, 3);
 		
 		return bullet;
 	}

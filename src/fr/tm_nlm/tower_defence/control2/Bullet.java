@@ -167,12 +167,14 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		bullet.maxBlue = maxBlue;
 		bullet.minDamage = minDamage;
 		bullet.maxDamage = maxDamage;
+		bullet.minFadingTime = minFadingTime;
+		bullet.maxFadingTime = maxFadingTime;
 		bullet.minGreen = minGreen;
 		bullet.maxGreen = maxGreen;
-		bullet.minRed = minRed;
-		bullet.maxRed = maxRed;
 		bullet.minLifeTime = minLifeTime;
 		bullet.maxLifeTime = maxLifeTime;
+		bullet.minRed = minRed;
+		bullet.maxRed = maxRed;
 		bullet.onDeathAttack = onDeathAttack;
 		bullet.shape = (Geometric) shape.clone();
 		bullet.tracked = tracked;
