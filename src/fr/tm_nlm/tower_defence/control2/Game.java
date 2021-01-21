@@ -92,7 +92,7 @@ public final class Game extends Thread {
 		return instance.map.getBackground();
 	}
 	
-	public static void placeTower(long towerId, Vector position) {
+	public static boolean placeTower(long towerId, Vector position) {
 		Tower tower = ExistingTower.get(towerId);
 		HashSet<Slot> slots = instance.readSlots();
 		Slot slot = null;
@@ -111,7 +111,9 @@ public final class Game extends Thread {
 			tower.setGame(instance);
 			tower.resetCooldown();
 			instance.add(tower);
+			return true;
 		}
+		return false;
 	}
 	
 	private double startTime;
