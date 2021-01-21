@@ -31,9 +31,11 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.FileDialog;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.RenderingHints;
@@ -698,6 +700,17 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         draw.addMouseListener(std);
         draw.addMouseMotionListener(std);
 
+        try {
+        	setFont(Font.createFont(Font.TRUETYPE_FONT, new File("data/font/FSEX300.ttf")).deriveFont(18f));
+        	GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        	ge.registerFont(getFont());
+			
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        
         frame.setContentPane(draw);
         frame.addKeyListener(std);    // JLabel cannot get keyboard focus
         frame.setFocusTraversalKeysEnabled(false);  // allow VK_TAB with isKeyPressed()

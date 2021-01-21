@@ -1,6 +1,8 @@
 package mHUD.mGraphicEntity;
 
+import java.awt.AlphaComposite;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
@@ -35,6 +37,10 @@ public class GCircleEntity extends GPlainEntity {
 		imageEdit = imageBuffer.createGraphics();
 	}
 	protected Image getImage() {
+		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
+		imageEdit.fillRect(0,0,(int)diameter,(int)diameter);
+		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
+		
 		imageEdit.setColor(getBackgroundColor());
 		imageEdit.fill(new Ellipse2D.Double(0,0,diameter,diameter));
 		

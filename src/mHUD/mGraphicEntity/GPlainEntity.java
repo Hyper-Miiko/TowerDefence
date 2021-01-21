@@ -5,7 +5,7 @@ import java.awt.Color;
 public abstract class GPlainEntity extends MGraphicEntity {
 	
 	protected Color backgroundColor = new Color(255,255,255);
-	protected Color lineColor = new Color(255,255,255);
+	protected Color lineColor = new Color(0,0,0);
 	
 	public void setBackgroundColor(Color c) {
 		backgroundColor = c;

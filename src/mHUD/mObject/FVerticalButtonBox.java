@@ -36,4 +36,16 @@ public class FVerticalButtonBox extends FVerticalFrame {
 			b.setSize(this.getSize().x*0.9,(this.getSize().y*0.9)/buttonList.size());
 		}
 	}
+	public void setSelect(int i, boolean a) {
+		for(IToogleButton b1 : buttonList) {
+			b1.setActive(false);
+		}
+		buttonList.get(i).setActive(a);
+	}
+	public boolean anyActive() {
+		for(IToogleButton b1 : buttonList) {
+			if(b1.isActive())return true;
+		}
+		return false;
+	}
 }
