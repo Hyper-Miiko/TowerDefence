@@ -98,6 +98,9 @@ public class DisplayEntity implements Displayable {
 	
 	@Override
 	public boolean equals(Object obj) {
+		if(obj instanceof DisplayEntity) {
+			obj = ((DisplayEntity) obj).elem;
+		}
 		return elem.equals(obj);
 	}
 }
