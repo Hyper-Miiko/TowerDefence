@@ -11,6 +11,7 @@ import java.util.Random;
  *
  */
 public final class Game extends Thread {
+	private static final int MAX_FPS = 60;
 	private static double fpsTime;
 	private static final Random random = new Random();
 	private static Game instance;
@@ -195,8 +196,10 @@ public final class Game extends Thread {
 	@Override
 	public void run() {
 		while(true) {
-//			System.out.println("FPS: " + (int) (1/(Game.time() - fpsTime)));
-//			fpsTime = Game.time();
+			try {
+				Thread.sleep((long) (1/MAX_FPS*1000));
+			} catch (InterruptedException e) {}
+			fpsTime = Game.time();
 			map.run();
 			refreshAllList();
 			for(Monster monster : readMonsters()) {

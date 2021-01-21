@@ -23,11 +23,11 @@ public class PresetBullet {
 		Bullet bullet = new Bullet();
 		
 		bullet.setShape(PresetShape.triangle(20, 40));
-		bullet.setSpeed(50);
+		bullet.setSpeed(200);
 		bullet.setDamage(2*Math.PI);
-		bullet.setAimingFactor(0.05);
+		bullet.setAimingFactor(0.5);
 		bullet.setTrack(true);
-		bullet.setLifeTime(500);
+		bullet.setLifeTime(5);
 		bullet.setOnDeathAttack(PresetAttack.tinyEkusplosion(), true, false);
 		bullet.setImage("mad_missile");
 		

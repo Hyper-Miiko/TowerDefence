@@ -89,16 +89,18 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		if(track) {
 			aimingPosition = tracked.getPosition();
 		}
-		Angle angle = getPosition().angle(aimingPosition);
-		Angle diff = Angle.diff(shape.getAngle(), angle);
-		double adjust = Math.PI*time*aimingFactor;
-		System.out.println(adjust + "/" + diff.value());
-		adjust = (adjust > diff.value()) ? diff.value() : adjust;
-		Angle newAngle;
-		if(diff.value() > Math.PI) {
-			newAngle = new Angle(angle.value() - adjust);
+		Angle currentAngle = getPosition().angle(aimingPosition);
+		Angle angleDiff = Angle.diff(getAngle(), currentAngle);
+		Angle newAngle = Angle.diff(getAngle(), new Angle(angleDiff.value()*aimingFactor*time));
+//		Angle angle = getPosition().angle(aimingPosition);
+//		Angle diff = Angle.diff(shape.getAngle(), angle);
+//		double adjust = Math.PI*time*aimingFactor;
+//		adjust = (adjust > diff.value()) ? diff.value() : adjust;
+//		Angle newAngle;
+		if(angleDiff.value() > Math.PI) {
+			newAngle = Angle.diff(getAngle(), new Angle(-angleDiff.value()*aimingFactor*time));
 		} else {
-			newAngle = new Angle(angle.value() + adjust);
+			newAngle = Angle.diff(getAngle(), new Angle(angleDiff.value()*aimingFactor*time));
 		}
 		setAngle(newAngle);
 	}
