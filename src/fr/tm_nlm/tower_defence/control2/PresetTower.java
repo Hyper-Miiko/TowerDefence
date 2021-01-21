@@ -6,6 +6,7 @@ public class PresetTower {
 		tower.addAttack(PresetAttack.magicBullets());
 		//tower.addAttack(PresetAttack.test());
 		tower.setMaxHandle(0);
+		tower.setImage("mad_dummy");
 		return tower;
 	}
 }

@@ -60,4 +60,7 @@ public class Map {
 	public HashSet<Slot> getSlots() {
 		return slots;
 	}
+	public String getBackground() {
+		return "data/img/" + background + ".png";
+	}
 }

@@ -123,10 +123,8 @@ public class Attack {
 			} else {
 				startAngleModif = new Angle(-startSpreadRange + 2*startSpreadRange*i/(size-1));
 			}
-			System.out.print(start + " => ");
 			Angle finalStartAngle = new Angle(angle.value() + startAngleModif.value());
 			start = origin.byAngle(finalStartAngle, valueBetween(minStartShotRange, maxStartShotRange));
-			System.out.println(start);
 			
 			if(converge) {
 				angle = start.angle(targetPosition);

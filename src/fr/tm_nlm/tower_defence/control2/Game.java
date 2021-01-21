@@ -86,6 +86,10 @@ public final class Game extends Thread {
 		map.setGame(instance);
 	}
 	
+	public static String getBackground() {
+		return instance.map.getBackground();
+	}
+	
 	public static void placeTower(long towerId, Vector position) {
 		Tower tower = ExistingTower.get(towerId);
 		HashSet<Slot> slots = instance.readSlots();
@@ -298,6 +302,7 @@ public final class Game extends Thread {
 		HashSet<Displayable> all = new HashSet<>();
 		all.addAll(readBullets());
 		all.addAll(readMonsters());
+		all.addAll(readSlots());
 		all.addAll(readTowers());
 		return all;
 	}

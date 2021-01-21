@@ -7,7 +7,7 @@ public abstract class PresetMap {
 	public static Map grasslandIntro() {
 		Map map = new Map();
 		
-		map.setBackground("data/img/grasslang.png");
+		map.setBackground("grassland");
 		map.addSlot(new Slot(new Vector(284, 380)));
 		map.addSlot(new Slot(new Vector(447, 281)));
 		map.addSlot(new Slot(new Vector(620, 316)));
