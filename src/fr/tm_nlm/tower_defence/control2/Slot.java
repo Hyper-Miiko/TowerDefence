@@ -6,16 +6,21 @@ import java.awt.geom.Area;
 import fr.tm_nlm.tower_defence.Couple;
 
 public class Slot implements Displayable {
-	private static final Color GREEN = new Color(0, 255, 0, 127);
-	private static final Color RED = new Color(255, 0, 0, 127);
+	private static final Color GREEN = new Color(0, 255, 0, 50);
+	private static final Color RED = new Color(255, 0, 0, 50);
 	private Geometric shape;
 	private Tower tower;
 	
 	public Slot(Vector position) {
-		shape = PresetShape.circle(25);
+		shape = PresetShape.circle(50);
 		shape.setPosition(position);
 	}
 
+	public boolean collide(Area areaB) {
+		Area areaA = (Area) getShape()._1.clone();
+		areaA.intersect(areaB);
+		return !areaA.isEmpty();
+	}
 	@Override
 	public Vector getPosition() {
 		return shape.getPosition();
@@ -33,7 +38,8 @@ public class Slot implements Displayable {
 
 	@Override
 	public Couple<Area, Color> getShape() {
-		return shape.getShape();
+		Color color = (tower == null) ? GREEN : RED;
+		return new Couple<>(shape.getShape()._1, color);
 	}
 
 	@Override

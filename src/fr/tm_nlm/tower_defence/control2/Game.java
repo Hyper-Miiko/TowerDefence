@@ -1,5 +1,7 @@
 package fr.tm_nlm.tower_defence.control2;
 
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -94,8 +96,9 @@ public final class Game extends Thread {
 		Tower tower = ExistingTower.get(towerId);
 		HashSet<Slot> slots = instance.readSlots();
 		Slot slot = null;
+		Area area = new Area(new Ellipse2D.Double(position.x, position.y, 1, 1));
 		for(Slot elem : slots) {
-			if(position.dist(elem.getPosition()) < 50) {
+			if(elem.collide(area)) {
 				slot = elem;
 			}
 		}
@@ -105,10 +108,10 @@ public final class Game extends Thread {
 			System.err.println(slot.getTower().getName() + " is already here: " + position + ".");
 		} else {
 			tower.setSlot(slot);
+			tower.setGame(instance);
+			tower.resetCooldown();
+			instance.add(tower);
 		}
-		tower.setGame(instance);
-		tower.resetCooldown();
-		instance.add(tower);
 	}
 	
 	private double startTime;
