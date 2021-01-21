@@ -43,14 +43,14 @@ public class GRectEntity extends GPlainEntity {
 		imageEdit.fillRect(0,0,hyp,hyp);
 		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
 		
-		imageEdit.rotate(-Math.toRadians(getRotation()),hyp/2,hyp/2);
+		imageEdit.rotate(getRotation(),hyp/2,hyp/2);
 		
 		imageEdit.setColor(getBackgroundColor());
 		imageEdit.fill(new Rectangle((int)(hyp/2-size.x/2),(int)(hyp/2-size.y/2),(int)size.x-1, (int)size.y-1));
 		
 		imageEdit.setColor(getLineColor());
 		imageEdit.draw(new Rectangle((int)(hyp/2-size.x/2),(int)(hyp/2-size.y/2),(int)size.x-1, (int)size.y-1));
-		imageEdit.rotate(Math.toRadians(getRotation()),hyp/2,hyp/2);
+		imageEdit.rotate(-getRotation(),hyp/2,hyp/2);
 		
 		return imageBuffer;
 	}

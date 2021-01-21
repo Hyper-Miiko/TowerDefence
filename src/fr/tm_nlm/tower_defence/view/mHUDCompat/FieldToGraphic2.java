@@ -38,12 +38,14 @@ public class FieldToGraphic2 extends Thread {
 		Rectangle r = entity.getShape()._1.getBounds();
 		if(entity.haveImage()) {
 			graphic = new GPictureEntity(r.getCenterX(), r.getCenterY(), entity.getImage());
+			
 		}
 		else {
 			graphic = new GCircleEntity(r.getCenterX(), r.getCenterY(),r.getSize().height/2);
 			((GCircleEntity)graphic).setBackgroundColor(entity.getShape()._2);
 			if(entity.isSlot())((GCircleEntity)graphic).setLineColor(new Color(255,255,255));
 		}
+		if(entity.getAngle() != null)graphic.rotate(entity.getAngle().value());
 		
 		view.addGraphicEntityAt(entity.getPriority(),graphic);
 		graphic.setDisplay(entity.isOnScreen());
@@ -72,6 +74,7 @@ public class FieldToGraphic2 extends Thread {
 		MGraphicEntity graphic = getEntity(entity);
 		Rectangle r = entity.getShape()._1.getBounds();	
 		graphic.setPosition(r.getCenterX(), r.getCenterY());
+		if(entity.getAngle() != null) graphic.rotate(entity.getAngle().value());
 		
 		if(entity.isSlot()) graphic.setDisplay(displaySlot);
 		else graphic.setDisplay(entity.isOnScreen());

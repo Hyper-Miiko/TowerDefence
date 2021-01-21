@@ -43,11 +43,11 @@ public class GPictureEntity extends MGraphicEntity{
 		imageEdit.fillRect(0,0,hyp,hyp);
 		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
 		
-		imageEdit.rotate(-Math.toRadians(getRotation()),hyp/2,hyp/2);
+		imageEdit.rotate(getRotation(),hyp/2,hyp/2);
 		
 		imageEdit.drawImage(image,(int)(hyp/2-size.x/2),(int)(hyp/2-size.y/2), null);
 		
-		imageEdit.rotate(Math.toRadians(getRotation()),hyp/2,hyp/2);
+		imageEdit.rotate(-getRotation(),hyp/2,hyp/2);
 		return imageBuffer;
 	}
 	protected void reloadCanvas() {
