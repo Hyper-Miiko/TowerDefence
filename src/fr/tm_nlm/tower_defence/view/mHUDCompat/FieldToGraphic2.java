@@ -18,34 +18,31 @@ import mHUD.mGraphicEntity.MGraphicEntity;
 
 public class FieldToGraphic2 extends Thread {
 	private IGraphicView view;
-	private HashMap<DisplayEntity, MGraphicEntity> entityToGraphic;
-	private HashMap<PathNode, MGraphicEntity> nodePath;
+	private HashMap<DisplayEntity, MGraphicEntity> entityToGraphic = new HashMap<>();
+	//private HashMap<PathNode, MGraphicEntity> nodePath;
 	//private HashMap<MGraphicEntity, Entity> graphicToEntity;
+	private GPictureEntity background = null;
+	private String actualBackground = null;
 
 	public FieldToGraphic2(IGraphicView view) {
 		this.view = view;
-		entityToGraphic = new HashMap<>();
-		nodePath = new HashMap<>();
 	}
 	
 	private void add(DisplayEntity entity) {
 		MGraphicEntity graphic;
 		
-		System.out.println(entity);
-		Rectangle r = entity
-				.getShape()
-				._1
-				.getBounds();
+		Rectangle r = entity.getShape()._1.getBounds();
 		if(entity.haveImage()) {
 			graphic = new GPictureEntity(r.getCenterX(), r.getCenterY(), entity.getImage());
 		}
 		else {
-			graphic = new GRectEntity(r.getCenterX(),r.getCenterY(),r.getSize().height,r.getSize().width);
-			((GRectEntity)graphic).setBackgroundColor(entity.getShape()._2);
-			((GRectEntity)graphic).setLineColor(entity.getShape()._2);
+			graphic = new GCircleEntity(r.getCenterX(), r.getCenterY(),r.getSize().height/2);
+			((GCircleEntity)graphic).setBackgroundColor(entity.getShape()._2);
+			((GCircleEntity)graphic).setLineColor(entity.getShape()._2);
 		}
 		
-		view.addGraphicEntityAt(0,graphic);
+		view.addGraphicEntityAt(entity.getPriority(),graphic);
+		graphic.setDisplay(entity.isOnScreen());
 		entityToGraphic.put(entity, graphic);
 	}
 	
@@ -56,11 +53,16 @@ public class FieldToGraphic2 extends Thread {
 	}
 	private void edit(DisplayEntity entity) {
 		MGraphicEntity graphic = get(entity);
-		graphic.setPosition(entity.getPosition().x, entity.getPosition().y);
+		Rectangle r = entity.getShape()._1.getBounds();	
+		graphic.setPosition(r.getCenterX(), r.getCenterY());
+		graphic.setDisplay(entity.isOnScreen());
 	}
 	
 	private MGraphicEntity get(DisplayEntity entity) {
-		return entityToGraphic.get(entity);
+		for(DisplayEntity e1 : entityToGraphic.keySet()) {
+			if(entity.equals(e1))return entityToGraphic.get(e1);
+		}
+		return null;
 	}
 
 	@Override
@@ -69,16 +71,32 @@ public class FieldToGraphic2 extends Thread {
 	}
 	
 	private void output() {
+		if((actualBackground == null && Game.getBackground() != null) || !actualBackground.equals(Game.getBackground())) {		
+			background = new GPictureEntity(view.getSize().x/2,view.getSize().y/2,Game.getBackground());
+			view.addGraphicEntityAt(0, background);
+			actualBackground = Game.getBackground();
+		}
+		
 		for(DisplayEntity entity : Game.getAll()) {
-			if(entityToGraphic.containsKey(entity))	edit(entity);
+			boolean isPresent = false;	
+			for(DisplayEntity e1 : entityToGraphic.keySet()) {
+				if(entity.equals(e1)) {
+					isPresent = true;
+					break;
+				}
+			}
+			if(isPresent)edit(entity);
 			else add(entity);
 		}
 		
 		HashMap<DisplayEntity, MGraphicEntity> list = new HashMap<DisplayEntity, MGraphicEntity>(entityToGraphic);
 		for(DisplayEntity e1 : list.keySet()) {
-			boolean isPresent = false;		
-			if(Game.getAll().contains(e1)) {
-				isPresent = true;
+			boolean isPresent = false;	
+			for(DisplayEntity entity : Game.getAll()) {
+				if(entity.equals(e1)) {
+					isPresent = true;
+					break;
+				}
 			}
 			if(!isPresent)remove(e1);
 		}
