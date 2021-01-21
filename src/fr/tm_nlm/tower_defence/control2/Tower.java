@@ -30,7 +30,7 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 		health = maxHealth = 50;
 		ko = false;
 		maxHandle = 3;
-		shape = PresetShape.circle(64);
+		shape = PresetShape.circle(128);
 		towerPrice = 10;
 	}
 	public Tower(String name) {

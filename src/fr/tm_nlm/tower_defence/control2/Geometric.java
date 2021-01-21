@@ -88,4 +88,8 @@ public class Geometric implements Displayable, Cloneable {
 	public void setImage(String image) {
 		this.imageName = image;
 	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
 }

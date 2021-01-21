@@ -88,7 +88,7 @@ public class Attack {
 		return (max > min) ? random.nextInt(max - min + 1) + min : min;
 	}
 	
-	private Localisable seek(Vector origin, HashSet<Localisable> targets) {
+	public Localisable seek(Vector origin, HashSet<Localisable> targets) {
 		Localisable currentTarget = null;
 		double minDist = Double.POSITIVE_INFINITY;
 		for(Localisable elem : targets)	{
@@ -105,7 +105,7 @@ public class Attack {
 		return currentTarget;
 	}
 	
-	private void shot(Vector origin, Vector targetPosition) {
+	public void shot(Vector origin, Vector targetPosition) {
 		LinkedList<Bullet> shotBullet = bulletsReady.poll();
 		int size = shotBullet.size();
 		for(int i = 0; i < size; i++) {
@@ -148,7 +148,7 @@ public class Attack {
 		}
 	}
 	
-	private void attack(Localisable target) {
+	public void attack(Localisable target) {
 		int nbrOfShots = valueBetween(minNbrOfShot, maxNbrOfShot);
 		bulletsReady = new LinkedList<>();
 		for(int i = 0; i < nbrOfShots; i++) {

@@ -17,6 +17,7 @@ public class Bullet implements Displayable, Movable, Cloneable {
 	private boolean ghost;
 	private boolean heal;
 	private boolean track;
+	private int minAlpha, maxAlpha;
 	private int minBlue, maxBlue;
 	private int minGreen, maxGreen;
 	private int minRed, maxRed;
@@ -40,17 +41,17 @@ public class Bullet implements Displayable, Movable, Cloneable {
 	{
 		aimingFactor = 0;
 		attackKeepTarget = false;
-		attackOnCollide = true;
-		attackOnNaturalDeath = true;
+		attackOnCollide = false;
+		attackOnNaturalDeath = false;
 		baseSpeed = 100;
 		collideWith = EntityType.MONSTER;
 		dead = false;
 		fadeAt = Double.POSITIVE_INFINITY;
-		fadingTime = 0;
 		ghost = false;
 		heal = false;
-		minDamage = maxDamage = 1;
+		minAlpha = maxAlpha = 255;
 		minBlue = maxBlue = 255;
+		minDamage = maxDamage = 1;
 		minGreen = maxGreen = 255;
 		minRed = maxRed = 255;
 		minLifeTime = maxLifeTime = 2;
@@ -78,6 +79,9 @@ public class Bullet implements Displayable, Movable, Cloneable {
 			move(currentTime - lastMove, !ghost);
 			lastMove = currentTime;
 			if(currentTime > decayTimer) {
+				if(attackOnNaturalDeath) {
+					deathAttack();
+				}
 				die();
 			}
 		} else if(!dead && currentTime > fadeAt) {
@@ -92,11 +96,6 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		Angle currentAngle = getPosition().angle(aimingPosition);
 		Angle angleDiff = Angle.diff(getAngle(), currentAngle);
 		Angle newAngle = Angle.diff(getAngle(), new Angle(angleDiff.value()*aimingFactor*time));
-//		Angle angle = getPosition().angle(aimingPosition);
-//		Angle diff = Angle.diff(shape.getAngle(), angle);
-//		double adjust = Math.PI*time*aimingFactor;
-//		adjust = (adjust > diff.value()) ? diff.value() : adjust;
-//		Angle newAngle;
 		if(angleDiff.value() > Math.PI) {
 			newAngle = Angle.diff(getAngle(), new Angle(-angleDiff.value()*aimingFactor*time));
 		} else {
@@ -127,6 +126,9 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		}
 		if(!toucheds.isEmpty()) {
 			if(!ghost) {
+				if(attackOnCollide) {
+					deathAttack();
+				}
 				die();
 			}
 			for(Localisable touched : toucheds) {
@@ -150,16 +152,32 @@ public class Bullet implements Displayable, Movable, Cloneable {
 	@Override
 	public Object clone() {
 		Bullet bullet = new Bullet();
+		
 		bullet.ghost = ghost;
 		bullet.aimingFactor = aimingFactor;
 		bullet.aimingPosition = aimingPosition;
-		bullet.game = game;
-		bullet.shape = (Geometric) shape.clone();
+		bullet.attackOnCollide = attackOnCollide;
+		bullet.attackOnNaturalDeath = attackOnNaturalDeath;
+		bullet.attackKeepTarget = attackKeepTarget;
 		bullet.baseSpeed = baseSpeed;
-		bullet.tracked = tracked;
-		bullet.track = track;
+		bullet.game = game;
+		bullet.minAlpha = minAlpha;
+		bullet.maxAlpha = maxAlpha;
+		bullet.minBlue = minBlue;
+		bullet.maxBlue = maxBlue;
+		bullet.minDamage = minDamage;
+		bullet.maxDamage = maxDamage;
+		bullet.minGreen = minGreen;
+		bullet.maxGreen = maxGreen;
+		bullet.minRed = minRed;
+		bullet.maxRed = maxRed;
 		bullet.minLifeTime = minLifeTime;
 		bullet.maxLifeTime = maxLifeTime;
+		bullet.onDeathAttack = onDeathAttack;
+		bullet.shape = (Geometric) shape.clone();
+		bullet.tracked = tracked;
+		bullet.track = track;
+		
 		return bullet;
 	}
 
@@ -167,10 +185,36 @@ public class Bullet implements Displayable, Movable, Cloneable {
 	public void resetMove() {
 		lastMove = Game.time();
 		decayTimer = Game.time() + valueBetween(minLifeTime, maxLifeTime);
+		Color color = new Color(valueBetween(minRed, maxRed), valueBetween(minGreen, maxGreen), valueBetween(minBlue, maxBlue), valueBetween(minAlpha, maxAlpha));
+		shape.setColor(color);
 	}
 	
 	private void die() {
+		fadingTime = valueBetween(minFadingTime, maxFadingTime);
 		fadeAt = Game.time() + fadingTime;
+	}
+	
+	private void deathAttack() {
+		onDeathAttack.setMap(game.getMap());
+		if(attackKeepTarget) {
+			onDeathAttack.attack(tracked);
+			onDeathAttack.shot(getPosition(), tracked.getPosition());
+		} else {
+			HashSet<Localisable> collideables = new HashSet<>();
+			switch(collideWith) {
+			case MONSTER:
+				collideables.addAll(game.readMonsters());
+				break;
+			case TOWER:
+				collideables.addAll(game.readTowers());
+				break;
+			default:
+				break;
+			}
+			Localisable target = onDeathAttack.seek(getPosition(), collideables);
+			onDeathAttack.attack(target);
+			onDeathAttack.shot(getPosition(), target.getPosition());
+		}
 	}
 
 	@Override
@@ -193,9 +237,9 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		return (max > min) ? (max - min)*random.nextDouble() + min : min;
 	}
 	
-//	private int valueBetween(int min, int max) {
-//		return (max > min) ? random.nextInt(max - min + 1) + min : min;
-//	}
+	private int valueBetween(int min, int max) {
+		return (max > min) ? random.nextInt(max - min + 1) + min : min;
+	}
 
 	public void setShape(Geometric shape) {
 		this.shape = shape;
