@@ -103,13 +103,16 @@ public class Bullet implements Displayable, Movable, Cloneable {
 
 	@Override
 	public Couple<Area, Color> getShape() {
-		Area area = shape.getShape()._1;
-		Color color = shape.getShape()._2;
 		if(fadeAt != Double.POSITIVE_INFINITY) {
+			Area area = shape.getShape()._1;
+			Color color = shape.getShape()._2;
 			int alpha = color.getAlpha();
 			alpha *= (fadeAt - Game.time())/fadingTime;
+			color = new Color(color.getRed(), color.getGreen(), color.getBlue(), alpha);
+			return new Couple<>(area, color);
+		} else {
+			return shape.getShape();
 		}
-		return shape.getShape();
 	}
 
 	@Override

@@ -15,8 +15,19 @@ public class DisplayEntity implements Displayable {
 	}
 
 	public int getPriority() {
-		throw new NotYetImplementedException("coming soon!");
-		
+		if(elem instanceof Slot) {
+			return 0;
+		} else if(elem instanceof Bullet) {
+			return 1;
+		} else if(elem instanceof Monster) {
+			if(((Monster) elem).fly()) {
+				return 4;
+			} else {
+				return 2;
+			}
+		} else {
+			return 3;
+		}
 	}
 	public boolean isDamageable() {
 		return elem instanceof Damageable;

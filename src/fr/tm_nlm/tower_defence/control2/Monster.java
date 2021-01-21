@@ -163,4 +163,7 @@ public class Monster implements Damageable, Displayable, Movable {
 		this.maxHealth = maxHealth;
 		health = maxHealth;
 	}
+	public boolean fly() {
+		return fly;
+	}
 }
