@@ -29,6 +29,9 @@ public class DisplayEntity implements Displayable {
 			return 3;
 		}
 	}
+	public boolean isSlot() {
+		return elem instanceof Slot;
+	}
 	public boolean isDamageable() {
 		return elem instanceof Damageable;
 	}
