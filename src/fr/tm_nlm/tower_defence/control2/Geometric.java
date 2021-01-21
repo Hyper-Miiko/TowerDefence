@@ -77,7 +77,7 @@ public class Geometric implements Displayable, Cloneable {
 
 	@Override
 	public String getImage() {
-		return "/data/img/" + imageName + ".png";
+		return "data/img/" + imageName + ".png";
 	}
 	public void setAngle(Angle angle) {
 		this.angle = angle;
