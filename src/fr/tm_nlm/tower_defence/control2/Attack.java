@@ -155,7 +155,9 @@ public class Attack {
 			LinkedList<Bullet> shot = new LinkedList<>();
 			int bulletsByShot = (int) valueBetween(minBulletsByShot, maxBulletsByShot);
 			for(int j = 0; j < bulletsByShot; j++) {
-				shot.add((Bullet) bullet.clone());
+				Bullet bullet = (Bullet) this.bullet.clone();
+				bullet.setTracked(target);
+				shot.add((Bullet) bullet);
 			}
 			bulletsReady.add(shot);
 		}

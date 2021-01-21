@@ -18,10 +18,10 @@ public class PresetAttack {
 		return attack;
 	}
 	public static Attack magicBullets() {
-		Attack attack = new Attack("Magic Bullet");
+		Attack attack = new Attack("Magic Bullets");
 		
 		attack.setBullet(PresetBullet.magicBullet());
-		attack.setCooldown(7, 9);
+		attack.setCooldown(3, 5);
 		attack.setSpreadRange(0);
 		attack.setStartShotRange(30, 40);
 		attack.setConverge(true);
@@ -29,8 +29,23 @@ public class PresetAttack {
 		attack.setRandomSpread(true);
 		attack.setBulletsByShot(4, 8);
 		attack.setNbrOfShot(3, 5);
-		attack.setInterval(0.75, 1);
-		attack.setRange(300);
+		attack.setInterval(0.25, 0.4);
+		attack.setRange(100);
+		attack.setKeepTracking(true);
+		
+		return attack;
+	}
+	public static Attack magicMissiles() {
+		Attack attack = new Attack("Magic Missiles");
+		
+		attack.setBullet(PresetBullet.magicMissile());
+		attack.setCooldown(2, 2);
+		attack.setSpreadRange(Math.PI);
+		attack.setRandomSpread(true);
+		attack.setBulletsByShot(4, 8);
+		attack.setNbrOfShot(2, 3);
+		attack.setInterval(2, 5);
+		attack.setRange(400);
 		attack.setKeepTracking(true);
 		
 		return attack;
@@ -41,6 +56,18 @@ public class PresetAttack {
 		attack.setBullet(PresetBullet.spear());
 		attack.setCooldown(2, 20);
 		attack.setRange(300);
+		
+		return attack;
+	}
+	public static Attack tinyEkusplosion() {
+		Attack attack = new Attack("Loli Megumin");
+		
+		attack.setBullet(PresetBullet.tinyEkusplosionFlame());
+		attack.setBulletsByShot(200, 300);
+		attack.setSpreadRange(0);
+		attack.setStartSpreadRange(Math.PI);
+		attack.setStartShotRange(0, 25);
+		attack.setCooldown(0);
 		
 		return attack;
 	}

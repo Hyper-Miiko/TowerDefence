@@ -28,9 +28,6 @@ public class Angle {
 	
 	public static Angle diff(Angle A, Angle B) {
 		Angle diff = new Angle(A.value() - B.value());
-		if(diff.value() > Math.PI) {
-			diff.angle -= Math.PI;
-		}
 		return diff;
 	}
 	
@@ -46,5 +43,9 @@ public class Angle {
 		Point2D.Double newPoint = new Point2D.Double(point.x + Math.cos(angle)*dist,
 													 point.y + Math.sin(angle)*dist);
 		return newPoint;
+	}
+	@Override
+	public String toString() {
+		return "" + angle;
 	}
 }

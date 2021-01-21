@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import fr.tm_nlm.tower_defence.Couple;
 
 public class Monster implements Damageable, Displayable, Movable {
+	private boolean boss;
 	private boolean dead;
 	private boolean fly;
 	private Game game;
@@ -173,5 +174,8 @@ public class Monster implements Damageable, Displayable, Movable {
 	@Override
 	public void slow(Couple<Double, Double> slow) {
 		slows.add(slow);
+	}
+	public void setBoss(boolean boss) {
+		this.boss = boss;
 	}
 }
