@@ -170,4 +170,8 @@ public class Monster implements Damageable, Displayable, Movable {
 	public boolean fly() {
 		return fly;
 	}
+	@Override
+	public void slow(Couple<Double, Double> slow) {
+		slows.add(slow);
+	}
 }

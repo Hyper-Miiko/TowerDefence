@@ -11,20 +11,27 @@ import fr.tm_nlm.tower_defence.Couple;
 public class Tower extends Identifiable implements Damageable, Displayable {
 	private boolean ko;
 	private int maxHandle;
+	private double evolutionPrice;
+	private double health, maxHealth;
+	private double towerPrice;
 	private ArrayList<Monster> handle;
 	private Game game;
 	private Geometric shape;
 	private LinkedList<Attack> attacks;
-	private Monster seek;
 	private Slot slot;
 	private final String name;
+	private Tower evolution;
 	
 	{
 		attacks = new LinkedList<>();
+		evolution = null;
+		evolutionPrice = 0;
 		handle = new ArrayList<>();
+		health = maxHealth = 50;
 		ko = false;
 		maxHandle = 3;
 		shape = PresetShape.circle(30);
+		towerPrice = 10;
 	}
 	public Tower(String name) {
 		if(name == null) {
@@ -76,14 +83,12 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 
 	@Override
 	public double getMaxHealth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return maxHealth;
 	}
 
 	@Override
 	public double getHealth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return health;
 	}
 
 	@Override
@@ -177,5 +182,21 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 			cooldowns.add(attack.getCooldown());
 		}
 		return cooldowns;
+	}
+	
+	public void setEvolution(Tower evolution) {
+		this.evolution = evolution;
+	}
+	
+	public Tower getEvolution() {
+		return evolution;
+	}
+	
+	public double getPrice() {
+		return towerPrice;
+	}
+	
+	public double getEvolutionPrice() {
+		return evolutionPrice;
 	}
 }

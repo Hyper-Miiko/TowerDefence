@@ -9,4 +9,11 @@ public class PresetTower {
 		tower.setImage("mad_dummy_150");
 		return tower;
 	}
+	
+	public static Tower undyne() {
+		Tower tower = new Tower("Undyne");
+		tower.addAttack(PresetAttack.spear());
+		tower.setMaxHandle(5);
+		return tower;
+	}
 }

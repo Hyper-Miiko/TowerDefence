@@ -21,5 +21,14 @@ public class PresetBullet {
 		
 		return bullet;
 	}
-
+	public static Bullet spear() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setShape(PresetShape.rect(119, 18));
+		bullet.setSpeed(300);
+		bullet.setDamage(15, 20);
+		bullet.setImage("undyne_spear");
+		
+		return bullet;
+	}
 }

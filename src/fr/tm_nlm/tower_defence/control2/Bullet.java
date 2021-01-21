@@ -19,11 +19,14 @@ public class Bullet implements Displayable, Movable, Cloneable {
 	private boolean track;
 	private double aimingFactor;
 	private double baseSpeed;
+	private double decayTimer;
 	private double fadeAt;
 	private double fadingTime;
 	private double lastMove;
+	private double lifeTime;
 	private double minDamage, maxDamage;
 	private Attack onDeathAttack;
+	private Couple<Double, Double> slow;
 	private EntityType collideWith;
 	private Game game;
 	private Geometric shape;
@@ -39,13 +42,15 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		collideWith = EntityType.MONSTER;
 		dead = false;
 		fadeAt = Double.POSITIVE_INFINITY;
-		fadingTime = 0;
+		fadingTime = 0.5;
 		ghost = false;
 		heal = false;
+		lifeTime = 2;
 		minDamage = maxDamage = 1;
 		onDeathAttack = null;
 		collideWith = EntityType.MONSTER;
 		shape = PresetShape.circle(5);
+		slow = new Couple<>(0d, 0d);
 		track = false;
 	}
 
@@ -64,18 +69,16 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		if(fadeAt == Double.POSITIVE_INFINITY) {
 			move(currentTime - lastMove, !ghost);
 			lastMove = currentTime;
-			HashSet<Localisable> potentialTargets = new HashSet<>();
-			if(tracked instanceof Monster) {
-				potentialTargets.addAll(game.readMonsters());
-			}
-			for(Localisable potentialTarget : potentialTargets) {
-				if(collide(potentialTarget)) {
-					
-				}
+			if(currentTime > decayTimer) {
+				die();
 			}
 		} else if(!dead && currentTime > fadeAt) {
 			dead = true;
 		}
+	}
+	
+	private void die() {
+		fadeAt = Game.time() + fadingTime;
 	}
 
 	@Override
@@ -130,7 +133,7 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		}
 		if(!toucheds.isEmpty()) {
 			if(!ghost) {
-				dead = true;
+				die();
 			}
 			for(Localisable touched : toucheds) {
 				if(touched instanceof Damageable) {
@@ -140,6 +143,10 @@ public class Bullet implements Displayable, Movable, Cloneable {
 					} else {
 						((Damageable) touched).heal(damage);
 					}
+				}
+				
+				if(touched instanceof Movable) {
+					((Movable) touched).slow(slow);
 				}
 			}
 		}
@@ -185,6 +192,7 @@ public class Bullet implements Displayable, Movable, Cloneable {
 	@Override
 	public void resetMove() {
 		lastMove = Game.time();
+		decayTimer = Game.time() + lifeTime;
 	}
 
 	public void setAngle(Angle angle) {
@@ -205,5 +213,19 @@ public class Bullet implements Displayable, Movable, Cloneable {
 
 	public boolean isDead() {
 		return dead;
+	}
+	
+	public void setSlow(Couple<Double, Double> slow) {
+		this.slow = slow;
+	}
+
+	@Override
+	public void slow(Couple<Double, Double> slow) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setImage(String image) {
+		shape.setImage(image);
 	}
 }

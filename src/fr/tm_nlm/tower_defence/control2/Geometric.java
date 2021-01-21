@@ -15,9 +15,12 @@ public class Geometric implements Displayable, Cloneable {
 	private Area area;
 	private Color color;
 	
+	{
+		angle = new Angle(0);
+		color = new Color(255, 255, 255, 255);
+	}
 	public Geometric(Area area) {
 		this.area = area;
-		angle = new Angle(0);
 	}
 	
 	@Override

@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
 
+import fr.tm_nlm.tower_defence.Couple;
+
 public class Attack {
 	private static Random random = new Random();
 	

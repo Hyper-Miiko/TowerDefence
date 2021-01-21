@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 public class Map {
 	private int lives;
+	private double temmies;
 	private String background;
 	private HashSet<Slot> slots;
 	private HashSet<Wave> waves;
@@ -62,5 +63,18 @@ public class Map {
 	}
 	public String getBackground() {
 		return "data/img/" + background + ".png";
+	}
+	public boolean buy(double cost) {
+		if(temmies > cost) {
+			temmies -= cost;
+			return true;
+		}
+		return false;
+	}
+	public double getTemmies() {
+		return temmies;
+	}
+	public int getLives() {
+		return lives;
 	}
 }

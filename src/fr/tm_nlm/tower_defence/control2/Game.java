@@ -93,6 +93,34 @@ public final class Game extends Thread {
 		return instance.map.getBackground();
 	}
 	
+	public static double getTemmies() {
+		return instance.map.getTemmies();
+	}
+	
+	public static int getLives() {
+		return instance.map.getLives();
+	}
+	
+	public static Long evolveTower(long towerId) {
+		HashSet<Tower> towers = instance.readTowers();
+		for(Tower tower : towers) {
+			if(tower.getId() == towerId) {
+				if(tower.getEvolution() == null) {
+					System.err.println("No evolution available.");
+					return null;
+				}
+				if(instance.map.buy(tower.getEvolutionPrice())) {
+					instance.remove(tower);
+					instance.add(tower.getEvolution());
+					return tower.getEvolution().getId();
+				} else {
+					System.err.println("Not enough temmies.");
+				}
+			}
+		}
+		return null;
+	}
+	
 	public static boolean placeTower(long towerId, Vector position) {
 		Tower tower = ExistingTower.get(towerId);
 		HashSet<Slot> slots = instance.readSlots();

@@ -1,5 +1,7 @@
 package fr.tm_nlm.tower_defence.control2;
 
+import fr.tm_nlm.tower_defence.Couple;
+
 public class PresetAttack {
 	public static Attack test() {
 		Attack attack = new Attack("Test");
@@ -30,6 +32,15 @@ public class PresetAttack {
 		attack.setInterval(0.75, 1);
 		attack.setRange(300);
 		attack.setKeepTracking(true);
+		
+		return attack;
+	}
+	public static Attack spear() {
+		Attack attack = new Attack("Spear");
+		
+		attack.setBullet(PresetBullet.spear());
+		attack.setCooldown(2, 20);
+		attack.setRange(300);
 		
 		return attack;
 	}
