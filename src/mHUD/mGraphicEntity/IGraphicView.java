@@ -2,6 +2,7 @@ package mHUD.mGraphicEntity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class IGraphicView extends MItem {
 	private boolean clicked = false;
 	private LinkedList<Couple<MGraphicEntity, Couple<Double,Double>>> savedEntity = new LinkedList<>();
 	private ArrayList<LinkedList<MGraphicEntity>> entityList = new ArrayList<LinkedList<MGraphicEntity>>();
+	private Image background = null;
 	//private ArrayList<MGraphicEntity> entityList =  new ArrayList<MGraphicEntity>();
 	
 	public static int arraySize;
@@ -74,17 +76,15 @@ public class IGraphicView extends MItem {
 			if(!mousePressed() && clicked) clicked = false;
 	}
 	
-	protected void draw() {
-			imageEdit.setColor(color);
-			imageEdit.fill(new Rectangle(0,0,(int)getSize().x-1, (int)getSize().y-1));
-			
-			for(int i = 0; i < entityList.size(); i++) {
-				for(MGraphicEntity e : entityList.get(i)) {
-					if(e != null && e.isDisplay())imageEdit.drawImage(e.getImage(),(int)e.getPosition().x,(int)e.getPosition().y, null);
-				}
+	protected void draw() {	
+		if(background != null)imageEdit.drawImage(background,0,0, null);
+		
+		for(int i = 0; i < entityList.size(); i++) {
+			for(MGraphicEntity e : entityList.get(i)) {
+				if(e != null && e.isDisplay())imageEdit.drawImage(e.getImage(),(int)e.getPosition().x,(int)e.getPosition().y, null);
 			}
-			
-			StdDraw.picture(getPos().x/getWindowSize().x, getPos().y/getWindowSize().y, imageBuffer);
+		}	
+		StdDraw.picture(getPos().x/getWindowSize().x, getPos().y/getWindowSize().y, imageBuffer);
 	}
 	
 	public double mouseX() {
@@ -102,5 +102,9 @@ public class IGraphicView extends MItem {
 	}
 	public Couple<MGraphicEntity, Couple<Double,Double>> getActiveEntity() {
 		return savedEntity.pollFirst();
+	}
+
+	public void setBackground(Image background) {
+		this.background = background;
 	}
 }
