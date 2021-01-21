@@ -31,16 +31,15 @@ public class FieldToGraphic2 extends Thread {
 	private void add(DisplayEntity entity) {
 		MGraphicEntity graphic;
 		
-		
+		System.out.println(entity);
+		Rectangle r = entity
+				.getShape()
+				._1
+				.getBounds();
 		if(entity.haveImage()) {
-			Rectangle r = entity.getImage()._2.getBounds();
-			graphic = new GPictureEntity(r.getCenterX(), r.getCenterY(), entity.getImage()._1);
+			graphic = new GPictureEntity(r.getCenterX(), r.getCenterY(), entity.getImage());
 		}
 		else {
-			Rectangle r = entity
-					.getShape()
-					._1
-					.getBounds();
 			graphic = new GRectEntity(r.getCenterX(),r.getCenterY(),r.getSize().height,r.getSize().width);
 			((GRectEntity)graphic).setBackgroundColor(entity.getShape()._2);
 			((GRectEntity)graphic).setLineColor(entity.getShape()._2);
