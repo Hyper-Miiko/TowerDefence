@@ -59,4 +59,9 @@ public class Slot implements Displayable {
 		return tower;
 	}
 
+	@Override
+	public Angle getAngle() {
+		return null;
+	}
+
 }

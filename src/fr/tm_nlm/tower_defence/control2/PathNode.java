@@ -117,4 +117,8 @@ public final class PathNode implements Localisable {
 	public Couple<Area, Color> getShape() {
 		return null;
 	}
+	@Override
+	public Angle getAngle() {
+		return null;
+	}
 }

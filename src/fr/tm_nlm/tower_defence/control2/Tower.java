@@ -199,4 +199,9 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 	public double getEvolutionPrice() {
 		return evolutionPrice;
 	}
+
+	@Override
+	public Angle getAngle() {
+		return null;
+	}
 }

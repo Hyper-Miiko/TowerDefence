@@ -16,4 +16,5 @@ public interface Localisable {
 		return !area.isEmpty();
 	}
 	public Couple<Area, Color> getShape();
+	public Angle getAngle();
 }

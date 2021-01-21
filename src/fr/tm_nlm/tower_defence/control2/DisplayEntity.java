@@ -12,6 +12,10 @@ public class DisplayEntity implements Displayable {
 	public DisplayEntity(Displayable elem) {
 		this.elem = elem;
 	}
+	
+	public Angle getAngle() {
+		return elem.getAngle();
+	}
 
 	public int getPriority() {
 		if(elem instanceof Slot) {

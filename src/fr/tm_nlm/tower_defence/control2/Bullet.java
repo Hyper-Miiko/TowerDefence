@@ -314,4 +314,9 @@ public class Bullet implements Displayable, Movable, Cloneable {
 	public void setTrack(boolean track) {
 		this.track = track;
 	}
+
+	@Override
+	public Angle getAngle() {
+		return shape.getAngle();
+	}
 }
