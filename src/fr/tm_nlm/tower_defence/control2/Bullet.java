@@ -91,7 +91,23 @@ public class Bullet implements Displayable, Movable, Cloneable {
 	
 	private void calcAngle(double time) {
 		if(track) {
-			aimingPosition = tracked.getPosition();
+			if(tracked instanceof Damageable && ((Damageable) tracked).isDead()) {
+				HashSet<Localisable> targets = new HashSet<>();
+				switch(collideWith) {
+				case MONSTER:
+					targets.addAll(game.readMonsters());
+					break;
+				case TOWER:
+					targets.addAll(game.readTowers());
+					break;
+				default:
+					break;
+				}
+				tracked = seek(targets);
+			}
+			if(tracked != null) {
+				aimingPosition = tracked.getPosition();
+			}
 		}
 		Angle currentAngle = getPosition().angle(aimingPosition);
 		Angle angleDiff = Angle.diff(getAngle(), currentAngle);
@@ -102,6 +118,19 @@ public class Bullet implements Displayable, Movable, Cloneable {
 			newAngle = Angle.diff(getAngle(), new Angle(angleDiff.value()*aimingFactor*time));
 		}
 		setAngle(newAngle);
+	}
+	
+	private Localisable seek(HashSet<Localisable> targets) {
+		Localisable currentTarget = null;
+		double minDist = Double.POSITIVE_INFINITY;
+		for(Localisable elem : targets)	{
+			double dist = getPosition().dist(elem.getPosition());
+			if(dist < minDist) {
+				minDist = dist;
+				currentTarget = elem;
+			}
+		}
+		return currentTarget;
 	}
 
 	@Override
@@ -142,7 +171,9 @@ public class Bullet implements Displayable, Movable, Cloneable {
 				}
 				
 				if(touched instanceof Movable) {
-					((Movable) touched).slow(slow);
+					if(slow._1 > 0) {
+						((Movable) touched).slow(slow);
+					}
 				}
 			}
 		}
@@ -177,6 +208,7 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		bullet.maxRed = maxRed;
 		bullet.onDeathAttack = onDeathAttack;
 		bullet.shape = (Geometric) shape.clone();
+		bullet.slow = slow;
 		bullet.tracked = tracked;
 		bullet.track = track;
 		
@@ -295,8 +327,8 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		return dead;
 	}
 	
-	public void setSlow(Couple<Double, Double> slow) {
-		this.slow = slow;
+	public void setSlow(double slowFactor, double slowTime) {
+		this.slow = new Couple<>(slowFactor, slowTime);
 	}
 
 	@Override
@@ -342,8 +374,17 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		this.maxBlue = maxBlue;
 	}
 
+	public void setAlpha(int alpha) {
+		setBlue(alpha, alpha);
+	}
+
+	public void setAlpha(int minAlpha, int maxAlpha) {
+		this.minAlpha = minAlpha;
+		this.maxAlpha = maxAlpha;
+	}
+
 	public void setFadingTime(double fadingTime) {
-		setFadingTime(fadingTime);
+		setFadingTime(fadingTime, fadingTime);
 	}
 
 	public void setFadingTime(double minFadingTime, double maxFadingTime) {
@@ -369,5 +410,13 @@ public class Bullet implements Displayable, Movable, Cloneable {
 	@Override
 	public Angle getAngle() {
 		return shape.getAngle();
+	}
+
+	public void setGhost(boolean ghost) {
+		this.ghost = ghost;
+	}
+
+	public void setAttackKeepTarget(boolean attackKeepTarget) {
+		this.attackKeepTarget = attackKeepTarget;
 	}
 }

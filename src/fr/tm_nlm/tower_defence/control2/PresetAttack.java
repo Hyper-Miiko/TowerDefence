@@ -1,7 +1,5 @@
 package fr.tm_nlm.tower_defence.control2;
 
-import fr.tm_nlm.tower_defence.Couple;
-
 public class PresetAttack {
 	public static Attack test() {
 		Attack attack = new Attack("Test");
@@ -50,6 +48,18 @@ public class PresetAttack {
 		
 		return attack;
 	}
+	public static Attack shield() {
+		Attack attack = new Attack("Shield");
+		
+		attack.setBullet(PresetBullet.shieldFrame());
+		attack.setCooldown(15, 20);
+		attack.setRange(300);
+		attack.setBulletsByShot(100);
+		attack.setStartShotRange(80);
+		attack.setStartSpreadRange(Math.PI/6);
+		
+		return attack;
+	}
 	public static Attack spear() {
 		Attack attack = new Attack("Spear");
 		
@@ -59,14 +69,64 @@ public class PresetAttack {
 		
 		return attack;
 	}
+	public static Attack tinySpear() {
+		Attack attack = new Attack("Tiny Spear");
+		
+		attack.setBullet(PresetBullet.tinySpear());
+		attack.setCooldown(1.5, 2);
+		attack.setRange(120);
+		attack.setInterval(0.25);
+		attack.setNbrOfShot(5, 9);
+		attack.setBulletsByShot(1);
+		attack.setKeepTracking(true);
+		
+		return attack;
+	}
+	public static Attack randomSpear() {
+		Attack attack = new Attack("Spear Redemption");
+		
+		attack.setBullet(PresetBullet.spear());
+		attack.setCooldown(10, 20);
+		attack.setNbrOfShot(8, 20);
+		attack.setInterval(0.5);
+		attack.setStartShotRange(-100, 500);
+		attack.setStartSpreadRange(Math.PI/4);
+		attack.setConverge(true);
+		attack.setKeepTracking(true);
+		attack.setRange(200);
+		
+		return attack;
+	}
+	public static Attack spearJail() {
+		Attack attack = new Attack("Spear Jail");
+		
+		attack.setBullet(PresetBullet.spearJail());
+		attack.setCooldown(10, 20);
+		attack.setNbrOfShot(3, 5);
+		attack.setInterval(1);
+		attack.setKeepTracking(true);
+		attack.setRange(150);
+		
+		return attack;
+	}
+	public static Attack circleSpear() {
+		Attack attack = new Attack("Iron maiden");
+		
+		attack.setStartShotRange(150);
+		attack.setBulletsByShot(7);
+		attack.setStartSpreadRange(Math.PI);
+		attack.setBullet(PresetBullet.spear());
+		
+		return attack;
+	}
 	public static Attack tinyEkusplosion() {
 		Attack attack = new Attack("Loli Megumin");
 		
 		attack.setBullet(PresetBullet.tinyEkusplosionFlame());
 		attack.setBulletsByShot(100, 150);
 		attack.setSpreadRange(Math.PI);
-		attack.setStartSpreadRange(Math.PI);
 		attack.setStartShotRange(0, 25);
+		attack.setStartSpreadRange(Math.PI);
 		attack.setCooldown(0);
 		
 		return attack;

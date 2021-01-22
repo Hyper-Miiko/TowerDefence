@@ -41,6 +41,14 @@ public class Monster implements Damageable, Displayable, Movable {
 			double time = currentTime - lastMoveTimer;
 			lastMoveTimer = currentTime;
 			shape.setAngle(getPosition().angle(objectif.getPosition()));
+			LinkedList<Couple<Double, Double>> newSlows = new LinkedList<>();
+			for(Couple<Double, Double> slow : slows) {
+				Couple<Double, Double> newSlow = new Couple<>(slow._1, slow._2 - time);
+				if(newSlow._2 > 0) {
+					newSlows.add(newSlow);
+				}
+			}
+			slows = newSlows;
 			move(time, true);
 		}
 	}
@@ -68,6 +76,7 @@ public class Monster implements Damageable, Displayable, Movable {
 		if(checkCollide ) {
 			for(Tower tower : game.readTowers()) {
 				if(nextShape.collide(tower)) {
+					System.out.println("hey");
 					if(tower.handle(this)) {
 						collide = true;
 						break;

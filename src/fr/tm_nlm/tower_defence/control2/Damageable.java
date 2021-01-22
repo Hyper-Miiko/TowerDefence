@@ -5,4 +5,5 @@ public interface Damageable {
 	public double getHealth();
 	public void hurt(double damage);
 	public void heal(double sustain);
+	public boolean isDead();
 }

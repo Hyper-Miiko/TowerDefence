@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import fr.tm_nlm.tower_defence.Couple;
 
 public class Tower extends Identifiable implements Damageable, Displayable {
-	private boolean ko;
+	private boolean dead;
 	private int maxHandle;
 	private double evolutionPrice;
 	private double health, maxHealth;
@@ -28,9 +28,9 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 		evolutionPrice = 0;
 		handle = new ArrayList<>();
 		health = maxHealth = 50;
-		ko = false;
+		dead = false;
 		maxHandle = 3;
-		shape = PresetShape.circle(128);
+		shape = PresetShape.circle(32);
 		towerPrice = 10;
 	}
 	public Tower(String name) {
@@ -41,7 +41,7 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 	}
 	
 	public void process() {
-		if(!ko) {
+		if(!dead) {
 			if(havePosition()) {
 				for(Attack attack : attacks) {
 					HashSet<Localisable> monsters = new HashSet<>();
@@ -156,8 +156,8 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 		}
 	}
 	
-	public boolean isKO() {
-		return ko;
+	public boolean isDead() {
+		return dead;
 	}
 	
 	public double getRange() {

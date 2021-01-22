@@ -211,7 +211,7 @@ public final class Game extends Thread {
 			}
 			for(Tower tower : readTowers()) {
 				tower.process();
-				if(tower.isKO()) {
+				if(tower.isDead()) {
 					remove(tower);
 				}
 			}

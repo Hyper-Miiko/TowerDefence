@@ -46,7 +46,7 @@ public class Geometric implements Displayable, Cloneable {
 	public boolean collide(Displayable entity) {
 		Area collideArea = (Area) entity.getShape()._1.clone();
 		collideArea.intersect(this.area);
-		return collideArea.isEmpty();
+		return !collideArea.isEmpty();
 	}
 
 	public Angle getAngle() {
