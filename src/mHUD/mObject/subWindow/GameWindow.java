@@ -157,9 +157,9 @@ public class GameWindow extends MWindow {
 		
 		if(upgradeButton.buttonPressed()) {
 			//TODO la fonction qui teste si une tour PEUT évoluer
-			if(towerButtons.isPressed(0))
+			if(towerButtons.isPressed(0) && Game.canEvolve(MD))
 				UN = Game.evolveTower(MD);
-			else if(towerButtons.isPressed(2))
+			else if(towerButtons.isPressed(2) && Game.canEvolve(UN))
 				UN = Game.evolveTower(UN);
 			
 			towerButtons.setSelect(0,false);
