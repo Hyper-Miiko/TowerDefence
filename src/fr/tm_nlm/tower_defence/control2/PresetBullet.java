@@ -25,7 +25,7 @@ public class PresetBullet {
 		
 		bullet.setShape(PresetShape.triangle(23, 28));
 		bullet.setSpeed(150);
-		bullet.setDamage(0/*2*Math.PI*/);
+		bullet.setDamage(2*Math.PI);
 		bullet.setAimingFactor(0.75);
 		bullet.setTrack(true);
 		bullet.setLifeTime(5, 10);
@@ -33,6 +33,45 @@ public class PresetBullet {
 		bullet.setImage("mad_missile");
 		bullet.setCollideFlying(true);
 		bullet.setCollideWalking(false);
+		
+		return bullet;
+	}
+	public static Bullet kittyCorner() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setShape(PresetShape.circle(8));
+		bullet.setSpeed(300);
+		bullet.setDamage(3*Math.PI);
+		bullet.setLifeTime(1);
+		bullet.setImage("mew_white_shot");
+		bullet.setCollideFlying(true);
+		bullet.setCollideWalking(true);
+		
+		return bullet;
+	}
+	public static Bullet blueKittyCorner() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setShape(PresetShape.circle(8));
+		bullet.setSpeed(300);
+		bullet.setDamage(6*Math.PI);
+		bullet.setLifeTime(1);
+		bullet.setImage("mew_blue_shot");
+		bullet.setCollideFlying(true);
+		bullet.setCollideWalking(false);
+		
+		return bullet;
+	}
+	public static Bullet redKittyCorner() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setShape(PresetShape.circle(8));
+		bullet.setSpeed(300);
+		bullet.setDamage(6*Math.PI);
+		bullet.setLifeTime(1);
+		bullet.setImage("mew_red_shot");
+		bullet.setCollideFlying(false);
+		bullet.setCollideWalking(true);
 		
 		return bullet;
 	}
@@ -83,8 +122,9 @@ public class PresetBullet {
 		
 		bullet.setShape(PresetShape.rect(119, 18));
 		bullet.setSpeed(300);
-		bullet.setLifeTime(1.01);
-		bullet.setDamage(15, 20);
+		bullet.setLifeTime(0.9);
+		bullet.setGhost(true);
+		bullet.setDamage(0.025, 0.033);
 		bullet.setFadingTime(1);
 		bullet.setSlow(1, 5);
 		bullet.setImage("undyne_spear");

@@ -36,6 +36,48 @@ public class PresetAttack {
 		
 		return attack;
 	}
+	public static Attack kittyCornerShot() {
+		Attack attack = new Attack("Kitty Corner Shot!");
+		
+		attack.setBullet(PresetBullet.kittyCorner());
+		attack.setCooldown(1, 3);
+		attack.setNbrOfShot(3);
+		attack.setInterval(0.25);
+		attack.setRange(200);
+		attack.setKeepTracking(true);
+		attack.setTargetFlying(true);
+		attack.setTargetWalking(true);
+		
+		return attack;
+	}
+	public static Attack blueKittyCornerShot() {
+		Attack attack = new Attack("Blue Kitty Corner Shot!");
+		
+		attack.setBullet(PresetBullet.blueKittyCorner());
+		attack.setCooldown(1, 3);
+		attack.setNbrOfShot(3);
+		attack.setInterval(0.25);
+		attack.setRange(200);
+		attack.setKeepTracking(true);
+		attack.setTargetFlying(true);
+		attack.setTargetWalking(true);
+		
+		return attack;
+	}
+	public static Attack redKittyCornerShot() {
+		Attack attack = new Attack("RedKitty Corner Shot!");
+		
+		attack.setBullet(PresetBullet.redKittyCorner());
+		attack.setCooldown(1, 3);
+		attack.setNbrOfShot(3);
+		attack.setInterval(0.25);
+		attack.setRange(200);
+		attack.setKeepTracking(true);
+		attack.setTargetFlying(true);
+		attack.setTargetWalking(true);
+		
+		return attack;
+	}
 	public static Attack shield() {
 		Attack attack = new Attack("Shield");
 		

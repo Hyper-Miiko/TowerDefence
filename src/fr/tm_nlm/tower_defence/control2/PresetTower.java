@@ -7,6 +7,16 @@ public class PresetTower {
 		tower.addAttack(PresetAttack.magicMissiles());
 		tower.setMaxHandle(0);
 		tower.setImage("mad_dummy_150");
+		tower.setEvolution(madMewMew(), 0);
+		return tower;
+	}
+	private static Tower madMewMew() {
+		Tower tower = new Tower("Mad Mew Mew");
+		tower.addAttack(PresetAttack.kittyCornerShot());
+		tower.addAttack(PresetAttack.blueKittyCornerShot());
+		tower.addAttack(PresetAttack.redKittyCornerShot());
+		tower.setMaxHandle(0);
+		tower.setImage("mad_mewmew");
 		return tower;
 	}
 	
