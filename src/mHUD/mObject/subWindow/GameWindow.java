@@ -31,32 +31,32 @@ public class GameWindow extends MWindow {
 	private double time;
 	private ArrayList<Integer> fps = new ArrayList<>();
 	private ArrayList<Integer> memory = new ArrayList<>();
-	boolean flag = false;
+	private boolean flag = false;
 	
-	FVerticalFrame mainFrame = new FVerticalFrame();
-	FHorizontalFrame gameFrame = new FHorizontalFrame();
-	FHorizontalFrame dataFrame = new FHorizontalFrame();
-	FVerticalFrame buttonsframe = new FVerticalFrame();
-	IGraphicView view = new IGraphicView(900, 674,5);
+	private FVerticalFrame mainFrame = new FVerticalFrame();
+	private FHorizontalFrame gameFrame = new FHorizontalFrame();
+	private FHorizontalFrame dataFrame = new FHorizontalFrame();
+	private FVerticalFrame buttonsframe = new FVerticalFrame();
+	private IGraphicView view = new IGraphicView(900, 674,5);
 	
-	FVerticalButtonBox towerButtons = new FVerticalButtonBox();
-	IPushButton upgradeButton = new IPushButton();
-	ILabel life = new ILabel();
-	ILabel temmies = new ILabel();
-	ILabel wave = new ILabel();
-	ILabel voidSpace = new ILabel();
-	ILabel Memory = new ILabel();
-	ILabel FPS = new ILabel();
+	private FVerticalButtonBox towerButtons = new FVerticalButtonBox();
+	private IPushButton upgradeButton = new IPushButton();
+	private ILabel life = new ILabel();
+	private ILabel temmies = new ILabel();
+	private ILabel wave = new ILabel();
+	private ILabel voidSpace = new ILabel();
+	private ILabel Memory = new ILabel();
+	private ILabel FPS = new ILabel();
 	
-	FieldToGraphic2 ftg;
+	private FieldToGraphic2 ftg;
 	
 	long MD = 0;
 	long UN = 0;
 	
 	Clip clip;
 	
-	public GameWindow() {
-		super(980,714);
+	public GameWindow(int x, int y) {
+		super(x,y);
 		
 		this.setMainFrame(mainFrame);
 		
@@ -109,23 +109,13 @@ public class GameWindow extends MWindow {
 		FPS.setText("");
 		FPS.setSize(80,40);
 		dataFrame.addObject(FPS);
-		
-		Game.set(PresetMap.grasslandIntro());
-		
-		//Apparement il n'y a pas plus simple...
-		Tower md = PresetTower.madDummy();
-		Tower un = PresetTower.undyne();
-		ExistingTower.add(md);
-		ExistingTower.add(un);
-		MD = md.getId();
-		UN = un.getId();
-		
-		ftg = new FieldToGraphic2(view);
-		
+	}
+	public void loadMusic(String m) {
 		try {
-			AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("data/music/test.wav"));
+			AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File(m));
 			clip = AudioSystem.getClip();
 			clip.open(audioIn);
+			
 		} catch (LineUnavailableException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -135,7 +125,6 @@ public class GameWindow extends MWindow {
 		}
 		
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
-		clip.start();
 	}
 	
 	public void run() {
@@ -177,6 +166,7 @@ public class GameWindow extends MWindow {
 		}
 		
 		if(view.mousePressed() && !flag) {
+			System.out.println(view.mouseX()+ " " +view.mouseY());
 			if(towerButtons.isPressed(0))
 				Game.placeTower(MD,new Vector(view.mouseX(), view.mouseY()));
 			else if(towerButtons.isPressed(2))
@@ -191,5 +181,25 @@ public class GameWindow extends MWindow {
 		}
 		
 		
+	}
+	public void setMap(int selection) {
+		if(selection == 1) {
+			Game.set(PresetMap.grasslandIntro());
+			loadMusic("data/music/level1.wav");
+		}
+		else {
+			Game.set(PresetMap.toundra());
+			loadMusic("data/music/level2.wav");
+		}
+		
+		//Apparement il n'y a pas plus simple...
+		Tower md = PresetTower.madDummy();
+		Tower un = PresetTower.undyne();
+		ExistingTower.add(md);
+		ExistingTower.add(un);
+		MD = md.getId();
+		UN = un.getId();
+				
+		ftg = new FieldToGraphic2(view);
 	}
 }

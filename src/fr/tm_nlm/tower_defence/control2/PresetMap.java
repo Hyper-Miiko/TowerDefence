@@ -16,4 +16,19 @@ public abstract class PresetMap {
 		
 		return map;
 	}
+	
+	public static Map toundra() {
+		Map map = new Map();
+		
+		map.setBackground("toundra");
+		map.addSlot(new Slot(new Vector(162, 355)));
+		map.addSlot(new Slot(new Vector(311, 336)));
+		map.addSlot(new Slot(new Vector(358, 227)));
+		map.addSlot(new Slot(new Vector(563, 414)));
+		map.addSlot(new Slot(new Vector(790, 312)));
+		map.addSlot(new Slot(new Vector(766, 426)));
+		map.addWave(PresetWave.toundraWave1());
+		
+		return map;
+	}
 }
