@@ -27,7 +27,7 @@ public abstract class PresetMap {
 		map.addSlot(new Slot(new Vector(563, 414)));
 		map.addSlot(new Slot(new Vector(790, 312)));
 		map.addSlot(new Slot(new Vector(766, 426)));
-		map.addWave(PresetWave.toundraWave1());
+		map.addWave(PresetWave.trainingNewEnnemy());
 		
 		return map;
 	}
