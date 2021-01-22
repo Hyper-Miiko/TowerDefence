@@ -59,14 +59,14 @@ public class LifeBar extends MGraphicEntity {
 		imageEdit.fillRect(0,0,(int)size.x,(int)size.y);
 		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
 		
-		imageEdit.setColor(Color.white);
-		imageEdit.fill(new Rectangle(0,0,(int)size.x, (int)size.y));
+//		imageEdit.setColor(Color.white);
+//		imageEdit.fill(new Rectangle(0,0,(int)size.x, (int)size.y));
 		
 		imageEdit.setColor(Color.red);
-		imageEdit.fill(new Rectangle(1,1,(int)size.x-2, (int)size.y-2));
+		imageEdit.fill(new Rectangle(0,0,(int)size.x, (int)size.y));
 		
 		imageEdit.setColor(Color.green);
-		imageEdit.fill(new Rectangle(1,1,(int)(size.x*life)-2, (int)size.y-2));
+		imageEdit.fill(new Rectangle(0,0,(int)(size.x*life), (int)size.y));
 	}
 
 }

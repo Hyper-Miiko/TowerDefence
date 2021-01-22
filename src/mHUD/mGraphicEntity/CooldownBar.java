@@ -59,14 +59,14 @@ public class CooldownBar extends MGraphicEntity {
 		imageEdit.fillRect(0,0,(int)size.x,(int)size.y);
 		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
 		
-		imageEdit.setColor(Color.white);
-		imageEdit.fill(new Rectangle(0,0,(int)size.x, (int)size.y));
+//		imageEdit.setColor(Color.white);
+//		imageEdit.fill(new Rectangle(0,0,(int)size.x, (int)size.y));
 		
 		imageEdit.setColor(Color.black);
-		imageEdit.fill(new Rectangle(1,1,(int)size.x-2, (int)size.y-2));
+		imageEdit.fill(new Rectangle(0,0,(int)size.x, (int)size.y));
 		
-		imageEdit.setColor(Color.blue);
-		imageEdit.fill(new Rectangle(1,1,(int)(size.x*cooldown)-2, (int)size.y-2));
+		imageEdit.setColor(new Color(255,255,255));
+		imageEdit.fill(new Rectangle(0,0,(int)(size.x*cooldown), (int)size.y));
 	}
 
 }

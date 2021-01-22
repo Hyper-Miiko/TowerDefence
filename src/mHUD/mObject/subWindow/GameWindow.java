@@ -162,7 +162,7 @@ public class GameWindow extends MWindow {
 				MD = Game.evolveTower(MD);
 			else if(towerButtons.isPressed(2) && Game.canEvolve(UN))
 				UN = Game.evolveTower(UN);
-			else if(towerButtons.isPressed(1))
+			else if(towerButtons.isPressed(1) && Game.canEvolve(SA))
 				SA = Game.evolveTower(SA);
 			
 			towerButtons.setSelect(0,false);

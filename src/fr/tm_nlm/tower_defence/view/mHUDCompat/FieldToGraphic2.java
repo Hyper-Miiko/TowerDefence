@@ -66,21 +66,24 @@ public class FieldToGraphic2 extends Thread {
 		entityToGraphic.put(entity, graphic);
 		
 		if(entity.isDamageable()) {
-			LifeBar l = new LifeBar(r.getCenterX(), r.getCenterY(), r.getHeight()*0.75 ,50,10,entity.getHealth());
-			lifeBar.put(entity, l);
-			l.setDisplay(entity.isOnScreen());
-			view.addGraphicEntityAt(entity.getPriority(),l);
+			LifeBar l;
 			
 			if(entity.haveRange()) {
 				ArrayList<CooldownBar> list = new ArrayList<CooldownBar>();
 				for(int i = 0; i < entity.getCooldowns().size(); i++ ) {
-					CooldownBar b = new CooldownBar(r.getCenterX(), r.getCenterY(), r.getHeight()*0.75+i*15+15 ,50,10,entity.getCooldowns().get(i));
-					l.setDisplay(entity.isOnScreen());
+					CooldownBar b = new CooldownBar(r.getCenterX(), r.getCenterY(), r.getHeight()*1.5+i*5+15 ,50,5,entity.getCooldowns().get(i));
+					b.setDisplay(entity.isOnScreen());
 					view.addGraphicEntityAt(entity.getPriority(),b);
 					list.add(b);
 				}
 				cooldownBar.put(entity, list);
+				l = new LifeBar(r.getCenterX(), r.getCenterY(), r.getHeight()*1.5 ,50,10,entity.getHealth());
 			}
+			else l = new LifeBar(r.getCenterX(), r.getCenterY(), r.getHeight()*0.75 ,50,10,entity.getHealth());
+			
+			lifeBar.put(entity, l);
+			l.setDisplay(entity.isOnScreen());
+			view.addGraphicEntityAt(entity.getPriority(),l);
 		}
 		
 	}
