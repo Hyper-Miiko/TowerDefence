@@ -111,6 +111,8 @@ public class GameWindow extends MWindow {
 		dataFrame.addObject(FPS);
 		
 		Game.set(PresetMap.grasslandIntro());
+		
+		//Apparement il n'y a pas plus simple...
 		Tower md = PresetTower.madDummy();
 		Tower un = PresetTower.undyne();
 		ExistingTower.add(md);
@@ -125,13 +127,10 @@ public class GameWindow extends MWindow {
 			clip = AudioSystem.getClip();
 			clip.open(audioIn);
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (UnsupportedAudioFileException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -168,7 +167,10 @@ public class GameWindow extends MWindow {
 		ftg.setDisplaySlot(towerButtons.anyActive());
 		
 		if(upgradeButton.buttonPressed()) {
-			if(towerButtons.isPressed(2))
+			//TODO la fonction qui teste si une tour PEUT évoluer
+			if(towerButtons.isPressed(0))
+				UN = Game.evolveTower(MD);
+			else if(towerButtons.isPressed(2))
 				UN = Game.evolveTower(UN);
 			
 			towerButtons.setSelect(0,false);
