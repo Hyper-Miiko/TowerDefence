@@ -3,15 +3,18 @@ package fr.tm_nlm.tower_defence.control2;
 import java.awt.Color;
 import java.awt.geom.Area;
 import java.util.LinkedList;
+import java.util.Random;
 
 import fr.tm_nlm.tower_defence.Couple;
 
 public class Monster implements Damageable, Displayable, Movable {
+	private static Random random = new Random();
 	private boolean boss;
 	private boolean dead;
 	private boolean isFlying;
 	private Game game;
 	private Map map;
+	private double confuse;
 	private double health;
 	private double maxHealth;
 	private int strength;
@@ -22,11 +25,13 @@ public class Monster implements Damageable, Displayable, Movable {
 	private LinkedList<Couple<Double, Double>> slows;
 	private double baseSpeed;
 	private Geometric shape;
+	private double lastConfuseTimer;
 	private double lastMoveTimer;
 	private PathNode objectif;
 	
 	{
 		baseSpeed = 50;
+		confuse = 0;
 		dead = false;
 		isFlying = false;
 		health = maxHealth = 10;
@@ -39,7 +44,15 @@ public class Monster implements Damageable, Displayable, Movable {
 			double currentTime = Game.time();
 			double time = currentTime - lastMoveTimer;
 			lastMoveTimer = currentTime;
-			shape.setAngle(getPosition().angle(objectif.getPosition()));
+			if(confuse == 0) {
+				shape.setAngle(getPosition().angle(objectif.getPosition()));
+			} else {
+				System.out.println();
+				if(lastConfuseTimer + 0.5 < currentTime) {
+					lastConfuseTimer = currentTime;
+					shape.setAngle(new Angle(valueBetween(0, 2*Math.PI)));
+				}
+			}
 			LinkedList<Couple<Double, Double>> newSlows = new LinkedList<>();
 			for(Couple<Double, Double> slow : slows) {
 				Couple<Double, Double> newSlow = new Couple<>(slow._1, slow._2 - time);
@@ -47,12 +60,17 @@ public class Monster implements Damageable, Displayable, Movable {
 					newSlows.add(newSlow);
 				}
 			}
+			confuse = (confuse - time > 0) ? confuse - time : 0;
 			slows = newSlows;
 			move(time, true);
 		}
 	}
 	public void resetMove() {
-		lastMoveTimer = Game.time();
+		lastConfuseTimer = lastMoveTimer = Game.time();
+	}
+	
+	private double valueBetween(double min, double max) {
+		return (max > min) ? (max - min)*random.nextDouble() + min : min;
 	}
 
 	@Override
@@ -189,5 +207,11 @@ public class Monster implements Damageable, Displayable, Movable {
 	
 	public boolean isBoss() {
 		return boss;
+	}
+	@Override
+	public void confuse(double confuse) {
+		if(confuse > this.confuse) {
+			this.confuse = confuse;
+		}
 	}
 }

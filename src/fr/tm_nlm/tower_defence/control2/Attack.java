@@ -167,7 +167,8 @@ public class Attack {
 	}
 	
 	public void resetCooldown() {
-		nextAttackTimer = Game.time() + valueBetween(minCooldown, maxCooldown);
+		cooldown = valueBetween(minCooldown, maxCooldown);
+		nextAttackTimer = Game.time() + cooldown;
 		bulletsReady = new LinkedList<>();
 	}
 

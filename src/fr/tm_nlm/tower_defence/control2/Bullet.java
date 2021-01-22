@@ -25,6 +25,7 @@ public class Bullet implements Displayable, Movable, Cloneable {
 	private int minRed, maxRed;
 	private double aimingFactor;
 	private double baseSpeed;
+	private double confuse;
 	private double decayTimer;
 	private double fadeAt;
 	private double fadingTime;
@@ -176,8 +177,11 @@ public class Bullet implements Displayable, Movable, Cloneable {
 				}
 				
 				if(touched instanceof Movable) {
-					if(slow._1 > 0) {
+					if(slow._1 != 0) {
 						((Movable) touched).slow(slow);
+					}
+					if(confuse > 0) {
+						((Movable) touched).confuse(confuse);
 					}
 				}
 			}
@@ -198,6 +202,7 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		bullet.baseSpeed = baseSpeed;
 		bullet.collideFlying = collideFlying;
 		bullet.collideWalking = collideWalking;
+		bullet.confuse = confuse;
 		bullet.game = game;
 		bullet.minAlpha = minAlpha;
 		bullet.maxAlpha = maxAlpha;
@@ -438,5 +443,13 @@ public class Bullet implements Displayable, Movable, Cloneable {
 
 	public void setCollideWalking(boolean collideWalking) {
 		this.collideWalking = collideWalking;
+	}
+	
+	public void setConfuse(double confuse) {
+		this.confuse = confuse;
+	}
+
+	@Override
+	public void confuse(double confuse) {
 	}
 }

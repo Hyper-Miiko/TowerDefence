@@ -3,8 +3,8 @@ package fr.tm_nlm.tower_defence.control2;
 public class PresetTower {
 	public static Tower madDummy() {
 		Tower tower = new Tower("Mad Dummy");
-		tower.addAttack(PresetAttack.magicBullets());
 		tower.addAttack(PresetAttack.magicMissiles());
+		tower.addAttack(PresetAttack.magicBullets());
 		tower.setMaxHandle(0);
 		tower.setImage("mad_dummy_150");
 		tower.setEvolution(madMewMew(), 0);
@@ -22,10 +22,9 @@ public class PresetTower {
 	
 	public static Tower undyne() {
 		Tower tower = new Tower("Undyne");
-		
 		tower.addAttack(PresetAttack.spear());
-		tower.addAttack(PresetAttack.tinySpear());
 		tower.addAttack(PresetAttack.shield());
+		tower.addAttack(PresetAttack.tinySpear());
 		tower.setImage("undyne");
 		tower.setMaxHandle(4);
 		tower.setEvolution(undyneTheUndying(), 0);
@@ -34,9 +33,9 @@ public class PresetTower {
 	}
 	private static Tower undyneTheUndying() {
 		Tower tower = new Tower("Undyne The Undying");
-		
-		tower.addAttack(PresetAttack.randomSpear());
+
 		tower.addAttack(PresetAttack.spearJail());
+		tower.addAttack(PresetAttack.randomSpear());
 		tower.addAttack(PresetAttack.tinySpear());
 		tower.addAttack(PresetAttack.tinySpear());
 		tower.setImage("undying");
@@ -56,11 +55,11 @@ public class PresetTower {
 	}
 	private static Tower madSans() {
 		Tower tower = new Tower("Sans");
-		
-//		tower.addAttack(PresetAttack.gravityControl());
-//		tower.addAttack(PresetAttack.ghasterBlasterCall());
-//		tower.addAttack(PresetAttack.whiteBone());
-//		tower.addAttack(PresetAttack.blueBone());
+
+ 		tower.addAttack(PresetAttack.ghasterBlasterCall());
+		tower.addAttack(PresetAttack.gravityControl());
+		tower.addAttack(PresetAttack.blueBone());
+		tower.addAttack(PresetAttack.whiteBone());
 		tower.setImage("Sans2");
 		tower.setMaxHandle(0);
 		

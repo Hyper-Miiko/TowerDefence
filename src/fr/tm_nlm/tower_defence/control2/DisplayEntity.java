@@ -21,12 +21,12 @@ public class DisplayEntity implements Displayable {
 		if(elem instanceof Slot) {
 			return 0;
 		} else if(elem instanceof Bullet) {
-			return 1;
+			return 4;
 		} else if(elem instanceof Monster) {
 			if(((Monster) elem).isFlying()) {
-				return 4;
-			} else {
 				return 2;
+			} else {
+				return 1;
 			}
 		} else {
 			return 3;

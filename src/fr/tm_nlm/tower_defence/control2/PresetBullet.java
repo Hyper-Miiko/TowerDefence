@@ -198,7 +198,10 @@ public class PresetBullet {
 		bullet.setTrack(true);
 		bullet.setShape(PresetShape.circle(1));
 		bullet.setAlpha(0);
-		bullet.setSlow(-10, 2);
+		bullet.setSlow(-5, 2);
+		bullet.setCollideFlying(true);
+		bullet.setCollideWalking(false);
+		bullet.setConfuse(2);
 		
 		return bullet;
 	}
@@ -207,17 +210,19 @@ public class PresetBullet {
 		
 		bullet.setDamage(666);
 		bullet.setSpeed(300);
-		bullet.setShape(PresetShape.rect(26, 13));
+		bullet.setShape(PresetShape.rect(14, 86));
+		bullet.setImage("WhiteBone");
 		
 		return bullet;
 	}
 	public static Bullet blueBone() {
 		Bullet bullet = new Bullet();
 		
-		bullet.setDamage(0.666);
+		bullet.setDamage(0.0666);
 		bullet.setSpeed(300);
-		bullet.setShape(PresetShape.rect(26, 13));
+		bullet.setShape(PresetShape.rect(14, 86));
 		bullet.setGhost(true);
+		bullet.setImage("BlueBone");
 		
 		return bullet;
 	}
@@ -225,13 +230,14 @@ public class PresetBullet {
 		Bullet bullet = new Bullet();
 		
 		bullet.setDamage(0);
-		bullet.setSpeed(400);
-		bullet.setAimingFactor(1);
+		bullet.setSpeed(200);
+		bullet.setAimingFactor(100);
 		bullet.setTrack(true);
 		bullet.setShape(PresetShape.circle(1));
 		bullet.setAlpha(0);
-		bullet.setSlow(-10, 2);
 		bullet.setOnDeathAttack(PresetAttack.ghasterBlaster(), true, true);
+		bullet.setAttackKeepTarget(true);
+		bullet.setCollideFlying(true);
 		
 		return bullet;
 	}
@@ -240,9 +246,9 @@ public class PresetBullet {
 		
 		bullet.setDamage(0);
 		bullet.setSpeed(0);
-		bullet.setAimingFactor(1);
-		bullet.setShape(PresetShape.circle(1));
+		bullet.setShape(PresetShape.circle(5));
 		bullet.setGhost(true);
+		bullet.setAttackKeepTarget(true);
 		bullet.setOnDeathAttack(PresetAttack.ghasterBlasterBeam(), false, true);
 		bullet.setLifeTime(1);
 		bullet.setFadingTime(1);
@@ -254,12 +260,13 @@ public class PresetBullet {
 		Bullet bullet = new Bullet();
 		
 		bullet.setDamage(6.66);
-		
 		bullet.setSpeed(0);
-		bullet.setShape(PresetShape.rect(1200, 14));
+		bullet.setShape(PresetShape.rect(1200, 1200));
 		bullet.setGhost(true);
 		bullet.setLifeTime(1);
+		bullet.setCollideFlying(true);
 		bullet.setImage("ghaster_blaster_beam");
+		//bullet.setImage("tinyBeam");
 		
 		return bullet;
 	}

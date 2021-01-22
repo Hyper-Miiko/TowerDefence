@@ -181,7 +181,7 @@ public class PresetAttack {
 		Attack attack = new Attack("Gravity Control");
 		
 		attack.setBullet(PresetBullet.gravityControl());
-		attack.setRange(80);
+		attack.setRange(100);
 		attack.setCooldown(0, 15);
 		attack.setTargetFlying(true);
 		attack.setTargetWalking(false);
@@ -189,27 +189,27 @@ public class PresetAttack {
 		return attack;
 	}
 	public static Attack whiteBone() {
-		Attack attack = new Attack("");
+		Attack attack = new Attack("White Bone");
 		
 		attack.setBullet(PresetBullet.whiteBone());
 		attack.setRange(150);
 		attack.setCooldown(0, 5);
 		attack.setBulletsByShot(4, 6);
-		attack.setStartShotRange(-100, -200);
-		attack.setStartSpreadRange(Math.PI/2);
+		attack.setStartShotRange(-200, -100);
+		attack.setStartSpreadRange(Math.PI/20);
 		attack.setConverge(true);
 		
 		return attack;
 	}
 	public static Attack blueBone() {
-		Attack attack = new Attack("Ghaster Blaster");
+		Attack attack = new Attack("Blue Bone");
 		
 		attack.setBullet(PresetBullet.blueBone());
 		attack.setRange(150);
 		attack.setCooldown(0, 5);
 		attack.setBulletsByShot(4, 6);
-		attack.setStartShotRange(-100, -200);
-		attack.setStartSpreadRange(Math.PI/2);
+		attack.setStartShotRange(-200, -100);
+		attack.setStartSpreadRange(Math.PI/20);
 		attack.setConverge(true);
 		
 		return attack;
@@ -219,7 +219,7 @@ public class PresetAttack {
 		
 		attack.setBullet(PresetBullet.ghasterBlasterCall());
 		attack.setRange(200);
-		attack.setCooldown(0, 60);
+		attack.setCooldown(30, 60);
 		attack.setTargetFlying(true);
 		
 		return attack;
@@ -228,7 +228,8 @@ public class PresetAttack {
 		Attack attack = new Attack("Ghaster Blaster");
 		
 		attack.setBullet(PresetBullet.ghasterBlaster());
-		attack.setStartShotRange(150, 300);
+		attack.setStartShotRange(150, 600);
+		attack.setBulletsByShot(6, 12);
 		attack.setConverge(true);
 		attack.setStartSpreadRange(Math.PI);
 		attack.setRandomSpread(true);
@@ -242,6 +243,7 @@ public class PresetAttack {
 		attack.setBullet(PresetBullet.ghasterBlasterBeam());
 		attack.setTargetFlying(true);
 		attack.setStartShotRange(600);
+		attack.setConverge(true);
 		
 		return attack;
 	}

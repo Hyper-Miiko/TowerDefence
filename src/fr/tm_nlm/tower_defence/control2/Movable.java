@@ -14,4 +14,5 @@ public interface Movable extends Localisable {
 	public double getSpeed();
 	public double getBaseSpeed();
 	public void slow(Couple<Double, Double> slow);
+	public void confuse(double confuse);
 }

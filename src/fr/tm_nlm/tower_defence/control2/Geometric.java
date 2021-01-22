@@ -80,7 +80,9 @@ public class Geometric implements Displayable, Cloneable {
 		this.angle = angle;
 		double diff = Angle.diff(this.angle, angle).value();
 		area.transform(AffineTransform.getRotateInstance(diff));
-		this.angle = angle;
+//		area.transform(AffineTransform.getRotateInstance(-this.angle.value()));
+//		area.transform(AffineTransform.getRotateInstance(angle.value()));
+//		this.angle = angle;
 	}
 
 	public void setImage(String image) {
