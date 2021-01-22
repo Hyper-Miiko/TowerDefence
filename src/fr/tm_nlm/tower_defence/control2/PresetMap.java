@@ -27,7 +27,21 @@ public abstract class PresetMap {
 		map.addSlot(new Slot(new Vector(563, 414)));
 		map.addSlot(new Slot(new Vector(790, 312)));
 		map.addSlot(new Slot(new Vector(766, 426)));
-		map.addWave(PresetWave.trainingNewEnnemy());
+		map.addWave(PresetWave.toundraWave1());
+		
+		return map;
+	}
+	
+	public static Map volcano() {
+		Map map = new Map();
+		
+		map.setBackground("volcano");
+		map.addSlot(new Slot(new Vector(123, 237)));
+		map.addSlot(new Slot(new Vector(460, 217)));
+		map.addSlot(new Slot(new Vector(455, 456)));
+		map.addSlot(new Slot(new Vector(605, 369)));
+		map.addSlot(new Slot(new Vector(774, 377)));
+		map.addWave(PresetWave.volcanoWave1());
 		
 		return map;
 	}

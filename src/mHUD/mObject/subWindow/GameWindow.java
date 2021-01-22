@@ -192,9 +192,13 @@ public class GameWindow extends MWindow {
 			Game.set(PresetMap.grasslandIntro());
 			loadMusic("data/music/level1.wav");
 		}
-		else {
+		else if(selection == 2){
 			Game.set(PresetMap.toundra());
 			loadMusic("data/music/level2.wav");
+		}
+		else {
+			Game.set(PresetMap.volcano());
+			loadMusic("data/music/level3.wav");
 		}
 		
 		//Apparement il n'y a pas plus simple...

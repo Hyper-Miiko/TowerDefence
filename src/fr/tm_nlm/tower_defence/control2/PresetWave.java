@@ -56,24 +56,24 @@ public abstract class PresetWave {
 		
 		return wave;
 	}
-	public static Wave trainingNewEnnemy() {
+	public static Wave volcanoWave1() {
 		Wave wave = new Wave("1");
 		
 		Monster monster;
 		monster = PresetMonster.robotCop();
-		monster.setPath(PresetPath.toundra());
+		monster.setPath(PresetPath.volcano());
 		wave.add(monster, 1);
 		
 		monster = PresetMonster.shadyMan();
-		monster.setPath(PresetPath.toundra());
+		monster.setPath(PresetPath.volcano());
 		wave.add(monster, 1);
 		
 		monster = PresetMonster.theBeast();
-		monster.setPath(PresetPath.toundra());
+		monster.setPath(PresetPath.volcano());
 		wave.add(monster, 1);
 		
 		monster = PresetMonster.friendlyPlant();
-		monster.setPath(PresetPath.toundra());
+		monster.setPath(PresetPath.volcano());
 		wave.add(monster, 1);
 		
 		return wave;
