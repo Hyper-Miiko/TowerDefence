@@ -133,6 +133,11 @@ public final class Game extends Thread {
 		return null;
 	}
 	
+	public static boolean canEvolve(long towerId) {
+		Tower tower = ExistingTower.get(towerId);
+		return (tower.getEvolution() != null && tower.getEvolutionPrice() <= getTemmies());
+	}
+	
 	public static boolean placeTower(long towerId, Vector position) {
 		Tower tower = ExistingTower.get(towerId);
 		HashSet<Slot> slots = instance.readSlots();
