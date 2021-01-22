@@ -50,8 +50,10 @@ public class GameWindow extends MWindow {
 	
 	FieldToGraphic2 ftg;
 	
-	Tower MD = PresetTower.madDummy();
-	Tower UN = PresetTower.undyne();
+	long MD = 0;
+	long UN = 0;
+	
+	Clip clip;
 	
 	public GameWindow() {
 		super(980,714);
@@ -109,16 +111,19 @@ public class GameWindow extends MWindow {
 		dataFrame.addObject(FPS);
 		
 		Game.set(PresetMap.grasslandIntro());
-		ExistingTower.add(MD);
-		ExistingTower.add(UN);
+		Tower md = PresetTower.madDummy();
+		Tower un = PresetTower.undyne();
+		ExistingTower.add(md);
+		ExistingTower.add(un);
+		MD = md.getId();
+		UN = un.getId();
 		
 		ftg = new FieldToGraphic2(view);
 		
 		try {
 			AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File("data/music/test.wav"));
-			Clip clip = AudioSystem.getClip();
+			clip = AudioSystem.getClip();
 			clip.open(audioIn);
-			clip.start();
 		} catch (LineUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -129,6 +134,9 @@ public class GameWindow extends MWindow {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
+		clip.start();
 	}
 	
 	public void run() {
@@ -160,23 +168,26 @@ public class GameWindow extends MWindow {
 		ftg.setDisplaySlot(towerButtons.anyActive());
 		
 		if(upgradeButton.buttonPressed()) {
-			if(towerButtons.isPressed(2))Game.evolveTower(UN.getId());
+			if(towerButtons.isPressed(2))
+				UN = Game.evolveTower(UN);
+			
+			towerButtons.setSelect(0,false);
 		}
 		
 		if(view.mousePressed() && !flag) {
-			if(towerButtons.isPressed(0)) {
-				Game.placeTower(MD.getId(),new Vector(view.mouseX(), view.mouseY()));
-				towerButtons.setSelect(0,false);
-			}
-			else if(towerButtons.isPressed(2)) {
-				Game.placeTower(UN.getId(),new Vector(view.mouseX(), view.mouseY()));
-				towerButtons.setSelect(2,false);
-			}
+			if(towerButtons.isPressed(0))
+				Game.placeTower(MD,new Vector(view.mouseX(), view.mouseY()));
+			else if(towerButtons.isPressed(2))
+				Game.placeTower(UN,new Vector(view.mouseX(), view.mouseY()));
+			
+			towerButtons.setSelect(0,false);
 			
 			flag = true;
 		}
 		if(!view.mousePressed()) {
 			flag = false;
 		}
+		
+		
 	}
 }
