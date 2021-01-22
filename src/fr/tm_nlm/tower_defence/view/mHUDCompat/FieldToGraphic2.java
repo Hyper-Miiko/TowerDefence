@@ -22,6 +22,7 @@ public class FieldToGraphic2 extends Thread {
 	private IGraphicView view;
 	private HashMap<DisplayEntity, MGraphicEntity> entityToGraphic = new HashMap<>();
 	private HashMap<DisplayEntity, LifeBar> lifeBar = new HashMap<>();
+	private HashMap<DisplayEntity, GCircleEntity> range = new HashMap<>();
 	//private HashMap<PathNode, MGraphicEntity> nodePath;
 	//private HashMap<MGraphicEntity, Entity> graphicToEntity;
 	private GPictureEntity background = null;
@@ -48,6 +49,15 @@ public class FieldToGraphic2 extends Thread {
 		}
 		if(entity.getAngle() != null)graphic.rotate(entity.getAngle().value());
 		
+		if(entity.haveRange()) {
+			GCircleEntity i = new GCircleEntity(r.getCenterX(), r.getCenterY(),entity.getRange());
+			i.setBackgroundColor(new Color(255,255,255,100));
+			i.setLineColor(255,255,255);
+			range.put(entity, i);
+			i.setDisplay(false);
+			view.addGraphicEntityAt(entity.getPriority(),i);
+		}
+		
 		view.addGraphicEntityAt(entity.getPriority(),graphic);
 		graphic.setDisplay(entity.isOnScreen());
 		entityToGraphic.put(entity, graphic);
@@ -57,6 +67,16 @@ public class FieldToGraphic2 extends Thread {
 			lifeBar.put(entity, l);
 			l.setDisplay(entity.isOnScreen());
 			view.addGraphicEntityAt(entity.getPriority(),l);
+		}
+		
+	}
+	
+	public void setGraphicRange(long id, boolean v) {
+		for(DisplayEntity e1 : range.keySet()) {
+			if(e1.getId() == id) {
+				range.get(e1).setDisplay(v);
+			}
+			else range.get(e1).setDisplay(false);
 		}
 	}
 	

@@ -159,14 +159,19 @@ public class GameWindow extends MWindow {
 		if(upgradeButton.buttonPressed()) {
 			//TODO la fonction qui teste si une tour PEUT évoluer
 			if(towerButtons.isPressed(0) && Game.canEvolve(MD))
-				UN = Game.evolveTower(MD);
+				MD = Game.evolveTower(MD);
 			else if(towerButtons.isPressed(2) && Game.canEvolve(UN))
 				UN = Game.evolveTower(UN);
 			else if(towerButtons.isPressed(1))
 				SA = Game.evolveTower(SA);
 			
 			towerButtons.setSelect(0,false);
+			ftg.setGraphicRange(MD,false);
 		}
+		
+		if(towerButtons.isPressed(0))ftg.setGraphicRange(MD,true);
+		else if(towerButtons.isPressed(1))ftg.setGraphicRange(SA,true);
+		else if(towerButtons.isPressed(2))ftg.setGraphicRange(UN,true);
 		
 		if(view.mousePressed() && !flag) {
 			System.out.println(view.mouseX()+ " " +view.mouseY());
