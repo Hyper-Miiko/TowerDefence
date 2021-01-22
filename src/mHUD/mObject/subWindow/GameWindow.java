@@ -52,6 +52,7 @@ public class GameWindow extends MWindow {
 	
 	long MD = 0;
 	long UN = 0;
+	long SA = 0;
 	
 	Clip clip;
 	
@@ -161,6 +162,8 @@ public class GameWindow extends MWindow {
 				UN = Game.evolveTower(MD);
 			else if(towerButtons.isPressed(2) && Game.canEvolve(UN))
 				UN = Game.evolveTower(UN);
+			else if(towerButtons.isPressed(1))
+				SA = Game.evolveTower(SA);
 			
 			towerButtons.setSelect(0,false);
 		}
@@ -171,6 +174,8 @@ public class GameWindow extends MWindow {
 				Game.placeTower(MD,new Vector(view.mouseX(), view.mouseY()));
 			else if(towerButtons.isPressed(2))
 				Game.placeTower(UN,new Vector(view.mouseX(), view.mouseY()));
+			else if(towerButtons.isPressed(1))
+				Game.placeTower(SA,new Vector(view.mouseX(), view.mouseY()));
 			
 			towerButtons.setSelect(0,false);
 			
@@ -195,10 +200,13 @@ public class GameWindow extends MWindow {
 		//Apparement il n'y a pas plus simple...
 		Tower md = PresetTower.madDummy();
 		Tower un = PresetTower.undyne();
+		Tower sa = PresetTower.chillSans();
 		ExistingTower.add(md);
 		ExistingTower.add(un);
+		ExistingTower.add(sa);
 		MD = md.getId();
 		UN = un.getId();
+		SA = sa.getId();
 				
 		ftg = new FieldToGraphic2(view);
 	}
