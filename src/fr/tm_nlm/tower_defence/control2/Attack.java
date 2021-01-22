@@ -98,7 +98,7 @@ public class Attack {
 					&& elem.getPosition().dist(origin) < range) {
 				if(elem instanceof Monster) {
 					double dist = ((Monster) elem).timeToEnd();
-					if(dist < minDist) {
+					if(dist < minDist || dist == Double.POSITIVE_INFINITY) {
 						minDist = dist;
 						currentTarget = elem;
 					}

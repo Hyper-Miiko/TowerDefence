@@ -175,4 +175,92 @@ public class PresetBullet {
 		
 		return bullet;
 	}
+	public static Bullet bonePunchLine() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setDamage(0);
+		bullet.setSpeed(400);
+		bullet.setLifeTime(0.5);
+		bullet.setAimingFactor(1);
+		bullet.setTrack(true);
+		bullet.setShape(PresetShape.circle(1));
+		bullet.setAlpha(0);
+		bullet.setSlow(1, 10);
+		
+		return bullet;
+	}
+	public static Bullet gravityControl() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setDamage(0);
+		bullet.setSpeed(400);
+		bullet.setAimingFactor(1);
+		bullet.setTrack(true);
+		bullet.setShape(PresetShape.circle(1));
+		bullet.setAlpha(0);
+		bullet.setSlow(-10, 2);
+		
+		return bullet;
+	}
+	public static Bullet whiteBone() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setDamage(666);
+		bullet.setSpeed(300);
+		bullet.setShape(PresetShape.rect(26, 13));
+		
+		return bullet;
+	}
+	public static Bullet blueBone() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setDamage(0.666);
+		bullet.setSpeed(300);
+		bullet.setShape(PresetShape.rect(26, 13));
+		bullet.setGhost(true);
+		
+		return bullet;
+	}
+	public static Bullet ghasterBlasterCall() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setDamage(0);
+		bullet.setSpeed(400);
+		bullet.setAimingFactor(1);
+		bullet.setTrack(true);
+		bullet.setShape(PresetShape.circle(1));
+		bullet.setAlpha(0);
+		bullet.setSlow(-10, 2);
+		bullet.setOnDeathAttack(PresetAttack.ghasterBlaster(), true, true);
+		
+		return bullet;
+	}
+	public static Bullet ghasterBlaster() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setDamage(0);
+		bullet.setSpeed(0);
+		bullet.setAimingFactor(1);
+		bullet.setShape(PresetShape.circle(1));
+		bullet.setGhost(true);
+		bullet.setOnDeathAttack(PresetAttack.ghasterBlasterBeam(), false, true);
+		bullet.setLifeTime(1);
+		bullet.setFadingTime(1);
+		bullet.setImage("GasterBlaster1");
+		
+		return bullet;
+	}
+	public static Bullet ghasterBlasterBeam() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setDamage(6.66);
+		
+		bullet.setSpeed(0);
+		bullet.setShape(PresetShape.rect(1200, 14));
+		bullet.setGhost(true);
+		bullet.setLifeTime(1);
+		bullet.setImage("ghaster_blaster_beam");
+		
+		return bullet;
+	}
 }

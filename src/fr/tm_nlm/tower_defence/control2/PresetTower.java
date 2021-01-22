@@ -44,4 +44,26 @@ public class PresetTower {
 		
 		return tower;
 	}
+	public static Tower chillSans() {
+		Tower tower = new Tower("Sans");
+		
+		tower.addAttack(PresetAttack.boneJoke());
+		tower.setImage("Sans1");
+		tower.setMaxHandle(0);
+		tower.setEvolution(madSans(), 0);
+		
+		return tower;
+	}
+	private static Tower madSans() {
+		Tower tower = new Tower("Sans");
+		
+//		tower.addAttack(PresetAttack.gravityControl());
+//		tower.addAttack(PresetAttack.ghasterBlasterCall());
+//		tower.addAttack(PresetAttack.whiteBone());
+//		tower.addAttack(PresetAttack.blueBone());
+		tower.setImage("Sans2");
+		tower.setMaxHandle(0);
+		
+		return tower;
+	}
 }

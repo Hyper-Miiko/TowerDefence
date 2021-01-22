@@ -168,4 +168,81 @@ public class PresetAttack {
 		
 		return attack;
 	}
+	public static Attack boneJoke() {
+		Attack attack = new Attack("Bone Joke");
+		
+		attack.setBullet(PresetBullet.bonePunchLine());
+		attack.setRange(80);
+		attack.setCooldown(9.8);
+		
+		return attack;
+	}
+	public static Attack gravityControl() {
+		Attack attack = new Attack("Gravity Control");
+		
+		attack.setBullet(PresetBullet.gravityControl());
+		attack.setRange(80);
+		attack.setCooldown(0, 15);
+		attack.setTargetFlying(true);
+		attack.setTargetWalking(false);
+		
+		return attack;
+	}
+	public static Attack whiteBone() {
+		Attack attack = new Attack("");
+		
+		attack.setBullet(PresetBullet.whiteBone());
+		attack.setRange(150);
+		attack.setCooldown(0, 5);
+		attack.setBulletsByShot(4, 6);
+		attack.setStartShotRange(-100, -200);
+		attack.setStartSpreadRange(Math.PI/2);
+		attack.setConverge(true);
+		
+		return attack;
+	}
+	public static Attack blueBone() {
+		Attack attack = new Attack("Ghaster Blaster");
+		
+		attack.setBullet(PresetBullet.blueBone());
+		attack.setRange(150);
+		attack.setCooldown(0, 5);
+		attack.setBulletsByShot(4, 6);
+		attack.setStartShotRange(-100, -200);
+		attack.setStartSpreadRange(Math.PI/2);
+		attack.setConverge(true);
+		
+		return attack;
+	}
+	public static Attack ghasterBlasterCall() {
+		Attack attack = new Attack("Ghaster Blaster");
+		
+		attack.setBullet(PresetBullet.ghasterBlasterCall());
+		attack.setRange(200);
+		attack.setCooldown(0, 60);
+		attack.setTargetFlying(true);
+		
+		return attack;
+	}
+	public static Attack ghasterBlaster() {
+		Attack attack = new Attack("Ghaster Blaster");
+		
+		attack.setBullet(PresetBullet.ghasterBlaster());
+		attack.setStartShotRange(150, 300);
+		attack.setConverge(true);
+		attack.setStartSpreadRange(Math.PI);
+		attack.setRandomSpread(true);
+		attack.setTargetFlying(true);
+		
+		return attack;
+	}
+	public static Attack ghasterBlasterBeam() {
+		Attack attack = new Attack("Ghaster Blaster");
+		
+		attack.setBullet(PresetBullet.ghasterBlasterBeam());
+		attack.setTargetFlying(true);
+		attack.setStartShotRange(600);
+		
+		return attack;
+	}
 }
