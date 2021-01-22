@@ -10,7 +10,7 @@ import mHUD.geometric.Vector;
 
 
 public class GCircleEntity extends GPlainEntity {
-	private double diameter;
+	private double diameter = 1;
 	
 	public GCircleEntity() {
 		setPosition(0,0);
@@ -35,8 +35,7 @@ public class GCircleEntity extends GPlainEntity {
 	protected void reloadCanvas() {
 		imageBuffer = new BufferedImage((int)diameter, (int)diameter, BufferedImage.TYPE_INT_ARGB);
 		imageEdit = imageBuffer.createGraphics();
-	}
-	protected Image getImage() {
+		
 		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
 		imageEdit.fillRect(0,0,(int)diameter,(int)diameter);
 		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
@@ -46,7 +45,8 @@ public class GCircleEntity extends GPlainEntity {
 		
 		imageEdit.setColor(getLineColor());
 		imageEdit.draw(new Ellipse2D.Double(0,0,diameter,diameter));
-		
+	}
+	protected Image getImage() {
 		return imageBuffer;
 	}
 	@Override

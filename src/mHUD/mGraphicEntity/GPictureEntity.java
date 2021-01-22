@@ -11,8 +11,8 @@ import mHUD.StdDraw;
 
 public class GPictureEntity extends MGraphicEntity{
 	
-	protected Vector size = new Vector(0,0);
-	protected int hyp = 0;
+	protected Vector size = new Vector(1,1);
+	protected int hyp = 1;
 	protected Image image = null;
 	
 	public GPictureEntity() {
@@ -39,6 +39,12 @@ public class GPictureEntity extends MGraphicEntity{
 	}
 	
 	protected Image getImage() {
+		return imageBuffer;
+	}
+	protected void reloadCanvas() {
+		imageBuffer = new BufferedImage(hyp,hyp, BufferedImage.TYPE_INT_ARGB);
+		imageEdit = imageBuffer.createGraphics();
+		
 		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
 		imageEdit.fillRect(0,0,hyp,hyp);
 		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
@@ -48,11 +54,6 @@ public class GPictureEntity extends MGraphicEntity{
 		imageEdit.drawImage(image,(int)(hyp/2-size.x/2),(int)(hyp/2-size.y/2), null);
 		
 		imageEdit.rotate(-getRotation(),hyp/2,hyp/2);
-		return imageBuffer;
-	}
-	protected void reloadCanvas() {
-		imageBuffer = new BufferedImage(hyp,hyp, BufferedImage.TYPE_INT_ARGB);
-		imageEdit = imageBuffer.createGraphics();
 	}
 	public boolean isIn(double x, double y) {
 		return x >= getPosition().x-getSize().x &&

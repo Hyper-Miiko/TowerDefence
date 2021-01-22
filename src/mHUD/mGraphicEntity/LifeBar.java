@@ -26,6 +26,7 @@ public class LifeBar extends MGraphicEntity {
 	
 	public void setLife(double l) {
 		life = l;
+		reloadCanvas();
 	}
 	public void setSize(Vector size) {
 		this.size = size;
@@ -45,6 +46,18 @@ public class LifeBar extends MGraphicEntity {
 	}
 	
 	protected Image getImage() {
+		return imageBuffer;
+	}
+
+	public boolean isIn(double x, double y) {
+		return false;
+	}
+
+	@Override
+	protected void reloadCanvas() {
+		imageBuffer = new BufferedImage((int)size.x, (int)size.y, BufferedImage.TYPE_INT_ARGB);
+		imageEdit = imageBuffer.createGraphics();
+		
 		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
 		imageEdit.fillRect(0,0,(int)size.x,(int)size.y);
 		imageEdit.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER));
@@ -57,17 +70,6 @@ public class LifeBar extends MGraphicEntity {
 		
 		imageEdit.setColor(Color.green);
 		imageEdit.fill(new Rectangle(1,1,(int)(size.x*life)-2, (int)size.y-2));
-		return imageBuffer;
-	}
-
-	public boolean isIn(double x, double y) {
-		return false;
-	}
-
-	@Override
-	protected void reloadCanvas() {
-		imageBuffer = new BufferedImage((int)size.x, (int)size.y, BufferedImage.TYPE_INT_ARGB);
-		imageEdit = imageBuffer.createGraphics();
 	}
 
 }

@@ -9,15 +9,19 @@ public abstract class GPlainEntity extends MGraphicEntity {
 	
 	public void setBackgroundColor(Color c) {
 		backgroundColor = c;
+		reloadCanvas();
 	}
 	public void setLineColor(Color c) {
 		lineColor = c;
+		reloadCanvas();
 	}
 	public void setBackgroundColor(int r, int g, int b) {
 		backgroundColor = new Color(r,g,b);
+		reloadCanvas();
 	}
 	public void setLineColor(int r, int g, int b) {
 		lineColor = new Color(r,g,b);
+		reloadCanvas();
 	}
 	public Color getBackgroundColor() {
 		return backgroundColor;

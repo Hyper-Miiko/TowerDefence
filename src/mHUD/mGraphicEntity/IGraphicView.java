@@ -78,9 +78,10 @@ public class IGraphicView extends MItem {
 	}
 	
 	protected void draw() {	
-		imageEdit.setColor(Color.black);
+		
 		if(background != null)imageEdit.drawImage(background,0,0, null);
 		else imageEdit.fill(new Rectangle2D.Double(0, 0, getSize().x, getSize().y));
+
 		
 		for(int i = 0; i < entityList.size(); i++) {
 			for(MGraphicEntity e : entityList.get(i)) {

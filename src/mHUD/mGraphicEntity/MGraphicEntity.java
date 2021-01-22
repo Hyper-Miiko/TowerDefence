@@ -40,6 +40,7 @@ public abstract class MGraphicEntity {
 
 	public void rotate(double rotation) {
 		this.rotation = rotation;
+		reloadCanvas();
 	}
 	
 	protected abstract void reloadCanvas();

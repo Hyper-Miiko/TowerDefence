@@ -1,7 +1,6 @@
 package fr.tm_nlm.tower_defence.view.mHUDCompat;
 
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.HashMap;
 
@@ -11,7 +10,6 @@ import fr.tm_nlm.tower_defence.control2.Game;
 import fr.tm_nlm.tower_defence.control2.Monster;
 import fr.tm_nlm.tower_defence.control2.PathNode;
 import fr.tm_nlm.tower_defence.control2.Tower;
-import mHUD.StdDraw;
 import mHUD.mGraphicEntity.GCircleEntity;
 import mHUD.mGraphicEntity.GMonsterEntity;
 import mHUD.mGraphicEntity.GPictureEntity;
@@ -26,7 +24,7 @@ public class FieldToGraphic2 extends Thread {
 	private HashMap<DisplayEntity, LifeBar> lifeBar = new HashMap<>();
 	//private HashMap<PathNode, MGraphicEntity> nodePath;
 	//private HashMap<MGraphicEntity, Entity> graphicToEntity;
-	private Image background = null;
+	private GPictureEntity background = null;
 	private String actualBackground = null;
 
 	private boolean displaySlot = false;
@@ -114,8 +112,8 @@ public class FieldToGraphic2 extends Thread {
 	
 	private void output() {
 		if((actualBackground == null && Game.getBackground() != null) || !actualBackground.equals(Game.getBackground())) {		
-			background = StdDraw.getImage(Game.getBackground());
-			view.setBackground(background);
+			background = new GPictureEntity(view.getSize().x/2,view.getSize().y/2,Game.getBackground());
+			view.addGraphicEntityAt(0, background);
 			actualBackground = Game.getBackground();
 		}
 		
