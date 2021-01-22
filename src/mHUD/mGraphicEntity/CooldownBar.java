@@ -8,21 +8,21 @@ import java.awt.image.BufferedImage;
 
 import mHUD.geometric.Vector;
 
-public class LifeBar extends MGraphicEntity {
+public class CooldownBar extends MGraphicEntity {
 
 	private Vector size;
-	private double life;
+	private double cooldown;
 	private double decalage;
 	
-	public LifeBar(double x, double y,double d, double sx, double sy, double l) {
+	public CooldownBar(double x, double y,double d, double sx, double sy, double l) {
 		decalage = d;
 		setSize(sx,sy);
 		setPosition(x,y);
-		life = l;
+		cooldown = l;
 	}
 	
-	public void setLife(double l) {
-		life = l;
+	public void setCooldown(double l) {
+		cooldown = l;
 		reloadCanvas();
 	}
 	public void setSize(Vector size) {
@@ -62,11 +62,11 @@ public class LifeBar extends MGraphicEntity {
 		imageEdit.setColor(Color.white);
 		imageEdit.fill(new Rectangle(0,0,(int)size.x, (int)size.y));
 		
-		imageEdit.setColor(Color.red);
+		imageEdit.setColor(Color.black);
 		imageEdit.fill(new Rectangle(1,1,(int)size.x-2, (int)size.y-2));
 		
-		imageEdit.setColor(Color.green);
-		imageEdit.fill(new Rectangle(1,1,(int)(size.x*life)-2, (int)size.y-2));
+		imageEdit.setColor(Color.blue);
+		imageEdit.fill(new Rectangle(1,1,(int)(size.x*cooldown)-2, (int)size.y-2));
 	}
 
 }
