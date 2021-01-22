@@ -13,6 +13,8 @@ public class Bullet implements Displayable, Movable, Cloneable {
 	private boolean attackKeepTarget;
 	private boolean attackOnCollide;
 	private boolean attackOnNaturalDeath;
+	private boolean collideFlying;
+	private boolean collideWalking;
 	private boolean dead;
 	private boolean ghost;
 	private boolean heal;
@@ -43,6 +45,8 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		attackKeepTarget = false;
 		attackOnCollide = false;
 		attackOnNaturalDeath = false;
+		collideFlying = false;
+		collideWalking = true;
 		baseSpeed = 100;
 		collideWith = EntityType.MONSTER;
 		dead = false;
@@ -149,7 +153,8 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		}
 		HashSet<Localisable> toucheds = new HashSet<>();
 		for(Localisable collideable : collideables) {
-			if(shape.collide(collideable)) {
+			if((collideWalking && !collideable.isFlying() || collideFlying && collideable.isFlying())
+					&& shape.collide(collideable)) {
 					toucheds.add(collideable);
 			}
 		}
@@ -191,6 +196,8 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		bullet.attackOnNaturalDeath = attackOnNaturalDeath;
 		bullet.attackKeepTarget = attackKeepTarget;
 		bullet.baseSpeed = baseSpeed;
+		bullet.collideFlying = collideFlying;
+		bullet.collideWalking = collideWalking;
 		bullet.game = game;
 		bullet.minAlpha = minAlpha;
 		bullet.maxAlpha = maxAlpha;
@@ -418,5 +425,18 @@ public class Bullet implements Displayable, Movable, Cloneable {
 
 	public void setAttackKeepTarget(boolean attackKeepTarget) {
 		this.attackKeepTarget = attackKeepTarget;
+	}
+
+	@Override
+	public boolean isFlying() {
+		return true;
+	}
+
+	public void setCollideFlying(boolean collideFlying) {
+		this.collideFlying = collideFlying;
+	}
+
+	public void setCollideWalking(boolean collideWalking) {
+		this.collideWalking = collideWalking;
 	}
 }

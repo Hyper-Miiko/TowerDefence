@@ -2,7 +2,7 @@ package fr.tm_nlm.tower_defence.control2;
 
 public abstract class PresetWave {
 	public static Wave intro() {
-		Wave wave = new Wave();
+		Wave wave = new Wave("Tutoriel");
 		
 		Monster monster = PresetMonster.annoyingDog();
 		monster.setPath(PresetPath.grassland());
@@ -17,7 +17,7 @@ public abstract class PresetWave {
 		return wave;
 	}
 	public static Wave wave1() {
-		Wave wave = new Wave();
+		Wave wave = new Wave("1");
 		
 		Monster monster;
 		for(int i = 0; i < 20; i++) {
@@ -37,7 +37,7 @@ public abstract class PresetWave {
 		return wave;
 	}
 	public static Wave toundraWave1() {
-		Wave wave = new Wave();
+		Wave wave = new Wave("1");
 		
 		Monster monster;
 		for(int i = 0; i < 20; i++) {

@@ -3,9 +3,7 @@ package fr.tm_nlm.tower_defence.control2;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.HashSet;
 
 import fr.tm_nlm.tower_defence.Couple;
 
@@ -91,5 +89,10 @@ public class Geometric implements Displayable, Cloneable {
 
 	public void setColor(Color color) {
 		this.color = color;
+	}
+
+	@Override
+	public boolean isFlying() {
+		return false;
 	}
 }

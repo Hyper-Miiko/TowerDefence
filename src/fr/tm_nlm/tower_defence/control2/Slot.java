@@ -64,4 +64,9 @@ public class Slot implements Displayable {
 		return null;
 	}
 
+	@Override
+	public boolean isFlying() {
+		return false;
+	}
+
 }

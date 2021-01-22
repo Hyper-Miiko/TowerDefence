@@ -2,7 +2,6 @@ package fr.tm_nlm.tower_defence.control2;
 
 import java.awt.Color;
 import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 import java.util.LinkedList;
 
 import fr.tm_nlm.tower_defence.Couple;
@@ -10,7 +9,7 @@ import fr.tm_nlm.tower_defence.Couple;
 public class Monster implements Damageable, Displayable, Movable {
 	private boolean boss;
 	private boolean dead;
-	private boolean fly;
+	private boolean isFlying;
 	private Game game;
 	private Map map;
 	private double health;
@@ -29,7 +28,7 @@ public class Monster implements Damageable, Displayable, Movable {
 	{
 		baseSpeed = 50;
 		dead = false;
-		fly = false;
+		isFlying = false;
 		health = maxHealth = 10;
 		shape = PresetShape.circle(20);
 		slows = new LinkedList<>();
@@ -165,14 +164,14 @@ public class Monster implements Damageable, Displayable, Movable {
 		return dead;
 	}
 	public double timeToEnd() {
-		return objectif.distToEnd(!fly)/getSpeed();
+		return objectif.distToEnd(!isFlying)/getSpeed();
 	}
 	public void setMaxHealth(int maxHealth) {
 		this.maxHealth = maxHealth;
 		health = maxHealth;
 	}
-	public boolean fly() {
-		return fly;
+	public boolean isFlying() {
+		return isFlying;
 	}
 	@Override
 	public void slow(Couple<Double, Double> slow) {
@@ -182,9 +181,13 @@ public class Monster implements Damageable, Displayable, Movable {
 		this.boss = boss;
 	}
 	public void setFly(boolean fly) {
-		this.fly = fly;
+		this.isFlying = fly;
 	}
 	public void setImage(String image) {
 		shape.setImage(image);
+	}
+	
+	public boolean isBoss() {
+		return boss;
 	}
 }

@@ -23,7 +23,7 @@ public class DisplayEntity implements Displayable {
 		} else if(elem instanceof Bullet) {
 			return 1;
 		} else if(elem instanceof Monster) {
-			if(((Monster) elem).fly()) {
+			if(((Monster) elem).isFlying()) {
 				return 4;
 			} else {
 				return 2;
@@ -111,5 +111,10 @@ public class DisplayEntity implements Displayable {
 			obj = ((DisplayEntity) obj).elem;
 		}
 		return elem.equals(obj);
+	}
+
+	@Override
+	public boolean isFlying() {
+		return elem.isFlying();
 	}
 }

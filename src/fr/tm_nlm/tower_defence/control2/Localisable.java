@@ -17,4 +17,5 @@ public interface Localisable {
 	}
 	public Couple<Area, Color> getShape();
 	public Angle getAngle();
+	public boolean isFlying();
 }

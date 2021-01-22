@@ -121,4 +121,8 @@ public final class PathNode implements Localisable {
 	public Angle getAngle() {
 		return null;
 	}
+	@Override
+	public boolean isFlying() {
+		return false;
+	}
 }

@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
 
-import fr.tm_nlm.tower_defence.Couple;
-
 public class Attack {
 	private static Random random = new Random();
 	
@@ -14,6 +12,8 @@ public class Attack {
 	private boolean keepTracking;
 	private boolean randomSpread;
 	private boolean startRandomSpread;
+	private boolean targetFlying;
+	private boolean targetWalking;
 	private int minBulletsByShot, maxBulletsByShot;
 	private int minNbrOfShot, maxNbrOfShot;
 	private double cooldown;
@@ -49,6 +49,8 @@ public class Attack {
 		spreadRange = 0;
 		startRandomSpread = false;
 		startSpreadRange = 0;
+		targetFlying = false;
+		targetWalking = true;
 	}
 	public Attack(String name) {
 		if(name == null) {
@@ -92,7 +94,8 @@ public class Attack {
 		Localisable currentTarget = null;
 		double minDist = Double.POSITIVE_INFINITY;
 		for(Localisable elem : targets)	{
-			if(elem.getPosition().dist(origin) < range) {
+			if((targetWalking && !elem.isFlying() || targetFlying && elem.isFlying())
+					&& elem.getPosition().dist(origin) < range) {
 				if(elem instanceof Monster) {
 					double dist = ((Monster) elem).timeToEnd();
 					if(dist < minDist) {
@@ -254,5 +257,21 @@ public class Attack {
 	
 	public double getCooldown() {
 		return 1 - (nextAttackTimer - Game.time())/cooldown;
+	}
+	
+	public void addQuote(String quote) {
+		quotes.add(quote);
+	}
+	
+	public String peekQuote() {
+		return quotes.get(valueBetween(0, quotes.size()));
+	}
+	
+	public void setTargetFlying(boolean targetFlying) {
+		this.targetFlying = targetFlying;
+	}
+	
+	public void setTargetWalking(boolean targetWalking) {
+		this.targetWalking = targetWalking;
 	}
 }

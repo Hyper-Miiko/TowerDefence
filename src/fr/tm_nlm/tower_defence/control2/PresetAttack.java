@@ -1,20 +1,6 @@
 package fr.tm_nlm.tower_defence.control2;
 
 public class PresetAttack {
-	public static Attack test() {
-		Attack attack = new Attack("Test");
-		
-		attack.setBullet(PresetBullet.test());
-		attack.setCooldown(1);
-		attack.setSpreadRange(0);
-		attack.setRandomSpread(true);
-		attack.setBulletsByShot(1);
-		attack.setNbrOfShot(300);
-		attack.setInterval(0.25);
-		attack.setRange(300);
-		
-		return attack;
-	}
 	public static Attack magicBullets() {
 		Attack attack = new Attack("Magic Bullets");
 		
@@ -45,6 +31,8 @@ public class PresetAttack {
 		attack.setInterval(2, 5);
 		attack.setRange(200);
 		attack.setKeepTracking(true);
+		attack.setTargetFlying(true);
+		attack.setTargetWalking(false);
 		
 		return attack;
 	}
@@ -66,6 +54,8 @@ public class PresetAttack {
 		attack.setBullet(PresetBullet.spear());
 		attack.setCooldown(2, 20);
 		attack.setRange(300);
+		attack.setTargetFlying(true);
+		attack.setTargetWalking(false);
 		
 		return attack;
 	}
@@ -85,7 +75,7 @@ public class PresetAttack {
 	public static Attack randomSpear() {
 		Attack attack = new Attack("Spear Redemption");
 		
-		attack.setBullet(PresetBullet.spear());
+		attack.setBullet(PresetBullet.redemptingSpear());
 		attack.setCooldown(10, 20);
 		attack.setNbrOfShot(8, 20);
 		attack.setInterval(0.5);
@@ -94,6 +84,7 @@ public class PresetAttack {
 		attack.setConverge(true);
 		attack.setKeepTracking(true);
 		attack.setRange(200);
+		attack.setTargetFlying(true);
 		
 		return attack;
 	}
@@ -101,21 +92,24 @@ public class PresetAttack {
 		Attack attack = new Attack("Spear Jail");
 		
 		attack.setBullet(PresetBullet.spearJail());
-		attack.setCooldown(10, 20);
+		attack.setCooldown(20, 30);
 		attack.setNbrOfShot(3, 5);
 		attack.setInterval(1);
 		attack.setKeepTracking(true);
 		attack.setRange(150);
+		attack.setTargetFlying(true);
+		attack.setTargetWalking(false);
 		
 		return attack;
 	}
 	public static Attack circleSpear() {
 		Attack attack = new Attack("Iron maiden");
 		
-		attack.setStartShotRange(150);
+		attack.setStartShotRange(300);
 		attack.setBulletsByShot(7);
 		attack.setStartSpreadRange(Math.PI);
-		attack.setBullet(PresetBullet.spear());
+		attack.setBullet(PresetBullet.lifeLessSpear());
+		attack.setConverge(true);
 		
 		return attack;
 	}
@@ -128,6 +122,7 @@ public class PresetAttack {
 		attack.setStartShotRange(0, 25);
 		attack.setStartSpreadRange(Math.PI);
 		attack.setCooldown(0);
+		attack.setTargetFlying(true);
 		
 		return attack;
 	}

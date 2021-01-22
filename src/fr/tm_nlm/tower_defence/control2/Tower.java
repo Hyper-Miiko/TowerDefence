@@ -140,6 +140,11 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 		shape.setPosition(slot.getPosition());
 	}
 	
+	public void removeSlot() {
+		slot.removeTower();
+		slot = null;
+	}
+	
 	@Override
 	public String toString() {
 		String str = name;
@@ -184,8 +189,9 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 		return cooldowns;
 	}
 	
-	public void setEvolution(Tower evolution) {
+	public void setEvolution(Tower evolution, double price) {
 		this.evolution = evolution;
+		this.evolutionPrice = price;
 	}
 	
 	public Tower getEvolution() {
@@ -203,5 +209,10 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 	@Override
 	public Angle getAngle() {
 		return null;
+	}
+
+	@Override
+	public boolean isFlying() {
+		return false;
 	}
 }

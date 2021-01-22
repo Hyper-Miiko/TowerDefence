@@ -13,6 +13,7 @@ import java.util.Random;
  */
 public final class Game extends Thread {
 	private static final int MAX_FPS = 60;
+	@SuppressWarnings("unused")
 	private static double fpsTime;
 	private static final Random random = new Random();
 	private static Game instance;
@@ -103,6 +104,10 @@ public final class Game extends Thread {
 		return instance.map.getLives();
 	}
 	
+	public static String getWave() {
+		return instance.map.getWave();
+	}
+	
 	public static Long evolveTower(long towerId) {
 		HashSet<Tower> towers = instance.readTowers();
 		for(Tower tower : towers) {
@@ -114,6 +119,11 @@ public final class Game extends Thread {
 				if(instance.map.buy(tower.getEvolutionPrice())) {
 					instance.remove(tower);
 					instance.add(tower.getEvolution());
+					tower.getEvolution().setGame(instance);
+					tower.removeSlot();
+					ExistingTower.add(tower.getEvolution());
+					ExistingTower.remove(tower.getId());
+					Game.placeTower(tower.getEvolution().getId(), tower.getPosition());
 					return tower.getEvolution().getId();
 				} else {
 					System.err.println("Not enough temmies.");

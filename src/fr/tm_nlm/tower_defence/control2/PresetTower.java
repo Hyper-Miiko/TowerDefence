@@ -18,7 +18,7 @@ public class PresetTower {
 		tower.addAttack(PresetAttack.shield());
 		tower.setImage("undyne");
 		tower.setMaxHandle(4);
-		tower.setEvolution(undyneTheUndying());
+		tower.setEvolution(undyneTheUndying(), 0);
 		
 		return tower;
 	}
@@ -29,7 +29,7 @@ public class PresetTower {
 		tower.addAttack(PresetAttack.spearJail());
 		tower.addAttack(PresetAttack.tinySpear());
 		tower.addAttack(PresetAttack.tinySpear());
-		tower.setImage("undyne");
+		tower.setImage("undying");
 		tower.setMaxHandle(5);
 		
 		return tower;

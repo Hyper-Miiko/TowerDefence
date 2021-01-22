@@ -25,12 +25,14 @@ public class PresetBullet {
 		
 		bullet.setShape(PresetShape.triangle(23, 28));
 		bullet.setSpeed(150);
-		bullet.setDamage(2*Math.PI);
+		bullet.setDamage(0/*2*Math.PI*/);
 		bullet.setAimingFactor(0.75);
 		bullet.setTrack(true);
 		bullet.setLifeTime(5, 10);
 		bullet.setOnDeathAttack(PresetAttack.tinyEkusplosion(), true, false);
 		bullet.setImage("mad_missile");
+		bullet.setCollideFlying(true);
+		bullet.setCollideWalking(false);
 		
 		return bullet;
 	}
@@ -58,6 +60,36 @@ public class PresetBullet {
 		bullet.setFadingTime(1);
 		bullet.setSlow(1, 5);
 		bullet.setImage("undyne_spear");
+		bullet.setCollideWalking(false);
+		bullet.setCollideFlying(true);
+		
+		return bullet;
+	}
+	public static Bullet redemptingSpear() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setShape(PresetShape.rect(119, 18));
+		bullet.setSpeed(300);
+		bullet.setDamage(15, 20);
+		bullet.setFadingTime(1);
+		bullet.setSlow(1, 5);
+		bullet.setImage("undyne_spear");
+		bullet.setCollideFlying(true);
+		
+		return bullet;
+	}
+	public static Bullet lifeLessSpear() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setShape(PresetShape.rect(119, 18));
+		bullet.setSpeed(300);
+		bullet.setLifeTime(1.01);
+		bullet.setDamage(15, 20);
+		bullet.setFadingTime(1);
+		bullet.setSlow(1, 5);
+		bullet.setImage("undyne_spear");
+		bullet.setCollideWalking(false);
+		bullet.setCollideFlying(true);
 		
 		return bullet;
 	}
@@ -83,6 +115,8 @@ public class PresetBullet {
 		bullet.setAimingFactor(1);
 		bullet.setTrack(true);
 		bullet.setAttackKeepTarget(true);
+		bullet.setCollideWalking(false);
+		bullet.setCollideFlying(true);
 		
 		return bullet;
 	}
@@ -97,6 +131,7 @@ public class PresetBullet {
 		bullet.setGreen(0, 127);
 		bullet.setBlue(0);
 		bullet.setFadingTime(0.5, 3);
+		bullet.setCollideFlying(true);
 		
 		return bullet;
 	}

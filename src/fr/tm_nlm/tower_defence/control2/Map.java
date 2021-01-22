@@ -5,10 +5,11 @@ import java.util.HashSet;
 public class Map {
 	private int lives;
 	private double temmies;
-	private String background;
 	private HashSet<Slot> slots;
 	private HashSet<Wave> waves;
 	private Game game;
+	private String background;
+	private String wave;
 	
 	{
 		lives = 10;
@@ -65,7 +66,7 @@ public class Map {
 		return "data/img/" + background + ".png";
 	}
 	public boolean buy(double cost) {
-		if(temmies > cost) {
+		if(temmies >= cost) {
 			temmies -= cost;
 			return true;
 		}
@@ -76,5 +77,8 @@ public class Map {
 	}
 	public int getLives() {
 		return lives;
+	}
+	public String getWave() {
+		return wave;
 	}
 }
