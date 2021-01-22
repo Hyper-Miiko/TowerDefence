@@ -75,8 +75,6 @@ public class Monster implements Damageable, Displayable, Movable {
 
 	@Override
 	public void heal(double sustain) {
-		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void hurt(double damage) {

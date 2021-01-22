@@ -27,11 +27,13 @@ public class Attack {
 	private double startSpreadRange;
 	private ArrayList<String> quotes;
 	private Bullet bullet;
+	private Identifiable owner;
 	private LinkedList<LinkedList<Bullet>> bulletsReady;
 	private Localisable target;
 	private Map map;
-	private Vector targetPosition;
 	private final String name;
+	private String sound;
+	private Vector targetPosition;
 	
 	{
 		bullet = new Bullet();
@@ -146,9 +148,14 @@ public class Attack {
 			Bullet bullet = shotBullet.poll();
 			bullet.setAngle(finalAngle);
 			
-			
+			owner.setSound(sound);
+			quote();
 			map.place(bullet, start);
 		}
+	}
+	
+	private void quote() {
+		owner.setQuote(quotes.get(valueBetween(0, quotes.size())));
 	}
 	
 	public void attack(Localisable target) {
@@ -170,6 +177,7 @@ public class Attack {
 		cooldown = valueBetween(minCooldown, maxCooldown);
 		nextAttackTimer = Game.time() + cooldown;
 		bulletsReady = new LinkedList<>();
+		
 	}
 
 	public void setCooldown(double cooldown) {
@@ -274,5 +282,14 @@ public class Attack {
 	
 	public void setTargetWalking(boolean targetWalking) {
 		this.targetWalking = targetWalking;
+	}
+	
+	public void setOwner(Identifiable owner) {
+		this.owner = owner;
+		bullet.setOwner(owner);
+	}
+	
+	public void setSound(String sound) {
+		this.sound = sound;
 	}
 }

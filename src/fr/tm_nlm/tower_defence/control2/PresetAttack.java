@@ -36,17 +36,30 @@ public class PresetAttack {
 		
 		return attack;
 	}
+	public static Attack knife() {
+		Attack attack = new Attack("Kniffe");
+		
+		attack.setBullet(PresetBullet.knife());
+		attack.setCooldown(60, 180);
+		attack.setSpreadRange(Math.PI/4);
+		attack.setRandomSpread(true);
+		attack.setRange(300);
+		attack.addQuote("Out of kniffes (\"-_-)");
+		
+		return attack;
+	}
 	public static Attack kittyCornerShot() {
 		Attack attack = new Attack("Kitty Corner Shot!");
 		
 		attack.setBullet(PresetBullet.kittyCorner());
-		attack.setCooldown(1, 3);
+		attack.setCooldown(2, 6);
 		attack.setNbrOfShot(3);
 		attack.setInterval(0.25);
 		attack.setRange(200);
 		attack.setKeepTracking(true);
 		attack.setTargetFlying(true);
 		attack.setTargetWalking(true);
+		attack.addQuote("ENOUGH!!!");
 		
 		return attack;
 	}
@@ -87,6 +100,9 @@ public class PresetAttack {
 		attack.setBulletsByShot(100);
 		attack.setStartShotRange(80);
 		attack.setStartSpreadRange(Math.PI/6);
+		attack.addQuote("En guarde!");
+		attack.addQuote("STOP RUNNING AWAY!!!");
+		attack.addQuote("COME BACK HERE, YOU LITTLE PUNK!!");
 		
 		return attack;
 	}
@@ -141,6 +157,7 @@ public class PresetAttack {
 		attack.setRange(150);
 		attack.setTargetFlying(true);
 		attack.setTargetWalking(false);
+		attack.addQuote("You're gonna have to try a little harder than THAT.");
 		
 		return attack;
 	}
@@ -152,6 +169,7 @@ public class PresetAttack {
 		attack.setStartSpreadRange(Math.PI);
 		attack.setBullet(PresetBullet.lifeLessSpear());
 		attack.setConverge(true);
+		attack.setSound("undyne");
 		
 		return attack;
 	}
@@ -174,6 +192,20 @@ public class PresetAttack {
 		attack.setBullet(PresetBullet.bonePunchLine());
 		attack.setRange(80);
 		attack.setCooldown(9.8);
+		attack.addQuote("Why are skeletons so calm?\r\n" + 
+				"Because nothing gets under their skin!");
+		attack.addQuote("What does a skeleton order at a restaurant?\r\n" + 
+				"SPARERIBS");
+		attack.addQuote("Pretty humerus, right?");
+		attack.addQuote("My favorite instrument? the TromBONE, of course.");
+		attack.addQuote("My brother truly is a numbSKULL");
+		attack.addQuote("What do skeletons hate the most about wind?\r\n" + 
+				"Nothing, it goes right through them.");
+		attack.addQuote("In the end, Asgore made Papyrus a cool Hedge Skull-ture");
+		attack.addQuote("Papyrus doesn't like my hotdogs. probally because he doesn't have the stomach for it!");
+		attack.addQuote("I'm not fat. I'm just big boned!");
+		attack.addQuote("My brother always works himself down to the bone!");
+		attack.setSound("sans_talking");
 		
 		return attack;
 	}
@@ -185,6 +217,7 @@ public class PresetAttack {
 		attack.setCooldown(0, 15);
 		attack.setTargetFlying(true);
 		attack.setTargetWalking(false);
+		attack.setSound("magical_eye");
 		
 		return attack;
 	}
@@ -221,6 +254,7 @@ public class PresetAttack {
 		attack.setRange(200);
 		attack.setCooldown(30, 60);
 		attack.setTargetFlying(true);
+		attack.addQuote("Never understood why people don't use their best attack first. ¯\\_(ツ)_/¯");
 		
 		return attack;
 	}
@@ -234,6 +268,7 @@ public class PresetAttack {
 		attack.setStartSpreadRange(Math.PI);
 		attack.setRandomSpread(true);
 		attack.setTargetFlying(true);
+		attack.setSound("ghaster_blaster");
 		
 		return attack;
 	}

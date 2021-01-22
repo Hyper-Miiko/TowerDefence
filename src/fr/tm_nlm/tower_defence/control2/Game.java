@@ -3,6 +3,7 @@ package fr.tm_nlm.tower_defence.control2;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.util.ConcurrentModificationException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -82,6 +83,29 @@ public final class Game extends Thread {
 			clone.add(new DisplayEntity(elem));
 		}
 		return clone;
+	}
+	
+	public static HashMap<Long, String> getQuotes() {
+		HashMap<Long, String> quotes = new HashMap<>();;
+		for(Tower tower : instance.readTowers()) {
+			if(tower.getQuote() != null) {
+				quotes.put(tower.getId(), tower.getQuote());
+			}
+		}
+		return quotes;
+	}
+	
+	public static HashSet<String> getSound() {
+		HashSet<String> sounds = new HashSet<>();;
+		for(Tower tower : instance.readTowers()) {
+			sounds.add(tower.pollSound());
+		}
+		sounds.remove(null);
+		return sounds;
+	}
+	
+	public static String getWaveName() {
+		return instance.map.getWave();
 	}
 	
 	public static double time() {

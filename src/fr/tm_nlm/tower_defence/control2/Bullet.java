@@ -452,4 +452,10 @@ public class Bullet implements Displayable, Movable, Cloneable {
 	@Override
 	public void confuse(double confuse) {
 	}
+
+	public void setOwner(Identifiable owner) {
+		if(onDeathAttack != null) {
+			onDeathAttack.setOwner(owner);
+		}
+	}
 }

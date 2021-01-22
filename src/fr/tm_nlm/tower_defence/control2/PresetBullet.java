@@ -36,6 +36,18 @@ public class PresetBullet {
 		
 		return bullet;
 	}
+	public static Bullet knife() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setShape(PresetShape.triangle(33, 10));
+		bullet.setSpeed(100);
+		bullet.setDamage(10*Math.PI);
+		bullet.setLifeTime(3);
+		bullet.setFadingTime(1);
+		bullet.setImage("mad_knife");
+		
+		return bullet;
+	}
 	public static Bullet kittyCorner() {
 		Bullet bullet = new Bullet();
 		
@@ -210,7 +222,7 @@ public class PresetBullet {
 		
 		bullet.setDamage(666);
 		bullet.setSpeed(300);
-		bullet.setShape(PresetShape.rect(14, 86));
+		bullet.setShape(PresetShape.rect(86, 14));
 		bullet.setImage("WhiteBone");
 		
 		return bullet;
@@ -220,7 +232,7 @@ public class PresetBullet {
 		
 		bullet.setDamage(0.0666);
 		bullet.setSpeed(300);
-		bullet.setShape(PresetShape.rect(14, 86));
+		bullet.setShape(PresetShape.rect(86, 14));
 		bullet.setGhost(true);
 		bullet.setImage("BlueBone");
 		
@@ -259,14 +271,14 @@ public class PresetBullet {
 	public static Bullet ghasterBlasterBeam() {
 		Bullet bullet = new Bullet();
 		
-		bullet.setDamage(6.66);
+		bullet.setDamage(0.666);
 		bullet.setSpeed(0);
 		bullet.setShape(PresetShape.rect(1200, 1200));
 		bullet.setGhost(true);
 		bullet.setLifeTime(1);
+		bullet.setFadingTime(1);
 		bullet.setCollideFlying(true);
 		bullet.setImage("ghaster_blaster_beam");
-		//bullet.setImage("tinyBeam");
 		
 		return bullet;
 	}

@@ -13,13 +13,16 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 	private int maxHandle;
 	private double evolutionPrice;
 	private double health, maxHealth;
+	private double quoteTime;
 	private double towerPrice;
 	private ArrayList<Monster> handle;
 	private Game game;
 	private Geometric shape;
 	private LinkedList<Attack> attacks;
 	private Slot slot;
+	private String quote;
 	private final String name;
+	private String sound;
 	private Tower evolution;
 	
 	{
@@ -49,6 +52,9 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 					attack.process(getPosition(), monsters);
 				}
 			}
+		}
+		if(quoteTime + 3 < Game.time()) {
+			quote = null;
 		}
 	}
 	
@@ -93,14 +99,12 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 
 	@Override
 	public void hurt(double damage) {
-		// TODO Auto-generated method stub
-		
+		health = (damage > health) ? 0 : health - damage;
 	}
 
 	@Override
 	public void heal(double sustain) {
-		// TODO Auto-generated method stub
-		
+		health = (health + sustain > maxHealth) ? maxHealth : health + sustain;
 	}
 
 	@Override
@@ -122,6 +126,7 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 	}
 	public void addAttack(Attack attack) {
 		this.attacks.add(attack);
+		attack.setOwner(this);
 	}
 
 	public String getName() {
@@ -214,5 +219,24 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 	@Override
 	public boolean isFlying() {
 		return false;
+	}
+	
+	public String getQuote() {
+		return quote;
+	}
+	
+	public void setQuote(String quote) {
+		this.quote = quote;
+		quoteTime = Game.time();
+	}
+	
+	public void setSound(String sound) {
+		this.sound = sound;
+	}
+	
+	public String pollSound() {
+		String dummy = sound;
+		sound = null;
+		return "data/music/" + dummy + ".wav";
 	}
 }

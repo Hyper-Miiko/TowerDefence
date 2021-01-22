@@ -22,8 +22,8 @@ public class PresetTower {
 	
 	public static Tower undyne() {
 		Tower tower = new Tower("Undyne");
-		tower.addAttack(PresetAttack.spear());
 		tower.addAttack(PresetAttack.shield());
+		tower.addAttack(PresetAttack.spear());
 		tower.addAttack(PresetAttack.tinySpear());
 		tower.setImage("undyne");
 		tower.setMaxHandle(4);
