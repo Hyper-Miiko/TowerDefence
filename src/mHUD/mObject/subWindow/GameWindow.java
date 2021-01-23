@@ -3,6 +3,7 @@ package mHUD.mObject.subWindow;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -53,6 +54,7 @@ public class GameWindow extends MWindow {
 	long MD = 0;
 	long UN = 0;
 	long SA = 0;
+	long asrielId;
 	
 	Clip clip;
 	
@@ -127,6 +129,17 @@ public class GameWindow extends MWindow {
 		
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
 	}
+	public void playSound(String m) {
+		try {
+			AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File(m));
+			clip = AudioSystem.getClip();
+			clip.open(audioIn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		clip.start();
+	}
 	
 	public void run() {
 		if(fps.size() > 100)fps.remove(0);
@@ -149,6 +162,7 @@ public class GameWindow extends MWindow {
 		
 		temmies.setText("Temmies : "+(int)Game.getTemmies());
 		life.setText("Life : "+Game.getLives());
+		wave.setText(Game.getWave());
 		time = Game.time();
 		
 		super.run();
@@ -157,7 +171,7 @@ public class GameWindow extends MWindow {
 		ftg.setDisplaySlot(towerButtons.anyActive());
 		
 		if(upgradeButton.buttonPressed()) {
-			//TODO la fonction qui teste si une tour PEUT évoluer
+			//TODO la fonction qui teste si une tour PEUT ï¿½voluer
 			if(towerButtons.isPressed(0) && Game.canEvolve(MD))
 				MD = Game.evolveTower(MD);
 			else if(towerButtons.isPressed(2) && Game.canEvolve(UN))
@@ -181,6 +195,8 @@ public class GameWindow extends MWindow {
 				Game.placeTower(UN,new Vector(view.mouseX(), view.mouseY()));
 			else if(towerButtons.isPressed(1))
 				Game.placeTower(SA,new Vector(view.mouseX(), view.mouseY()));
+			else if(towerButtons.isPressed(4))
+				Game.placeTower(asrielId, new Vector(view.mouseX(), view.mouseY()));
 			
 			towerButtons.setSelect(0,false);
 			
@@ -190,32 +206,47 @@ public class GameWindow extends MWindow {
 			flag = false;
 		}
 		
-		
+		HashSet<String> sounds = Game.getSound();
+		for(String sound : sounds) {
+			playSound(sound);
+		}
 	}
 	public void setMap(int selection) {
 		if(selection == 1) {
-			Game.set(PresetMap.grasslandIntro());
+			Game.set(PresetMap.grassland1());
+			loadMusic("data/music/level1.wav");
+		} else if(selection == 2) {
+			Game.set(PresetMap.grassland2());
+			loadMusic("data/music/level1.wav");
+		} else if(selection == 3) {
+			Game.set(PresetMap.grassland3());
+			loadMusic("data/music/level1.wav");
+		} else {
+			Game.set(PresetMap.test());
 			loadMusic("data/music/level1.wav");
 		}
-		else if(selection == 2){
-			Game.set(PresetMap.toundra());
-			loadMusic("data/music/level2.wav");
-		}
-		else {
-			Game.set(PresetMap.volcano());
-			loadMusic("data/music/level3.wav");
-		}
+//		else if(selection == 2){
+//			Game.set(PresetMap.toundra());
+//			loadMusic("data/music/level2.wav");
+//		}
+//		else {
+//			Game.set(PresetMap.volcano());
+//			loadMusic("data/music/level3.wav");
+//		}
 		
 		//Apparement il n'y a pas plus simple...
 		Tower md = PresetTower.madDummy();
 		Tower un = PresetTower.undyne();
 		Tower sa = PresetTower.chillSans();
+		Tower asriel = PresetTower.asriel();
 		ExistingTower.add(md);
 		ExistingTower.add(un);
 		ExistingTower.add(sa);
+		ExistingTower.add(asriel);
 		MD = md.getId();
 		UN = un.getId();
 		SA = sa.getId();
+		asrielId = asriel.getId();
 				
 		ftg = new FieldToGraphic2(view);
 	}

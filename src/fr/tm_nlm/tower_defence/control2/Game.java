@@ -100,12 +100,12 @@ public final class Game extends Thread {
 		for(Tower tower : instance.readTowers()) {
 			sounds.add(tower.pollSound());
 		}
-		sounds.remove(null);
+		sounds.remove("data/music/null.wav");
 		return sounds;
 	}
 	
 	public static String getWaveName() {
-		return instance.map.getWave();
+		return instance.map.getWaveName();
 	}
 	
 	public static double time() {
@@ -114,6 +114,9 @@ public final class Game extends Thread {
 	public static void set(Map map) {
 		instance = new Game(map);
 		map.setGame(instance);
+		if(map.getWaveName().equals("Test")) {
+			instance.temmies = 100000;
+		}
 	}
 	
 	public static String getBackground() {
@@ -121,7 +124,7 @@ public final class Game extends Thread {
 	}
 	
 	public static double getTemmies() {
-		return instance.map.getTemmies();
+		return instance.temmies;
 	}
 	
 	public static int getLives() {
@@ -129,7 +132,7 @@ public final class Game extends Thread {
 	}
 	
 	public static String getWave() {
-		return instance.map.getWave();
+		return instance.map.getWaveName();
 	}
 	
 	public static Long evolveTower(long towerId) {
@@ -140,7 +143,7 @@ public final class Game extends Thread {
 					System.err.println("No evolution available.");
 					return null;
 				}
-				if(instance.map.buy(tower.getEvolutionPrice())) {
+				if(instance.buy(tower.getEvolutionPrice())) {
 					instance.remove(tower);
 					instance.add(tower.getEvolution());
 					tower.getEvolution().setGame(instance);
@@ -155,6 +158,14 @@ public final class Game extends Thread {
 			}
 		}
 		return null;
+	}
+	
+	private boolean buy(double cost) {
+		if(temmies >= cost) {
+			temmies -= cost;
+			return true;
+		}
+		return false;
 	}
 	
 	public static boolean canEvolve(long towerId) {
@@ -176,6 +187,8 @@ public final class Game extends Thread {
 			System.err.println("No slot here: " + position + ".");
 		} else if(!slot.canPlaceTower()) {
 			System.err.println(slot.getTower().getName() + " is already here: " + position + ".");
+		} else if(!instance.buy(tower.getPrice())) {
+			System.err.println("Not enough temmies.");
 		} else {
 			tower.setSlot(slot);
 			tower.setGame(instance);
@@ -206,6 +219,7 @@ public final class Game extends Thread {
 	private HashSet<Localisable> trashput;
 	private WaitingBool trashputBussy;
 	private Map map;
+	private int temmies;
 	
 	{
 		bullets = new HashSet<>();
@@ -220,6 +234,7 @@ public final class Game extends Thread {
 		inputBussy = new WaitingBool("Input");
 		trashput = new HashSet<>();
 		trashputBussy = new WaitingBool("Trashput");
+		temmies = 50;
 	}
 	/**
 	 * Est appelé lors de l'initialisation du programme sans avoir à le mettre dans le main.
@@ -231,6 +246,10 @@ public final class Game extends Thread {
 		this.slots = map.getSlots();
 		fpsTime = startTime;
 		start();
+	}
+	
+	public void increaseTemmies(int temmies) {
+		this.temmies += temmies;
 	}
 	
 	@Override

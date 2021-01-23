@@ -37,6 +37,9 @@ public class Wave {
 	}
 	public void setMap(Map map) {
 		this.map = map;
+		if(nextWave != null) {
+			nextWave.setMap(map);
+		}
 	}
 	public String getName() {
 		return name;
@@ -56,5 +59,8 @@ public class Wave {
 	}
 	public String getMusic() {
 		return music;
+	}
+	public boolean isLast() {
+		return nextWave == null;
 	}
 }

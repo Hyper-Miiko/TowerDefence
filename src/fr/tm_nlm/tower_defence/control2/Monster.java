@@ -12,22 +12,23 @@ public class Monster implements Damageable, Displayable, Movable {
 	private boolean boss;
 	private boolean dead;
 	private boolean isFlying;
-	private Game game;
-	private Map map;
+	private int strength;
+	private double lastConfuseTimer;
+	private double lastMoveTimer;
 	private double confuse;
 	private double health;
 	private double maxHealth;
-	private int strength;
+	private double baseSpeed;
+	private int eliminationWorth;
 	/**
 	 * _1 Ralentissement 0.0 à 1.0
 	 * _2 Timer de fin en seconde
 	 */
 	private LinkedList<Couple<Double, Double>> slows;
-	private double baseSpeed;
 	private Geometric shape;
-	private double lastConfuseTimer;
-	private double lastMoveTimer;
 	private PathNode objectif;
+	private Game game;
+	private Map map;
 	
 	{
 		baseSpeed = 50;
@@ -38,6 +39,7 @@ public class Monster implements Damageable, Displayable, Movable {
 		shape = PresetShape.circle(20);
 		slows = new LinkedList<>();
 		strength = 1;
+		eliminationWorth = 2;
 	}
 	public void process() {
 		if(!dead) {
@@ -78,9 +80,17 @@ public class Monster implements Damageable, Displayable, Movable {
 	}
 	@Override
 	public void hurt(double damage) {
-		health = (health < damage) ? 0 : health - damage;
-		if(health == 0) {
-			dead = true;
+		hurt(damage, true);
+	}
+	@Override
+	public void hurt(double damage, boolean lethal) {
+		double minHealth = (lethal) ? 0 : 0.01;
+		if(!dead) {
+			health = (health < damage) ? minHealth : health - damage;
+			if(health == 0) {
+				dead = true;
+				game.increaseTemmies(eliminationWorth);
+			}
 		}
 	}
 	@Override
@@ -211,5 +221,8 @@ public class Monster implements Damageable, Displayable, Movable {
 		if(confuse > this.confuse) {
 			this.confuse = confuse;
 		}
+	}
+	public void setEliminationWorth(int eliminationWorth) {
+		this.eliminationWorth = eliminationWorth;
 	}
 }

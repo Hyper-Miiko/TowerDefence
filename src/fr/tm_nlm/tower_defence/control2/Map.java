@@ -3,18 +3,17 @@ package fr.tm_nlm.tower_defence.control2;
 import java.util.HashSet;
 
 public class Map {
+	private boolean over;
 	private int lives;
-	private double temmies;
 	private HashSet<Slot> slots;
-	private HashSet<Wave> waves;
+	private Wave wave;
 	private Game game;
 	private String background;
-	private String wave;
 	
 	{
 		lives = 10;
+		over = false;
 		slots = new HashSet<>();
-		waves = new HashSet<>();
 	}
 
 	public void place(Bullet bullet, Vector position) {
@@ -34,7 +33,14 @@ public class Map {
 		lives = (nbrOfLivesLost > lives) ? 0 : lives - nbrOfLivesLost;
 	}
 	public void run() {
-		for(Wave wave : waves) {
+		if(wave != null) {
+			if(wave.isOver()) {
+				if(wave.isLast()) {
+					over = true;
+				} else {
+					wave = wave.getNextWave();
+				}
+			}
 			wave.run();
 		}
 	}
@@ -42,9 +48,9 @@ public class Map {
 	public void addSlot(Slot slot) {
 		slots.add(slot);
 	}
-	public void addWave(Wave wave) {
+	public void setWave(Wave wave) {
 		wave.setMap(this);
-		waves.add(wave);
+		this.wave = wave;
 	}
 	public void setBackground(String background) {
 		this.background = background;
@@ -65,20 +71,13 @@ public class Map {
 	public String getBackground() {
 		return "data/img/" + background + ".png";
 	}
-	public boolean buy(double cost) {
-		if(temmies >= cost) {
-			temmies -= cost;
-			return true;
-		}
-		return false;
-	}
-	public double getTemmies() {
-		return temmies;
-	}
 	public int getLives() {
 		return lives;
 	}
-	public String getWave() {
-		return wave;
+	public String getWaveName() {
+		if(over) {
+			return "No more pain!";
+		}
+		return wave.getName();
 	}
 }

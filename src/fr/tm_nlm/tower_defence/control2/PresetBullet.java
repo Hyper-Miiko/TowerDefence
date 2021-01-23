@@ -32,7 +32,6 @@ public class PresetBullet {
 		bullet.setOnDeathAttack(PresetAttack.tinyEkusplosion(), true, false);
 		bullet.setImage("mad_missile");
 		bullet.setCollideFlying(true);
-		bullet.setCollideWalking(false);
 		
 		return bullet;
 	}
@@ -230,7 +229,7 @@ public class PresetBullet {
 	public static Bullet blueBone() {
 		Bullet bullet = new Bullet();
 		
-		bullet.setDamage(0.0666);
+		bullet.setDamage(0.00666);
 		bullet.setSpeed(300);
 		bullet.setShape(PresetShape.rect(86, 14));
 		bullet.setGhost(true);
@@ -263,15 +262,16 @@ public class PresetBullet {
 		bullet.setAttackKeepTarget(true);
 		bullet.setOnDeathAttack(PresetAttack.ghasterBlasterBeam(), false, true);
 		bullet.setLifeTime(1);
-		bullet.setFadingTime(1);
+		bullet.setFadingTime(2);
 		bullet.setImage("GasterBlaster1");
+		bullet.setFadingImage("GasterBlaster2");
 		
 		return bullet;
 	}
 	public static Bullet ghasterBlasterBeam() {
 		Bullet bullet = new Bullet();
 		
-		bullet.setDamage(0.666);
+		bullet.setDamage(0.0666);
 		bullet.setSpeed(0);
 		bullet.setShape(PresetShape.rect(1200, 1200));
 		bullet.setGhost(true);
@@ -279,6 +279,91 @@ public class PresetBullet {
 		bullet.setFadingTime(1);
 		bullet.setCollideFlying(true);
 		bullet.setImage("ghaster_blaster_beam");
+		
+		return bullet;
+	}
+	public static Bullet greatStar() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setDamage(0);
+		bullet.setSpeed(100);
+		bullet.setShape(PresetShape.circle(100));
+		bullet.setLifeTime(3.5);
+		bullet.setFadingTime(1);
+		bullet.setCollideFlying(false);
+		bullet.setCollideWalking(false);
+		bullet.setOnDeathAttack(PresetAttack.greatStarBurst(), false, true);
+		
+		return bullet;
+	}
+	public static Bullet tinyStar() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setDamage(20, 50);
+		bullet.setSpeed(250);
+		bullet.setShape(PresetShape.circle(5));
+		bullet.setLifeTime(5);
+		bullet.setCollideFlying(true);
+		bullet.setCollideWalking(true);
+		
+		return bullet;
+	}
+	public static Bullet rainbowBlaster() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setDamage(0);
+		bullet.setSpeed(0);
+		bullet.setShape(PresetShape.circle(5));
+		bullet.setGhost(true);
+		bullet.setAttackKeepTarget(true);
+		bullet.setOnDeathAttack(PresetAttack.rainbowBlasterBeam(), false, true);
+		bullet.setLifeTime(1);
+		bullet.setFadingTime(2);
+//		bullet.setImage("GasterBlaster1");
+//		bullet.setFadingImage("GasterBlaster2");
+		
+		return bullet;
+	}
+	public static Bullet rainbowBlasterBeam() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setDamage(10);
+		bullet.setSpeed(0);
+		bullet.setShape(PresetShape.rect(1200, 14));
+		bullet.setLifeTime(1);
+		bullet.setFadingTime(1);
+		bullet.setCollideFlying(true);
+		bullet.setImage("ghaster_blaster_beam");
+		
+		return bullet;
+	}
+	public static Bullet rainbowMissile() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setShape(PresetShape.circle(10));
+		bullet.setSpeed(200);
+		bullet.setGhost(true);
+		bullet.setDamage(0.00001);
+		bullet.setAimingFactor(0.50);
+		bullet.setTrack(true);
+		bullet.setLifeTime(15, 20);
+		//bullet.setImage("mad_missile");
+		bullet.setCollideFlying(true);
+		
+		return bullet;
+	}
+	public static Bullet rainbowLight() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setShape(PresetShape.triangle(1800, 900));
+		bullet.setSpeed(0);
+		bullet.setGhost(true);
+		bullet.setDamage(0.002);
+		bullet.setLethal(false);
+		bullet.setLifeTime(1);
+		//bullet.setImage("mad_missile");
+		bullet.setCollideFlying(true);
+		bullet.setLifeTime(5);
 		
 		return bullet;
 	}

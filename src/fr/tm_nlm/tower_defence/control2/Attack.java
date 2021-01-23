@@ -22,6 +22,8 @@ public class Attack {
 	private double nextAttackTimer;
 	private double nextShotTimer;
 	private double range;
+	private double rotation;
+	private double rotationBetweenShot;
 	private double spreadRange;
 	private double minStartShotRange, maxStartShotRange;
 	private double startSpreadRange;
@@ -48,6 +50,8 @@ public class Attack {
 		minStartShotRange = maxStartShotRange = 0;
 		randomSpread = false;
 		range = 150;
+		rotation = 0;
+		rotationBetweenShot = 0;
 		spreadRange = 0;
 		startRandomSpread = false;
 		startSpreadRange = 0;
@@ -64,13 +68,7 @@ public class Attack {
 	public void process(Vector origin, HashSet<Localisable> targets) {
 		double currentTime = Game.time();
 		if(!bulletsReady.isEmpty()) {
-			if(nextShotTimer < currentTime) {
-				if(keepTracking) {
-					targetPosition = target.getPosition();
-				}
-				shot(origin, targetPosition);
-				nextShotTimer = currentTime + valueBetween(minInterval, maxInterval);
-			}
+			tryShot(origin, currentTime);
 		} else {
 			if(nextAttackTimer < currentTime) {
 				target = seek(origin, targets);
@@ -81,6 +79,15 @@ public class Attack {
 					nextAttackTimer = currentTime + cooldown;
 				}
 			}
+		}
+	}
+	public void tryShot(Vector origin, double currentTime) {
+		if(nextShotTimer < currentTime) {
+			if(keepTracking) {
+				targetPosition = target.getPosition();
+			}
+			shot(origin, targetPosition);
+			nextShotTimer = currentTime + valueBetween(minInterval, maxInterval);
 		}
 	}
 	
@@ -111,6 +118,7 @@ public class Attack {
 	}
 	
 	public void shot(Vector origin, Vector targetPosition) {
+		rotation += rotationBetweenShot;
 		LinkedList<Bullet> shotBullet = bulletsReady.poll();
 		int size = shotBullet.size();
 		for(int i = 0; i < size; i++) {
@@ -120,9 +128,9 @@ public class Attack {
 			angle = start.angle(targetPosition);
 			if(!converge) {
 				if(randomSpread || size == 1) {
-					angleModif = new Angle(valueBetween(-spreadRange, spreadRange));
+					angleModif = new Angle(valueBetween(-spreadRange, spreadRange) + rotation);
 				} else {
-					angleModif = new Angle(-spreadRange + 2*spreadRange*i/(size-1));
+					angleModif = new Angle(-spreadRange + 2*spreadRange*i/(size-1) + rotation);
 				}
 			}
 			
@@ -138,9 +146,9 @@ public class Attack {
 			if(converge) {
 				angle = start.angle(targetPosition);
 				if(randomSpread || size == 1) {
-					angleModif = new Angle(valueBetween(-spreadRange, spreadRange));
+					angleModif = new Angle(valueBetween(-spreadRange, spreadRange) + rotation);
 				} else {
-					angleModif = new Angle(-spreadRange + 2*spreadRange*i/(size-1));
+					angleModif = new Angle(-spreadRange + 2*spreadRange*i/(size-1) + rotation);
 				}
 			}
 			
@@ -155,7 +163,9 @@ public class Attack {
 	}
 	
 	private void quote() {
-		owner.setQuote(quotes.get(valueBetween(0, quotes.size())));
+		if(quotes.size() > 0) {
+			owner.setQuote(quotes.get(valueBetween(0, quotes.size() - 1)));
+		}
 	}
 	
 	public void attack(Localisable target) {
@@ -291,5 +301,17 @@ public class Attack {
 	
 	public void setSound(String sound) {
 		this.sound = sound;
+	}
+	
+	public void setRotationBetweenShot(double rotation) {
+		this.rotationBetweenShot = rotation;
+	}
+
+	public boolean shotLeft() {
+		return !bulletsReady.isEmpty();
+	}
+
+	public void setTargetPosition(Vector position) {
+		this.targetPosition = position;
 	}
 }

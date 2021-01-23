@@ -5,9 +5,10 @@ public class PresetTower {
 		Tower tower = new Tower("Mad Dummy");
 		tower.addAttack(PresetAttack.magicMissiles());
 		tower.addAttack(PresetAttack.magicBullets());
-		tower.setMaxHandle(0);
+		tower.setMaxHandle(1);
 		tower.setImage("mad_dummy_150");
 		tower.setEvolution(madMewMew(), 0);
+		tower.setPrice(30);
 		return tower;
 	}
 	private static Tower madMewMew() {
@@ -15,7 +16,7 @@ public class PresetTower {
 		tower.addAttack(PresetAttack.kittyCornerShot());
 		tower.addAttack(PresetAttack.blueKittyCornerShot());
 		tower.addAttack(PresetAttack.redKittyCornerShot());
-		tower.setMaxHandle(0);
+		tower.setMaxHandle(2);
 		tower.setImage("mad_mewmew");
 		return tower;
 	}
@@ -28,6 +29,7 @@ public class PresetTower {
 		tower.setImage("undyne");
 		tower.setMaxHandle(4);
 		tower.setEvolution(undyneTheUndying(), 0);
+		tower.setPrice(70);
 		
 		return tower;
 	}
@@ -50,6 +52,7 @@ public class PresetTower {
 		tower.setImage("Sans1");
 		tower.setMaxHandle(0);
 		tower.setEvolution(madSans(), 0);
+		tower.setPrice(0);
 		
 		return tower;
 	}
@@ -62,6 +65,29 @@ public class PresetTower {
 		tower.addAttack(PresetAttack.whiteBone());
 		tower.setImage("Sans2");
 		tower.setMaxHandle(0);
+		
+		return tower;
+	}
+	public static Tower asriel() {
+		Tower tower = new Tower("Asriel Dreamurr");
+
+ 		tower.addAttack(PresetAttack.greatStarCall());
+		tower.addAttack(PresetAttack.rainbowBlaster());
+		tower.addAttack(PresetAttack.starGun());
+		//tower.setImage("Sans2");
+		tower.setMaxHandle(2);
+		tower.setPrice(0);
+		tower.setEvolution(truePowerAsriel(), 0);
+		
+		return tower;
+	}
+	private static Tower truePowerAsriel() {
+		Tower tower = new Tower("Asriel Dreamurr");
+
+ 		tower.addAttack(PresetAttack.rainbowLight());
+		tower.addAttack(PresetAttack.rainbowMissile());
+		//tower.setImage("Sans2");
+		tower.setMaxHandle(3);
 		
 		return tower;
 	}

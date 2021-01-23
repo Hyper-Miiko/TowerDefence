@@ -99,6 +99,12 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 
 	@Override
 	public void hurt(double damage) {
+		//TODO
+		health = (damage > health) ? 0 : health - damage;
+	}
+	@Override
+	public void hurt(double damage, boolean lethal) {
+		//TODO
 		health = (damage > health) ? 0 : health - damage;
 	}
 
@@ -238,5 +244,9 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 		String dummy = sound;
 		sound = null;
 		return "data/music/" + dummy + ".wav";
+	}
+
+	public void setPrice(int price) {
+		this.towerPrice = price;
 	}
 }

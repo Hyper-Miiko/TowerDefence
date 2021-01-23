@@ -96,7 +96,7 @@ public class PresetAttack {
 		
 		attack.setBullet(PresetBullet.shieldFrame());
 		attack.setCooldown(15, 20);
-		attack.setRange(300);
+		attack.setRange(200);
 		attack.setBulletsByShot(100);
 		attack.setStartShotRange(80);
 		attack.setStartSpreadRange(Math.PI/6);
@@ -279,6 +279,99 @@ public class PresetAttack {
 		attack.setTargetFlying(true);
 		attack.setStartShotRange(600);
 		attack.setConverge(true);
+		
+		return attack;
+	}
+	public static Attack greatStarCall() {
+		Attack attack = new Attack("Great Star");
+		
+		attack.setBullet(PresetBullet.greatStar());
+		attack.setTargetFlying(true);
+		//attack.setTargetWalking(false);
+		attack.setStartShotRange(600);
+		attack.setStartSpreadRange(Math.PI/3);
+		attack.setConverge(true);
+		attack.setCooldown(3.0, 4.5);
+		//attack.setSound("start_calling");
+		attack.setRange(300);
+		
+		return attack;
+	}
+	public static Attack greatStarBurst() {
+		Attack attack = new Attack("Great Star Burst");
+		
+		attack.setBullet(PresetBullet.tinyStar());
+		attack.setTargetFlying(true);
+		attack.setBulletsByShot(16);
+		attack.setSpreadRange(Math.PI);
+		attack.setNbrOfShot(3);
+		attack.setInterval(0.25);
+		attack.setRotationBetweenShot(Math.PI/16);
+		
+		return attack;
+	}
+	public static Attack rainbowBlaster() {
+		Attack attack = new Attack("Rainbow Blaster");
+		
+		attack.setBullet(PresetBullet.rainbowBlaster());
+		attack.setConverge(true);
+		attack.setCooldown(15, 20);
+		attack.setStartShotRange(30);
+		attack.setSpreadRange(-Math.PI/4);
+		
+		return attack;
+	}
+	public static Attack rainbowBlasterBeam() {
+		Attack attack = new Attack("Rainbow Blaster Beam");
+		
+		attack.setBullet(PresetBullet.rainbowBlasterBeam());
+		attack.setConverge(true);
+		attack.setStartShotRange(600);
+		attack.setNbrOfShot(10);
+		attack.setInterval(0.1);
+		
+		return attack;
+	}
+	public static Attack starGun() {
+		Attack attack = new Attack("Star Gun");
+		
+		attack.setBullet(PresetBullet.tinyStar());
+		attack.setTargetFlying(true);
+		attack.setBulletsByShot(3);
+		attack.setSpreadRange(Math.PI/8);
+		attack.setNbrOfShot(5);
+		attack.setInterval(0.25);
+		
+		return attack;
+	}
+	
+	public static Attack rainbowMissile() {
+		Attack attack = new Attack("Rainbow Missiles");
+		
+		attack.setBullet(PresetBullet.rainbowMissile());
+		attack.setCooldown(1, 2);
+		attack.setSpreadRange(-Math.PI/2);
+		attack.setRandomSpread(true);
+		attack.setBulletsByShot(1, 2);
+		attack.setNbrOfShot(8, 16);
+		attack.setInterval(0.1);
+		attack.setRange(200);
+		attack.setKeepTracking(true);
+		attack.setTargetFlying(true);
+		
+		return attack;
+	}
+	public static Attack rainbowLight() {
+		Attack attack = new Attack("Rainbow Light");
+		
+		attack.setBullet(PresetBullet.rainbowLight());
+		attack.setCooldown(45, 60);
+		attack.setNbrOfShot(8, 16);
+		attack.setInterval(0.1);
+		attack.setRange(100);
+		attack.setStartShotRange(900);
+		attack.setKeepTracking(false);
+		attack.setTargetFlying(true);
 		
 		return attack;
 	}
