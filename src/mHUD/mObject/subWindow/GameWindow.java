@@ -209,6 +209,7 @@ public class GameWindow extends MWindow {
 		}
 		
 		if(Game.isOver() && !gameOver) {
+			clip.stop();
 			gameOver = true;
 			view.setLoseScreen();
 		}
@@ -274,7 +275,6 @@ public class GameWindow extends MWindow {
 		asrielId = asriel.getId();
 	}
 	public boolean isGameOver() {
-		if(gameOver && view.hasStoped())clip.stop();
 		return gameOver && view.hasStoped();
 	}
 }
