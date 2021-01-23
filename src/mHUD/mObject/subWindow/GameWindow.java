@@ -56,6 +56,8 @@ public class GameWindow extends MWindow {
 	long SA = 0;
 	long asrielId;
 	
+	int mapId;
+	
 	Clip clip;
 	
 	public GameWindow(int x, int y) {
@@ -214,19 +216,39 @@ public class GameWindow extends MWindow {
 		}
 	}
 	public void setMap(int selection) {
-		if(selection == 1) {
+		mapId = selection;
+	
+		if(mapId == 0 ) {
 			Game.set(PresetMap.grassland1());
 			loadMusic("data/music/level1.wav");
-		} else if(selection == 2) {
+		} else if(selection == 1) {
 			Game.set(PresetMap.grassland2());
-			loadMusic("data/music/level1.wav");
-		} else if(selection == 3) {
+			loadMusic("data/music/level2.wav");
+		} else if(selection == 2) {
 			Game.set(PresetMap.grassland3());
+			loadMusic("data/music/level3.wav");
+		} else if (selection == 3){
+			Game.set(PresetMap.toundra1());
 			loadMusic("data/music/level1.wav");
-		} else {
-			Game.set(PresetMap.test());
+		} else if (selection == 4){
+			Game.set(PresetMap.toundra2());
+			loadMusic("data/music/level2.wav");
+		} else if (selection == 5){
+			Game.set(PresetMap.toundra3());
+			loadMusic("data/music/level3.wav");
+		} else if (selection == 6){
+			Game.set(PresetMap.volcano1());
 			loadMusic("data/music/level1.wav");
+		} else if (selection == 7){
+			Game.set(PresetMap.volcano2());
+			loadMusic("data/music/level2.wav");
+		} else if (selection == 8){
+			Game.set(PresetMap.volcano3());
+			loadMusic("data/music/level3.wav");
 		}
+		
+		
+
 //		else if(selection == 2){
 //			Game.set(PresetMap.toundra());
 //			loadMusic("data/music/level2.wav");

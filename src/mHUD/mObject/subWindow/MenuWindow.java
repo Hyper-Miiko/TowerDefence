@@ -1,5 +1,6 @@
 package mHUD.mObject.subWindow;
 
+import mHUD.mObject.FVerticalButtonBox;
 import mHUD.mObject.FVerticalFrame;
 import mHUD.mObject.IPushButton;
 import mHUD.mObject.MWindow;
@@ -7,6 +8,7 @@ import mHUD.mObject.MWindow;
 public class MenuWindow extends MWindow{
 
 	private FVerticalFrame mainFrame = new FVerticalFrame();
+	private FVerticalButtonBox bBox = new FVerticalButtonBox();
 	private IPushButton map1 = new IPushButton();
 	private IPushButton map2 = new IPushButton();
 	private IPushButton map3 = new IPushButton();
@@ -16,29 +18,28 @@ public class MenuWindow extends MWindow{
 		super(i,j);
 		
 		super.setMainFrame(mainFrame);
+		mainFrame.addObject(bBox);
+		mainFrame.setMinimumSize(i,j);
+		mainFrame.setBackgroundColor(100,100,100);
 		
-		map1.setText("Map 1");
-		map1.setSize(80,40);
-		mainFrame.addObject(map1);
+		bBox.setMinimumSize(120,600);
+		bBox.setBackgroundColor(50,50,50);
 		
-		map2.setText("Map 2");
-		map2.setSize(80,40);
-		mainFrame.addObject(map2);
+		bBox.addButton("Lavaland 3");
+		bBox.addButton("Lavaland 2");
+		bBox.addButton("Lavaland 1");
 		
-		map3.setText("Map 3");
-		map3.setSize(80,40);
-		mainFrame.addObject(map3);
+		bBox.addButton("Snowland 3");
+		bBox.addButton("Snowland 2");
+		bBox.addButton("Snowland 1");
 		
-		map4.setText("Map 4");
-		map4.setSize(80,40);
-		mainFrame.addObject(map4);
+		bBox.addButton("Grassland 3");
+		bBox.addButton("Grassland 2");
+		bBox.addButton("Grassland 1");
 	}
 
 	public int getSelection() {
-		if(map1.buttonPressed())return 1;
-		else if(map2.buttonPressed())return 2;
-		else if(map3.buttonPressed())return 3;
-		else if(map4.buttonPressed())return 4;
+		if(bBox.anyActive()) return 8-bBox.getPressed();
 		else return 0;
 	}
 	

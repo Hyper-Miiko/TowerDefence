@@ -53,31 +53,41 @@ public abstract class PresetMap {
 		return map;
 	}
 	
-//	public static Map toundra() {
-//		Map map = new Map();
-//		
-//		map.setBackground("toundra");
-//		map.addSlot(new Slot(new Vector(162, 355)));
-//		map.addSlot(new Slot(new Vector(311, 336)));
-//		map.addSlot(new Slot(new Vector(358, 227)));
-//		map.addSlot(new Slot(new Vector(563, 414)));
-//		map.addSlot(new Slot(new Vector(790, 312)));
-//		map.addSlot(new Slot(new Vector(766, 426)));
-//		
-//		return map;
-//	}
-//	
-//	public static Map volcano() {
-//		Map map = new Map();
-//		
-//		map.setBackground("volcano");
-//		map.addSlot(new Slot(new Vector(123, 237)));
-//		map.addSlot(new Slot(new Vector(460, 217)));
-//		map.addSlot(new Slot(new Vector(455, 456)));
-//		map.addSlot(new Slot(new Vector(605, 369)));
-//		map.addSlot(new Slot(new Vector(774, 377)));
-//		map.addWave(PresetWave.volcanoWave1());
-//		
-//		return map;
-//	}
+	public static Map toundra1() {
+		Map map = new Map();
+		map.setBackground("toundra");
+		map.setWave(PresetWave.test());
+		return map;
+	}
+	public static Map toundra2() {
+		Map map = new Map();
+		map.setBackground("toundra");
+		map.setWave(PresetWave.test());
+		return map;
+	}
+	public static Map toundra3() {
+		Map map = new Map();
+		map.setBackground("toundra");
+		map.setWave(PresetWave.test());
+		return map;
+	}
+	
+	public static Map volcano1() {
+		Map map = new Map();
+		map.setBackground("volcano");
+		map.setWave(PresetWave.test());
+		return map;
+	}
+	public static Map volcano2() {
+		Map map = new Map();
+		map.setBackground("volcano");
+		map.setWave(PresetWave.test());
+		return map;
+	}
+	public static Map volcano3() {
+		Map map = new Map();
+		map.setBackground("volcano");
+		map.setWave(PresetWave.test());
+		return map;
+	}
 }

@@ -48,4 +48,12 @@ public class FVerticalButtonBox extends FVerticalFrame {
 		}
 		return false;
 	}
+	public int getPressed() {
+		int i = 0;
+		for(IToogleButton b1 : buttonList) {
+			if(b1.isActive())return i;
+			else i++;
+		}
+		return -1;
+	}
 }
