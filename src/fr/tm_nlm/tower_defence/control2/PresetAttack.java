@@ -40,7 +40,7 @@ public class PresetAttack {
 		Attack attack = new Attack("Kniffe");
 		
 		attack.setBullet(PresetBullet.knife());
-		attack.setCooldown(6.0, 18.0);
+		attack.setCooldown(60, 180);
 		attack.setSpreadRange(Math.PI/4);
 		attack.setRandomSpread(true);
 		attack.setRange(300);
@@ -314,10 +314,11 @@ public class PresetAttack {
 		Attack attack = new Attack("Rainbow Blaster");
 		
 		attack.setBullet(PresetBullet.rainbowBlaster());
-		attack.setConverge(true);
+		attack.setRange(400);
+		attack.setConverge(false);
 		attack.setCooldown(15, 20);
 		attack.setStartShotRange(30);
-		attack.setSpreadRange(-Math.PI/4);
+		attack.setStartSpreadRange(-Math.PI/4);
 		
 		return attack;
 	}
@@ -325,10 +326,9 @@ public class PresetAttack {
 		Attack attack = new Attack("Rainbow Blaster Beam");
 		
 		attack.setBullet(PresetBullet.rainbowBlasterBeam());
-		attack.setConverge(true);
+		attack.setConverge(false);
 		attack.setStartShotRange(600);
-		attack.setNbrOfShot(10);
-		attack.setInterval(0.1);
+		attack.setNbrOfShot(1);
 		
 		return attack;
 	}

@@ -88,7 +88,6 @@ public class Monster implements Damageable, Displayable, Movable {
 		if(!dead) {
 			health -= damage;
 			health = (health < minHealth) ? minHealth : health;
-			System.out.println(health);
 			if(health == 0) {
 				dead = true;
 				game.increaseTemmies(eliminationWorth);

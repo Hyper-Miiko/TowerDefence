@@ -20,6 +20,7 @@ public class Bullet implements Displayable, Movable, Cloneable {
 	private boolean heal;
 	private boolean lethal;
 	private boolean track;
+	private boolean undead;
 	private boolean visible;
 	private int minAlpha, maxAlpha;
 	private int minBlue, maxBlue;
@@ -69,6 +70,7 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		shape = PresetShape.circle(5);
 		slow = new Couple<>(0d, 0d);
 		track = false;
+		undead = false;
 		visible = true;
 	}
 
@@ -173,9 +175,8 @@ public class Bullet implements Displayable, Movable, Cloneable {
 			if (!ghost) {
 				if (attackOnCollide) {
 					deathAttack();
-				} else {
-					die();
 				}
+				die();
 			}
 			for (Localisable touched : toucheds) {
 				if (touched instanceof Damageable) {

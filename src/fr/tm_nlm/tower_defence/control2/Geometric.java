@@ -7,11 +7,17 @@ import java.awt.geom.Rectangle2D;
 
 import fr.tm_nlm.tower_defence.Couple;
 
+/**
+ * Classe qui sert pour les collisions et la représentation des entity
+ * @author Hyper Mïko
+ * FIXME Problème de rotation (peut être de translation aussi) 
+ */
 public class Geometric implements Displayable, Cloneable {
 	private Angle angle;
 	private String imageName;
 	private Area area;
 	private Color color;
+	private Vector position;
 	
 	{
 		angle = new Angle(0);
@@ -19,6 +25,10 @@ public class Geometric implements Displayable, Cloneable {
 	}
 	public Geometric(Area area) {
 		this.area = area;
+		Rectangle2D bounds = area.getBounds2D();
+		position = new Vector(bounds.getCenterX(), bounds.getCenterY());
+//		setPosition(new Vector(0, 0));
+//		this.position = new Vector(0, 0);
 	}
 	
 	@Override
@@ -27,18 +37,22 @@ public class Geometric implements Displayable, Cloneable {
 		clone.angle = angle;
 		clone.imageName = imageName;
 		clone.color = color;
+		clone.position = position;
 		return clone;
 	}
 	
 	public void translateByAngle(double dist) {
 		Vector diff = new Vector(0, 0).byAngle(angle, dist);
-		area.transform(AffineTransform.getTranslateInstance(diff.x,  diff.y));
+		setPosition(position.byAngle(angle, dist));
+//		area.transform(AffineTransform.getTranslateInstance(diff.x,  diff.y));
 	}
 	
 	public void setPosition(Vector position) {
-		Rectangle2D bounds = area.getBounds2D();
-		area.transform(AffineTransform.getTranslateInstance(-bounds.getCenterX(),  -bounds.getCenterY()));
+//		Rectangle2D bounds = area.getBounds2D();
+//		area.transform(AffineTransform.getTranslateInstance(-bounds.getCenterX(),  -bounds.getCenterY()));
+		area.transform(AffineTransform.getTranslateInstance(-this.position.x,  -this.position.y));
 		area.transform(AffineTransform.getTranslateInstance(position.x,  position.y));
+		this.position = position;
 	}
 	
 	public boolean collide(Displayable entity) {
@@ -53,8 +67,9 @@ public class Geometric implements Displayable, Cloneable {
 	
 	@Override
 	public Vector getPosition() {
-		Rectangle2D bound = area.getBounds2D();
-		return new Vector(bound.getCenterX(), bound.getCenterY());
+//		Rectangle2D bound = area.getBounds2D();
+//		return new Vector(bound.getCenterX(), bound.getCenterY());
+		return position;
 	}
 
 	@Override

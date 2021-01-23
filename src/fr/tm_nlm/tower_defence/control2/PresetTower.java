@@ -73,11 +73,11 @@ public class PresetTower {
 		Tower tower = new Tower("Asriel Dreamurr");
 
  		tower.addAttack(PresetAttack.greatStarCall());
-		tower.addAttack(PresetAttack.rainbowBlaster());
+//		tower.addAttack(PresetAttack.rainbowBlaster());
 		tower.addAttack(PresetAttack.starGun());
-		//tower.setImage("Sans2");
+		tower.setImage("Sans2");
 		tower.setMaxHandle(2);
-		tower.setPrice(500);
+		tower.setPrice(/*50*/0);
 		tower.setEvolution(truePowerAsriel(), 20000);
 		
 		return tower;

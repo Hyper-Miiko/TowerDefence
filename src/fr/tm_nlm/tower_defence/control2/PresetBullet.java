@@ -327,11 +327,12 @@ public class PresetBullet {
 		return bullet;
 	}
 	public static Bullet rainbowBlasterBeam() {
+		//FIXME
 		Bullet bullet = new Bullet();
 		
 		bullet.setDamage(10);
 		bullet.setSpeed(0);
-		bullet.setShape(PresetShape.rect(1200, 14));
+		bullet.setShape(PresetShape.rect(400, 200));
 		bullet.setLifeTime(1);
 		bullet.setFadingTime(1);
 		bullet.setCollideFlying(true);
