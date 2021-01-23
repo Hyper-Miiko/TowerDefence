@@ -14,7 +14,7 @@ public class MenuWindow extends MWindow{
 	private IPushButton map3 = new IPushButton();
 	private IPushButton map4 = new IPushButton();
 	
-	public MenuWindow(int i, int j) {
+	public MenuWindow(int i, int j, boolean cheat) {
 		super(i,j);
 		
 		super.setMainFrame(mainFrame);
@@ -24,7 +24,7 @@ public class MenuWindow extends MWindow{
 		
 		bBox.setMinimumSize(120,600);
 		bBox.setBackgroundColor(50,50,50);
-		
+				
 		bBox.addButton("Lavaland 3");
 		bBox.addButton("Lavaland 2");
 		bBox.addButton("Lavaland 1");
@@ -39,8 +39,12 @@ public class MenuWindow extends MWindow{
 	}
 
 	public int getSelection() {
-		if(bBox.anyActive()) return 8-bBox.getPressed();
-		else return 0;
+		if(bBox.anyActive()) {
+			int i = bBox.getPressed();
+			bBox.setSelect(i, false);
+			return bBox.getNumberOfButton()-i-1;	
+		}
+		else return -1;
 	}
 	
 	public void run() {

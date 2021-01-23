@@ -3,7 +3,7 @@ package fr.tm_nlm.tower_defence.control2;
 public abstract class PresetWave {
 	public static Wave test() {
 		Monster monster;
-		Wave wave = new Wave("Test");
+		Wave wave = new Wave("TestWave");
 
 		monster = PresetMonster.testingDog();
 		monster.setPath(PresetPath.grassland());

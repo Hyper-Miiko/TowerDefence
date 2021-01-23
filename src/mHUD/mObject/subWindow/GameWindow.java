@@ -54,9 +54,11 @@ public class GameWindow extends MWindow {
 	long MD = 0;
 	long UN = 0;
 	long SA = 0;
-	long asrielId;
+	long asrielId = 0;
 	
 	int mapId;
+	
+	boolean gameOver = false;
 	
 	Clip clip;
 	
@@ -72,9 +74,6 @@ public class GameWindow extends MWindow {
 		mainFrame.addObject(dataFrame);
 		
 		gameFrame.addObject(buttonsframe);
-		
-		view.setBackgroundColor(150, 0, 150);
-		gameFrame.addObject(view);
 		
 		towerButtons.setMinimumSize(80,674);
 		towerButtons.setBackgroundColor(50,50,50);
@@ -173,7 +172,6 @@ public class GameWindow extends MWindow {
 		ftg.setDisplaySlot(towerButtons.anyActive());
 		
 		if(upgradeButton.buttonPressed()) {
-			//TODO la fonction qui teste si une tour PEUT �voluer
 			if(towerButtons.isPressed(0) && Game.canEvolve(MD))
 				MD = Game.evolveTower(MD);
 			else if(towerButtons.isPressed(2) && Game.canEvolve(UN))
@@ -210,6 +208,11 @@ public class GameWindow extends MWindow {
 			flag = false;
 		}
 		
+		if(Game.isOver() && !gameOver) {
+			gameOver = true;
+			view.setLoseScreen();
+		}
+		
 		HashSet<String> sounds = Game.getSound();
 		for(String sound : sounds) {
 			playSound(sound);
@@ -217,8 +220,9 @@ public class GameWindow extends MWindow {
 	}
 	public void setMap(int selection) {
 		mapId = selection;
-	
-		if(mapId == 0 ) {
+		gameOver = false;
+		
+		if(selection == 0 ) {
 			Game.set(PresetMap.grassland1());
 			loadMusic("data/music/level1.wav");
 		} else if(selection == 1) {
@@ -245,20 +249,17 @@ public class GameWindow extends MWindow {
 		} else if (selection == 8){
 			Game.set(PresetMap.volcano3());
 			loadMusic("data/music/level3.wav");
+		} else if (selection == 9){
+			Game.set(PresetMap.test());
+			//loadMusic("data/music/level3.wav");
 		}
+		gameFrame.removeObject(view);
+		view = new IGraphicView(900, 674,5);
+		view.setBackgroundColor(150, 0, 150);
+		gameFrame.addObject(view);
 		
+		ftg = new FieldToGraphic2(view);
 		
-
-//		else if(selection == 2){
-//			Game.set(PresetMap.toundra());
-//			loadMusic("data/music/level2.wav");
-//		}
-//		else {
-//			Game.set(PresetMap.volcano());
-//			loadMusic("data/music/level3.wav");
-//		}
-		
-		//Apparement il n'y a pas plus simple...
 		Tower md = PresetTower.madDummy();
 		Tower un = PresetTower.undyne();
 		Tower sa = PresetTower.chillSans();
@@ -271,7 +272,9 @@ public class GameWindow extends MWindow {
 		UN = un.getId();
 		SA = sa.getId();
 		asrielId = asriel.getId();
-				
-		ftg = new FieldToGraphic2(view);
+	}
+	public boolean isGameOver() {
+		if(gameOver && view.hasStoped())clip.stop();
+		return gameOver && view.hasStoped();
 	}
 }

@@ -26,6 +26,9 @@ public class IGraphicView extends MItem {
 	private BufferedImage imageBuffer;
 	private java.awt.Color color = new Color(255,255,255);
 	
+	private boolean loseScreen = false;
+	private int fading = 255;
+	
 	@SuppressWarnings("unchecked")
 	public IGraphicView(double x, double y, int arraySize) {
 		setSize(x,y);
@@ -87,8 +90,15 @@ public class IGraphicView extends MItem {
 			for(MGraphicEntity e : entityList.get(i)) {
 				if(e != null && e.isDisplay())imageEdit.drawImage(e.getImage(),(int)e.getPosition().x,(int)e.getPosition().y, null);
 			}
-		}	
+		}
+		if(loseScreen == true) {
+			imageEdit.setColor(new Color(20,0,0,255-fading));
+			imageEdit.fill(new Rectangle2D.Double(0, 0, getSize().x, getSize().y));
+			if(fading > 0)fading-=2;
+		}
+
 		StdDraw.picture(getPos().x/getWindowSize().x, getPos().y/getWindowSize().y, imageBuffer);
+		
 	}
 	
 	public double mouseX() {
@@ -110,5 +120,12 @@ public class IGraphicView extends MItem {
 
 	public void setBackground(Image background) {
 		this.background = background;
+	}
+
+	public void setLoseScreen() {
+		loseScreen = true;
+	}
+	public boolean hasStoped() {
+		return fading <= 0;
 	}
 }
