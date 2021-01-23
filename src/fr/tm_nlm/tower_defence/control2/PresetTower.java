@@ -75,7 +75,7 @@ public class PresetTower {
  		tower.addAttack(PresetAttack.greatStarCall());
 //		tower.addAttack(PresetAttack.rainbowBlaster());
 		tower.addAttack(PresetAttack.starGun());
-		tower.setImage("Sans2");
+		//tower.setImage("Sans2");
 		tower.setMaxHandle(2);
 		tower.setPrice(/*50*/0);
 		tower.setEvolution(truePowerAsriel(), 20000);
@@ -87,7 +87,7 @@ public class PresetTower {
 
  		tower.addAttack(PresetAttack.rainbowLight());
 		tower.addAttack(PresetAttack.rainbowMissile());
-		//tower.setImage("Sans2");
+		tower.setImage("asriel_true");
 		tower.setMaxHandle(3);
 		
 		return tower;

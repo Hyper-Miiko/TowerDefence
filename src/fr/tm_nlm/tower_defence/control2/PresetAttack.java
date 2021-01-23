@@ -300,7 +300,7 @@ public class PresetAttack {
 	public static Attack greatStarBurst() {
 		Attack attack = new Attack("Great Star Burst");
 		
-		attack.setBullet(PresetBullet.tinyStar());
+		attack.setBullet(PresetBullet.tinyStar(20, 50));
 		attack.setTargetFlying(true);
 		attack.setBulletsByShot(16);
 		attack.setSpreadRange(Math.PI);
@@ -335,12 +335,14 @@ public class PresetAttack {
 	public static Attack starGun() {
 		Attack attack = new Attack("Star Gun");
 		
-		attack.setBullet(PresetBullet.tinyStar());
+		attack.setBullet(PresetBullet.tinyStar(10, 15));
 		attack.setTargetFlying(true);
-		attack.setBulletsByShot(3);
+		attack.setCooldown(4, 5);
+		attack.setBulletsByShot(4);
 		attack.setSpreadRange(Math.PI/8);
 		attack.setNbrOfShot(5);
 		attack.setInterval(0.25);
+		attack.setKeepTracking(true);
 		
 		return attack;
 	}

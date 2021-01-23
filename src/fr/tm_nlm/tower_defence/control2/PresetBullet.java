@@ -298,10 +298,10 @@ public class PresetBullet {
 		
 		return bullet;
 	}
-	public static Bullet tinyStar() {
+	public static Bullet tinyStar(double minDamage, double maxDamage) {
 		Bullet bullet = new Bullet();
 		
-		bullet.setDamage(20, 50);
+		bullet.setDamage(minDamage, maxDamage);
 		bullet.setSpeed(250);
 		bullet.setShape(PresetShape.circle(5));
 		bullet.setLifeTime(5);

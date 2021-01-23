@@ -96,13 +96,16 @@ public class Bullet implements Displayable, Movable, Cloneable {
 				}
 				die();
 			}
-		} else if (!dead && currentTime > fadeAt) {
+		} else {
 			if(onDeathAttack != null && onDeathAttack.shotLeft()) {
 				onDeathAttack.setTargetPosition(tracked.getPosition());
 				onDeathAttack.tryShot(getPosition(), currentTime);
-			} else {
+			} else if(currentTime > fadeAt) {
 				dead = true;
 			}
+		}
+		if (currentTime > fadeAt) {
+			visible = false;
 		}
 	}
 
