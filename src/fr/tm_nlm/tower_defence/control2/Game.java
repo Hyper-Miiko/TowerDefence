@@ -160,6 +160,10 @@ public final class Game extends Thread {
 		return null;
 	}
 	
+	public static boolean isOver() {
+		return instance.over;
+	}
+	
 	private boolean buy(double cost) {
 		if(temmies >= cost) {
 			temmies -= cost;
