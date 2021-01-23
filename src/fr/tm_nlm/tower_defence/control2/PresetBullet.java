@@ -41,8 +41,10 @@ public class PresetBullet {
 		bullet.setShape(PresetShape.triangle(33, 10));
 		bullet.setSpeed(100);
 		bullet.setDamage(10*Math.PI);
-		bullet.setLifeTime(3);
-		bullet.setFadingTime(1);
+		bullet.setLifeTime(1.5);
+		bullet.setFadingTime(2);
+		bullet.setGreen(0);
+		bullet.setBlue(0);
 		bullet.setImage("mad_knife");
 		
 		return bullet;
@@ -341,10 +343,10 @@ public class PresetBullet {
 		Bullet bullet = new Bullet();
 		
 		bullet.setShape(PresetShape.circle(10));
-		bullet.setSpeed(200);
+		bullet.setSpeed(150);
 		bullet.setGhost(true);
-		bullet.setDamage(0.00001);
-		bullet.setAimingFactor(0.50);
+		bullet.setDamage(0.01);
+		bullet.setAimingFactor(0.80);
 		bullet.setTrack(true);
 		bullet.setLifeTime(15, 20);
 		//bullet.setImage("mad_missile");
@@ -355,7 +357,7 @@ public class PresetBullet {
 	public static Bullet rainbowLight() {
 		Bullet bullet = new Bullet();
 		
-		bullet.setShape(PresetShape.triangle(1800, 900));
+		bullet.setShape(PresetShape.rect(1800, 900));
 		bullet.setSpeed(0);
 		bullet.setGhost(true);
 		bullet.setDamage(0.002);

@@ -40,7 +40,7 @@ public class PresetAttack {
 		Attack attack = new Attack("Kniffe");
 		
 		attack.setBullet(PresetBullet.knife());
-		attack.setCooldown(60, 180);
+		attack.setCooldown(6.0, 18.0);
 		attack.setSpreadRange(Math.PI/4);
 		attack.setRandomSpread(true);
 		attack.setRange(300);
@@ -291,7 +291,7 @@ public class PresetAttack {
 		attack.setStartShotRange(600);
 		attack.setStartSpreadRange(Math.PI/3);
 		attack.setConverge(true);
-		attack.setCooldown(3.0, 4.5);
+		attack.setCooldown(30, 45);
 		//attack.setSound("start_calling");
 		attack.setRange(300);
 		
@@ -350,14 +350,15 @@ public class PresetAttack {
 		
 		attack.setBullet(PresetBullet.rainbowMissile());
 		attack.setCooldown(1, 2);
-		attack.setSpreadRange(-Math.PI/2);
+		attack.setSpreadRange(Math.PI);
 		attack.setRandomSpread(true);
-		attack.setBulletsByShot(1, 2);
-		attack.setNbrOfShot(8, 16);
-		attack.setInterval(0.1);
+		attack.setBulletsByShot(3, 4);
+		attack.setNbrOfShot(4, 6);
+		attack.setInterval(0.05);
 		attack.setRange(200);
 		attack.setKeepTracking(true);
 		attack.setTargetFlying(true);
+		attack.setTargetWalking(false);
 		
 		return attack;
 	}

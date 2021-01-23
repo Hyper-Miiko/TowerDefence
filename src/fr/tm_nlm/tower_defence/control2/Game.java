@@ -220,6 +220,7 @@ public final class Game extends Thread {
 	private WaitingBool trashputBussy;
 	private Map map;
 	private int temmies;
+	private boolean over;
 	
 	{
 		bullets = new HashSet<>();
@@ -235,6 +236,7 @@ public final class Game extends Thread {
 		trashput = new HashSet<>();
 		trashputBussy = new WaitingBool("Trashput");
 		temmies = 50;
+		over = false;
 	}
 	/**
 	 * Est appelé lors de l'initialisation du programme sans avoir à le mettre dans le main.
@@ -254,7 +256,7 @@ public final class Game extends Thread {
 	
 	@Override
 	public void run() {
-		while(true) {
+		while(!over) {
 			try {
 				Thread.sleep((long) (1/MAX_FPS*1000));
 			} catch (InterruptedException e) {}
@@ -278,6 +280,13 @@ public final class Game extends Thread {
 				if(bullet.isDead()) {
 					remove(bullet);
 				}
+			}
+			if(map.isOver() && readMonsters().isEmpty()) {
+				over = true;
+				temmies *= 1.1;
+			} else if(map.getLives() == 0) {
+				over = true;
+				temmies = temmies >> 1;
 			}
 		}
 	}

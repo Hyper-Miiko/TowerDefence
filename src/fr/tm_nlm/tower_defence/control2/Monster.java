@@ -86,7 +86,9 @@ public class Monster implements Damageable, Displayable, Movable {
 	public void hurt(double damage, boolean lethal) {
 		double minHealth = (lethal) ? 0 : 0.01;
 		if(!dead) {
-			health = (health < damage) ? minHealth : health - damage;
+			health -= damage;
+			health = (health < minHealth) ? minHealth : health;
+			System.out.println(health);
 			if(health == 0) {
 				dead = true;
 				game.increaseTemmies(eliminationWorth);

@@ -3,11 +3,12 @@ package fr.tm_nlm.tower_defence.control2;
 public class PresetTower {
 	public static Tower madDummy() {
 		Tower tower = new Tower("Mad Dummy");
+		tower.addAttack(PresetAttack.knife());
 		tower.addAttack(PresetAttack.magicMissiles());
 		tower.addAttack(PresetAttack.magicBullets());
 		tower.setMaxHandle(1);
 		tower.setImage("mad_dummy_150");
-		tower.setEvolution(madMewMew(), 0);
+		tower.setEvolution(madMewMew(), 1000);
 		tower.setPrice(30);
 		return tower;
 	}
@@ -28,7 +29,7 @@ public class PresetTower {
 		tower.addAttack(PresetAttack.tinySpear());
 		tower.setImage("undyne");
 		tower.setMaxHandle(4);
-		tower.setEvolution(undyneTheUndying(), 0);
+		tower.setEvolution(undyneTheUndying(), 5000);
 		tower.setPrice(70);
 		
 		return tower;
@@ -51,7 +52,7 @@ public class PresetTower {
 		tower.addAttack(PresetAttack.boneJoke());
 		tower.setImage("Sans1");
 		tower.setMaxHandle(0);
-		tower.setEvolution(madSans(), 0);
+		tower.setEvolution(madSans(), 50000);
 		tower.setPrice(0);
 		
 		return tower;
@@ -76,8 +77,8 @@ public class PresetTower {
 		tower.addAttack(PresetAttack.starGun());
 		//tower.setImage("Sans2");
 		tower.setMaxHandle(2);
-		tower.setPrice(0);
-		tower.setEvolution(truePowerAsriel(), 0);
+		tower.setPrice(500);
+		tower.setEvolution(truePowerAsriel(), 20000);
 		
 		return tower;
 	}

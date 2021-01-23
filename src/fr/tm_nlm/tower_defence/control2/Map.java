@@ -80,4 +80,7 @@ public class Map {
 		}
 		return wave.getName();
 	}
+	public boolean isOver() {
+		return over;
+	}
 }

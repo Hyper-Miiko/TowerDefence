@@ -178,6 +178,8 @@ public class GameWindow extends MWindow {
 				UN = Game.evolveTower(UN);
 			else if(towerButtons.isPressed(1) && Game.canEvolve(SA))
 				SA = Game.evolveTower(SA);
+			else if(towerButtons.isPressed(4) && Game.canEvolve(asrielId))
+				asrielId = Game.evolveTower(asrielId);
 			
 			towerButtons.setSelect(0,false);
 			ftg.setGraphicRange(MD,false);
