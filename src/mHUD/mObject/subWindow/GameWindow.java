@@ -89,25 +89,25 @@ public class GameWindow extends MWindow {
 		buttonUndyne = towerButtons.addButton("");
 		buttonAsriel = towerButtons.addButton("");
 		
-		upgradeButton.setText("Uprgrade");
-		upgradeButton.setSize(80,40);
+		upgradeButton.setText("");
+		upgradeButton.setSize(240,40);
 		dataFrame.addObject(upgradeButton);
 		
-		life.setText("Life : 10");
+		life.setText("");
 		life.setSize(140,40);
 		dataFrame.addObject(life);
 		
 		
-		temmies.setText("Temmies : 1000");
+		temmies.setText("");
 		temmies.setSize(180,40);
 		dataFrame.addObject(temmies);
 		
-		wave.setText("Wave : 1");
+		wave.setText("");
 		wave.setSize(140,40);
 		dataFrame.addObject(wave);
 		
 		voidSpace.setText("");
-		voidSpace.setSize(280,40);
+		voidSpace.setSize(120,40);
 		voidSpace.setBackgroundColor(50,50,50);
 		dataFrame.addObject(voidSpace);
 		
@@ -194,12 +194,40 @@ public class GameWindow extends MWindow {
 			ftg.setGraphicRange(dummyId,false);
 		}
 		
-		if(towerButtons.isPressed(0))ftg.setGraphicRange(dummyId,true);
-		else if(towerButtons.isPressed(1))ftg.setGraphicRange(sansId,true);
-		else if(towerButtons.isPressed(2))ftg.setGraphicRange(undyneId,true);
+		if(towerButtons.isPressed(0)) {
+			if(ExistingTower.get(dummyId).isOnScreen()) {
+				ftg.setGraphicRange(dummyId,true);
+				upgradeButton.setText("Upgrade : " + Game.evolvePrice(dummyId));
+			}else upgradeButton.setText("Cost : "+ExistingTower.get(dummyId).getPrice());
+		}
+		else if(towerButtons.isPressed(1)) {
+			if(ExistingTower.get(sansId).isOnScreen()) {
+				ftg.setGraphicRange(sansId,true);
+				upgradeButton.setText("Upgrade : " + Game.evolvePrice(sansId));
+			}else upgradeButton.setText("Cost : "+ExistingTower.get(sansId).getPrice());
+		}
+		else if(towerButtons.isPressed(2)) {
+			if(ExistingTower.get(undyneId).isOnScreen()) {
+				ftg.setGraphicRange(undyneId,true);
+				upgradeButton.setText("Upgrade : " + Game.evolvePrice(undyneId));
+			}else upgradeButton.setText("Cost : "+ExistingTower.get(undyneId).getPrice());
+		}
+		else if(towerButtons.isPressed(3)) {
+			if(ExistingTower.get(asrielId).isOnScreen()) {
+				ftg.setGraphicRange(asrielId,true);
+				upgradeButton.setText("Upgrade : " + Game.evolvePrice(asrielId));
+			}else upgradeButton.setText("Cost : "+ExistingTower.get(asrielId).getPrice());
+			
+		}
+		else {
+			upgradeButton.setText("");
+			ftg.setGraphicRange(dummyId,false);
+			ftg.setGraphicRange(sansId,false);
+			ftg.setGraphicRange(undyneId,false);
+			ftg.setGraphicRange(asrielId,false);
+		}
 		
 		if(view.mousePressed() && !flag) {
-			System.out.println(view.mouseX()+ " " +view.mouseY());
 			if(towerButtons.isPressed(0))
 				Game.placeTower(dummyId,new Vector(view.mouseX(), view.mouseY()));
 			else if(towerButtons.isPressed(1))
@@ -210,6 +238,7 @@ public class GameWindow extends MWindow {
 				Game.placeTower(asrielId, new Vector(view.mouseX(), view.mouseY()));
 			
 			towerButtons.setSelect(0,false);
+
 			
 			flag = true;
 		}
