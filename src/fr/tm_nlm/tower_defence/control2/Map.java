@@ -2,6 +2,11 @@ package fr.tm_nlm.tower_defence.control2;
 
 import java.util.HashSet;
 
+/**
+ * Un niveau de jeu
+ * @author Hyper Mïko
+ *
+ */
 public class Map {
 	private boolean over;
 	private boolean undying;
@@ -19,12 +24,21 @@ public class Map {
 		sound = null;
 	}
 
+	/**
+	 * ajoute un projectil au jeu à un position donnée
+	 * @param bullet
+	 * @param position
+	 */
 	public void place(Bullet bullet, Vector position) {
 		bullet.setPosition(position);
 		bullet.setGame(game);
 		game.add(bullet);
 		bullet.resetMove();
 	}
+	/**
+	 * ajoue un monstre au jeu à l'emplacement de sont premier point de passage
+	 * @param monster
+	 */
 	public void place(Monster monster) {
 		monster.setPosition(monster.getPath().getPosition());
 		monster.setGame(game);
@@ -36,6 +50,9 @@ public class Map {
 		sound = "data/music/damaged.wav";
 		lives = (nbrOfLivesLost > lives) ? 0 : lives - nbrOfLivesLost;
 	}
+	/**
+	 * Appel pricipal
+	 */
 	public void run() {
 		if(wave != null) {
 			if(wave.isOver()) {

@@ -5,6 +5,11 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
 
+/**
+ * Les attack que peuvent lancer les tours (les monstres théoriquement mais ça n'a pas été encore implémenté) et même les projectiles
+ * @author Hyper Mïko
+ *
+ */
 public class Attack {
 	private static Random random = new Random();
 	
@@ -65,17 +70,22 @@ public class Attack {
 		this.name = name;
 	}
 	
+	/**
+	 * Appel pricipal
+	 * @param origin d'où par l'attaque
+	 * @param targets les cibles potentielles
+	 */
 	public void process(Vector origin, HashSet<Localisable> targets) {
 		double currentTime = Game.time();
 		if(!bulletsReady.isEmpty()) {
 			tryShot(origin, currentTime);
 		} else {
-			if(nextAttackTimer < currentTime) {
+			if(nextAttackTimer < currentTime) { //Delai entre deux attaques
 				target = seek(origin, targets);
 				if(target != null) {
 					targetPosition = target.getPosition();
 					attack(target);
-					cooldown = valueBetween(minCooldown, maxCooldown);
+					cooldown = valueBetween(minCooldown, maxCooldown); //Génère un nouveau cooldown
 					nextAttackTimer = currentTime + cooldown;
 				}
 			}
@@ -99,15 +109,22 @@ public class Attack {
 		return (max > min) ? random.nextInt(max - min + 1) + min : min;
 	}
 	
+	/**
+	 * Cherche une cible parmis une liste de cibles potentielles
+	 * privilégie la cible qui arrivera le plus vite, si c'est un monstre
+	 * @param origin point d'origine de la recherche
+	 * @param targets les cibles potentienls
+	 * @return la cible choisi
+	 */
 	public Localisable seek(Vector origin, HashSet<Localisable> targets) {
 		Localisable currentTarget = null;
 		double minDist = Double.POSITIVE_INFINITY;
 		for(Localisable elem : targets)	{
-			if((targetWalking && !elem.isFlying() || targetFlying && elem.isFlying())
-					&& elem.getPosition().dist(origin) < range) {
+			if((targetWalking && !elem.isFlying() || targetFlying && elem.isFlying()) //ajoute les monstre marchant si l'attaque cible les monstre marchant, ajouter les monstre volant si l'attaque cible les monstre volant (elle peut en cibler aucun)
+					&& elem.getPosition().dist(origin) < range) { //Et la cible doit être à porté
 				if(elem instanceof Monster) {
 					double dist = ((Monster) elem).timeToEnd();
-					if(dist < minDist || dist == Double.POSITIVE_INFINITY) {
+					if(dist < minDist || dist == Double.POSITIVE_INFINITY) { //Si on a mieux ou si on a que des immobile
 						minDist = dist;
 						currentTarget = elem;
 					}
@@ -117,16 +134,21 @@ public class Attack {
 		return currentTarget;
 	}
 	
+	/**
+	 * lance une partie d'une attaque, à partir d'un point vers un autre
+	 * @param origin
+	 * @param targetPosition
+	 */
 	public void shot(Vector origin, Vector targetPosition) {
 		rotation += rotationBetweenShot;
-		LinkedList<Bullet> shotBullet = bulletsReady.poll();
-		int size = shotBullet.size();
+		LinkedList<Bullet> shotBullet = bulletsReady.poll(); //Une des attaque restant;
+		int size = shotBullet.size(); 
 		for(int i = 0; i < size; i++) {
 			Vector start = origin;
 			Angle angle = null;
 			Angle angleModif = null;
 			angle = start.angle(targetPosition);
-			if(!converge) {
+			if(!converge) { //Le tir chosi son angle avant d'étre déplacé donc il ne visera peut-^tre pas la cible après coup
 				if(randomSpread || size == 1) {
 					angleModif = new Angle(valueBetween(-spreadRange, spreadRange) + rotation);
 				} else {
@@ -134,6 +156,7 @@ public class Attack {
 				}
 			}
 			
+			//Déplacement du point de départ de l'attaque
 			Angle startAngleModif;
 			if(startRandomSpread || size == 1) {
 				startAngleModif = new Angle(valueBetween(-startSpreadRange, startSpreadRange));
@@ -143,7 +166,7 @@ public class Attack {
 			Angle finalStartAngle = new Angle(angle.value() + startAngleModif.value());
 			start = origin.byAngle(finalStartAngle, valueBetween(minStartShotRange, maxStartShotRange));
 			
-			if(converge) {
+			if(converge) { //Le tir choisi sont angle après sont déplacement donc il pourra suivre une autre trajectoire que directement depuis l'attaquant à la cible
 				angle = start.angle(targetPosition);
 				if(randomSpread || size == 1) {
 					angleModif = new Angle(valueBetween(-spreadRange, spreadRange) + rotation);
@@ -161,26 +184,33 @@ public class Attack {
 		}
 	}
 	
+	/**
+	 * Donne au graphique de quoi afficher une bulle au dessus de l'attaquant pour écrire un texte
+	 */
 	private void quote() {
 		if(quotes.size() > 0) {
 			owner.setQuote(quotes.get(valueBetween(0, quotes.size() - 1)));
 		}
 	}
 	
+	/**
+	 * Prépare une attaque;
+	 * @param target cible de l'attaque
+	 */
 	public void attack(Localisable target) {
 		int nbrOfShots = valueBetween(minNbrOfShot, maxNbrOfShot);
-		bulletsReady = new LinkedList<>();
+		bulletsReady = new LinkedList<>(); //Vide les projectiles restant (théoriquement il n'y en a plus)
 		for(int i = 0; i < nbrOfShots; i++) {
 			LinkedList<Bullet> shot = new LinkedList<>();
-			int bulletsByShot = (int) valueBetween(minBulletsByShot, maxBulletsByShot);
+			int bulletsByShot = (int) valueBetween(minBulletsByShot, maxBulletsByShot); //Nombre de projectile à génèré pour ce tir
 			for(int j = 0; j < bulletsByShot; j++) {
-				Bullet bullet = (Bullet) this.bullet.clone();
+				Bullet bullet = (Bullet) this.bullet.clone(); //On clone le projectile qui sert d'exemple pour cette attaque
 				bullet.setTracked(target);
 				shot.add((Bullet) bullet);
 			}
 			bulletsReady.add(shot);
 		}
-		owner.setSound(sound);
+		owner.setSound(sound); //Certaine attaque peuvent jouer un son
 	}
 	
 	public void resetCooldown() {

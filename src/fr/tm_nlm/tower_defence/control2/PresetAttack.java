@@ -231,7 +231,7 @@ public class PresetAttack {
 		attack.setBulletsByShot(4, 6);
 		attack.setStartShotRange(-200, -100);
 		attack.setStartSpreadRange(Math.PI/20);
-		attack.setConverge(true);
+		attack.setConverge(false);
 		
 		return attack;
 	}
@@ -244,7 +244,7 @@ public class PresetAttack {
 		attack.setBulletsByShot(4, 6);
 		attack.setStartShotRange(-200, -100);
 		attack.setStartSpreadRange(Math.PI/20);
-		attack.setConverge(true);
+		attack.setConverge(false);
 		
 		return attack;
 	}

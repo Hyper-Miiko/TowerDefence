@@ -7,6 +7,11 @@ import java.util.Random;
 
 import fr.tm_nlm.tower_defence.Couple;
 
+/**
+ * Projectiles qui avance vers leur cible et les affecte ou non
+ * @author Hyper Mïko
+ *
+ */
 public class Bullet implements Displayable, Movable, Cloneable {
 	private static Random random = new Random();
 
@@ -83,36 +88,44 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		return havePosition() && visible;
 	}
 
+	/**
+	 * Appel principal
+	 */
 	public void process() {
 		double currentTime = Game.time();
-		if (fadeAt == Double.POSITIVE_INFINITY) {
+		if(fadeAt == Double.POSITIVE_INFINITY) { //Si on n'a pas donné au projectile l'instruction de disparaitre
 			calcAngle(currentTime - lastMove);
 			move(currentTime - lastMove, !ghost);
 			lastMove = currentTime;
-			if (currentTime > decayTimer) {
-				if (attackOnNaturalDeath) {
+			if(currentTime > decayTimer) { //Si le projectile a fait son temps et doit mourir (permet d'évite de perdre des projectil on ne ais ou et de supperbe effet aussi)
+				if(attackOnNaturalDeath) {
 					deathAttack();
 				}
 				die();
 			}
 		} else {
-			if(onDeathAttack != null && onDeathAttack.shotLeft()) {
+			if(onDeathAttack != null && onDeathAttack.shotLeft()) { //Si on a un effet de mort en cour
 				onDeathAttack.setTargetPosition(tracked.getPosition());
 				onDeathAttack.tryShot(getPosition(), currentTime);
-			} else if(currentTime > fadeAt) {
-				dead = true;
+			} else if(currentTime > fadeAt) { //Le projectile et mort depuis plus longtemps que son animation de mort et on a plus d'effet de mort
+				dead = true; //On préviens qu'on peut le supprimer
 			}
 		}
-		if (currentTime > fadeAt) {
+		if (currentTime > fadeAt) { //Si on a un effet de mort encore en cour mais que le projectile et mort depuis plus longtemps que son animation de mort
 			visible = false;
 		}
 	}
 
+	/**
+	 * Calcule un angle en fonction du temps
+	 * La rotation en 1 secondes et de PI*aimingFactor
+	 * @param time
+	 */
 	private void calcAngle(double time) {
-		if (track) {
+		if (track) { //On peut soit tourner vers un ennemie ou un position immobile
 			if (tracked instanceof Damageable && ((Damageable) tracked).isDead()) {
 				HashSet<Localisable> targets = new HashSet<>();
-				switch (collideWith) {
+				switch (collideWith) { //Dépend de qui à lancé le projectil pour prendre en compte les bonnes cible potentielles
 				case MONSTER:
 					targets.addAll(game.readMonsters());
 					break;
@@ -125,12 +138,12 @@ public class Bullet implements Displayable, Movable, Cloneable {
 				tracked = seek(targets);
 			}
 			if (tracked != null) {
-				aimingPosition = tracked.getPosition();
+				aimingPosition = tracked.getPosition(); //Si on trouve quelqu'un alors on actuallise la position
 			}
 		}
 		Angle currentAngle = getPosition().angle(aimingPosition);
 		Angle angleDiff = Angle.diff(getAngle(false), currentAngle);
-		Angle newAngle = Angle.diff(getAngle(false), new Angle(angleDiff.value() * aimingFactor * time));
+		Angle newAngle = Angle.diff(getAngle(false), new Angle(angleDiff.value() * aimingFactor * time)); //L'initialisation semble inutile mais dans le doute je vais la laisser
 		if (angleDiff.value() > Math.PI) {
 			newAngle = Angle.diff(getAngle(false), new Angle(-angleDiff.value() * aimingFactor * time));
 		} else {
@@ -139,6 +152,11 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		setAngle(newAngle);
 	}
 
+	/**
+	 * Recherche une cible parmis les cibles potentielle
+	 * @param targets cible potentielles
+	 * @return cible choisi
+	 */
 	private Localisable seek(HashSet<Localisable> targets) {
 		Localisable currentTarget = null;
 		double minDist = Double.POSITIVE_INFINITY;
@@ -152,10 +170,16 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		return currentTarget;
 	}
 
+	/**
+	 * Ce déplace pour un temps donné
+	 * @param time temps de parcour
+	 * @param b inutile et ignoré
+	 * @return
+	 */
 	@Override
 	public boolean move(double time, boolean b) {
-		shape.translateByAngle(time * getSpeed());
-		HashSet<Localisable> collideables = new HashSet<>();
+		shape.translateByAngle(time * getSpeed()); //Oui, le déplacement ce fait en une ligne, mais ça implique d'autre chose
+		HashSet<Localisable> collideables = new HashSet<>(); //Liste des collision potentielles
 		switch (collideWith) {
 		case MONSTER:
 			collideables.addAll(game.readMonsters());
@@ -166,16 +190,16 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		default:
 			break;
 		}
-		HashSet<Localisable> toucheds = new HashSet<>();
+		HashSet<Localisable> toucheds = new HashSet<>(); //Liste des entités touchées (surtout pour les grosse hitbox et les cible groupée)
 		for (Localisable collideable : collideables) {
-			if ((collideWalking && !collideable.isFlying() || collideFlying && collideable.isFlying())
+			if ((collideWalking && !collideable.isFlying() || collideFlying && collideable.isFlying())//Un projectil peut ne rentrer en collision avec personne ou tout le monde
 					&& shape.collide(collideable)) {
 				toucheds.add(collideable);
 			}
 		}
 		if (!toucheds.isEmpty()) {
-			if (!ghost) {
-				if (attackOnCollide) {
+			if (!ghost) { //Même si il traverse les entités il peut leur infliger des dégâts (à chaque frame il faut donc des dégâts réduit) il n'y a pas de frame d'invulnérabilité
+				if (attackOnCollide) {//Si l'effet de mort ce déclenche à la collision
 					deathAttack();
 				}
 				die();
@@ -184,13 +208,13 @@ public class Bullet implements Displayable, Movable, Cloneable {
 				if (touched instanceof Damageable) {
 					double damage = valueBetween(minDamage, maxDamage);
 					if (!heal) {
-						((Damageable) touched).hurt(damage, lethal);
+						((Damageable) touched).hurt(damage, lethal); //Inflige des dégat, les dégât non léthaux ne peuvent pas descendre la vie de la cible sous un certain niveau
 					} else {
-						((Damageable) touched).heal(damage);
+						((Damageable) touched).heal(damage); //On peut théoriquement soigner même si aucunne attaque ne le fait
 					}
 				}
 
-				if (touched instanceof Movable) {
+				if (touched instanceof Movable) { //Si la cible ce déplace alors on peut la ralentir ou changer sa direction
 					if (slow._1 != 0) {
 						((Movable) touched).slow(slow);
 					}
@@ -247,8 +271,10 @@ public class Bullet implements Displayable, Movable, Cloneable {
 	public void resetMove() {
 		lastMove = Game.time();
 		decayTimer = Game.time() + valueBetween(minLifeTime, maxLifeTime);
-		Color color = new Color(valueBetween(minRed, maxRed), valueBetween(minGreen, maxGreen),
-				valueBetween(minBlue, maxBlue), valueBetween(minAlpha, maxAlpha));
+		Color color = new Color(valueBetween(minRed, maxRed),
+								valueBetween(minGreen, maxGreen),
+								valueBetween(minBlue, maxBlue),
+								valueBetween(minAlpha, maxAlpha));
 		shape.setColor(color);
 	}
 
@@ -257,12 +283,15 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		fadeAt = Game.time() + fadingTime;
 	}
 
+	/**
+	 * Effet à la mort
+	 */
 	private void deathAttack() {
-		onDeathAttack.setMap(game.getMap());
-		if (attackKeepTarget) {
+		onDeathAttack.setMap(game.getMap()); //on place l'effet sur la carte
+		if (attackKeepTarget) { //Les attaque peuvent ou non poursuivre la cible du projectile
 			onDeathAttack.attack(tracked);
 			onDeathAttack.shot(getPosition(), tracked.getPosition());
-		} else {
+		} else { //Sinon il en cherche une nouvelle (pour les attaque à collision ça peut être souvent la même puisque c'est la plus proche)
 			HashSet<Localisable> collideables = new HashSet<>();
 			switch (collideWith) {
 			case MONSTER:
@@ -278,10 +307,13 @@ public class Bullet implements Displayable, Movable, Cloneable {
 			if(target != null) {
 				tracked = target;
 			}
-			onDeathAttack.attack(tracked);
+			onDeathAttack.attack(tracked); //On prépare l'attaque
 		}
 	}
 
+	/**
+	 * N'est appelé qu'une fois donc ne peut pas réellement changer l'image coté graphique, mais la fonctionnalité est là
+	 */
 	@Override
 	public String getImage() {
 		if (fadingImage != null && fadeAt != Double.POSITIVE_INFINITY) {

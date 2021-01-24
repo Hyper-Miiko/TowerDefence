@@ -7,6 +7,11 @@ import java.util.Random;
 
 import fr.tm_nlm.tower_defence.Couple;
 
+/**
+ * Entité qui suivent un chemin, si il arrive au bout le joeur perd de la vie
+ * @author Hyper Mïko
+ *
+ */
 public class Monster implements Damageable, Displayable, Movable, Cloneable {
 	private static Random random = new Random();
 	private boolean boss;
@@ -66,30 +71,32 @@ public class Monster implements Damageable, Displayable, Movable, Cloneable {
 		
 		return monster;
 	}
+	/**
+	 * Appel principal
+	 */
 	public void process() {
-		if(!dead) {
+		if(!dead) { //Un monstre mort et un monstre sans vie, ou l'inverse?
 			double currentTime = Game.time();
 			double time = currentTime - lastMoveTimer;
 			lastMoveTimer = currentTime;
-			if(confuse == 0 || isBoss()) {
+			if(confuse == 0 || isBoss()) {//Un boss ne peut pas être confu
 				shape.setAngle(getPosition().angle(objectif.getPosition()));
 			} else {
-				System.out.println();
-				if(lastConfuseTimer + 0.5 < currentTime) {
+				if(lastConfuseTimer + 0.5 < currentTime) { //Un monstre confu choisi un angle aléatoire tour les demi seconde
 					lastConfuseTimer = currentTime;
 					shape.setAngle(new Angle(valueBetween(0, 2*Math.PI)));
 				}
 			}
-			LinkedList<Couple<Double, Double>> newSlows = new LinkedList<>();
+			LinkedList<Couple<Double, Double>> newSlows = new LinkedList<>(); //Réduction des temps de ralentissement
 			for(Couple<Double, Double> slow : slows) {
 				Couple<Double, Double> newSlow = new Couple<>(slow._1, slow._2 - time);
 				if(newSlow._2 > 0) {
 					newSlows.add(newSlow);
 				}
 			}
-			confuse = (confuse - time > 0) ? confuse - time : 0;
+			confuse = (confuse - time > 0) ? confuse - time : 0; //Réduction du temps de confusion;
 			slows = newSlows;
-			move(time, !flying);
+			move(time, !flying); //Ce déplace en ingorant les collision avec les tour si il vole
 		}
 	}
 	public void resetMove() {
@@ -119,13 +126,19 @@ public class Monster implements Damageable, Displayable, Movable, Cloneable {
 			}
 		}
 	}
+	/**
+	 * Déplacement des monstre en fonction du temps
+	 * @param time
+	 * @param collide
+	 * @return
+	 */
 	@Override
 	public boolean move(double time, boolean checkCollide) {
 		Geometric nextShape = (Geometric) shape.clone();
-		nextShape.translateByAngle(getSpeed()*time);
+		nextShape.translateByAngle(getSpeed()*time); //Prochain déplacement si il n'y a pas de collision;
 		boolean collide = false;
 		if(checkCollide) {
-			for(Tower tower : game.readTowers()) {
+			for(Tower tower : game.readTowers()) {//On cherche si une tour nous bar le chemin
 				if(nextShape.collide(tower)) {
 					if(tower.handle(this)) {
 						collide = true;
@@ -135,13 +148,13 @@ public class Monster implements Damageable, Displayable, Movable, Cloneable {
 			}
 		}
 		if(!collide) {
-			shape = nextShape;
-			if(getPosition().dist(objectif.getPosition()) < 20) {
-				if(objectif.isEnd()) {
+			shape = nextShape; //On valide le déplacement
+			if(getPosition().dist(objectif.getPosition()) < 20) {//Si on a atteint le prochain point de passage
+				if(objectif.isEnd()) {//Si on a atteint la fin
 					dead = true;
 					map.removeLives(strength);
 				} else {
-					objectif = objectif.next(true);
+					objectif = objectif.next(true); //Sinon en continu
 				}
 			}
 		}
@@ -167,13 +180,17 @@ public class Monster implements Damageable, Displayable, Movable, Cloneable {
 	public void setSpeed(double speed) {
 		this.baseSpeed = speed;
 	}
+	/**
+	 * Récupère la vitesse actuelle en prenant en compte les ralentissement
+	 * @return vitesse actuelle
+	 */
 	@Override
 	public double getSpeed() {
 		double speed = getBaseSpeed();
 		for(Couple<Double, Double> slow : slows) {
 			speed *= 1 - slow._1;
 		}
-		if(isBoss() && speed < getBaseSpeed()/2) {
+		if(isBoss() && speed < getBaseSpeed()/2) { //Les boss ne peuvent pas être trop ralentie
 			speed = getBaseSpeed()/2;
 		}
 		return speed;
