@@ -2,17 +2,12 @@ package mHUD.mObject.subWindow;
 
 import mHUD.mObject.FVerticalButtonBox;
 import mHUD.mObject.FVerticalFrame;
-import mHUD.mObject.IPushButton;
 import mHUD.mObject.MWindow;
 
 public class MenuWindow extends MWindow{
 
 	private FVerticalFrame mainFrame = new FVerticalFrame();
 	private FVerticalButtonBox bBox = new FVerticalButtonBox();
-	private IPushButton map1 = new IPushButton();
-	private IPushButton map2 = new IPushButton();
-	private IPushButton map3 = new IPushButton();
-	private IPushButton map4 = new IPushButton();
 	
 	public MenuWindow(int i, int j, boolean cheat) {
 		super(i,j);

@@ -5,20 +5,20 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import fr.tm_nlm.tower_defence.control2.Bullet;
 import fr.tm_nlm.tower_defence.control2.DisplayEntity;
 import fr.tm_nlm.tower_defence.control2.Game;
-import fr.tm_nlm.tower_defence.control2.Monster;
-import fr.tm_nlm.tower_defence.control2.PathNode;
-import fr.tm_nlm.tower_defence.control2.Tower;
 import mHUD.mGraphicEntity.CooldownBar;
 import mHUD.mGraphicEntity.GCircleEntity;
 import mHUD.mGraphicEntity.GMonsterEntity;
 import mHUD.mGraphicEntity.GPictureEntity;
-import mHUD.mGraphicEntity.GRectEntity;
 import mHUD.mGraphicEntity.IGraphicView;
 import mHUD.mGraphicEntity.LifeBar;
 import mHUD.mGraphicEntity.MGraphicEntity;
+
+/*
+ * 2e version de FtG qui conserva son nom alors que le "field" avais disparu
+ * son objectif est de connecter le modèle à la vue
+ */
 
 public class FieldToGraphic2 extends Thread {
 	private IGraphicView view;
@@ -26,15 +26,54 @@ public class FieldToGraphic2 extends Thread {
 	private HashMap<DisplayEntity, LifeBar> lifeBar = new HashMap<>();
 	private HashMap<DisplayEntity, ArrayList<CooldownBar>> cooldownBar = new HashMap<>();
 	private HashMap<DisplayEntity, GCircleEntity> range = new HashMap<>();
-	//private HashMap<PathNode, MGraphicEntity> nodePath;
-	//private HashMap<MGraphicEntity, Entity> graphicToEntity;
+	
 	private GPictureEntity background = null;
 	private String actualBackground = null;
-
 	private boolean displaySlot = false;
 	
 	public FieldToGraphic2(IGraphicView view) {
 		this.view = view;
+	}
+	
+	/*
+	 * Le run fonctionne de la façon suivante :
+	 * Si j'ai un DisplayEntity sans MGraphicEntity, je crée un ensemble de MGraphicEntity (add)
+	 * Si j'ai des MGraphicEntity sans DisplayEntity, je supprime les MGraphicEntity (delete)
+	 * Et lorsque j'ai un DisplayEntity qui corespond à un MGraphicEntity, je met à jour le MGraphicEntity (edit)
+	 */
+	public void run() {
+		//ici je vérifie bien que le background n'a pas changer
+		if((actualBackground == null && Game.getBackground() != null) || !actualBackground.equals(Game.getBackground())) {		
+			background = new GPictureEntity(view.getSize().x/2,view.getSize().y/2,Game.getBackground());
+			view.addGraphicEntityAt(0, background);
+			actualBackground = Game.getBackground();
+		}
+		
+		//partie sur le add / edit
+		for(DisplayEntity entity : Game.getAll()) {
+			boolean isPresent = false;	
+			for(DisplayEntity e1 : entityToGraphic.keySet()) {
+				if(entity.equals(e1)) {
+					isPresent = true;
+					break;
+				}
+			}
+			if(isPresent)edit(entity);
+			else add(entity);
+		}
+		
+		//partie sur le remove
+		HashMap<DisplayEntity, MGraphicEntity> list = new HashMap<DisplayEntity, MGraphicEntity>(entityToGraphic);
+		for(DisplayEntity e1 : list.keySet()) {
+			boolean isPresent = false;	
+			for(DisplayEntity entity : Game.getAll()) {
+				if(entity.equals(e1)) {
+					isPresent = true;
+					break;
+				}
+			}
+			if(!isPresent)remove(e1);
+		}
 	}
 	
 	private void add(DisplayEntity entity) {
@@ -87,16 +126,6 @@ public class FieldToGraphic2 extends Thread {
 		}
 		
 	}
-	
-	public void setGraphicRange(long id, boolean v) {
-		for(DisplayEntity e1 : range.keySet()) {
-			if(e1.getId() == id) {
-				range.get(e1).setDisplay(v);
-			}
-			else range.get(e1).setDisplay(false);
-		}
-	}
-	
 	private void remove(DisplayEntity entity) {
 		MGraphicEntity graphic = getEntity(entity);
 		view.removeGraphicEntity(graphic);
@@ -149,6 +178,12 @@ public class FieldToGraphic2 extends Thread {
 		}
 	}
 	
+	//Car deux appels de Game.getAll() me donne deux collections différentes de mêmes items mais avec d'autres références
+	//Aussi je ne peux pas faire directement de .get sur mes hashmap...
+	//Par ailleurs je manque de temps mais après avoir trié tout ça je me
+	//suis rendu compte que range ne supprime pas et ne rafraichis pas ses GCircleEntity
+	//car la fonction qui le permetrais n'est pas présente si dessous
+	
 	private MGraphicEntity getEntity(DisplayEntity entity) {
 		for(DisplayEntity e1 : entityToGraphic.keySet()) {
 			if(entity.equals(e1))return entityToGraphic.get(e1);
@@ -168,44 +203,16 @@ public class FieldToGraphic2 extends Thread {
 		return null;
 	}
 
-	@Override
-	public void run() {
-		output();
-	}
-	
-	private void output() {
-		if((actualBackground == null && Game.getBackground() != null) || !actualBackground.equals(Game.getBackground())) {		
-			background = new GPictureEntity(view.getSize().x/2,view.getSize().y/2,Game.getBackground());
-			view.addGraphicEntityAt(0, background);
-			actualBackground = Game.getBackground();
-		}
-		
-		for(DisplayEntity entity : Game.getAll()) {
-			boolean isPresent = false;	
-			for(DisplayEntity e1 : entityToGraphic.keySet()) {
-				if(entity.equals(e1)) {
-					isPresent = true;
-					break;
-				}
-			}
-			if(isPresent)edit(entity);
-			else add(entity);
-		}
-		
-		HashMap<DisplayEntity, MGraphicEntity> list = new HashMap<DisplayEntity, MGraphicEntity>(entityToGraphic);
-		for(DisplayEntity e1 : list.keySet()) {
-			boolean isPresent = false;	
-			for(DisplayEntity entity : Game.getAll()) {
-				if(entity.equals(e1)) {
-					isPresent = true;
-					break;
-				}
-			}
-			if(!isPresent)remove(e1);
-		}
-	}
-
-	public void setDisplaySlot(boolean d) {
+	//Fonction permettant de chacher ou non certains éléments
+	public void setSlotDisplay(boolean d) {
 		displaySlot = d;
+	}
+	public void setGraphicRangeDisplay(long id, boolean v) {
+		for(DisplayEntity e1 : range.keySet()) {
+			if(e1.getId() == id) {
+				range.get(e1).setDisplay(v);
+			}
+			else range.get(e1).setDisplay(false);
+		}
 	}
 }

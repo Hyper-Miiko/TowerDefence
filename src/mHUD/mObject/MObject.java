@@ -7,6 +7,14 @@ import java.util.Set;
 import mHUD.StdDraw;
 import mHUD.geometric.Vector;
 
+/*
+ * MObjet est la base de tout les éléments du paquet (mis a part MWindow)
+ * Il réunis tout ce qui à de commun à tout les éléments du paquet
+ * Le HUD fonctionne par encapsulation d'objet
+ * La racine DOIT être donnée à un MWindow car les fonctions draw() et refresh() ne sont pas accessible hors du paquet
+ * La raison de ceci est pour réduire la quantité de taf lors de la création d'interface
+ * Le packet est indépendant et peut être link à n'importe quel autre projet au besoin
+ */
 public abstract class MObject {
 	protected MFrame mother = null;
 	protected Set<MObject> child =  new LinkedHashSet<MObject>();

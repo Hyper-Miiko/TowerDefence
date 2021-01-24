@@ -39,7 +39,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.MediaTracker;
 import java.awt.RenderingHints;
-import java.awt.Toolkit;
+//import java.awt.Toolkit;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -73,10 +73,10 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
+//import javax.swing.JMenu;
+//import javax.swing.JMenuBar;
+//import javax.swing.JMenuItem;
+//import javax.swing.KeyStroke;
 
 /**
  *  The {@code StdDraw} class provides a basic capability for
@@ -725,18 +725,18 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
     }
 
     // create the menu bar (changed to private)
-    private static JMenuBar createMenuBar() {
-        JMenuBar menuBar = new JMenuBar();
-        JMenu menu = new JMenu("File");
-        menuBar.add(menu);
-        JMenuItem menuItem1 = new JMenuItem(" Save...   ");
-        menuItem1.addActionListener(std);
-        // Java 10+: replace getMenuShortcutKeyMask() with getMenuShortcutKeyMaskEx()
-        menuItem1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
-                                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        menu.add(menuItem1);
-        return menuBar;
-    }
+//    private static JMenuBar createMenuBar() {
+//        JMenuBar menuBar = new JMenuBar();
+//        JMenu menu = new JMenu("File");
+//        menuBar.add(menu);
+//        JMenuItem menuItem1 = new JMenuItem(" Save...   ");
+//        menuItem1.addActionListener(std);
+//        // Java 10+: replace getMenuShortcutKeyMask() with getMenuShortcutKeyMaskEx()
+//        menuItem1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S,
+//                                Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+//        menu.add(menuItem1);
+//        return menuBar;
+//    }
 
    /***************************************************************************
     *  User and screen coordinate systems.

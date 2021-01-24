@@ -9,6 +9,10 @@ public class MWindow extends Thread{
 	private MItem focusItem;
 	private boolean mousePressed;
 	
+	//Active et running sont des restes de mes tentatives de Threader (?)
+	//cette class, l'idée étant de mettre en pause le thread puis de le relancer
+	//Une idée stupide qui ralentissais tout le programme
+	
 	private boolean active = true;
 	private boolean running = false;
 	
@@ -16,9 +20,7 @@ public class MWindow extends Thread{
 	
 	public MWindow(int x, int y) {
 		if(x < 1 || y < 1)throw new IllegalArgumentException("The size of the window must be superior or equal to 1");
-		
 		windowSize = new Vector(2*x,2*y);
-		
 	}
 	
 	public void setActive(boolean a){

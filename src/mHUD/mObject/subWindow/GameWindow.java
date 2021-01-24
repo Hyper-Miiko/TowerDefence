@@ -16,7 +16,6 @@ import fr.tm_nlm.tower_defence.control2.ExistingTower;
 import fr.tm_nlm.tower_defence.control2.Game;
 import fr.tm_nlm.tower_defence.control2.PresetMap;
 import fr.tm_nlm.tower_defence.control2.PresetTower;
-import fr.tm_nlm.tower_defence.control2.Tower;
 import fr.tm_nlm.tower_defence.control2.Vector;
 import fr.tm_nlm.tower_defence.view.mHUDCompat.FieldToGraphic2;
 import mHUD.mGraphicEntity.IGraphicView;
@@ -56,18 +55,17 @@ public class GameWindow extends MWindow {
 	
 	private FieldToGraphic2 ftg;
 	
-	long dummyId = 0;
-	long undyneId = 0;
-	long sansId = 0;
-	long asrielId = 0;
+	private long dummyId = 0;
+	private long undyneId = 0;
+	private long sansId = 0;
+	private long asrielId = 0;
 	
-	int mapId;
+	private boolean gameOver = false;
 	
-	boolean gameOver = false;
+	private Clip clip;
+	private Clip sound;
 	
-	Clip clip;
-	Clip sound;
-	
+	//Initialisation de l'interface
 	public GameWindow(int x, int y) {
 		super(x,y);
 		
@@ -119,34 +117,9 @@ public class GameWindow extends MWindow {
 		FPS.setSize(80,40);
 		dataFrame.addObject(FPS);
 	}
-	public void loadMusic(String m) {
-		try {
-			AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File(m));
-			clip = AudioSystem.getClip();
-			clip.open(audioIn);
-			
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (UnsupportedAudioFileException e) {
-			e.printStackTrace();
-		}
-		
-		clip.loop(Clip.LOOP_CONTINUOUSLY);
-	}
-	public void playSound(String m) {
-		try {
-			AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File(m));
-			sound = AudioSystem.getClip();
-			sound.open(audioIn);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		sound.start();
-	}
 	
+	//CE RUN
+	//J'aurais aimé avoir le temps de casser ça en un groupe de fonction facile à comprendre
 	public void run() {
 		if(fps.size() > 100)fps.remove(0);
 		fps.add((int)(1/(Game.time() - time)));
@@ -174,7 +147,7 @@ public class GameWindow extends MWindow {
 		super.run();
 		ftg.run();
 		
-		ftg.setDisplaySlot(towerButtons.anyActive());
+		ftg.setSlotDisplay(towerButtons.anyActive());
 		
 		if(upgradeButton.buttonPressed()) {
 			if(towerButtons.isPressed(0) && Game.canEvolve(dummyId)) {
@@ -191,40 +164,40 @@ public class GameWindow extends MWindow {
 				buttonAsriel.setText(ExistingTower.get(asrielId).getName());
 			}
 			towerButtons.setSelect(0,false);
-			ftg.setGraphicRange(dummyId,false);
+			ftg.setGraphicRangeDisplay(dummyId,false);
 		}
 		
 		if(towerButtons.isPressed(0)) {
 			if(ExistingTower.get(dummyId).isOnScreen()) {
-				ftg.setGraphicRange(dummyId,true);
+				ftg.setGraphicRangeDisplay(dummyId,true);
 				upgradeButton.setText("Upgrade : " + Game.evolvePrice(dummyId));
 			}else upgradeButton.setText("Cost : "+ExistingTower.get(dummyId).getPrice());
 		}
 		else if(towerButtons.isPressed(1)) {
 			if(ExistingTower.get(sansId).isOnScreen()) {
-				ftg.setGraphicRange(sansId,true);
+				ftg.setGraphicRangeDisplay(sansId,true);
 				upgradeButton.setText("Upgrade : " + Game.evolvePrice(sansId));
 			}else upgradeButton.setText("Cost : "+ExistingTower.get(sansId).getPrice());
 		}
 		else if(towerButtons.isPressed(2)) {
 			if(ExistingTower.get(undyneId).isOnScreen()) {
-				ftg.setGraphicRange(undyneId,true);
+				ftg.setGraphicRangeDisplay(undyneId,true);
 				upgradeButton.setText("Upgrade : " + Game.evolvePrice(undyneId));
 			}else upgradeButton.setText("Cost : "+ExistingTower.get(undyneId).getPrice());
 		}
 		else if(towerButtons.isPressed(3)) {
 			if(ExistingTower.get(asrielId).isOnScreen()) {
-				ftg.setGraphicRange(asrielId,true);
+				ftg.setGraphicRangeDisplay(asrielId,true);
 				upgradeButton.setText("Upgrade : " + Game.evolvePrice(asrielId));
 			}else upgradeButton.setText("Cost : "+ExistingTower.get(asrielId).getPrice());
 			
 		}
 		else {
 			upgradeButton.setText("");
-			ftg.setGraphicRange(dummyId,false);
-			ftg.setGraphicRange(sansId,false);
-			ftg.setGraphicRange(undyneId,false);
-			ftg.setGraphicRange(asrielId,false);
+			ftg.setGraphicRangeDisplay(dummyId,false);
+			ftg.setGraphicRangeDisplay(sansId,false);
+			ftg.setGraphicRangeDisplay(undyneId,false);
+			ftg.setGraphicRangeDisplay(asrielId,false);
 		}
 		
 		if(view.mousePressed() && !flag) {
@@ -260,10 +233,12 @@ public class GameWindow extends MWindow {
 			playSound(sound);
 		}
 	}
+	
+	//charge les éléments nécéssaires pour les carte
 	public void setMap(int selection) {
-		mapId = selection;
 		gameOver = false;
 		
+		//Apparement des ID c'était pas possible
 		if(selection == 0 ) {
 			Game.set(PresetMap.grassland1());
 			loadMusic("data/music/level1.wav");
@@ -302,6 +277,8 @@ public class GameWindow extends MWindow {
 		
 		ftg = new FieldToGraphic2(view);
 		
+		//Un presetTower.getAll() aurais été apprécié
+		//Cependant il me semble que ce n'étais pas possible
 		dummyId = ExistingTower.add(PresetTower.madDummy());
 		undyneId = ExistingTower.add(PresetTower.undyne());
 		sansId = ExistingTower.add(PresetTower.chillSans());
@@ -311,6 +288,37 @@ public class GameWindow extends MWindow {
 		buttonSans.setText(ExistingTower.get(sansId).getName());
 		buttonAsriel.setText(ExistingTower.get(asrielId).getName());
 	}
+	
+	//quelques experimentations sur le son
+	public void loadMusic(String m) {
+		try {
+			AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File(m));
+			clip = AudioSystem.getClip();
+			clip.open(audioIn);
+			
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		}
+		
+		clip.loop(Clip.LOOP_CONTINUOUSLY);
+	}
+	public void playSound(String m) {
+		try {
+			AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File(m));
+			sound = AudioSystem.getClip();
+			sound.open(audioIn);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		sound.start();
+	}
+	
+	//uniquement lorsque la view en a terminé avec son écran de fin
 	public boolean isGameOver() {
 		return gameOver && view.hasStoped();
 	}
