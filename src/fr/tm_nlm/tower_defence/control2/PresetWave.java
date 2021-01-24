@@ -2,11 +2,29 @@ package fr.tm_nlm.tower_defence.control2;
 
 public abstract class PresetWave {
 	public static Wave test() {
-		Monster monster;
 		Wave wave = new Wave("Test");
 
-		monster = PresetMonster.testingDog();
-		add(wave, monster, PresetPath.toundraLeft(), 4, 1);
+		add(wave, PresetMonster.grassland1(), PresetPath.grassland(), 1, 5);
+		add(wave, PresetMonster.grassland2(), PresetPath.grassland(), 1, 5);
+		add(wave, PresetMonster.grassland3(), PresetPath.grassland(), 1, 5);
+		add(wave, PresetMonster.grassland4(), PresetPath.grassland(), 1, 5);
+		add(wave, PresetMonster.grassland5(), PresetPath.grassland(), 1, 5);
+
+		add(wave, PresetMonster.toundra1(), PresetPath.grassland(), 1, 30);
+		add(wave, PresetMonster.toundra2(), PresetPath.grassland(), 1, 5);
+		add(wave, PresetMonster.toundra3(), PresetPath.grassland(), 1, 5);
+		add(wave, PresetMonster.toundra4(), PresetPath.grassland(), 1, 5);
+		add(wave, PresetMonster.toundra5(), PresetPath.grassland(), 1, 5);
+		
+		add(wave, PresetMonster.volcano1(), PresetPath.grassland(), 1, 30);
+		add(wave, PresetMonster.volcano2(), PresetPath.grassland(), 1, 5);
+		add(wave, PresetMonster.volcano3(), PresetPath.grassland(), 1, 5);
+		add(wave, PresetMonster.volcano4(), PresetPath.grassland(), 1, 5);
+		add(wave, PresetMonster.volcano5(), PresetPath.grassland(), 1, 5);
+		add(wave, PresetMonster.volcano6(), PresetPath.grassland(), 1, 5);
+		
+		add(wave, PresetMonster.annoyingDog(), PresetPath.grassland(), 1, 3);
+		
 		return wave;
 	}
 
@@ -682,23 +700,23 @@ public abstract class PresetWave {
 		wave.setNextWave(volcano36());
 		return wave;
 	}
-	private static Wave volcano36() {
+	public static Wave volcano36() {
 		Wave wave = new Wave("Volcano 3:BOSS");
 		
 		add(wave, PresetMonster.volcano1(), PresetPath.volcanoBottom(), 1, 30);
-		add(wave, PresetMonster.volcano1(), PresetPath.volcanoBottom(), 199, 1);
+		add(wave, PresetMonster.volcano1(), PresetPath.volcanoBottom(), 199, 0.15);
 		
 		add(wave, PresetMonster.volcano2(), PresetPath.volcanoTop(), 1, 3);
-		add(wave, PresetMonster.volcano2(), PresetPath.volcanoTop(), 149, 1);
+		add(wave, PresetMonster.volcano2(), PresetPath.volcanoTop(), 149, 0.15);
 		
 		add(wave, PresetMonster.volcano3(), PresetPath.volcanoTop(), 1, 3);
-		add(wave, PresetMonster.volcano3(), PresetPath.volcanoTop(), 99, 1);
+		add(wave, PresetMonster.volcano3(), PresetPath.volcanoTop(), 99, 0.2);
 		
 		add(wave, PresetMonster.volcano4(), PresetPath.volcanoLeft(), 1, 3);
-		add(wave, PresetMonster.volcano4(), PresetPath.volcanoLeft(), 399, 1);
+		add(wave, PresetMonster.volcano4(), PresetPath.volcanoLeft(), 399, 0.1);
 		
 		add(wave, PresetMonster.volcano5(), PresetPath.volcanoLeft(), 1, 3);
-		add(wave, PresetMonster.volcano5(), PresetPath.volcanoLeft(), 499, 1);
+		add(wave, PresetMonster.volcano5(), PresetPath.volcanoLeft(), 499, 0.1);
 
 		wave.setNextWave(volcano37());
 		return wave;

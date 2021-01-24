@@ -27,7 +27,7 @@ public final class Game extends Thread {
 	/**
 	 * Argent du jeu commun à toute les cartes
 	 */
-	private static int temmies = 100;
+	private static double temmies = 100;
 	/**
 	 * God-mode
 	 */
@@ -99,6 +99,10 @@ public final class Game extends Thread {
 		return clone;
 	}
 	
+	/**
+	 * Récupère les phrases que les tours (ou tout autre identifiable) disent à ce moment
+	 * @return tous les id avec leur phrase s'il en ont
+	 */
 	public static HashMap<Long, String> getQuotes() {
 		HashMap<Long, String> quotes = new HashMap<>();;
 		for(Tower tower : instance.readTowers()) {
@@ -126,6 +130,10 @@ public final class Game extends Thread {
 		return instance.map.getWaveName();
 	}
 	
+	/**
+	 * Temps de jeu en seconde de la partie
+	 * @return 
+	 */
 	public static double time() {
 		return ((double) System.nanoTime()/1000000000d) - instance.startTime;
 	}
@@ -134,8 +142,9 @@ public final class Game extends Thread {
 		map.setGame(instance);
 		map.setUndying(determination);
 		if(map.getWaveName().equals("Test")) {
-			temmies = 1000000;
-			determination ^= true;
+			temmies = Double.POSITIVE_INFINITY;
+			determination ^= true; //Passer sur la map test active/désactive le godmode
+			map.setUndying(determination);
 		}
 	}
 	
@@ -147,7 +156,7 @@ public final class Game extends Thread {
 		return temmies;
 	}
 	
-	public static int getLives() {
+	public static double getLives() {
 		return instance.map.getLives();
 	}
 	
@@ -155,6 +164,15 @@ public final class Game extends Thread {
 		return instance.map.getWaveName();
 	}
 	
+	public static double evolvePrice(long towerId) {
+		return ExistingTower.get(towerId).getEvolutionPrice();
+	}
+	
+	/**
+	 * Evolue la tour de cet id et renvoie l'id de l'évolution
+	 * @param towerId id de la tour à évoluer
+	 * @return id de la tour évoluée
+	 */
 	public static Long evolveTower(long towerId) {
 		HashSet<Tower> towers = instance.readTowers();
 		for(Tower tower : towers) {
@@ -163,14 +181,14 @@ public final class Game extends Thread {
 					System.err.println("No evolution available.");
 					return null;
 				}
-				if(instance.buy(tower.getEvolutionPrice())) {
+				if(instance.buy(tower.getEvolutionPrice())) { //Si on peut payer le prix de la tour
 					instance.remove(tower);
 					instance.add(tower.getEvolution());
 					tower.getEvolution().setGame(instance);
-					tower.removeSlot();
+					tower.removeSlot(); //on retire la tour de sa position sur la carte
 					ExistingTower.add(tower.getEvolution());
 					ExistingTower.remove(tower.getId());
-					Game.placeTower(tower.getEvolution().getId(), tower.getPosition());
+					Game.placeTower(tower.getEvolution().getId(), tower.getPosition()); //On place l'évolution aux position de l'ancienne tour
 					return tower.getEvolution().getId();
 				} else {
 					System.err.println("Not enough temmies.");
@@ -189,14 +207,21 @@ public final class Game extends Thread {
 		return (tower.getEvolution() != null && tower.getEvolutionPrice() <= getTemmies());
 	}
 	
+	/**
+	 * Place une tour au position donné et renvoie un accusé de tache
+	 * @param towerId
+	 * @param position
+	 * @return
+	 */
 	public static boolean placeTower(long towerId, Vector position) {
 		Tower tower = ExistingTower.get(towerId);
 		HashSet<Slot> slots = instance.readSlots();
 		Slot slot = null;
-		Area area = new Area(new Ellipse2D.Double(position.x, position.y, 1, 1));
+		Area area = new Area(new Ellipse2D.Double(position.x, position.y, 1, 1)); //On parcour les slot pour savoir si on a cliqué dessus
 		for(Slot elem : slots) {
 			if(elem.collide(area)) {
 				slot = elem;
+				break;
 			}
 		}
 		if(slot == null) {
@@ -206,7 +231,7 @@ public final class Game extends Thread {
 		} else if(!instance.buy(tower.getPrice())) {
 			System.err.println("Not enough temmies.");
 		} else {
-			tower.setSlot(slot);
+			tower.setSlot(slot); //on donne à la tour le slot
 			tower.setGame(instance);
 			tower.resetCooldown();
 			instance.add(tower);
@@ -274,15 +299,18 @@ public final class Game extends Thread {
 		return false;
 	}
 	
-	public void increaseTemmies(int temmies) {
+	public void increaseTemmies(double temmies) {
 		Game.temmies += temmies;
 	}
 	
+	/**
+	 * boucle principal
+	 */
 	@Override
 	public void run() {
 		while(!over) {
 			try {
-				Thread.sleep((long) (1/MAX_FPS*1000));
+				Thread.sleep((long) (1/MAX_FPS*1000)); 
 			} catch (InterruptedException e) {}
 			fpsTime = Game.time();
 			map.run();
@@ -305,13 +333,13 @@ public final class Game extends Thread {
 					remove(bullet);
 				}
 			}
-			if(map.isOver() && readMonsters().isEmpty()) {
+			if(map.isOver() && readMonsters().isEmpty()) { //Fin de partie gagné
 				over = true;
 				temmies = (temmies < 75) ? 75 : temmies;
-			} else if(map.getLives() == 0) {
+			} else if(map.getLives() == 0) {               //fin de partie perdue
 				sound = "data/music/game_over.wav";
 				over = true;
-				temmies = temmies >> 1;
+				temmies /= 2;
 				temmies = (temmies < 50) ? 50 : temmies;
 			}
 		}
@@ -482,6 +510,10 @@ public final class Game extends Thread {
 		return cloneTowers;
 	}
 	
+	/**
+	 * 
+	 * @param who
+	 */
 	private void waitFor(WaitingBool who) {
 		int wait = 1;
 		while(who.get()) {

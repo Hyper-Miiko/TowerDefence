@@ -5,7 +5,7 @@ import java.util.HashSet;
 public class Map {
 	private boolean over;
 	private boolean undying;
-	private int lives;
+	private double lives;
 	private HashSet<Slot> slots;
 	private Wave wave;
 	private Game game;
@@ -48,7 +48,7 @@ public class Map {
 			wave.run();
 		}
 		if(undying) {
-			lives = 11;
+			lives = Double.POSITIVE_INFINITY;
 		}
 	}
 	
@@ -78,8 +78,8 @@ public class Map {
 	public String getBackground() {
 		return "data/img/" + background + ".png";
 	}
-	public int getLives() {
-		return (lives <= 10) ? lives : 10;
+	public double getLives() {
+		return lives;
 	}
 	public String getWaveName() {
 		if(over) {

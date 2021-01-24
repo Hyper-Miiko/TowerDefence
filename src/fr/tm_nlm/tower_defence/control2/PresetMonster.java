@@ -30,7 +30,7 @@ public class PresetMonster {
 		monster.setEliminationWorth(2);
 		monster.setStrength(1);
 		monster.setFly(false);
-		monster.setImage("drunkHuman");
+		monster.setImage("schroom");
 		
 		return monster;
 	}
@@ -43,6 +43,7 @@ public class PresetMonster {
 		monster.setMaxHealth(40);
 		monster.setEliminationWorth(5);
 		monster.setFly(true);
+		monster.setImage("coolCrow");
 		
 		return monster;
 	}
@@ -55,7 +56,7 @@ public class PresetMonster {
 		monster.setMaxHealth(20);
 		monster.setEliminationWorth(10);
 		monster.setFly(false);
-		monster.setImage("shadyMan");
+		monster.setImage("hippie");
 		
 		return monster;
 	}
@@ -82,6 +83,7 @@ public class PresetMonster {
 		monster.setStrength(10);
 		monster.setShape(PresetShape.rect(34, 50));
 		monster.setBoss(true);
+		monster.setImage("redCrow");
 		
 		return monster;
 	}
@@ -94,6 +96,7 @@ public class PresetMonster {
 		monster.setEliminationWorth(5);
 		monster.setStrength(1);
 		monster.setShape(PresetShape.rect(34, 50));
+		monster.setImage("shadyMan");
 		
 		return monster;
 	}
@@ -106,6 +109,7 @@ public class PresetMonster {
 		monster.setEliminationWorth(12);
 		monster.setStrength(1);
 		monster.setShape(PresetShape.rect(34, 50));
+		monster.setImage("ghost");
 		
 		return monster;
 	}
@@ -118,6 +122,7 @@ public class PresetMonster {
 		monster.setEliminationWorth(60);
 		monster.setStrength(13);
 		monster.setShape(PresetShape.rect(34, 50));
+		monster.setImage("drunkHuman");
 		
 		return monster;
 	}
@@ -130,6 +135,7 @@ public class PresetMonster {
 		monster.setEliminationWorth(80);
 		monster.setStrength(3);
 		monster.setShape(PresetShape.rect(34, 50));
+		monster.setImage("ghostPink");
 		
 		return monster;
 	}
@@ -143,6 +149,7 @@ public class PresetMonster {
 		monster.setStrength(10);
 		monster.setShape(PresetShape.rect(34, 50));
 		monster.setBoss(true);
+		monster.setImage("taupe");
 		
 		return monster;
 	}
@@ -181,6 +188,7 @@ public class PresetMonster {
 		monster.setEliminationWorth(25);
 		monster.setStrength(2);
 		monster.setShape(PresetShape.rect(34, 50));
+		monster.setImage("ball");
 		
 		return monster;
 	}
@@ -193,6 +201,7 @@ public class PresetMonster {
 		monster.setEliminationWorth(15);
 		monster.setStrength(1);
 		monster.setShape(PresetShape.rect(34, 50));
+		monster.setImage("theBeast");
 		
 		return monster;
 	}
@@ -205,6 +214,7 @@ public class PresetMonster {
 		monster.setEliminationWorth(10);
 		monster.setStrength(1);
 		monster.setShape(PresetShape.rect(34, 50));
+		monster.setImage("alienThing");
 		
 		return monster;
 	}
@@ -218,6 +228,7 @@ public class PresetMonster {
 		monster.setStrength(10);
 		monster.setShape(PresetShape.rect(34, 50));
 		monster.setBoss(true);
+		monster.setImage("fireEnnemy");
 		
 		return monster;
 	}
@@ -228,8 +239,9 @@ public class PresetMonster {
 		monster.setStrength(0);
 		monster.setShape(PresetShape.circle(1));
 		monster.setMaxHealth(10000000);
-		monster.setEliminationWorth(0);
+		monster.setEliminationWorth(Double.POSITIVE_INFINITY);
 		monster.setBoss(true);
+		monster.setImage("annoying_dog");
 		
 		return monster;
 	}

@@ -19,7 +19,7 @@ public class Monster implements Damageable, Displayable, Movable, Cloneable {
 	private double health;
 	private double maxHealth;
 	private double baseSpeed;
-	private int eliminationWorth;
+	private double eliminationWorth;
 	/**
 	 * _1 Ralentissement 0.0 à 1.0
 	 * _2 Timer de fin en seconde
@@ -250,7 +250,7 @@ public class Monster implements Damageable, Displayable, Movable, Cloneable {
 			this.confuse = confuse;
 		}
 	}
-	public void setEliminationWorth(int eliminationWorth) {
+	public void setEliminationWorth(double eliminationWorth) {
 		this.eliminationWorth = eliminationWorth;
 	}
 	public void setColor(Color color) {
