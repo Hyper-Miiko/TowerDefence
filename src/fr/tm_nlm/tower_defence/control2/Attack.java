@@ -179,7 +179,6 @@ public class Attack {
 			Bullet bullet = shotBullet.poll();
 			bullet.setAngle(finalAngle);
 			
-			quote();
 			map.place(bullet, start);
 		}
 	}
@@ -210,6 +209,7 @@ public class Attack {
 			}
 			bulletsReady.add(shot);
 		}
+		quote();
 		owner.setSound(sound); //Certaine attaque peuvent jouer un son
 	}
 	
