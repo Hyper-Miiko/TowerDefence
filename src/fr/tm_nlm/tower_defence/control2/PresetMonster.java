@@ -30,6 +30,7 @@ public class PresetMonster {
 		monster.setEliminationWorth(2);
 		monster.setStrength(1);
 		monster.setFly(false);
+		monster.setImage("drunkHuman");
 		
 		return monster;
 	}

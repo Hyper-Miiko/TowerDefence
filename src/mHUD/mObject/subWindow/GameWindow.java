@@ -25,6 +25,7 @@ import mHUD.mObject.FVerticalButtonBox;
 import mHUD.mObject.FVerticalFrame;
 import mHUD.mObject.ILabel;
 import mHUD.mObject.IPushButton;
+import mHUD.mObject.IToogleButton;
 import mHUD.mObject.MWindow;
 
 public class GameWindow extends MWindow {
@@ -42,6 +43,10 @@ public class GameWindow extends MWindow {
 	
 	private FVerticalButtonBox towerButtons = new FVerticalButtonBox();
 	private IPushButton upgradeButton = new IPushButton();
+	private IToogleButton buttonDummy;
+	private IToogleButton buttonSans;
+	private IToogleButton buttonUndyne;
+	private IToogleButton buttonAsriel;
 	private ILabel life = new ILabel();
 	private ILabel temmies = new ILabel();
 	private ILabel wave = new ILabel();
@@ -51,9 +56,9 @@ public class GameWindow extends MWindow {
 	
 	private FieldToGraphic2 ftg;
 	
-	long MD = 0;
-	long UN = 0;
-	long SA = 0;
+	long dummyId = 0;
+	long undyneId = 0;
+	long sansId = 0;
 	long asrielId = 0;
 	
 	int mapId;
@@ -61,6 +66,7 @@ public class GameWindow extends MWindow {
 	boolean gameOver = false;
 	
 	Clip clip;
+	Clip sound;
 	
 	public GameWindow(int x, int y) {
 		super(x,y);
@@ -78,11 +84,10 @@ public class GameWindow extends MWindow {
 		towerButtons.setMinimumSize(80,674);
 		towerButtons.setBackgroundColor(50,50,50);
 		buttonsframe.addObject(towerButtons);
-		towerButtons.addButton("Dummy");
-		towerButtons.addButton("Sans");
-		towerButtons.addButton("Undyne");
-		towerButtons.addButton("Metatton");
-		towerButtons.addButton("Asriel");
+		buttonDummy = towerButtons.addButton("");
+		buttonSans = towerButtons.addButton("");
+		buttonUndyne = towerButtons.addButton("");
+		buttonAsriel = towerButtons.addButton("");
 		
 		upgradeButton.setText("Uprgrade");
 		upgradeButton.setSize(80,40);
@@ -133,13 +138,13 @@ public class GameWindow extends MWindow {
 	public void playSound(String m) {
 		try {
 			AudioInputStream audioIn = AudioSystem.getAudioInputStream(new File(m));
-			clip = AudioSystem.getClip();
-			clip.open(audioIn);
+			sound = AudioSystem.getClip();
+			sound.open(audioIn);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		clip.start();
+		sound.start();
 	}
 	
 	public void run() {
@@ -172,32 +177,36 @@ public class GameWindow extends MWindow {
 		ftg.setDisplaySlot(towerButtons.anyActive());
 		
 		if(upgradeButton.buttonPressed()) {
-			if(towerButtons.isPressed(0) && Game.canEvolve(MD))
-				MD = Game.evolveTower(MD);
-			else if(towerButtons.isPressed(2) && Game.canEvolve(UN))
-				UN = Game.evolveTower(UN);
-			else if(towerButtons.isPressed(1) && Game.canEvolve(SA))
-				SA = Game.evolveTower(SA);
-			else if(towerButtons.isPressed(4) && Game.canEvolve(asrielId))
+			if(towerButtons.isPressed(0) && Game.canEvolve(dummyId)) {
+				dummyId = Game.evolveTower(dummyId);
+				buttonDummy.setText(ExistingTower.get(dummyId).getName());
+			} else if(towerButtons.isPressed(2) && Game.canEvolve(undyneId)) {
+				undyneId = Game.evolveTower(undyneId);
+				buttonUndyne.setText(ExistingTower.get(undyneId).getName());
+			} else if(towerButtons.isPressed(1) && Game.canEvolve(sansId)) {
+				sansId = Game.evolveTower(sansId);
+				buttonSans.setText(ExistingTower.get(sansId).getName());
+			} else if(towerButtons.isPressed(3) && Game.canEvolve(asrielId)) {
 				asrielId = Game.evolveTower(asrielId);
-			
+				buttonAsriel.setText(ExistingTower.get(asrielId).getName());
+			}
 			towerButtons.setSelect(0,false);
-			ftg.setGraphicRange(MD,false);
+			ftg.setGraphicRange(dummyId,false);
 		}
 		
-		if(towerButtons.isPressed(0))ftg.setGraphicRange(MD,true);
-		else if(towerButtons.isPressed(1))ftg.setGraphicRange(SA,true);
-		else if(towerButtons.isPressed(2))ftg.setGraphicRange(UN,true);
+		if(towerButtons.isPressed(0))ftg.setGraphicRange(dummyId,true);
+		else if(towerButtons.isPressed(1))ftg.setGraphicRange(sansId,true);
+		else if(towerButtons.isPressed(2))ftg.setGraphicRange(undyneId,true);
 		
 		if(view.mousePressed() && !flag) {
 			System.out.println(view.mouseX()+ " " +view.mouseY());
 			if(towerButtons.isPressed(0))
-				Game.placeTower(MD,new Vector(view.mouseX(), view.mouseY()));
-			else if(towerButtons.isPressed(2))
-				Game.placeTower(UN,new Vector(view.mouseX(), view.mouseY()));
+				Game.placeTower(dummyId,new Vector(view.mouseX(), view.mouseY()));
 			else if(towerButtons.isPressed(1))
-				Game.placeTower(SA,new Vector(view.mouseX(), view.mouseY()));
-			else if(towerButtons.isPressed(4))
+				Game.placeTower(sansId,new Vector(view.mouseX(), view.mouseY()));
+			else if(towerButtons.isPressed(2))
+				Game.placeTower(undyneId,new Vector(view.mouseX(), view.mouseY()));
+			else if(towerButtons.isPressed(3))
 				Game.placeTower(asrielId, new Vector(view.mouseX(), view.mouseY()));
 			
 			towerButtons.setSelect(0,false);
@@ -207,6 +216,7 @@ public class GameWindow extends MWindow {
 		if(!view.mousePressed()) {
 			flag = false;
 		}
+		
 		
 		if(Game.isOver() && !gameOver) {
 			if(clip != null) {
@@ -263,18 +273,14 @@ public class GameWindow extends MWindow {
 		
 		ftg = new FieldToGraphic2(view);
 		
-		Tower md = PresetTower.madDummy();
-		Tower un = PresetTower.undyne();
-		Tower sa = PresetTower.chillSans();
-		Tower asriel = PresetTower.asriel();
-		ExistingTower.add(md);
-		ExistingTower.add(un);
-		ExistingTower.add(sa);
-		ExistingTower.add(asriel);
-		MD = md.getId();
-		UN = un.getId();
-		SA = sa.getId();
-		asrielId = asriel.getId();
+		dummyId = ExistingTower.add(PresetTower.madDummy());
+		undyneId = ExistingTower.add(PresetTower.undyne());
+		sansId = ExistingTower.add(PresetTower.chillSans());
+		asrielId = ExistingTower.add(PresetTower.asriel());
+		buttonDummy.setText(ExistingTower.get(dummyId).getName());
+		buttonUndyne.setText(ExistingTower.get(undyneId).getName());
+		buttonSans.setText(ExistingTower.get(sansId).getName());
+		buttonAsriel.setText(ExistingTower.get(asrielId).getName());
 	}
 	public boolean isGameOver() {
 		return gameOver && view.hasStoped();

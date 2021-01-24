@@ -254,4 +254,7 @@ public class Monster implements Damageable, Displayable, Movable, Cloneable {
 	public void setEliminationWorth(int eliminationWorth) {
 		this.eliminationWorth = eliminationWorth;
 	}
+	public void setColor(Color color) {
+		shape.setColor(color);
+	}
 }

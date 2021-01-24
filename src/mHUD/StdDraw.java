@@ -1647,9 +1647,15 @@ public final class StdDraw implements ActionListener, MouseListener, MouseMotion
         FontMetrics metrics = offscreen.getFontMetrics();
         double xs = scaleX(x);
         double ys = scaleY(y);
-        int ws = metrics.stringWidth(text);
-        int hs = metrics.getDescent();
-        offscreen.drawString(text, (float) (xs - ws/2.0), (float) (ys + hs));
+//        int ws = metrics.stringWidth(text);
+//        int hs = metrics.getDescent();
+        String[] words = text.split("\n");
+    	for(int i= 0; i < words.length; i++) {
+            int ws = metrics.stringWidth(words[i]);
+            int hs = metrics.getDescent();
+            offscreen.drawString(words[i], (float) (xs - ws/2.0), (float) (ys + (i*4 + 1)*hs));
+    	}
+        //offscreen.drawString(text, (float) (xs - ws/2.0), (float) (ys + hs));
         draw();
     }
 

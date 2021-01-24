@@ -2,7 +2,7 @@ package fr.tm_nlm.tower_defence.control2;
 
 public class PresetTower {
 	public static Tower madDummy() {
-		Tower tower = new Tower("Mad Dummy");
+		Tower tower = new Tower("Mad\nDummy");
 		tower.addAttack(PresetAttack.knife());
 		tower.addAttack(PresetAttack.magicMissiles());
 		tower.addAttack(PresetAttack.magicBullets());
@@ -13,7 +13,7 @@ public class PresetTower {
 		return tower;
 	}
 	private static Tower madMewMew() {
-		Tower tower = new Tower("Mad Mew Mew");
+		Tower tower = new Tower("Mad\nMew Mew");
 		tower.addAttack(PresetAttack.kittyCornerShot());
 		tower.addAttack(PresetAttack.blueKittyCornerShot());
 		tower.addAttack(PresetAttack.redKittyCornerShot());
@@ -35,7 +35,7 @@ public class PresetTower {
 		return tower;
 	}
 	private static Tower undyneTheUndying() {
-		Tower tower = new Tower("Undyne The Undying");
+		Tower tower = new Tower("Undyne\nThe\nUndying");
 
 		tower.addAttack(PresetAttack.spearJail());
 		tower.addAttack(PresetAttack.randomSpear());
@@ -70,7 +70,7 @@ public class PresetTower {
 		return tower;
 	}
 	public static Tower asriel() {
-		Tower tower = new Tower("Asriel Dreamurr");
+		Tower tower = new Tower("Asriel\nDreamurr");
 
  		tower.addAttack(PresetAttack.greatStarCall());
 //		tower.addAttack(PresetAttack.rainbowBlaster());
@@ -83,7 +83,7 @@ public class PresetTower {
 		return tower;
 	}
 	private static Tower truePowerAsriel() {
-		Tower tower = new Tower("Asriel Dreamurr");
+		Tower tower = new Tower("Asriel\nDreamurr");
 
  		tower.addAttack(PresetAttack.rainbowLight());
 		tower.addAttack(PresetAttack.rainbowMissile());

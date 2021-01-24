@@ -13,8 +13,9 @@ public class ExistingTower {
 		return tower;
 	}
 	
-	public static void add(Tower tower) {
+	public static long add(Tower tower) {
 		towers.put(tower.getId(), tower);
+		return tower.getId();
 	}
 	
 	public static void remove(long id) {

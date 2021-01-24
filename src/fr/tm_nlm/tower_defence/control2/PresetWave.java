@@ -3,7 +3,7 @@ package fr.tm_nlm.tower_defence.control2;
 public abstract class PresetWave {
 	public static Wave test() {
 		Monster monster;
-		Wave wave = new Wave("TestWave");
+		Wave wave = new Wave("Test");
 
 		monster = PresetMonster.testingDog();
 		add(wave, monster, PresetPath.toundraLeft(), 4, 1);

@@ -8,12 +8,13 @@ public class FVerticalButtonBox extends FVerticalFrame {
 	public FVerticalButtonBox(){
 		
 	}
-	public void addButton(String name) {
+	public IToogleButton addButton(String name) {
 		IToogleButton b = new IToogleButton();
 		b.setText(name);
 		addObject(b);
 		buttonList.add(b);
 		resize();
+		return b;
 	}
 	public boolean isPressed(int i) {
 		if(i < buttonList.size())return buttonList.get(i).isActive();
