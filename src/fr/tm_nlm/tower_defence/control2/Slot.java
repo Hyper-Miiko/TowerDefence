@@ -5,9 +5,14 @@ import java.awt.geom.Area;
 
 import fr.tm_nlm.tower_defence.Couple;
 
+/**
+ * Emplacement que peuvent prendre les tour
+ * @author Hyper Mïko
+ *
+ */
 public class Slot implements Displayable {
-	private static final Color GREEN = new Color(0, 255, 0, 50);
-	private static final Color RED = new Color(255, 0, 0, 50);
+	private static final Color GREEN = new Color(0, 255, 0, 50); //Emplacement valide
+	private static final Color RED = new Color(255, 0, 0, 50); //Emplacement invalide
 	private Geometric shape;
 	private Tower tower;
 	

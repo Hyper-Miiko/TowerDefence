@@ -485,28 +485,43 @@ public final class Game extends Thread {
 	
 	@SuppressWarnings("unchecked")
 	HashSet<Monster> readMonsters() {
-		waitFor(monstersBussy);
-		monstersBussy.set(true);
-		HashSet<Monster> cloneMonsters = (HashSet<Monster>) monsters.clone();
-		monstersBussy.set(false);
+		HashSet<Monster> cloneMonsters;
+		try {
+			waitFor(monstersBussy);
+			monstersBussy.set(true);
+			cloneMonsters = (HashSet<Monster>) monsters.clone();
+			monstersBussy.set(false);
+		} catch(ConcurrentModificationException e) {
+			cloneMonsters = readMonsters();
+		}
 		return cloneMonsters;
 	}
 
 	@SuppressWarnings("unchecked")
 	private HashSet<Slot> readSlots() {
-		waitFor(slotsBussy);
-		slotsBussy.set(true);
-		HashSet<Slot> cloneSlots = (HashSet<Slot>) slots.clone();
-		slotsBussy.set(false);
+		HashSet<Slot> cloneSlots;
+		try {
+			waitFor(slotsBussy);
+			slotsBussy.set(true);
+			cloneSlots = (HashSet<Slot>) slots.clone();
+			slotsBussy.set(false);
+		} catch(ConcurrentModificationException e) {
+			cloneSlots = readSlots();
+		}
 		return cloneSlots;
 	}
 	
 	@SuppressWarnings("unchecked")
 	HashSet<Tower> readTowers() {
-		waitFor(towersBussy);
-		towersBussy.set(true);
-		HashSet<Tower> cloneTowers = (HashSet<Tower>) towers.clone();
-		towersBussy.set(false);
+		HashSet<Tower> cloneTowers;
+		try {
+			waitFor(towersBussy);
+			towersBussy.set(true);
+			cloneTowers = (HashSet<Tower>) towers.clone();
+			towersBussy.set(false);
+		} catch(ConcurrentModificationException e) {
+			cloneTowers = readTowers();
+		}
 		return cloneTowers;
 	}
 	

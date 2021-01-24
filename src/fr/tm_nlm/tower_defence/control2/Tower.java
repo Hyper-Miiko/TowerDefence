@@ -8,6 +8,12 @@ import java.util.LinkedList;
 
 import fr.tm_nlm.tower_defence.Couple;
 
+
+/**
+ * Les tour qui vont chercher et massacrer des ennemies
+ * @author Hyper Mïko
+ *
+ */
 public class Tower extends Identifiable implements Damageable, Displayable {
 	private boolean dead;
 	private int maxHandle;
@@ -43,8 +49,11 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 		this.name = name;
 	}
 	
+	/**
+	 * Appel principal
+	 */
 	public void process() {
-		if(!dead) {
+		if(!dead) { //Le mort ne parlent pas
 			if(havePosition()) {
 				for(Attack attack : attacks) {
 					HashSet<Localisable> monsters = new HashSet<>();
@@ -53,18 +62,30 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 				}
 			}
 		}
-		if(quoteTime + 3 < Game.time()) {
+		if(quoteTime + 3 < Game.time()) { //Mais il peuvent se taire (^.^)
 			quote = null;
 		}
+		ArrayList<Monster> newHandle = new ArrayList<>(); //Retire les monstre mort de la liste des monstre gérés
+		for(Monster monster : handle) {
+			if(!monster.isDead()) {
+				newHandle.add(monster);
+			}
+		}
+		handle = newHandle;
 	}
 	
+	/**
+	 * Permet de bloquer un monstre
+	 * @param monster le monstre à bloquer
+	 * @return si le monstre à été bloqué
+	 */
 	public boolean handle(Monster monster) {
-		for(Monster monsterHandled : handle) {
+		for(Monster monsterHandled : handle) { //Test si le monstre et déjà bloqué
 			if(monsterHandled.equals(monster)) {
 				return true;
 			}
 		}
-		if(handle.size() < maxHandle) {
+		if(handle.size() < maxHandle) { //Test si il reste de la place
 			handle.add(monster);
 			return true;
 		}
