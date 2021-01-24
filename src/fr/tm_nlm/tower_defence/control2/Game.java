@@ -18,6 +18,8 @@ public final class Game extends Thread {
 	private static double fpsTime;
 	private static final Random random = new Random();
 	private static Game instance;
+	private static int temmies = 100;
+	private static boolean undying = false;
 	
 	/**
 	 * Récupère toutes les entités qui peuvent être affichées à l'écran.
@@ -100,7 +102,11 @@ public final class Game extends Thread {
 		for(Tower tower : instance.readTowers()) {
 			sounds.add(tower.pollSound());
 		}
+		sounds.add(instance.map.pollSound());
+		sounds.add(instance.sound);
+		instance.sound = null;
 		sounds.remove("data/music/null.wav");
+		sounds.remove(null);
 		return sounds;
 	}
 	
@@ -114,8 +120,10 @@ public final class Game extends Thread {
 	public static void set(Map map) {
 		instance = new Game(map);
 		map.setGame(instance);
+		map.setUndying(undying);
 		if(map.getWaveName().equals("Test")) {
-			instance.temmies = 100000;
+			temmies = 1000000;
+			undying ^= true;
 		}
 	}
 	
@@ -124,7 +132,7 @@ public final class Game extends Thread {
 	}
 	
 	public static double getTemmies() {
-		return instance.temmies;
+		return temmies;
 	}
 	
 	public static int getLives() {
@@ -162,14 +170,6 @@ public final class Game extends Thread {
 	
 	public static boolean isOver() {
 		return instance.over;
-	}
-	
-	private boolean buy(double cost) {
-		if(temmies >= cost) {
-			temmies -= cost;
-			return true;
-		}
-		return false;
 	}
 	
 	public static boolean canEvolve(long towerId) {
@@ -223,8 +223,8 @@ public final class Game extends Thread {
 	private HashSet<Localisable> trashput;
 	private WaitingBool trashputBussy;
 	private Map map;
-	private int temmies;
 	private boolean over;
+	private String sound;
 	
 	{
 		bullets = new HashSet<>();
@@ -239,8 +239,8 @@ public final class Game extends Thread {
 		inputBussy = new WaitingBool("Input");
 		trashput = new HashSet<>();
 		trashputBussy = new WaitingBool("Trashput");
-		temmies = 50;
 		over = false;
+		sound = null;
 	}
 	/**
 	 * Est appelé lors de l'initialisation du programme sans avoir à le mettre dans le main.
@@ -254,8 +254,16 @@ public final class Game extends Thread {
 		start();
 	}
 	
+	private boolean buy(double cost) {
+		if(temmies >= cost) {
+			temmies -= cost;
+			return true;
+		}
+		return false;
+	}
+	
 	public void increaseTemmies(int temmies) {
-		this.temmies += temmies;
+		Game.temmies += temmies;
 	}
 	
 	@Override
@@ -287,10 +295,12 @@ public final class Game extends Thread {
 			}
 			if(map.isOver() && readMonsters().isEmpty()) {
 				over = true;
-				temmies *= 1.1;
+				temmies = (temmies < 75) ? 75 : temmies;
 			} else if(map.getLives() == 0) {
+				sound = "data/music/game_over.wav";
 				over = true;
 				temmies = temmies >> 1;
+				temmies = (temmies < 50) ? 50 : temmies;
 			}
 		}
 	}

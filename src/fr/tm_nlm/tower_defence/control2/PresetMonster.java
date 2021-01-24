@@ -4,13 +4,18 @@ public class PresetMonster {
 	public static Monster testingDog() {
 		Monster monster = new Monster();
 		
-		monster.setSpeed(10);
+		monster.setSpeed(100);
 		monster.setStrength(1);
 		monster.setShape(PresetShape.rect(34, 50));
 		monster.setMaxHealth(100000);
 		monster.setEliminationWorth(2);
-		monster.setStrength(1);
+		monster.setStrength(0);
 		monster.setFly(true);
+		if(monster.isFlying()) {
+			//monster.setImage("tied_dog");
+		} else {
+			//monster.setImage("dog");
+		}
 		
 		return monster;
 	}
@@ -72,7 +77,7 @@ public class PresetMonster {
 		monster.setSpeed(30);
 		monster.setEliminationWorth(150);
 		monster.setStrength(10);
-		monster.setShape(PresetShape.rect(51, 75));
+		monster.setShape(PresetShape.rect(34, 50));
 		monster.setBoss(true);
 		
 		return monster;
@@ -133,12 +138,12 @@ public class PresetMonster {
 		monster.setSpeed(30);
 		monster.setEliminationWorth(1000);
 		monster.setStrength(10);
-		monster.setShape(PresetShape.rect(51, 75));
+		monster.setShape(PresetShape.rect(34, 50));
 		monster.setBoss(true);
 		
 		return monster;
 	}
-	public static Monster Volcano1() {
+	public static Monster volcano1() {
 		Monster monster = new Monster();
 
 		monster.setFly(true);
@@ -150,7 +155,7 @@ public class PresetMonster {
 		
 		return monster;
 	}
-	public static Monster Volcano2() {
+	public static Monster volcano2() {
 		Monster monster = new Monster();
 
 		monster.setFly(false);
@@ -162,7 +167,7 @@ public class PresetMonster {
 		
 		return monster;
 	}
-	public static Monster Volcano3() {
+	public static Monster volcano3() {
 		Monster monster = new Monster();
 
 		monster.setFly(true);
@@ -174,7 +179,7 @@ public class PresetMonster {
 		
 		return monster;
 	}
-	public static Monster Volcano4() {
+	public static Monster volcano4() {
 		Monster monster = new Monster();
 
 		monster.setFly(false);
@@ -186,7 +191,7 @@ public class PresetMonster {
 		
 		return monster;
 	}
-	public static Monster Volcano5() {
+	public static Monster volcano5() {
 		Monster monster = new Monster();
 
 		monster.setFly(true);
@@ -198,7 +203,7 @@ public class PresetMonster {
 		
 		return monster;
 	}
-	public static Monster Volcano6() {
+	public static Monster volcano6() {
 		Monster monster = new Monster();
 
 		monster.setFly(false);
@@ -206,7 +211,7 @@ public class PresetMonster {
 		monster.setSpeed(30);
 		monster.setEliminationWorth(10000);
 		monster.setStrength(10);
-		monster.setShape(PresetShape.rect(51, 75));
+		monster.setShape(PresetShape.rect(34, 50));
 		monster.setBoss(true);
 		
 		return monster;
@@ -217,62 +222,10 @@ public class PresetMonster {
 		monster.setSpeed(200);
 		monster.setStrength(0);
 		monster.setShape(PresetShape.circle(1));
-		monster.setMaxHealth(1000000);
+		monster.setMaxHealth(10000000);
 		monster.setEliminationWorth(0);
+		monster.setBoss(true);
 		
-		return monster;
-	}
-	public static Monster drunkHuman() {
-		Monster monster = new Monster();
-		monster.setSpeed(50);
-		monster.setShape(PresetShape.rect(34, 50));
-		monster.setMaxHealth(20);
-		monster.setImage("drunkHuman");
-		return monster;
-	}
-	public static Monster ufo() {
-		Monster monster = new Monster();
-		monster.setSpeed(50);
-		monster.setShape(PresetShape.rect(34, 50));
-		monster.setMaxHealth(10);
-		monster.setFly(true);
-		monster.setImage("ufo");
-		return monster;
-	}
-	public static Monster robotCop() {
-		Monster monster = new Monster();
-		monster.setSpeed(50);
-		monster.setShape(PresetShape.rect(34, 50));
-		monster.setMaxHealth(10);
-		monster.setFly(true);
-		monster.setImage("roboCop");
-		return monster;
-	}
-	public static Monster shadyMan() {
-		Monster monster = new Monster();
-		monster.setSpeed(50);
-		monster.setShape(PresetShape.rect(34, 50));
-		monster.setMaxHealth(10);
-		monster.setFly(true);
-		monster.setImage("ShadyMan");
-		return monster;
-	}
-	public static Monster theBeast() {
-		Monster monster = new Monster();
-		monster.setSpeed(50);
-		monster.setShape(PresetShape.rect(34, 50));
-		monster.setMaxHealth(10);
-		monster.setFly(true);
-		monster.setImage("theBeast");
-		return monster;
-	}
-	public static Monster friendlyPlant() {
-		Monster monster = new Monster();
-		monster.setSpeed(50);
-		monster.setShape(PresetShape.rect(34, 50));
-		monster.setMaxHealth(10);
-		monster.setFly(true);
-		monster.setImage("friendlyPlant");
 		return monster;
 	}
 }

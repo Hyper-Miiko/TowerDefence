@@ -7,11 +7,11 @@ import java.util.Random;
 
 import fr.tm_nlm.tower_defence.Couple;
 
-public class Monster implements Damageable, Displayable, Movable {
+public class Monster implements Damageable, Displayable, Movable, Cloneable {
 	private static Random random = new Random();
 	private boolean boss;
 	private boolean dead;
-	private boolean isFlying;
+	private boolean flying;
 	private int strength;
 	private double lastConfuseTimer;
 	private double lastMoveTimer;
@@ -34,19 +34,44 @@ public class Monster implements Damageable, Displayable, Movable {
 		baseSpeed = 50;
 		confuse = 0;
 		dead = false;
-		isFlying = false;
+		flying = false;
 		health = maxHealth = 10;
 		shape = PresetShape.circle(20);
 		slows = new LinkedList<>();
 		strength = 1;
 		eliminationWorth = 2;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Object clone() {
+		Monster monster = new Monster();
+		
+		monster.boss = boss;
+		monster.flying = flying;
+		monster.dead = dead;
+		monster.strength = strength;
+		monster.lastConfuseTimer = lastConfuseTimer;
+		monster.lastMoveTimer = lastMoveTimer;
+		monster.confuse = confuse;
+		monster.health = health;
+		monster.maxHealth = maxHealth;
+		monster.baseSpeed = baseSpeed;
+		monster.eliminationWorth = eliminationWorth;
+		monster.slows = (LinkedList<Couple<Double, Double>>) slows.clone();
+		monster.shape = (Geometric) shape.clone();
+		monster.objectif = objectif;
+		monster.game = game;
+		monster.map = map;
+		
+		return monster;
+	}
 	public void process() {
 		if(!dead) {
 			double currentTime = Game.time();
 			double time = currentTime - lastMoveTimer;
 			lastMoveTimer = currentTime;
-			if(confuse == 0) {
+			if(confuse == 0 || isBoss()) {
 				shape.setAngle(getPosition().angle(objectif.getPosition()));
 			} else {
 				System.out.println();
@@ -149,6 +174,9 @@ public class Monster implements Damageable, Displayable, Movable {
 		for(Couple<Double, Double> slow : slows) {
 			speed *= 1 - slow._1;
 		}
+		if(isBoss() && speed < getBaseSpeed()/2) {
+			speed = getBaseSpeed()/2;
+		}
 		return speed;
 	}
 	@Override
@@ -191,14 +219,14 @@ public class Monster implements Damageable, Displayable, Movable {
 		return dead;
 	}
 	public double timeToEnd() {
-		return objectif.distToEnd(!isFlying)/getSpeed();
+		return objectif.distToEnd(!flying)/getSpeed();
 	}
 	public void setMaxHealth(int maxHealth) {
 		this.maxHealth = maxHealth;
 		health = maxHealth;
 	}
 	public boolean isFlying() {
-		return isFlying;
+		return flying;
 	}
 	@Override
 	public void slow(Couple<Double, Double> slow) {
@@ -208,7 +236,7 @@ public class Monster implements Damageable, Displayable, Movable {
 		this.boss = boss;
 	}
 	public void setFly(boolean fly) {
-		this.isFlying = fly;
+		this.flying = fly;
 	}
 	public void setImage(String image) {
 		shape.setImage(image);

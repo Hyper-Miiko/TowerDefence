@@ -4,16 +4,19 @@ import java.util.HashSet;
 
 public class Map {
 	private boolean over;
+	private boolean undying;
 	private int lives;
 	private HashSet<Slot> slots;
 	private Wave wave;
 	private Game game;
 	private String background;
+	private String sound;
 	
 	{
 		lives = 10;
 		over = false;
 		slots = new HashSet<>();
+		sound = null;
 	}
 
 	public void place(Bullet bullet, Vector position) {
@@ -30,6 +33,7 @@ public class Map {
 		monster.resetMove();
 	}
 	public void removeLives(int nbrOfLivesLost) {
+		sound = "data/music/damaged.wav";
 		lives = (nbrOfLivesLost > lives) ? 0 : lives - nbrOfLivesLost;
 	}
 	public void run() {
@@ -42,6 +46,9 @@ public class Map {
 				}
 			}
 			wave.run();
+		}
+		if(undying) {
+			lives = 11;
 		}
 	}
 	
@@ -72,7 +79,7 @@ public class Map {
 		return "data/img/" + background + ".png";
 	}
 	public int getLives() {
-		return lives;
+		return (lives <= 10) ? lives : 10;
 	}
 	public String getWaveName() {
 		if(over) {
@@ -82,5 +89,13 @@ public class Map {
 	}
 	public boolean isOver() {
 		return over;
+	}
+	public void setUndying(boolean undying) {
+		this.undying = undying;
+	}
+	public String pollSound() {
+		String dummy = sound;
+		sound = null;
+		return dummy;
 	}
 }

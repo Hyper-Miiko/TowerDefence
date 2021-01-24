@@ -209,7 +209,9 @@ public class GameWindow extends MWindow {
 		}
 		
 		if(Game.isOver() && !gameOver) {
-			clip.stop();
+			if(clip != null) {
+				clip.stop();
+			}
 			gameOver = true;
 			view.setLoseScreen();
 		}
@@ -228,25 +230,25 @@ public class GameWindow extends MWindow {
 			loadMusic("data/music/level1.wav");
 		} else if(selection == 1) {
 			Game.set(PresetMap.grassland2());
-			loadMusic("data/music/level2.wav");
+			loadMusic("data/music/level1.wav");
 		} else if(selection == 2) {
 			Game.set(PresetMap.grassland3());
-			loadMusic("data/music/level3.wav");
+			loadMusic("data/music/level1.wav");
 		} else if (selection == 3){
 			Game.set(PresetMap.toundra1());
-			loadMusic("data/music/level1.wav");
+			loadMusic("data/music/level2.wav");
 		} else if (selection == 4){
 			Game.set(PresetMap.toundra2());
 			loadMusic("data/music/level2.wav");
 		} else if (selection == 5){
 			Game.set(PresetMap.toundra3());
-			loadMusic("data/music/level3.wav");
+			loadMusic("data/music/level2.wav");
 		} else if (selection == 6){
 			Game.set(PresetMap.volcano1());
-			loadMusic("data/music/level1.wav");
+			loadMusic("data/music/level3.wav");
 		} else if (selection == 7){
 			Game.set(PresetMap.volcano2());
-			loadMusic("data/music/level2.wav");
+			loadMusic("data/music/level3.wav");
 		} else if (selection == 8){
 			Game.set(PresetMap.volcano3());
 			loadMusic("data/music/level3.wav");

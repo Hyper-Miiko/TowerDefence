@@ -124,7 +124,6 @@ public class PresetBullet {
 		bullet.setSpeed(300);
 		bullet.setDamage(15, 20);
 		bullet.setFadingTime(1);
-		bullet.setSlow(1, 5);
 		bullet.setImage("undyne_spear");
 		bullet.setCollideFlying(true);
 		
@@ -289,24 +288,40 @@ public class PresetBullet {
 		
 		bullet.setDamage(0);
 		bullet.setSpeed(100);
-		bullet.setShape(PresetShape.circle(100));
+		bullet.setShape(PresetShape.circle(121));
 		bullet.setLifeTime(3.5);
 		bullet.setFadingTime(1);
 		bullet.setCollideFlying(false);
 		bullet.setCollideWalking(false);
 		bullet.setOnDeathAttack(PresetAttack.greatStarBurst(), false, true);
+		bullet.setSpinSpeed(0.25);
+		bullet.setImage("star_blazing");
 		
 		return bullet;
 	}
-	public static Bullet tinyStar(double minDamage, double maxDamage) {
+	public static Bullet tinyStar() {
 		Bullet bullet = new Bullet();
 		
-		bullet.setDamage(minDamage, maxDamage);
+		bullet.setDamage(20, 50);
 		bullet.setSpeed(250);
-		bullet.setShape(PresetShape.circle(5));
+		bullet.setShape(PresetShape.circle(23));
 		bullet.setLifeTime(5);
 		bullet.setCollideFlying(true);
 		bullet.setCollideWalking(true);
+		bullet.setImage("star_blazing_tiny");
+		
+		return bullet;
+	}
+	public static Bullet chaosBullet() {
+		Bullet bullet = new Bullet();
+		
+		bullet.setDamage(5, 10);
+		bullet.setSpeed(250);
+		bullet.setShape(PresetShape.circle(11));
+		bullet.setLifeTime(5);
+		bullet.setCollideFlying(true);
+		bullet.setCollideWalking(true);
+		bullet.setImage("chaos_bullet");
 		
 		return bullet;
 	}
@@ -343,14 +358,14 @@ public class PresetBullet {
 	public static Bullet rainbowMissile() {
 		Bullet bullet = new Bullet();
 		
-		bullet.setShape(PresetShape.circle(10));
+		bullet.setShape(PresetShape.circle(21));
 		bullet.setSpeed(150);
 		bullet.setGhost(true);
-		bullet.setDamage(0.01);
+		bullet.setDamage(0.5);
 		bullet.setAimingFactor(0.80);
 		bullet.setTrack(true);
 		bullet.setLifeTime(15, 20);
-		//bullet.setImage("mad_missile");
+		bullet.setImage("rainbow_missile");
 		bullet.setCollideFlying(true);
 		
 		return bullet;
@@ -358,13 +373,12 @@ public class PresetBullet {
 	public static Bullet rainbowLight() {
 		Bullet bullet = new Bullet();
 		
-		bullet.setShape(PresetShape.rect(1800, 900));
+		bullet.setShape(PresetShape.rect(900, 900));
 		bullet.setSpeed(0);
 		bullet.setGhost(true);
-		bullet.setDamage(0.002);
+		bullet.setDamage(0.2);
 		bullet.setLethal(false);
-		bullet.setLifeTime(1);
-		//bullet.setImage("mad_missile");
+		bullet.setImage("rainbow_light");
 		bullet.setCollideFlying(true);
 		bullet.setLifeTime(5);
 		

@@ -27,7 +27,7 @@ public class PresetAttack {
 		attack.setSpreadRange(Math.PI);
 		attack.setRandomSpread(true);
 		attack.setBulletsByShot(4, 8);
-		attack.setNbrOfShot(2, 5);
+		attack.setNbrOfShot(3, 5);
 		attack.setInterval(2, 5);
 		attack.setRange(200);
 		attack.setKeepTracking(true);
@@ -134,7 +134,7 @@ public class PresetAttack {
 		Attack attack = new Attack("Spear Redemption");
 		
 		attack.setBullet(PresetBullet.redemptingSpear());
-		attack.setCooldown(10, 20);
+		attack.setCooldown(20, 40);
 		attack.setNbrOfShot(8, 20);
 		attack.setInterval(0.5);
 		attack.setStartShotRange(-100, 500);
@@ -151,8 +151,7 @@ public class PresetAttack {
 		
 		attack.setBullet(PresetBullet.spearJail());
 		attack.setCooldown(20, 30);
-		attack.setNbrOfShot(3, 5);
-		attack.setInterval(1);
+		attack.setNbrOfShot(1);
 		attack.setKeepTracking(true);
 		attack.setRange(150);
 		attack.setTargetFlying(true);
@@ -166,6 +165,8 @@ public class PresetAttack {
 		
 		attack.setStartShotRange(300);
 		attack.setBulletsByShot(7);
+		attack.setNbrOfShot(3, 5);
+		attack.setInterval(1);
 		attack.setStartSpreadRange(Math.PI);
 		attack.setBullet(PresetBullet.lifeLessSpear());
 		attack.setConverge(true);
@@ -287,12 +288,11 @@ public class PresetAttack {
 		
 		attack.setBullet(PresetBullet.greatStar());
 		attack.setTargetFlying(true);
-		//attack.setTargetWalking(false);
 		attack.setStartShotRange(600);
 		attack.setStartSpreadRange(Math.PI/3);
 		attack.setConverge(true);
 		attack.setCooldown(30, 45);
-		//attack.setSound("start_calling");
+		attack.setSound("star_blazing_summon");
 		attack.setRange(300);
 		
 		return attack;
@@ -300,7 +300,7 @@ public class PresetAttack {
 	public static Attack greatStarBurst() {
 		Attack attack = new Attack("Great Star Burst");
 		
-		attack.setBullet(PresetBullet.tinyStar(20, 50));
+		attack.setBullet(PresetBullet.tinyStar());
 		attack.setTargetFlying(true);
 		attack.setBulletsByShot(16);
 		attack.setSpreadRange(Math.PI);
@@ -335,7 +335,7 @@ public class PresetAttack {
 	public static Attack starGun() {
 		Attack attack = new Attack("Star Gun");
 		
-		attack.setBullet(PresetBullet.tinyStar(10, 15));
+		attack.setBullet(PresetBullet.chaosBullet());
 		attack.setTargetFlying(true);
 		attack.setCooldown(4, 5);
 		attack.setBulletsByShot(4);
@@ -369,10 +369,9 @@ public class PresetAttack {
 		
 		attack.setBullet(PresetBullet.rainbowLight());
 		attack.setCooldown(45, 60);
-		attack.setNbrOfShot(8, 16);
-		attack.setInterval(0.1);
+		attack.setNbrOfShot(1);
 		attack.setRange(100);
-		attack.setStartShotRange(900);
+		attack.setStartShotRange(450);
 		attack.setKeepTracking(false);
 		attack.setTargetFlying(true);
 		

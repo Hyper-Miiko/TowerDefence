@@ -42,7 +42,7 @@ public class Geometric implements Displayable, Cloneable {
 	}
 	
 	public void translateByAngle(double dist) {
-		Vector diff = new Vector(0, 0).byAngle(angle, dist);
+//		Vector diff = new Vector(0, 0).byAngle(angle, dist);
 		setPosition(position.byAngle(angle, dist));
 //		area.transform(AffineTransform.getTranslateInstance(diff.x,  diff.y));
 	}

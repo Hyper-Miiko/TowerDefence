@@ -20,7 +20,6 @@ public class Bullet implements Displayable, Movable, Cloneable {
 	private boolean heal;
 	private boolean lethal;
 	private boolean track;
-	private boolean undead;
 	private boolean visible;
 	private int minAlpha, maxAlpha;
 	private int minBlue, maxBlue;
@@ -36,6 +35,7 @@ public class Bullet implements Displayable, Movable, Cloneable {
 	private double minDamage, maxDamage;
 	private double minFadingTime, maxFadingTime;
 	private double minLifeTime, maxLifeTime;
+	private double spinSpeed;
 	private Attack onDeathAttack;
 	private Couple<Double, Double> slow;
 	private EntityType collideWith;
@@ -70,7 +70,6 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		shape = PresetShape.circle(5);
 		slow = new Couple<>(0d, 0d);
 		track = false;
-		undead = false;
 		visible = true;
 	}
 
@@ -130,12 +129,12 @@ public class Bullet implements Displayable, Movable, Cloneable {
 			}
 		}
 		Angle currentAngle = getPosition().angle(aimingPosition);
-		Angle angleDiff = Angle.diff(getAngle(), currentAngle);
-		Angle newAngle = Angle.diff(getAngle(), new Angle(angleDiff.value() * aimingFactor * time));
+		Angle angleDiff = Angle.diff(getAngle(false), currentAngle);
+		Angle newAngle = Angle.diff(getAngle(false), new Angle(angleDiff.value() * aimingFactor * time));
 		if (angleDiff.value() > Math.PI) {
-			newAngle = Angle.diff(getAngle(), new Angle(-angleDiff.value() * aimingFactor * time));
+			newAngle = Angle.diff(getAngle(false), new Angle(-angleDiff.value() * aimingFactor * time));
 		} else {
-			newAngle = Angle.diff(getAngle(), new Angle(angleDiff.value() * aimingFactor * time));
+			newAngle = Angle.diff(getAngle(false), new Angle(angleDiff.value() * aimingFactor * time));
 		}
 		setAngle(newAngle);
 	}
@@ -237,6 +236,7 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		bullet.onDeathAttack = onDeathAttack;
 		bullet.shape = (Geometric) shape.clone();
 		bullet.slow = slow;
+		bullet.spinSpeed = spinSpeed;
 		bullet.tracked = tracked;
 		bullet.track = track;
 
@@ -450,9 +450,19 @@ public class Bullet implements Displayable, Movable, Cloneable {
 		this.track = track;
 	}
 
+
+	public Angle getAngle(boolean displayed) {
+		if(displayed) {
+			return this.getAngle();
+		}
+		else {
+			return shape.getAngle();
+		}
+	}
 	@Override
 	public Angle getAngle() {
-		return shape.getAngle();
+		double spinAngle = shape.getAngle().value() + 2*Math.PI*Game.time()*spinSpeed;
+		return new Angle(spinAngle);
 	}
 
 	public void setGhost(boolean ghost) {
@@ -496,5 +506,9 @@ public class Bullet implements Displayable, Movable, Cloneable {
 
 	public void setLethal(boolean lethal) {
 		this.lethal = lethal;
+	}
+
+	public void setSpinSpeed(double spinSpeed) {
+		this.spinSpeed = spinSpeed;
 	}
 }

@@ -63,6 +63,7 @@ public final class PathNode implements Localisable {
 		} else {
 			return null;
 		}
+		//return nexts.get(random.nextInt(nexts.size()));
 	}
 	private PathNode nextShortest(boolean checkObstacle) {
 		if(checkObstacle && isPossibleWay()) {

@@ -24,6 +24,10 @@ public class MenuWindow extends MWindow{
 		
 		bBox.setMinimumSize(120,600);
 		bBox.setBackgroundColor(50,50,50);
+		
+		if(cheat) {
+			bBox.addButton("Test");
+		}
 				
 		bBox.addButton("Lavaland 3");
 		bBox.addButton("Lavaland 2");
