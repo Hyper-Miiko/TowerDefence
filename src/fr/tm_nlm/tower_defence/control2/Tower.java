@@ -252,11 +252,14 @@ public class Tower extends Identifiable implements Damageable, Displayable {
 		return quote;
 	}
 	
+	@Override
 	public void setQuote(String quote) {
+		System.out.println(name + ": " + quote);
 		this.quote = quote;
 		quoteTime = Game.time();
 	}
 	
+	@Override
 	public void setSound(String sound) {
 		this.sound = sound;
 	}

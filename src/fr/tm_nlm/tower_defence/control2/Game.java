@@ -27,7 +27,7 @@ public final class Game extends Thread {
 	/**
 	 * Argent du jeu commun à toute les cartes
 	 */
-	private static double temmies = 100;
+	private static double temmies = 50;
 	/**
 	 * God-mode
 	 */
