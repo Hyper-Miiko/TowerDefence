@@ -13,13 +13,25 @@ import java.util.Random;
  *
  */
 public final class Game extends Thread {
+	/**
+	 * nombre de boucle par seconde de ce thread et non pas du graphique
+	 */
 	private static final int MAX_FPS = 60;
 	@SuppressWarnings("unused")
 	private static double fpsTime;
 	private static final Random random = new Random();
+	/**
+	 * instance en singleton pattern de la classe
+	 */
 	private static Game instance;
+	/**
+	 * Argent du jeu commun à toute les cartes
+	 */
 	private static int temmies = 100;
-	private static boolean undying = false;
+	/**
+	 * God-mode
+	 */
+	private static boolean determination = false;
 	
 	/**
 	 * Récupère toutes les entités qui peuvent être affichées à l'écran.
@@ -120,10 +132,10 @@ public final class Game extends Thread {
 	public static void set(Map map) {
 		instance = new Game(map);
 		map.setGame(instance);
-		map.setUndying(undying);
+		map.setUndying(determination);
 		if(map.getWaveName().equals("Test")) {
 			temmies = 1000000;
-			undying ^= true;
+			determination ^= true;
 		}
 	}
 	

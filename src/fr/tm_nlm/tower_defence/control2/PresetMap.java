@@ -131,6 +131,7 @@ public abstract class PresetMap {
 		map.addSlot(new Slot(new Vector(456, 452)));
 		map.addSlot(new Slot(new Vector(603, 365)));
 		map.addSlot(new Slot(new Vector(775, 373)));
+		map.addSlot(new Slot(new Vector(762, 302)));
 		map.setWave(PresetWave.volcano31());
 		
 		return map;

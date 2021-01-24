@@ -55,6 +55,7 @@ public class PresetMonster {
 		monster.setMaxHealth(20);
 		monster.setEliminationWorth(10);
 		monster.setFly(false);
+		monster.setImage("shadyMan");
 		
 		return monster;
 	}
@@ -67,6 +68,7 @@ public class PresetMonster {
 		monster.setMaxHealth(200);
 		monster.setEliminationWorth(15);
 		monster.setFly(false);
+		monster.setImage("friendlyPlant");
 		
 		return monster;
 	}
@@ -153,6 +155,7 @@ public class PresetMonster {
 		monster.setEliminationWorth(10);
 		monster.setStrength(1);
 		monster.setShape(PresetShape.rect(34, 50));
+		monster.setImage("ufo");
 		
 		return monster;
 	}
@@ -165,6 +168,7 @@ public class PresetMonster {
 		monster.setEliminationWorth(15);
 		monster.setStrength(1);
 		monster.setShape(PresetShape.rect(34, 50));
+		monster.setImage("roboCop");
 		
 		return monster;
 	}

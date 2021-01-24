@@ -89,7 +89,7 @@ public class Monster implements Damageable, Displayable, Movable, Cloneable {
 			}
 			confuse = (confuse - time > 0) ? confuse - time : 0;
 			slows = newSlows;
-			move(time, true);
+			move(time, !flying);
 		}
 	}
 	public void resetMove() {
@@ -124,10 +124,9 @@ public class Monster implements Damageable, Displayable, Movable, Cloneable {
 		Geometric nextShape = (Geometric) shape.clone();
 		nextShape.translateByAngle(getSpeed()*time);
 		boolean collide = false;
-		if(checkCollide ) {
+		if(checkCollide) {
 			for(Tower tower : game.readTowers()) {
 				if(nextShape.collide(tower)) {
-					System.out.println("hey");
 					if(tower.handle(this)) {
 						collide = true;
 						break;

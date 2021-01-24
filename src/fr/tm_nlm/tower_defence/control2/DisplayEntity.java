@@ -6,6 +6,11 @@ import java.util.LinkedList;
 
 import fr.tm_nlm.tower_defence.Couple;
 
+/**
+ * classe qui permet d'obtenir des information sur les élément affichable sans risquer de les modifier
+ * @author Hyper Mïko
+ *
+ */
 public class DisplayEntity implements Displayable {
 	private final Displayable elem;
 	
@@ -17,19 +22,24 @@ public class DisplayEntity implements Displayable {
 		return elem.getAngle();
 	}
 
+	/**
+	 * donne l'ordre de priorité d'affichage de l'élément
+	 * 0 est tous en bas
+	 * @return
+	 */
 	public int getPriority() {
 		if(elem instanceof Slot) {
 			return 0;
 		} else if(elem instanceof Bullet) {
-			return 4;
+			return 3;
 		} else if(elem instanceof Monster) {
 			if(((Monster) elem).isFlying()) {
-				return 2;
+				return 4;
 			} else {
 				return 1;
 			}
 		} else {
-			return 3;
+			return 2;
 		}
 	}
 	public boolean isSlot() {
@@ -68,6 +78,10 @@ public class DisplayEntity implements Displayable {
 		return elem.getShape();
 	}
 
+	/**
+	 * Donne le ration de vie actuel de l'entité
+	 * @return
+	 */
 	public double getHealth() {
 		if(!(elem instanceof Damageable)) {
 			throw new ClassCastException(elem + " have no health.");
@@ -96,7 +110,7 @@ public class DisplayEntity implements Displayable {
 		if(elem instanceof Tower) {
 			return ((Tower) elem).getCooldowns();
 		} else {
-			throw new ClassCastException(elem + " have no range.");
+			throw new ClassCastException(elem + " have no cooldown.");
 		}
 	}
 	
@@ -105,6 +119,9 @@ public class DisplayEntity implements Displayable {
 		return elem.toString();
 	}
 	
+	/**
+	 * Compare les éléments que représente la classe plutôt que de comparer la classe
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof DisplayEntity) {

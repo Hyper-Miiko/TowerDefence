@@ -58,13 +58,15 @@ public abstract class PresetPath {
 		PathNode pathNode2 = new PathNode(new Vector(42, 341));
 		PathNode pathNode3 = new PathNode(new Vector(120, 406));
 		PathNode pathNode4 = new PathNode(new Vector(212, 401));
-		PathNode pathNode5 = new PathNode(new Vector(256, 297));
+		PathNode pathNode5 = new PathNode(new Vector(221, 397));
+		PathNode pathNode6 = new PathNode(new Vector(256, 297));
 
 		pathNode1.addWay(pathNode2);
 		pathNode2.addWay(pathNode3);
 		pathNode3.addWay(pathNode4);
 		pathNode4.addWay(pathNode5);
-		pathNode5.addWay(toundraMiddle());
+		pathNode5.addWay(pathNode6);
+		pathNode6.addWay(toundraMiddle());
 		
 		return pathNode1;
 	}
@@ -186,7 +188,7 @@ public abstract class PresetPath {
 	}
 	private static PathNode volcanoBottomEnd() {
 		PathNode pathNode1 = new PathNode(530, 511);
-		PathNode pathNode2 = new PathNode(670, 464);
+		PathNode pathNode2 = new PathNode(633, 437);
 		
 		pathNode1.addWay(pathNode2);
 		pathNode2.addWay(volcanoEnd());
